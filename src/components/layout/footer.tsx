@@ -83,13 +83,6 @@ export function Footer() {
         {/* Column 3: Newsletter */}
         <div>
           <h3 className="font-headline font-semibold mb-4">Connect With Us</h3>
-          <p className="text-sm text-muted-foreground mb-4">
-            Stay up to date with the latest marketing trends.
-          </p>
-          <form className="flex gap-2">
-            <Input type="email" placeholder="Enter your email" className="flex-1" />
-            <Button type="submit" className="bg-accent text-accent-foreground hover:bg-accent/90">Subscribe</Button>
-          </form>
         </div>
       </div>
       <div className="border-t">
