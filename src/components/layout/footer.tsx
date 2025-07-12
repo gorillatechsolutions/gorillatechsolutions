@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { NAV_LINKS } from '@/lib/navigation';
 
 export function Footer() {
+  const footerLinks = NAV_LINKS.filter(link => ['Home', 'About', 'Services'].includes(link.name));
   return (
     <footer className="w-full border-t bg-card text-card-foreground">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 sm:px-6 lg:px-8 py-12">
@@ -28,12 +29,13 @@ export function Footer() {
         {/* Column 2: Links */}
         <div className="lg:text-center">
           <h3 className="font-headline font-semibold mb-4">Quick Links</h3>
-          <ul className="space-y-2">
-            {NAV_LINKS.map((link) => (
-              <li key={link.name}>
+          <ul className="flex justify-center items-center space-x-4">
+            {footerLinks.map((link, index) => (
+              <li key={link.name} className="flex items-center">
                 <Link href={link.href} className="text-sm text-muted-foreground hover:text-primary">
                   {link.name}
                 </Link>
+                {index < footerLinks.length - 1 && <span className="mx-2 text-muted-foreground">&bull;</span>}
               </li>
             ))}
           </ul>
