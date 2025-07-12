@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { BotMessageSquare, Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin, Github } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 const footerLinks = {
     company: [
@@ -96,12 +97,21 @@ export function Footer() {
               <Mail className="h-5 w-5 text-muted-foreground shrink-0" />
               <a href="mailto:hello@gorillatech.solutions" className="text-muted-foreground hover:text-primary">hello@gorillatech.solutions</a>
             </div>
-             <Button asChild variant="outline" className="mt-4">
-              <Link href="#">
-                <Github className="mr-2 h-4 w-4" />
-                Download Source Code
-              </Link>
-            </Button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button asChild variant="outline" className="mt-4">
+                    <Link href="#">
+                      <Github className="mr-2 h-4 w-4" />
+                      Download Source Code
+                    </Link>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="max-w-xs">Important Note: Content and code to be Used for Educational Purposes Only; Restrictions on Use.</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </div>
       </div>
