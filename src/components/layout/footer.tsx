@@ -107,8 +107,8 @@ export function Footer() {
                     </Link>
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent>
-                  <p className="max-w-xs">Important Note: Content and code to be Used for Educational Purposes Only; Restrictions on Use.</p>
+                <TooltipContent className="max-w-xs bg-[#3F4550] text-white border-0">
+                  <p>Important Note: Content and code to be Used for Educational Purposes Only; Restrictions on Use.</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
