@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className="w-full">
       <section className="w-full py-12 md:py-24 lg:py-32 flex justify-center" style={{ backgroundColor: '#F1F4F7' }}>
-        <div className="w-[90%] grid items-center justify-center gap-8 lg:grid-cols-2 lg:gap-16">
+        <div className="w-[95%] grid items-center justify-center gap-8 lg:grid-cols-2 lg:gap-16">
           <div className="flex flex-col items-center justify-center space-y-6 text-center lg:items-start lg:text-left">
             <h1 className="text-4xl font-extrabold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl font-headline text-foreground">
               Amplify Your Digital Presence
