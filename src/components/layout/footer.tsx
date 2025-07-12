@@ -130,8 +130,11 @@ export function Footer() {
       <div className="border-t py-2" style={{ backgroundColor: '#243878' }}>
         <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center px-4 sm:px-6 lg:px-8 text-sm text-white/80 gap-4 py-2">
           <p className="text-center sm:text-left">&copy; {new Date().getFullYear()} Gorilla Tech Solutions. All rights reserved.</p>
-          <div className="flex flex-wrap justify-center gap-x-4 gap-y-2">
-            <Link href="#" className="hover:underline">Meta Business</Link>
+          <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2">
+            <Link href="#" className="hover:underline flex items-center gap-2">
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAACqElEQVR4nOyZW4iNURzHfzPugpQ8eFEeUvIoHlJEeRA5KlcPkpvcJCl5pBehEC8H5UFy5U1y0slK5dJJCq8IkYdKPAgV5U1yE+b/7f9Wk9M5M+eZc+89/3/Nbrd/s5+111p7rbVGNFhA/cAK4B1wGvgBfAR+A3+BjwB/gU+BF4G+oM/zPqgSGFvAHeA5sAo8AmY1eDx4HPgMLAGvGo1Gh0/gtw3gGfAWuBH4W4k/LgNfAYPAadC36XAZuAmsA+cDXxVwvsM54BPQYgIfA+c63L8B/oJc+l4GbgGfwO/Alo0a90gBnYDPwBdgNfAcuAR8A+4FDgE/A3aAU8BXYA0YAu4DZwPfgd/AuqB3/xXgn/Ag8K8CbB/Aa8BrYAFYAnYBx4GXgIqgX2g7cBlYBk4C97uch23gP/AO+B7YA7wMPAP+B/4HPAi8DbwJ/Am8C/wH3DQBjgKXAkeAOWABeB+4Xq0GFoHXgYPAH+BJ4B7wN/A68DzwMvA08Efgf2Az8E/gf4GNgfeBtcDfwDvgfeB14E9gE/A28GZgC/hHlq8CtwCfgXvA3cBD4B5wPPAI+Bz4GngX+BL4EPgS+BT4DPgSeAD8AHwNPAv8GfgR+Bv4AfgG+AX4CvgG+AL4Bvgb+AnoBv4N/A38CLQH/gY+Bn4HPge+Bz4GvgA+Bj4Afgc+BL4CfgE+hL4CfgE+AL6EfgT+Bj4CfgA+gn4CfgA+hX4AvgA+g34FvgA+g/4Bvga+AP6AvgC+gv4GPgA+i74avgC+iX4UvgC+iv4PvgC+lfwe+AHoE92qGf4mD4afoV+E2AHaAP8YcBc/gJ/hL4g7Rj6/T/A3I3/P8A+Nf4A/Am85j39/gYgQJjQYy2YAAAAASUVORK5CYII=" alt="Meta Logo" className="h-5 w-5" />
+              <span>Meta Business</span>
+            </Link>
             <Link href="#" className="hover:underline">AWS Startup</Link>
             <Link href="#" className="hover:underline">ISO 9001:2015</Link>
           </div>
