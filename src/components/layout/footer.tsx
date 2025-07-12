@@ -142,8 +142,13 @@ export function Footer() {
                     </Link>
                 </Button>
             </div>
-            <Button asChild size="sm" className="bg-[#faf7f7] text-black hover:bg-gray-200 shadow-lg transition-transform transform hover:scale-105 text-xs">
-                <Link href="#">AWS Startup</Link>
+             <Button asChild size="sm" className="bg-[#faf7f7] text-black hover:bg-gray-200 shadow-lg transition-transform transform hover:scale-105 text-xs">
+                <Link href="#" className="flex items-center gap-2">
+                    <div className="flex flex-col">
+                        <span className="font-bold text-base" style={{color: '#FCC200'}}>AWS Startup</span>
+                        <span className="text-xs -mt-1" style={{color: 'limegreen'}}>Verified Partner</span>
+                    </div>
+                </Link>
             </Button>
             <Button asChild size="sm" className="bg-[#faf7f7] text-black hover:bg-gray-200 shadow-lg transition-transform transform hover:scale-105 text-xs">
                 <Link href="#">ISO 9001:2015</Link>
