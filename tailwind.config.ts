@@ -70,6 +70,7 @@ export default {
             twitter: '#1DA1F2',
             instagram: '#E4405F',
             linkedin: '#0A66C2',
+            whatsapp: '#25D366'
         }
       },
       borderRadius: {
