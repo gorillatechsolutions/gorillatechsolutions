@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { BotMessageSquare, Facebook, Instagram, Linkedin, Mail, Phone, MapPin, Github } from 'lucide-react';
+import { BotMessageSquare, Facebook, Instagram, Linkedin, Mail, Phone, MapPin, Github, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -137,7 +137,10 @@ export function Footer() {
                         <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 fill-current"><title>Meta</title><path d="M12.001.001C5.373.001 0 5.374 0 12.001s5.373 12 12.001 12S24 18.628 24 12.001C24 5.374 18.628.001 12.001.001ZM12 21.6A9.6 9.6 0 1 1 21.6 12a9.611 9.611 0 0 1-9.6 9.6Zm2.484-9.743c.1-.417.156-.84.156-1.275 0-1.802-1.21-3.265-2.69-3.265-1.479 0-2.688 1.463-2.688 3.265 0 .435.056.858.156 1.275-.24.035-.47.053-.69.053-1.48 0-2.69-1.463-2.69-3.265S8.573 5.32 10.052 5.32c1.48 0 2.69 1.463 2.69 3.265a3.24 3.24 0 0 1-.133 1.053c.27-.035.54-.053.801-.053 1.48 0 2.69 1.463 2.69 3.265 0 1.803-1.21 3.265-2.69 3.265-1.48 0-2.69-1.462-2.69-3.265a3.24 3.24 0 0 1 .133-1.053c-.27.035-.54.053-.801-.053C8.573 14.547 7.363 16.01 7.363 17.81c0 1.803 1.21 3.265 2.69 3.265 1.478 0 2.688-1.462 2.688-3.265a3.24 3.24 0 0 0-.156-1.275c.24-.035.47-.053.69-.053 1.48 0 2.69-1.463 2.69-3.265S15.962 8.857 14.484 8.857Z"/></svg>
                         <div className="flex flex-col">
                             <span className="text-base" style={{color: '#0082fb'}}>Meta Business</span>
-                            <span className="text-xs -mt-1" style={{color: 'limegreen'}}>Verified Partner</span>
+                            <span className="text-xs -mt-1 flex items-center" style={{color: 'limegreen'}}>
+                                <CheckCircle2 className="h-3 w-3 mr-1" />
+                                Verified Partner
+                            </span>
                         </div>
                     </Link>
                 </Button>
@@ -149,7 +152,10 @@ export function Footer() {
                         <span className="text-base">
                             <span style={{color: '#FCC200'}}>AWS</span> <span style={{color: '#3F4550'}}>Startup</span>
                         </span>
-                        <span className="text-xs -mt-1" style={{color: 'limegreen'}}>Verified Partner</span>
+                        <span className="text-xs -mt-1 flex items-center" style={{color: 'limegreen'}}>
+                             <CheckCircle2 className="h-3 w-3 mr-1" />
+                            Verified Partner
+                        </span>
                     </div>
                 </Link>
             </Button>
@@ -157,7 +163,10 @@ export function Footer() {
                  <Link href="#" className="flex items-center gap-2">
                     <div className="flex flex-col">
                         <span className="text-base" style={{color: '#3F4550'}}>ISO 9001:2015</span>
-                        <span className="text-xs -mt-1" style={{color: 'limegreen'}}>Verified Partner</span>
+                        <span className="text-xs -mt-1 flex items-center" style={{color: 'limegreen'}}>
+                             <CheckCircle2 className="h-3 w-3 mr-1" />
+                            Verified Partner
+                        </span>
                     </div>
                 </Link>
             </Button>
