@@ -81,9 +81,9 @@ export function Footer() {
         </div>
 
         {/* Column 3: Connect With Us */}
-        <div>
+        <div className="flex flex-col items-center text-center lg:items-end lg:text-right">
           <h3 className="font-headline font-semibold mb-4">Connect With Us</h3>
-          <div className="space-y-4 text-sm">
+          <div className="space-y-4 text-sm flex flex-col items-center lg:items-end">
             <div className="flex items-start gap-3">
               <MapPin className="h-5 w-5 mt-0.5 text-muted-foreground shrink-0" />
               <p className="text-muted-foreground">123 Marketing Lane<br/>New York, NY 10001</p>
