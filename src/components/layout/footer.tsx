@@ -37,11 +37,11 @@ export function Footer() {
             Driving growth with data-driven digital marketing strategies that deliver results.
           </p>
           <div className="flex gap-3 mt-2">
-            <Link href="#" aria-label="Facebook" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-facebook text-white hover:opacity-80 transition-opacity"><Facebook className="h-5 w-5" /></Link>
-            <Link href="#" aria-label="Twitter" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-twitter text-white hover:opacity-80 transition-opacity"><Twitter className="h-5 w-5" /></Link>
-            <Link href="#" aria-label="Instagram" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-instagram text-white hover:opacity-80 transition-opacity"><Instagram className="h-5 w-5" /></Link>
-            <Link href="#" aria-label="LinkedIn" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-linkedin text-white hover:opacity-80 transition-opacity"><Linkedin className="h-5 w-5" /></Link>
-            <Link href="#" aria-label="WhatsApp" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-whatsapp text-white hover:opacity-80 transition-opacity">
+            <Link href="#" aria-label="Facebook" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-facebook text-white"><Facebook className="h-5 w-5" /></Link>
+            <Link href="#" aria-label="Twitter" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-twitter text-white"><Twitter className="h-5 w-5" /></Link>
+            <Link href="#" aria-label="Instagram" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-instagram text-white"><Instagram className="h-5 w-5" /></Link>
+            <Link href="#" aria-label="LinkedIn" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-linkedin text-white"><Linkedin className="h-5 w-5" /></Link>
+            <Link href="#" aria-label="WhatsApp" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-whatsapp text-white">
                 <svg
                     className="h-5 w-5"
                     fill="currentColor"
