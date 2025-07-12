@@ -162,6 +162,7 @@ export function Footer() {
                     <div className="flex flex-col">
                         <span className="font-normal text-sm" style={{color: '#3F4550'}}>ISO 9001:2015</span>
                         <div className="flex items-center gap-1">
+                            <CheckCircle2 className="h-3 w-3" style={{color: 'limegreen'}} />
                             <span className="text-xs" style={{color: 'limegreen'}}>Verified Partner</span>
                         </div>
                     </div>
