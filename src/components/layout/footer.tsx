@@ -130,13 +130,16 @@ export function Footer() {
       <div className="border-t">
         <div className="flex flex-col sm:flex-row justify-between items-center py-4 px-4 sm:px-6 lg:px-8 text-sm text-muted-foreground gap-4">
           <p>&copy; {new Date().getFullYear()} Gorilla Tech Solutions. All rights reserved.</p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Button asChild size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transition-transform transform hover:scale-105 text-xs">
-                <Link href="#" className="flex items-center gap-2">
-                    <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 fill-current"><title>Meta</title><path d="M12.001.001C5.373.001 0 5.374 0 12.001s5.373 12 12.001 12S24 18.628 24 12.001C24 5.374 18.628.001 12.001.001ZM12 21.6A9.6 9.6 0 1 1 21.6 12a9.611 9.611 0 0 1-9.6 9.6Zm2.484-9.743c.1-.417.156-.84.156-1.275 0-1.802-1.21-3.265-2.69-3.265-1.479 0-2.688 1.463-2.688 3.265 0 .435.056.858.156 1.275-.24.035-.47.053-.69.053-1.48 0-2.69-1.463-2.69-3.265S8.573 5.32 10.052 5.32c1.48 0 2.69 1.463 2.69 3.265a3.24 3.24 0 0 1-.133 1.053c.27-.035.54-.053.801-.053 1.48 0 2.69 1.463 2.69 3.265 0 1.803-1.21 3.265-2.69 3.265-1.48 0-2.69-1.462-2.69-3.265a3.24 3.24 0 0 1 .133-1.053c-.27.035-.54.053-.801.053C8.573 14.547 7.363 16.01 7.363 17.81c0 1.803 1.21 3.265 2.69 3.265 1.478 0 2.688-1.462 2.688-3.265a3.24 3.24 0 0 0-.156-1.275c.24-.035.47-.053.69-.053 1.48 0 2.69-1.463 2.69-3.265S15.962 8.857 14.484 8.857Z"/></svg>
-                    Meta Business
-                </Link>
-            </Button>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <div className="flex flex-col items-center">
+                <Button asChild size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transition-transform transform hover:scale-105 text-xs">
+                    <Link href="#" className="flex items-center gap-2">
+                        <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 fill-current"><title>Meta</title><path d="M12.001.001C5.373.001 0 5.374 0 12.001s5.373 12 12.001 12S24 18.628 24 12.001C24 5.374 18.628.001 12.001.001ZM12 21.6A9.6 9.6 0 1 1 21.6 12a9.611 9.611 0 0 1-9.6 9.6Zm2.484-9.743c.1-.417.156-.84.156-1.275 0-1.802-1.21-3.265-2.69-3.265-1.479 0-2.688 1.463-2.688 3.265 0 .435.056.858.156 1.275-.24.035-.47.053-.69.053-1.48 0-2.69-1.463-2.69-3.265S8.573 5.32 10.052 5.32c1.48 0 2.69 1.463 2.69 3.265a3.24 3.24 0 0 1-.133 1.053c.27-.035.54-.053.801-.053 1.48 0 2.69 1.463 2.69 3.265 0 1.803-1.21 3.265-2.69 3.265-1.48 0-2.69-1.462-2.69-3.265a3.24 3.24 0 0 1 .133-1.053c-.27.035-.54.053-.801.053C8.573 14.547 7.363 16.01 7.363 17.81c0 1.803 1.21 3.265 2.69 3.265 1.478 0 2.688-1.462 2.688-3.265a3.24 3.24 0 0 0-.156-1.275c.24-.035.47-.053.69-.053 1.48 0 2.69-1.463 2.69-3.265S15.962 8.857 14.484 8.857Z"/></svg>
+                        Meta Business
+                    </Link>
+                </Button>
+                <p className="text-xs mt-1" style={{ color: 'limegreen' }}>Verified Partner</p>
+            </div>
             <Button asChild size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transition-transform transform hover:scale-105 text-xs">
                 <Link href="#">AWS Startup</Link>
             </Button>
