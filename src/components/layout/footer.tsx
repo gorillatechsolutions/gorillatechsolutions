@@ -10,6 +10,7 @@ const footerLinks = {
         { name: 'Website Roadmap', href: '#' },
     ],
     about: [
+        { name: 'Site Map', href: '#'},
         { name: 'About Us', href: '/about' },
         { name: 'Privacy Policy', href: '#' },
     ],
@@ -77,11 +78,6 @@ export function Footer() {
                 ))}
             </li>
           </ul>
-          <div className="mt-4">
-            <Link href="#" className="text-sm text-muted-foreground hover:text-primary">
-                Site Map
-            </Link>
-          </div>
         </div>
 
         {/* Column 3: Newsletter */}
