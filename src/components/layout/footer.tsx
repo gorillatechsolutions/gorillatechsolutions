@@ -7,7 +7,7 @@ import { NAV_LINKS } from '@/lib/navigation';
 export function Footer() {
   return (
     <footer className="w-full border-t bg-card text-card-foreground">
-      <div className="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-4 sm:px-6 lg:px-8 py-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-4 sm:px-6 lg:px-8 py-12">
         {/* Column 1: Logo and About */}
         <div className="flex flex-col gap-4 items-start">
           <Link href="/" className="flex items-center gap-2">
@@ -63,7 +63,7 @@ export function Footer() {
         </div>
       </div>
       <div className="border-t">
-        <div className="container flex flex-col sm:flex-row justify-between items-center py-4 px-4 sm:px-6 lg:px-8 text-sm text-muted-foreground gap-2">
+        <div className="flex flex-col sm:flex-row justify-between items-center py-4 px-4 sm:px-6 lg:px-8 text-sm text-muted-foreground gap-2">
           <p>&copy; {new Date().getFullYear()} Gorilla Tech Solutions. All rights reserved.</p>
           <p>Website by Firebase Studio</p>
         </div>
