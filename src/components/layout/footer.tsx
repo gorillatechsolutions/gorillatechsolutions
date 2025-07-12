@@ -128,9 +128,19 @@ export function Footer() {
         </div>
       </div>
       <div className="border-t">
-        <div className="flex flex-col sm:flex-row justify-between items-center py-4 px-4 sm:px-6 lg:px-8 text-sm text-muted-foreground gap-2">
+        <div className="flex flex-col sm:flex-row justify-between items-center py-4 px-4 sm:px-6 lg:px-8 text-sm text-muted-foreground gap-4">
           <p>&copy; {new Date().getFullYear()} Gorilla Tech Solutions. All rights reserved.</p>
-          <p>Website by Firebase Studio</p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Button asChild size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transition-transform transform hover:scale-105 text-xs">
+                <Link href="#">Meta Business</Link>
+            </Button>
+            <Button asChild size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transition-transform transform hover:scale-105 text-xs">
+                <Link href="#">AWS Startup</Link>
+            </Button>
+            <Button asChild size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transition-transform transform hover:scale-105 text-xs">
+                <Link href="#">ISO 9001:2015</Link>
+            </Button>
+          </div>
         </div>
       </div>
     </footer>
