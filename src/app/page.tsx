@@ -7,12 +7,12 @@ export default function Home() {
   return (
     <div className="w-full">
       <section className="w-full py-12 md:py-24 lg:py-32" style={{ backgroundColor: '#F1F4F7' }}>
-        <div className="container grid items-center justify-center gap-8 px-4 text-center md:px-6 lg:grid-cols-1">
-          <div className="space-y-6">
+        <div className="container grid items-center gap-8 px-4 md:px-6 lg:grid-cols-2 lg:gap-16">
+          <div className="flex flex-col items-center justify-center space-y-6 text-center">
             <h1 className="text-4xl font-extrabold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl font-headline text-foreground">
               Amplify Your Digital Presence
             </h1>
-            <p className="mt-6 text-lg text-muted-foreground md:text-xl max-w-[600px] mx-auto">
+            <p className="mt-6 text-lg text-muted-foreground md:text-xl max-w-[600px]">
               Gorilla Tech Solutions drives growth with data-driven digital marketing strategies that convert. Let's build your brand's future, together.
             </p>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center">
@@ -27,6 +27,16 @@ export default function Home() {
                 </Link>
               </Button>
             </div>
+          </div>
+          <div className="flex items-center justify-center">
+            <Image
+              src="https://placehold.co/600x400.png"
+              width={600}
+              height={400}
+              alt="Hero"
+              className="mx-auto aspect-video overflow-hidden rounded-xl object-cover"
+              data-ai-hint="digital marketing"
+            />
           </div>
         </div>
       </section>
