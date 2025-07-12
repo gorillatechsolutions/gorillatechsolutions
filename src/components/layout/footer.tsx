@@ -141,6 +141,12 @@ export function Footer() {
                 <span>Meta Business</span>
             </Link>
             <Link href="#" className="hover:underline flex items-center gap-2">
+                <svg
+                    className="h-5 w-5"
+                    fill="currentColor"
+                    viewBox="0 0 24 24">
+                    <path d="M16.487 2.342h2.035L12.015 9.034 6.4 2.342H2.946l6.393 8.164-6.393 7.494h4.48l3.585-4.175 4.144 4.175h2.036L9.61 10.015l6.877-7.673zM15.43 16.95L8.52 4.472h1.56l6.91 12.478h-1.56z"/>
+                </svg>
                 <span>AWS Startup</span>
             </Link>
             <Link href="#" className="hover:underline">ISO 9001:2015</Link>
