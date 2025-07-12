@@ -26,7 +26,7 @@ export function Footer() {
         </div>
 
         {/* Column 2: Links */}
-        <div className="lg:text-right">
+        <div className="lg:text-center">
           <h3 className="font-headline font-semibold mb-4">Quick Links</h3>
           <ul className="space-y-2">
             {NAV_LINKS.map((link) => (
