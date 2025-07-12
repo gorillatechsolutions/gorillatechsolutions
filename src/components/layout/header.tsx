@@ -16,31 +16,34 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 max-w-screen-2xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2 mr-4">
+        <Link href="/" className="flex items-center gap-2 mr-auto">
           <BotMessageSquare className="h-8 w-8 text-primary" /> 
           <span className="text-xl font-bold font-headline text-primary">
-            Gorilla Tech
+            Gorilla Tech Solutions
           </span>
         </Link>
-        <nav className="hidden md:flex items-center gap-6">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              className={cn(
-                'text-sm font-medium transition-colors hover:text-primary',
-                pathname === link.href ? 'text-primary' : 'text-muted-foreground'
-              )}
-            >
-              {link.name}
-            </Link>
-          ))}
-        </nav>
-        <div className="flex items-center gap-4 ml-auto">
-           <Button asChild className="hidden md:flex bg-accent text-accent-foreground hover:bg-accent/90">
+        
+        <div className="hidden md:flex items-center gap-6">
+          <nav className="flex items-center gap-6">
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                className={cn(
+                  'text-sm font-medium transition-colors hover:text-primary',
+                  pathname === link.href ? 'text-primary' : 'text-muted-foreground'
+                )}
+              >
+                {link.name}
+              </Link>
+            ))}
+          </nav>
+           <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
              <Link href="/contact">Get a Quote</Link>
            </Button>
-          <div className="md:hidden">
+        </div>
+
+        <div className="md:hidden">
             <Sheet open={isMobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Button variant="outline" size="icon">
@@ -53,7 +56,7 @@ export function Header() {
                     <div className="flex justify-between items-center p-4 border-b">
                         <Link href="/" className="flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
                             <BotMessageSquare className="h-6 w-6 text-primary" />
-                            <span className="text-lg font-bold font-headline text-primary">Gorilla Tech</span>
+                            <span className="text-lg font-bold font-headline text-primary">Gorilla Tech Solutions</span>
                         </Link>
                         <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(false)}>
                             <X className="h-6 w-6" />
@@ -83,7 +86,6 @@ export function Header() {
               </SheetContent>
             </Sheet>
           </div>
-        </div>
       </div>
     </header>
   );
