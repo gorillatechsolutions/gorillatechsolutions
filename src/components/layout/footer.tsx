@@ -128,7 +128,7 @@ export function Footer() {
         </div>
       </div>
       <div className="border-t" style={{ backgroundColor: '#243878' }}>
-        <div className="flex flex-col sm:flex-row justify-between items-center py-4 px-4 sm:px-6 lg:px-8 text-sm text-white/80 gap-4">
+        <div className="flex flex-col sm:flex-row justify-between items-center py-2 px-4 sm:px-6 lg:px-8 text-sm text-white/80 gap-4">
           <p>&copy; {new Date().getFullYear()} Gorilla Tech Solutions. All rights reserved.</p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <div className="flex flex-col items-center">
