@@ -82,7 +82,7 @@ export function Footer() {
 
         {/* Column 3: Newsletter */}
         <div>
-          <h3 className="font-headline font-semibold mb-4">Newsletter</h3>
+          <h3 className="font-headline font-semibold mb-4">Connect With Us</h3>
           <p className="text-sm text-muted-foreground mb-4">
             Stay up to date with the latest marketing trends.
           </p>
