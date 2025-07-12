@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { BotMessageSquare, Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin, Download } from 'lucide-react';
+import { BotMessageSquare, Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin, GitBranch } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
@@ -98,7 +98,7 @@ export function Footer() {
             </div>
              <Button asChild variant="outline" className="mt-4">
               <Link href="#">
-                <Download className="mr-2 h-4 w-4" />
+                <GitBranch className="mr-2 h-4 w-4" />
                 Download Source Code
               </Link>
             </Button>
