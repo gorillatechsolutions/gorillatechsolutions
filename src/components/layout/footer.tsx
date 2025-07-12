@@ -102,9 +102,6 @@ export function Footer() {
                 Download Source Code
               </Link>
             </Button>
-            <p className="text-xs text-muted-foreground mt-2 max-w-xs">
-              Important Note: Content and code to be Used for Educational Purposes Only; Restrictions on Use.
-            </p>
           </div>
         </div>
       </div>
