@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { BotMessageSquare, Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin, Github } from 'lucide-react';
+import { BotMessageSquare, Facebook, Instagram, Linkedin, Mail, Phone, MapPin, Github } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -38,7 +38,6 @@ export function Footer() {
           </p>
           <div className="flex gap-3 mt-2">
             <Link href="#" aria-label="Facebook" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-facebook text-white"><Facebook className="h-5 w-5" /></Link>
-            <Link href="#" aria-label="Twitter" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-twitter text-white"><Twitter className="h-5 w-5" /></Link>
             <Link href="#" aria-label="Instagram" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-instagram text-white"><Instagram className="h-5 w-5" /></Link>
             <Link href="#" aria-label="LinkedIn" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-linkedin text-white"><Linkedin className="h-5 w-5" /></Link>
             <Link href="#" aria-label="WhatsApp" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-whatsapp text-white">
@@ -48,6 +47,14 @@ export function Footer() {
                     viewBox="0 0 24 24">
                     <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2M12.04 3.67c4.54 0 8.23 3.69 8.23 8.23s-3.69 8.23-8.23 8.23c-1.52 0-2.98-.41-4.29-1.19L6.5 20.4l1.58-1.26c-.88-1.33-1.38-2.89-1.38-4.58 0-4.54 3.69-8.23 8.23-8.23m2.54 6.39c-.14-.23-.53-.43-.8-.5-.27-.07-.46-.07-.64.24-.18.31-.7.88-.86 1.06-.16.18-.31.2-.46.06-.15-.14-.64-.24-1.22-.76-.45-.4-1.03-1.1-1.15-1.28-.12-.18-.01-.28.11-.39.1-.09.23-.24.34-.36s.17-.21.25-.36c.08-.14.04-.28-.02-.39-.07-.11-.64-1.53-.88-2.1-.23-.55-.46-.48-.63-.48-.16 0-.34-.02-.51-.02s-.46.06-.7.34c-.23.27-.89.86-1.03 2.06s.14 2.26.79 3.23c.65.97 1.74 2.18 3.71 3.29 1.97 1.11 2.53.89 3.1.86.57-.03 1.03-.43 1.17-.64.14-.21.14-.41.1-.48l-.01-.01z"/>
                 </svg>
+            </Link>
+            <Link href="#" aria-label="Google Business" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-google text-white">
+              <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M18.6 12.2c0-.7-.06-1.3-.18-1.9H12v3.6h3.7c-.16.9-.6 1.7-1.26 2.2v2.4h3.1c1.8-1.7 2.8-4.1 2.8-6.9z"/>
+                <path d="M12 21c2.9 0 5.3-1 7-2.7l-3.1-2.4c-1 .6-2.2.9-3.9.9-3-0-5.5-2-6.4-4.7H2.3v2.5C4.3 18.1 7.9 21 12 21z"/>
+                <path d="M5.6 13.7c-.1-.3-.2-.6-.2-1s.1-.7.2-1V9.2H2.3C1.5 10.6 1 12.2 1 14s.5 3.4 1.3 4.8l3.3-2.5z"/>
+                <path d="M12 5.4c1.6 0 3 .5 4.1 1.5l2.7-2.7C17.3 2.1 14.9 1 12 1 7.9 1 4.3 3.9 2.3 7.3l3.3 2.5c.9-2.7 3.4-4.7 6.4-4.7z"/>
+              </svg>
             </Link>
           </div>
         </div>
