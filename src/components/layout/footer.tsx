@@ -25,7 +25,7 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Column 2: Links and Contact */}
+        {/* Column 2: Links */}
         <div className="lg:text-right">
           <h3 className="font-headline font-semibold mb-4">Quick Links</h3>
           <ul className="space-y-2">
@@ -36,12 +36,6 @@ export function Footer() {
                 </Link>
               </li>
             ))}
-          </ul>
-          <h3 className="font-headline font-semibold mb-4 mt-8">Contact Us</h3>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li>123 Marketing Lane, New York, NY 10001</li>
-            <li className="pt-2"><a href="tel:+1234567890" className="hover:text-primary">+1 (234) 567-890</a></li>
-            <li><a href="mailto:hello@gorillatech.solutions" className="hover:text-primary">hello@gorillatech.solutions</a></li>
           </ul>
         </div>
 
