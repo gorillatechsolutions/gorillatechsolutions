@@ -77,6 +77,11 @@ export function Footer() {
                 ))}
             </li>
           </ul>
+          <div className="mt-4">
+            <Link href="#" className="text-sm text-muted-foreground hover:text-primary">
+                Site Map
+            </Link>
+          </div>
         </div>
 
         {/* Column 3: Newsletter */}
