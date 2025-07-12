@@ -136,7 +136,7 @@ export function Footer() {
                     <Link href="#" className="flex items-center gap-2">
                         <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 fill-current"><title>Meta</title><path d="M12.001.001C5.373.001 0 5.374 0 12.001s5.373 12 12.001 12S24 18.628 24 12.001C24 5.374 18.628.001 12.001.001ZM12 21.6A9.6 9.6 0 1 1 21.6 12a9.611 9.611 0 0 1-9.6 9.6Zm2.484-9.743c.1-.417.156-.84.156-1.275 0-1.802-1.21-3.265-2.69-3.265-1.479 0-2.688 1.463-2.688 3.265 0 .435.056.858.156 1.275-.24.035-.47.053-.69.053-1.48 0-2.69-1.463-2.69-3.265S8.573 5.32 10.052 5.32c1.48 0 2.69 1.463 2.69 3.265a3.24 3.24 0 0 1-.133 1.053c.27-.035.54-.053.801-.053 1.48 0 2.69 1.463 2.69 3.265 0 1.803-1.21 3.265-2.69 3.265-1.48 0-2.69-1.462-2.69-3.265a3.24 3.24 0 0 1 .133-1.053c-.27.035-.54.053-.801-.053C8.573 14.547 7.363 16.01 7.363 17.81c0 1.803 1.21 3.265 2.69 3.265 1.478 0 2.688-1.462 2.688-3.265a3.24 3.24 0 0 0-.156-1.275c.24-.035.47-.053.69-.053 1.48 0 2.69-1.463 2.69-3.265S15.962 8.857 14.484 8.857Z"/></svg>
                         <div className="flex flex-col">
-                            <span className="font-bold text-base" style={{color: '#0082fb'}}>Meta Business</span>
+                            <span className="text-base" style={{color: '#0082fb'}}>Meta Business</span>
                             <span className="text-xs -mt-1" style={{color: 'limegreen'}}>Verified Partner</span>
                         </div>
                     </Link>
@@ -146,7 +146,7 @@ export function Footer() {
                 <Link href="#" className="flex items-center gap-2">
                     <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 fill-current text-[#FF9900]"><title>Amazon AWS</title><path d="M12.484 14.168h-2.12c-1.284 0-2.05-.62-2.05-1.932 0-1.34 1.05-1.92 2.38-1.92s1.948.336 2.532.588l.216-1.596c-.672-.3-1.848-.684-3.252-.684-2.196 0-3.924 1.344-3.924 3.564 0 2.472 1.8 3.516 3.84 3.516h2.484l-.12 1.092h-2.316c-2.436 0-3.516 1.416-3.516 3.168 0 1.56.984 2.916 2.916 2.916 1.38 0 2.412-.42 3.036-.78l.204-1.608c-.684.348-1.632.6-2.676.6-1.14 0-1.848-.684-1.848-1.788 0-1.176.792-1.764 1.944-1.764h2.244l-.12 1.08zM21.24 9.3c.312-1.356.444-2.424.444-3.132 0-.828-.276-1.536-.924-1.536-.636 0-1.032.588-1.032 1.356 0 .744.204 1.836.432 2.892l-1.848 7.392h2.22l.6-2.46c.264.036.528.06.792.06.864 0 1.524-.432 1.74-1.2l.624-2.436c.156-.636.084-1.344-.108-1.92zM21.6 11.23c-.156.636-.672 1.044-1.296 1.044-.228 0-.456-.024-.684-.06l.576-2.328c.192-.024.408-.036.6-.036.636 0 1.02.48 1.152 1.044l-.348.336zM0 13.945c.31-1.356.443-2.424.443-3.132 0-.828-.275-1.536-.923-1.536-.636 0-1.032.588-1.032 1.356 0 .744.204 1.836.432 2.892l-1.848 7.392h2.22l.6-2.46c.264.036.528.06.792.06.864 0 1.524-.432 1.74-1.2l.624-2.436c.156-.636.084-1.344-.108-1.92zm.36 2.053c-.156.636-.672 1.044-1.296 1.044-.228 0-.456-.024-.684-.06l.576-2.328c.192-.024.408-.036.6-.036.636 0 1.02.48 1.152 1.044l-.348.336z"/></svg>
                     <div className="flex flex-col">
-                        <span className="font-bold text-base">
+                        <span className="text-base">
                             <span style={{color: '#FCC200'}}>AWS</span> <span style={{color: '#3F4550'}}>Startup</span>
                         </span>
                         <span className="text-xs -mt-1" style={{color: 'limegreen'}}>Verified Partner</span>
@@ -156,7 +156,7 @@ export function Footer() {
             <Button asChild size="sm" className="bg-[#faf7f7] text-black hover:bg-gray-200 shadow-lg transition-transform transform hover:scale-105 text-xs">
                  <Link href="#" className="flex items-center gap-2">
                     <div className="flex flex-col">
-                        <span className="font-bold text-base" style={{color: '#3F4550'}}>ISO 9001:2015</span>
+                        <span className="text-base" style={{color: '#3F4550'}}>ISO 9001:2015</span>
                         <span className="text-xs -mt-1" style={{color: 'limegreen'}}>Verified Partner</span>
                     </div>
                 </Link>
