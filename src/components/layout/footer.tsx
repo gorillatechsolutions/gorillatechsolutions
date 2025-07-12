@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { BotMessageSquare, Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin, Github, MessageCircle } from 'lucide-react';
+import { BotMessageSquare, Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin, Github } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -41,7 +41,14 @@ export function Footer() {
             <Link href="#" aria-label="Twitter"><Twitter className="h-5 w-5 text-social-twitter hover:opacity-80 transition-opacity" /></Link>
             <Link href="#" aria-label="Instagram"><Instagram className="h-5 w-5 text-social-instagram hover:opacity-80 transition-opacity" /></Link>
             <Link href="#" aria-label="LinkedIn"><Linkedin className="h-5 w-5 text-social-linkedin hover:opacity-80 transition-opacity" /></Link>
-            <Link href="#" aria-label="WhatsApp"><MessageCircle className="h-5 w-5 text-social-whatsapp hover:opacity-80 transition-opacity" /></Link>
+            <Link href="#" aria-label="WhatsApp">
+                <svg
+                    className="h-5 w-5 text-social-whatsapp hover:opacity-80 transition-opacity"
+                    fill="currentColor"
+                    viewBox="0 0 24 24">
+                    <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2M12.04 3.67c4.54 0 8.23 3.69 8.23 8.23s-3.69 8.23-8.23 8.23c-1.52 0-2.98-.41-4.29-1.19L6.5 20.4l1.58-1.26c-.88-1.33-1.38-2.89-1.38-4.58 0-4.54 3.69-8.23 8.23-8.23m2.54 6.39c-.14-.23-.53-.43-.8-.5-.27-.07-.46-.07-.64.24-.18.31-.7.88-.86 1.06-.16.18-.31.2-.46.06-.15-.14-.64-.24-1.22-.76-.45-.4-1.03-1.1-1.15-1.28-.12-.18-.01-.28.11-.39.1-.09.23-.24.34-.36s.17-.21.25-.36c.08-.14.04-.28-.02-.39-.07-.11-.64-1.53-.88-2.1-.23-.55-.46-.48-.63-.48-.16 0-.34-.02-.51-.02s-.46.06-.7.34c-.23.27-.89.86-1.03 2.06s.14 2.26.79 3.23c.65.97 1.74 2.18 3.71 3.29 1.97 1.11 2.53.89 3.1.86.57-.03 1.03-.43 1.17-.64.14-.21.14-.41.1-.48l-.01-.01z"/>
+                </svg>
+            </Link>
           </div>
         </div>
 
