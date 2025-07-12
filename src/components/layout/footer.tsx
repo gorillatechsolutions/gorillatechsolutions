@@ -2,12 +2,27 @@ import Link from 'next/link';
 import { BotMessageSquare, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { NAV_LINKS } from '@/lib/navigation';
+
+const footerLinks = {
+    company: [
+        { name: 'Work with Us', href: '#' },
+        { name: 'Invest with Us', href: '#' },
+        { name: 'Website Roadmap', href: '#' },
+    ],
+    about: [
+        { name: 'About Us', href: '/about' },
+        { name: 'Legal', href: '#' },
+        { name: 'Privacy Policy', href: '#' },
+    ],
+    legal: [
+        { name: 'Refund Policy', href: '#' },
+        { name: 'Terms & Conditions', href: '#' },
+        { name: 'Disclaimer', href: '#' },
+    ]
+}
+
 
 export function Footer() {
-  const lineOneLinks = NAV_LINKS.filter(link => ['Home', 'About', 'Services'].includes(link.name));
-  const lineTwoLinks = NAV_LINKS.filter(link => ['Case Studies', 'Application', 'Contact'].includes(link.name));
-  
   return (
     <footer className="w-full border-t bg-card text-card-foreground">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 sm:px-6 lg:px-8 py-12">
@@ -33,22 +48,32 @@ export function Footer() {
           <h3 className="font-headline font-semibold mb-4">Quick Links</h3>
           <ul className="flex flex-col items-center justify-center space-y-2">
             <li className='flex items-center space-x-4'>
-                {lineOneLinks.map((link, index) => (
+                {footerLinks.company.map((link, index) => (
                   <div key={link.name} className="flex items-center">
                     <Link href={link.href} className="text-sm text-muted-foreground hover:text-primary">
                       {link.name}
                     </Link>
-                    {index < lineOneLinks.length - 1 && <span className="mx-2 text-muted-foreground">&bull;</span>}
+                    {index < footerLinks.company.length - 1 && <span className="mx-2 text-muted-foreground">&bull;</span>}
                   </div>
                 ))}
             </li>
             <li className='flex items-center space-x-4'>
-                {lineTwoLinks.map((link, index) => (
+                {footerLinks.about.map((link, index) => (
                     <div key={link.name} className="flex items-center">
                     <Link href={link.href} className="text-sm text-muted-foreground hover:text-primary">
                         {link.name}
                     </Link>
-                    {index < lineTwoLinks.length - 1 && <span className="mx-2 text-muted-foreground">&bull;</span>}
+                    {index < footerLinks.about.length - 1 && <span className="mx-2 text-muted-foreground">&bull;</span>}
+                    </div>
+                ))}
+            </li>
+            <li className='flex items-center space-x-4'>
+                {footerLinks.legal.map((link, index) => (
+                    <div key={link.name} className="flex items-center">
+                    <Link href={link.href} className="text-sm text-muted-foreground hover:text-primary">
+                        {link.name}
+                    </Link>
+                    {index < footerLinks.legal.length - 1 && <span className="mx-2 text-muted-foreground">&bull;</span>}
                     </div>
                 ))}
             </li>
