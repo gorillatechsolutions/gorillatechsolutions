@@ -7,7 +7,7 @@ import { NAV_LINKS } from '@/lib/navigation';
 export function Footer() {
   return (
     <footer className="w-full border-t bg-card text-card-foreground">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-4 sm:px-6 lg:px-8 py-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 sm:px-6 lg:px-8 py-12">
         {/* Column 1: Logo and About */}
         <div className="flex flex-col gap-4 items-start">
           <Link href="/" className="flex items-center gap-2">
@@ -25,7 +25,7 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Column 2: Quick Links */}
+        {/* Column 2: Links and Contact */}
         <div className="lg:text-right">
           <h3 className="font-headline font-semibold mb-4">Quick Links</h3>
           <ul className="space-y-2">
@@ -37,20 +37,15 @@ export function Footer() {
               </li>
             ))}
           </ul>
-        </div>
-
-        {/* Column 3: Contact Info */}
-        <div>
-          <h3 className="font-headline font-semibold mb-4">Contact Us</h3>
+          <h3 className="font-headline font-semibold mb-4 mt-8">Contact Us</h3>
           <ul className="space-y-2 text-sm text-muted-foreground">
-            <li>123 Marketing Lane</li>
-            <li>New York, NY 10001</li>
+            <li>123 Marketing Lane, New York, NY 10001</li>
             <li className="pt-2"><a href="tel:+1234567890" className="hover:text-primary">+1 (234) 567-890</a></li>
             <li><a href="mailto:hello@gorillatech.solutions" className="hover:text-primary">hello@gorillatech.solutions</a></li>
           </ul>
         </div>
 
-        {/* Column 4: Newsletter */}
+        {/* Column 3: Newsletter */}
         <div>
           <h3 className="font-headline font-semibold mb-4">Newsletter</h3>
           <p className="text-sm text-muted-foreground mb-4">
