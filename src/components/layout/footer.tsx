@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { BotMessageSquare, Facebook, Instagram, Linkedin, Mail, Phone, MapPin, Github, CheckCircle2 } from 'lucide-react';
+import { BotMessageSquare, Facebook, Instagram, Linkedin, Mail, Phone, MapPin, Github } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -128,8 +128,13 @@ export function Footer() {
         </div>
       </div>
       <div className="border-t py-2" style={{ backgroundColor: '#243878' }}>
-        <div className="flex flex-col sm:flex-row justify-center items-center px-4 sm:px-6 lg:px-8 text-sm text-white/80 gap-4 py-2">
-          <p>&copy; {new Date().getFullYear()} Gorilla Tech Solutions. All rights reserved.</p>
+        <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center px-4 sm:px-6 lg:px-8 text-sm text-white/80 gap-4 py-2">
+          <p className="text-center sm:text-left">&copy; {new Date().getFullYear()} Gorilla Tech Solutions. All rights reserved.</p>
+          <div className="flex items-center gap-6">
+            <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="#" className="hover:text-white transition-colors">Terms of Service</Link>
+            <Link href="#" className="hover:text-white transition-colors">Cookie Policy</Link>
+          </div>
         </div>
       </div>
     </footer>
