@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { BotMessageSquare, Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import { BotMessageSquare, Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
@@ -81,9 +81,9 @@ export function Footer() {
         </div>
 
         {/* Column 3: Connect With Us */}
-        <div className="flex flex-col items-center text-center lg:items-end lg:text-right">
+        <div className="flex flex-col items-center text-center">
           <h3 className="font-headline font-semibold mb-4">Connect With Us</h3>
-          <div className="space-y-4 text-sm flex flex-col items-center lg:items-end">
+          <div className="space-y-4 text-sm flex flex-col items-center">
             <div className="flex items-start gap-3">
               <MapPin className="h-5 w-5 mt-0.5 text-muted-foreground shrink-0" />
               <p className="text-muted-foreground">123 Marketing Lane<br/>New York, NY 10001</p>
@@ -96,6 +96,12 @@ export function Footer() {
               <Mail className="h-5 w-5 text-muted-foreground shrink-0" />
               <a href="mailto:hello@gorillatech.solutions" className="text-muted-foreground hover:text-primary">hello@gorillatech.solutions</a>
             </div>
+             <Button asChild variant="outline" className="mt-4">
+              <Link href="#">
+                <Download className="mr-2 h-4 w-4" />
+                Download Source Code
+              </Link>
+            </Button>
           </div>
         </div>
       </div>
