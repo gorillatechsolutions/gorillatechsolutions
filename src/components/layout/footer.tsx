@@ -138,7 +138,6 @@ export function Footer() {
                         Meta Business
                     </Link>
                 </Button>
-                <p className="text-xs mt-1" style={{ color: 'limegreen' }}>Verified Partner</p>
             </div>
             <Button asChild size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transition-transform transform hover:scale-105 text-xs">
                 <Link href="#">AWS Startup</Link>
