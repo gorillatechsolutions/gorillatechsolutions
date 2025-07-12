@@ -132,7 +132,12 @@ export function Footer() {
           <p className="text-center sm:text-left">&copy; {new Date().getFullYear()} Gorilla Tech Solutions. All rights reserved.</p>
           <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2">
             <Link href="#" className="hover:underline flex items-center gap-2 px-3 py-1 rounded-md" style={{ backgroundColor: '#f2f5f7', color: 'black' }}>
-                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAACqElEQVR4nOyZW4iNURzHfzPugpQ8eFEeUvIoHlJEeRA5KlcPkpvcJCl5pBehEC8H5UFy5U1y0slK5dJJCq8IkYdKPAgV5U1yE+b/7f9Wk9M5M+eZc+89/3/Nbrd/s5+111p7rbVGNFhA/cAK4B1wGvgBfAR+A3+BjwB/gU+BF4G+oM/zPqgSGFvAHeA5sAo8AmY1eDx4HPgMLAGvGo1Gh0/gtw3gGfAWuBH4W4k/LgNfAYPAadC36XAZuAmsA+cDXxVwvsM54BPQYgIfA+c63L8B/oJc+l4GbgGfwO/Alo0a90gBnYDPwBdgNfAcuAR8A+4FDgE/A3aAU8BXYA0YAu4DZwPfgd/AuqB3/xXgn/Ag8K8CbB/Aa8BrYAFYAnYBx4GXgIqgX2g7cBlYBk4C97uch23gP/AO+B7YA7wMPAP+B/4HPAi8DbwJ/Am8C/wH3DQBjgKXAkeAOWABeB+4Xq0GFoHXgYPAH+BJ4B7wN/A68DzwMvA08Efgf2Az8E/gf4GNgfeBtcDfwDvgfeB14E9gE/A28GZgC/hHlq8CtwCfgXvA3cBD4B5wPPAI+Bz4GngX+BL4EPgS+BT4DPgSeAD8AHwNPAv8GfgR+Bv4AfgG+AX4CvgG+AL4Bvgb+AnoBv4N/A38CLQH/gY+Bn4HPge+Bz4GvgA+Bj4Afgc+BL4CfgE+hL4CfgE+AL6EfgT+Bj4CfgA+gn4CfgA+hX4AvgA+g34FvgA+g/4Bvga+AP6AvgC+gv4GPgA+i74avgC+iX4UvgC+iv4PvgC+lfwe+AHoE92qGf4mD4afoV+E2AHaAP8YcBc/gJ/hL4g7Rj6/T/A3I3/P8A+Nf4A/Am85j39/gYgQJjQYy2YAAAAASUVORK5CYII=" alt="Meta Logo" className="h-5 w-5" />
+                <svg
+                    className="h-5 w-5"
+                    fill="#3083ff"
+                    viewBox="0 0 48 48">
+                   <path d="M24 8C15.163 8 8 15.163 8 24s7.163 16 16 16 16-7.163 16-16S32.837 8 24 8zm0 29c-7.18 0-13-5.82-13-13S16.82 11 24 11s13 5.82 13 13-5.82 13-13 13z"></path><path d="M24.5 14h-1c-5.523 0-10 4.477-10 10v1h2v-1c0-4.411 3.589-8 8-8h1V14z"></path>
+                </svg>
                 <span>Meta Business</span>
             </Link>
             <Link href="#" className="hover:underline">AWS Startup</Link>
