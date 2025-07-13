@@ -145,7 +145,7 @@ export function Footer() {
                 <Image src="https://placehold.co/24x24.png" alt="AWS Startup" width={24} height={24} data-ai-hint="logo" />
                 <div className="flex flex-col items-start">
                     <div className="text-sm">
-                        <span style={{ color: '#E4D00A' }}>AWS </span>
+                        <span style={{ color: '#f78f39' }}>AWS </span>
                         <span style={{ color: '#383838' }}>Startup</span>
                     </div>
                     <div className="flex items-center gap-1">
