@@ -145,7 +145,7 @@ export function Footer() {
             <div className="flex items-center gap-2 px-3 py-2 rounded-md text-black" style={{ backgroundColor: '#f0f4f6' }}>
                 <Image src="https://placehold.co/24x24.png" alt="AWS Startup" width={24} height={24} data-ai-hint="logo" />
                 <div className="flex flex-col items-start">
-                    <span className="font-semibold text-sm">AWS Startup</span>
+                    <span className="font-semibold text-sm" style={{ color: '#E4D00A' }}>AWS Startup</span>
                     <div className="flex items-center gap-1">
                         <CheckCircle className="h-3 w-3 text-green-500" />
                         <span className="text-xs text-lime-500">Verified Partner</span>
