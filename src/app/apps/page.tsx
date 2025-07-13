@@ -4,7 +4,6 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Search } from 'lucide-react';
-import type { Metadata } from 'next';
 import { AppsList } from '@/components/apps-list';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
@@ -232,7 +231,7 @@ export default function AppsPage() {
         </div>
       </section>
 
-       <section className="py-16 md:py-24 bg-secondary/30">
+       <section className="py-12 md:py-16 bg-secondary/30">
           <div className="container mx-auto px-4 text-center">
               <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">Have a Project in Mind?</h2>
               <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
