@@ -343,7 +343,7 @@ export default function Home() {
       </section>
       
       {/* CTA Section */}
-      <section className="w-full py-16 md:py-24 bg-background">
+      <section className="w-full py-12 md:py-16 bg-background">
           <div className="container mx-auto px-4">
               <div className="bg-gradient-to-r from-primary to-primary/80 rounded-lg shadow-lg p-8 md:p-12">
                   <div className="grid md:grid-cols-[1fr_auto] items-center gap-8">
