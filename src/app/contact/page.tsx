@@ -56,7 +56,7 @@ export default function ContactPage() {
                 <div className="container mx-auto px-4">
                     <div className="grid lg:grid-cols-2 gap-12 items-start">
                         {/* Contact Form */}
-                        <Card className="shadow-lg border-border/80">
+                        <Card className="border-border/80">
                             <CardHeader>
                                 <CardTitle className="font-headline text-2xl md:text-3xl">Send Us a Message</CardTitle>
                                 <CardDescription>Fill out the form and our team will get back to you within 24 hours.</CardDescription>
@@ -68,7 +68,7 @@ export default function ContactPage() {
 
                         {/* Contact Info & Socials */}
                         <div className="space-y-8">
-                             <Card className="shadow-lg border-border/80">
+                             <Card className="border-border/80">
                                 <CardHeader>
                                     <CardTitle className="font-headline text-2xl">Contact Information</CardTitle>
                                     <CardDescription>Reach out to us through any of the channels below.</CardDescription>
@@ -94,7 +94,7 @@ export default function ContactPage() {
                                 </CardContent>
                             </Card>
 
-                            <Card className="shadow-lg border-border/80">
+                            <Card className="border-border/80">
                                 <CardHeader>
                                     <CardTitle className="font-headline text-2xl">Follow Us</CardTitle>
                                     <CardDescription>Stay connected with us on social media.</CardDescription>
