@@ -46,17 +46,17 @@ const services = [
 export default function ServicesPage() {
   return (
     <div className="bg-background">
-        <div className="container py-12 md:py-20">
-            <header className="text-center mb-16">
-                <h1 className="font-headline text-4xl md:text-5xl font-bold text-primary">Our Services</h1>
+        <div className="container mx-auto px-4 py-12 md:py-20">
+            <header className="text-center mb-12 md:mb-16">
+                <h1 className="font-headline text-4xl md:text-5xl font-bold text-primary">Our Digital Marketing Services</h1>
                 <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
                     A comprehensive suite of digital marketing services designed to elevate your brand and accelerate growth.
                 </p>
             </header>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {services.map((service) => (
-                    <Card key={service.title} className="flex flex-col text-center items-center bg-card rounded-lg shadow-sm hover:shadow-lg transition-shadow p-6">
+                    <Card key={service.title} className="flex flex-col text-center items-center bg-card rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 p-6">
                         <div className="p-4 bg-accent/10 rounded-full mb-4">
                             {service.icon}
                         </div>
@@ -70,7 +70,7 @@ export default function ServicesPage() {
                 ))}
             </div>
 
-            <div className="mt-20 text-center bg-secondary/50 p-10 rounded-lg">
+            <div className="mt-16 md:mt-20 text-center bg-secondary/50 p-10 rounded-lg">
                 <h2 className="font-headline text-3xl font-bold text-primary">Ready to Grow Your Business?</h2>
                 <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
                     Let's discuss how our digital marketing expertise can help you achieve your business goals. Your journey to digital excellence starts here.
