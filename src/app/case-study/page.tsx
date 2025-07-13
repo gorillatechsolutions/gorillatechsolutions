@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     description: 'Explore insights, tips, and case studies on digital marketing, SEO, PPC, and more from the experts at Gorilla Tech Solutions.',
 };
 
-const allCaseStudies = [
+export const allCaseStudies = [
   {
     slug: 'tripled-organic-traffic-ecommerce',
     title: 'How We Tripled Organic Traffic for a Sustainable eCommerce Brand',
