@@ -78,7 +78,7 @@ export default function ReviewsPage() {
   return (
     <div className="w-full bg-background text-foreground">
       {/* Hero Section */}
-      <section className="bg-secondary/30 pt-16 pb-12 md:pt-24 md:pb-20">
+      <section className="bg-secondary/30 pt-12 pb-8 md:pt-16 md:pb-12">
         <div className="container mx-auto px-4 text-center">
           <h1 className="font-headline text-4xl md:text-6xl font-bold text-primary">What Our Clients Say</h1>
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
