@@ -107,6 +107,86 @@ const allCaseStudies = [
     tags: ['PPC', 'Education', 'Lead Generation'],
     author: 'Laura Taylor',
     date: 'January 30, 2023'
+  },
+  {
+    slug: 'fashion-brand-influencer-marketing',
+    title: 'Boosting a Fashion Brand\'s Reach with Influencer Marketing',
+    excerpt: 'Partnering with key fashion influencers, we generated millions of impressions and a 40% increase in online sales for a new clothing line.',
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'fashion model',
+    tags: ['Influencer Marketing', 'Fashion', 'Social Media'],
+    author: 'Olivia Martinez',
+    date: 'November 5, 2023'
+  },
+  {
+    slug: 'local-restaurant-video-campaign',
+    title: 'Local Restaurant Video Campaign Drives 60% Rise in Reservations',
+    excerpt: 'A series of high-quality video ads showcasing the restaurant\'s ambiance and cuisine led to a 60% increase in online reservations and local buzz.',
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'gourmet food',
+    tags: ['Video Marketing', 'Local Business', 'Social Media'],
+    author: 'Daniel Garcia',
+    date: 'December 12, 2023'
+  },
+  {
+    slug: 'legal-firm-seo-authority',
+    title: 'Building SEO Authority for a National Law Firm',
+    excerpt: 'Through expert content and technical SEO, we positioned a law firm as a leading authority, resulting in top 3 rankings for highly competitive legal keywords.',
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'law library',
+    tags: ['SEO', 'Legal', 'Content Marketing'],
+    author: 'Sophia Rodriguez',
+    date: 'January 20, 2024'
+  },
+  {
+    slug: 'automotive-ppc-optimization',
+    title: 'Optimizing PPC for an Automotive Dealership Network',
+    excerpt: 'We consolidated and optimized PPC campaigns for a multi-location car dealership, increasing lead volume by 50% while reducing ad spend by 20%.',
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'luxury car',
+    tags: ['PPC', 'Automotive', 'Lead Generation'],
+    author: 'Liam Hernandez',
+    date: 'February 28, 2024'
+  },
+  {
+    slug: 'travel-agency-content-revamp',
+    title: 'Content Revamp for a Travel Agency Boosts Organic Bookings',
+    excerpt: 'A complete overhaul of their blog and destination guides led to a 200% increase in organic traffic and a 70% rise in direct online bookings.',
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'tropical beach',
+    tags: ['Content Marketing', 'Travel', 'SEO'],
+    author: 'Ava King',
+    date: 'March 19, 2024'
+  },
+  {
+    slug: 'pet-supply-ecommerce-cro',
+    title: 'Conversion Rate Optimization for a Pet Supply eCommerce Store',
+    excerpt: 'Through A/B testing and user experience improvements, we increased the conversion rate by 35%, significantly boosting revenue for an online pet store.',
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'happy dog',
+    tags: ['CRO', 'eCommerce', 'UX'],
+    author: 'Noah Lee',
+    date: 'April 09, 2024'
+  },
+  {
+    slug: 'manufacturing-b2b-lead-magnet',
+    title: 'Creating a Lead Magnet for a B2B Manufacturing Company',
+    excerpt: 'We developed a detailed industry report as a lead magnet, generating over 1,000 qualified leads for their sales team in just three months.',
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'factory machinery',
+    tags: ['B2B', 'Lead Generation', 'Content Marketing'],
+    author: 'Isabella Scott',
+    date: 'May 01, 2024'
+  },
+  {
+    slug: 'fitness-app-social-ads',
+    title: 'Driving App Installs for a Fitness Startup with Social Ads',
+    excerpt: 'A targeted social media advertising campaign on Instagram and Facebook resulted in over 100,000 app installs at a cost per install 30% below the industry average.',
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'fitness workout',
+    tags: ['Social Media', 'Mobile App', 'PPC'],
+    author: 'James Green',
+    date: 'June 25, 2024'
   }
 ];
 
