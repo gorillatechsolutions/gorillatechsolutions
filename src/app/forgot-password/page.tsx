@@ -1,6 +1,5 @@
 
 import { ForgotPasswordForm } from "@/components/forgot-password-form";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import type { Metadata } from 'next';
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
@@ -14,21 +13,17 @@ export default function ForgotPasswordPage() {
     return (
         <div className="container py-12 md:py-20 flex items-center justify-center">
             <div className="mx-auto w-full max-w-md">
-                <Card className="shadow-lg">
-                    <CardHeader className="text-center">
-                        <CardTitle className="font-headline text-2xl">Forgot Your Password?</CardTitle>
-                        <CardDescription>No worries. Enter your email and we'll send you a reset link.</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <ForgotPasswordForm />
-                        <div className="mt-4 text-center text-sm">
-                            <Link href="/login" className="text-primary hover:underline flex items-center justify-center">
-                                <ArrowLeft className="mr-2 h-4 w-4" />
-                                Back to Login
-                            </Link>
-                        </div>
-                    </CardContent>
-                </Card>
+                <div className="text-center mb-6">
+                    <h1 className="font-headline text-2xl font-semibold tracking-tight">Forgot Your Password?</h1>
+                    <p className="text-sm text-muted-foreground mt-1.5">No worries. Enter your email and we'll send you a reset link.</p>
+                </div>
+                <ForgotPasswordForm />
+                <div className="mt-4 text-center text-sm">
+                    <Link href="/login" className="text-primary hover:underline flex items-center justify-center">
+                        <ArrowLeft className="mr-2 h-4 w-4" />
+                        Back to Login
+                    </Link>
+                </div>
             </div>
         </div>
     )
