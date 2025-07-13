@@ -31,7 +31,7 @@ export function Header() {
                 href={link.href}
                 className={cn(
                   'text-sm font-medium transition-colors hover:text-primary flex items-center gap-2',
-                  pathname === link.href ? 'text-primary' : 'text-muted-foreground'
+                  pathname === link.href ? 'text-primary' : 'text-[#383838]'
                 )}
               >
                 <link.icon className="h-4 w-4" />
@@ -71,7 +71,7 @@ export function Header() {
                         onClick={() => setMobileMenuOpen(false)}
                         className={cn(
                           'text-lg font-medium flex items-center gap-3',
-                          pathname === link.href ? 'text-primary' : 'text-muted-foreground'
+                           pathname === link.href ? 'text-primary' : 'text-[#383838]'
                         )}
                       >
                         <link.icon className="h-5 w-5" />
