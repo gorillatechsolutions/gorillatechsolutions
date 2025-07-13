@@ -61,7 +61,18 @@ export default function AboutPage() {
           </header>
           <div className="flex flex-col gap-16 max-w-4xl mx-auto">
             {values.map((value, index) => (
-              <div key={value.title} className={`flex flex-col md:flex-row items-center gap-8 md:gap-12 ${index % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}>
+              <div 
+                key={value.title} 
+                className={`flex flex-col md:flex-row items-center gap-8 md:gap-12 p-8 rounded-lg ${index % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}
+                style={
+                  index === 3 ? {
+                    backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none' fill='%23e2e8f0'%3e%3cpath d='M0,50 Q25,25 50,50 T100,50 V100 H0 Z' /%3e%3c/svg%3e")`,
+                    backgroundSize: '100% 100%',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'bottom',
+                  } : {}
+                }
+                >
                 <div className="flex-shrink-0">
                     <div className="p-6 bg-primary/10 rounded-full">
                         {value.icon}
