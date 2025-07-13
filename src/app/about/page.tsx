@@ -12,13 +12,6 @@ export const metadata: Metadata = {
   description: 'Learn about the mission, values, and expert team at Gorilla Tech Solutions, dedicated to delivering exceptional digital marketing results.',
 };
 
-const teamMembers = [
-  { name: 'Jane Doe', role: 'CEO & Founder', image: 'https://placehold.co/150x150.png', initials: 'JD' , dataAiHint: 'professional woman'},
-  { name: 'John Smith', role: 'Head of SEO', image: 'https://placehold.co/150x150.png', initials: 'JS', dataAiHint: 'professional man' },
-  { name: 'Emily White', role: 'Lead Designer', image: 'https://placehold.co/150x150.png', initials: 'EW', dataAiHint: 'creative woman' },
-  { name: 'Michael Brown', role: 'PPC Specialist', image: 'https://placehold.co/150x150.png', initials: 'MB', dataAiHint: 'focused man' },
-];
-
 const values = [
     { icon: <Zap className="h-8 w-8 text-accent" />, title: "Innovation", description: "We constantly explore new technologies and strategies to keep you ahead of the curve." },
     { icon: <Target className="h-8 w-8 text-accent" />, title: "Results-Driven", description: "Our focus is on delivering measurable results that translate to real business growth." },
@@ -80,27 +73,6 @@ export default function AboutPage() {
                   ))}
               </div>
           </div>
-      </section>
-
-      {/* Meet The Team Section */}
-      <section className="py-16 md:py-24">
-        <div className="container mx-auto px-4 text-center">
-            <h2 className="font-headline text-3xl md:text-4xl font-bold mb-12 text-primary">Meet Our Leadership Team</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
-              {teamMembers.map((member) => (
-                <div key={member.name} className="flex flex-col items-center gap-4">
-                    <Avatar className="h-36 w-36 border-4 border-secondary shadow-lg">
-                        <AvatarImage src={member.image} alt={`Portrait of ${member.name}, ${member.role}`} data-ai-hint={member.dataAiHint} loading="lazy" />
-                        <AvatarFallback className="text-4xl">{member.initials}</AvatarFallback>
-                    </Avatar>
-                    <div className="text-center">
-                        <p className="font-headline text-xl font-semibold">{member.name}</p>
-                        <p className="text-base text-accent font-medium">{member.role}</p>
-                    </div>
-                </div>
-              ))}
-            </div>
-        </div>
       </section>
 
       {/* CTA Section */}
