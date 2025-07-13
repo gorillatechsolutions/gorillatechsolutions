@@ -30,10 +30,11 @@ export function Header() {
                 key={link.name}
                 href={link.href}
                 className={cn(
-                  'text-sm font-medium transition-colors hover:text-primary',
+                  'text-sm font-medium transition-colors hover:text-primary flex items-center gap-2',
                   pathname === link.href ? 'text-primary' : 'text-muted-foreground'
                 )}
               >
+                <link.icon className="h-4 w-4" />
                 {link.name}
               </Link>
             ))}
@@ -69,10 +70,11 @@ export function Header() {
                         href={link.href}
                         onClick={() => setMobileMenuOpen(false)}
                         className={cn(
-                          'text-lg font-medium',
+                          'text-lg font-medium flex items-center gap-3',
                           pathname === link.href ? 'text-primary' : 'text-muted-foreground'
                         )}
                       >
+                        <link.icon className="h-5 w-5" />
                         {link.name}
                       </Link>
                     ))}
