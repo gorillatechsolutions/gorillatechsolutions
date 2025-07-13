@@ -7,22 +7,22 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const processSteps = [
     {
-        icon: <Search className="h-12 w-12 text-accent-foreground" />,
+        icon: <Search className="h-14 w-14 text-accent-foreground" />,
         title: 'Discovery',
         description: 'We start by understanding your business, goals, and target audience to lay the groundwork for a successful strategy.'
     },
     {
-        icon: <ListChecks className="h-12 w-12 text-accent-foreground" />,
+        icon: <ListChecks className="h-14 w-14 text-accent-foreground" />,
         title: 'Planning',
         description: 'Our team crafts a detailed, data-driven plan, outlining the key strategies and milestones for your project.'
     },
     {
-        icon: <Rocket className="h-12 w-12 text-accent-foreground" />,
+        icon: <Rocket className="h-14 w-14 text-accent-foreground" />,
         title: 'Execution',
         description: 'We launch your campaigns, continuously optimizing for performance and delivering measurable results.'
     },
     {
-        icon: <Award className="h-12 w-12 text-accent-foreground" />,
+        icon: <Award className="h-14 w-14 text-accent-foreground" />,
         title: 'Review & Launch',
         description: 'We review the results, provide detailed reports, and successfully launch your project for the world to see.'
     }
@@ -93,7 +93,7 @@ export default function Home() {
             {processSteps.map((step) => (
               <Card key={step.title} className="bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 relative overflow-visible">
                 <div className="flex flex-col h-full p-6 pt-12">
-                    <div className="absolute -top-8 left-6">
+                    <div className="absolute -top-10 left-6">
                         <div className="bg-accent p-4 rounded-full ring-8 ring-background">
                            {step.icon}
                         </div>
