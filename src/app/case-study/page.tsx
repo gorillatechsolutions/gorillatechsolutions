@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
@@ -49,7 +50,7 @@ export default function CaseStudyPage() {
         {caseStudies.map((study) => (
           <Card key={study.title} className="flex flex-col overflow-hidden group">
             <div className="overflow-hidden">
-                <Image src={study.image} alt={`Case study for ${study.client}: ${study.title}`} width={600} height={400} className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300" data-ai-hint={study.dataAiHint} />
+                <Image src={study.image} alt={`Case study for ${study.client}: ${study.title}`} width={600} height={400} className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300" data-ai-hint={study.dataAiHint} loading="lazy" />
             </div>
             <CardHeader>
               <p className="text-sm text-accent font-semibold">{study.client}</p>

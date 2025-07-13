@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -34,7 +35,7 @@ export default function AboutPage() {
             <p className="text-muted-foreground mb-4">
                 Our mission is to empower businesses with innovative and effective digital marketing strategies. We believe in building partnerships, not just campaigns. By combining data-driven insights with creative excellence, we deliver measurable results that foster growth and build lasting brand value.
             </p>
-            <Image src="https://placehold.co/600x400.png" alt="Our team collaborating on a digital marketing project" width={600} height={400} className="rounded-lg shadow-md" data-ai-hint="team collaboration" />
+            <Image src="https://placehold.co/600x400.png" alt="Our team collaborating on a digital marketing project" width={600} height={400} className="rounded-lg shadow-md" data-ai-hint="team collaboration" loading="lazy" />
         </div>
         <div>
             <h2 className="font-headline text-3xl font-bold mb-4">Our Core Values</h2>
@@ -56,7 +57,7 @@ export default function AboutPage() {
             <Card key={member.name} className="text-center border-0 shadow-none bg-transparent">
                 <CardContent className="flex flex-col items-center gap-4">
                     <Avatar className="h-24 w-24">
-                        <AvatarImage src={member.image} alt={`Portrait of ${member.name}, ${member.role}`} data-ai-hint={member.dataAiHint} />
+                        <AvatarImage src={member.image} alt={`Portrait of ${member.name}, ${member.role}`} data-ai-hint={member.dataAiHint} loading="lazy" />
                         <AvatarFallback>{member.initials}</AvatarFallback>
                     </Avatar>
                     <div>

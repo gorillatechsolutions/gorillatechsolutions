@@ -1,3 +1,4 @@
+
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
@@ -36,6 +37,7 @@ export default function Home() {
               alt="Team discussing digital marketing strategy on a whiteboard"
               className="mx-auto aspect-video overflow-hidden rounded-xl object-cover"
               data-ai-hint="digital marketing"
+              priority={true}
             />
           </div>
         </div>

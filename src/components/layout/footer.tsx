@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import { Facebook, Instagram, Linkedin, Mail, Phone, MapPin, Github, CheckCircle, BrainCircuit } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -9,17 +10,17 @@ const footerLinks = {
     company: [
         { name: 'Work with Us', href: '/application' },
         { name: 'Invest with Us', href: '/contact' },
-        { name: 'Website Roadmap', href: '/' },
+        { name: 'Website Roadmap', href: '/case-study' },
     ],
     about: [
         { name: 'Site Map', href: '/'},
         { name: 'About Us', href: '/about' },
-        { name: 'Privacy Policy', href: '/' },
+        { name: 'Privacy Policy', href: '/contact' },
     ],
     legal: [
-        { name: 'Refund Policy', href: '/' },
-        { name: 'Terms & Conditions', href: '/' },
-        { name: 'Disclaimer', href: '/' },
+        { name: 'Refund Policy', href: '/contact' },
+        { name: 'Terms & Conditions', href: '/contact' },
+        { name: 'Disclaimer', href: '/contact' },
     ]
 }
 
@@ -129,7 +130,7 @@ export function Footer() {
           <p className="text-center sm:text-left">&copy; {new Date().getFullYear()} Gorilla Tech Solutions. All rights reserved.</p>
           <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2">
             <div className="flex items-center gap-2 px-3 py-2 rounded-md" style={{ backgroundColor: '#f2f5f7', color: 'black' }}>
-                <Image src="https://placehold.co/24x24.png" alt="Meta Business" width={24} height={24} data-ai-hint="logo" />
+                <Image src="https://placehold.co/24x24.png" alt="Meta Business" width={24} height={24} data-ai-hint="logo" loading="lazy" />
                 <div className="flex flex-col items-start">
                     <span className="text-sm" style={{ color: '#0081FB' }}>Meta Business</span>
                     <div className="flex items-center gap-1">
@@ -139,7 +140,7 @@ export function Footer() {
                 </div>
             </div>
             <div className="flex items-center gap-2 px-3 py-2 rounded-md text-black" style={{ backgroundColor: '#f0f4f6' }}>
-                <Image src="https://placehold.co/24x24.png" alt="AWS Startup" width={24} height={24} data-ai-hint="logo" />
+                <Image src="https://placehold.co/24x24.png" alt="AWS Startup" width={24} height={24} data-ai-hint="logo" loading="lazy" />
                 <div className="flex flex-col items-start">
                     <div className="text-sm">
                         <span style={{ color: '#f78f39' }}>AWS </span>
@@ -152,7 +153,7 @@ export function Footer() {
                 </div>
             </div>
             <div className="flex items-center gap-2 px-3 py-2 rounded-md text-black" style={{ backgroundColor: '#f0f4f6' }}>
-                <Image src="https://placehold.co/24x24.png" alt="ISO 9001:2015" width={24} height={24} data-ai-hint="certificate" />
+                <Image src="https://placehold.co/24x24.png" alt="ISO 9001:2015" width={24} height={24} data-ai-hint="certificate" loading="lazy" />
                 <div className="flex flex-col items-start text-left">
                     <span className="text-sm">ISO 9001:2015</span>
                     <div className="flex items-center gap-1">
