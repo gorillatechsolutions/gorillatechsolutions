@@ -129,7 +129,7 @@ export function Footer() {
         </div>
       </div>
       <div className="border-t py-2" style={{ backgroundColor: '#243878' }}>
-        <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center px-4 sm:px-6 lg:px-8 text-sm text-white/80 gap-4 py-2">
+        <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center px-4 sm:px-6 lg:px-8 text-sm text-white/80 gap-4">
           <p className="text-center sm:text-left">&copy; {new Date().getFullYear()} Gorilla Tech Solutions. All rights reserved.</p>
           <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2">
             <div className="flex items-center gap-2 px-3 py-2 rounded-md" style={{ backgroundColor: '#f2f5f7', color: 'black' }}>
