@@ -95,8 +95,9 @@ export function CaseStudyList({ allCaseStudies }: CaseStudyListProps) {
                           <Image
                           src={post.image}
                           alt={post.title}
-                          layout="fill"
-                          objectFit="cover"
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          style={{objectFit: 'cover'}}
                           className="group-hover:scale-105 transition-transform duration-300"
                           data-ai-hint={post.dataAiHint}
                           loading="lazy"
@@ -104,6 +105,20 @@ export function CaseStudyList({ allCaseStudies }: CaseStudyListProps) {
                       </div>
                     </Link>
                   </CardHeader>
+                  <div className="p-4 border-b border-border flex flex-wrap items-center justify-between text-xs text-muted-foreground gap-x-4 gap-y-2">
+                      <div className="flex items-center gap-2">
+                          <UserCircle className="h-4 w-4" />
+                          <span>{post.author}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                          <CalendarDays className="h-4 w-4" />
+                          <span>{post.date}</span>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <Eye className="h-4 w-4" />
+                        <span>{formatViews(post.views)} views</span>
+                      </div>
+                  </div>
                   <CardContent className="p-6 flex-1 flex flex-col">
                     <div className="flex flex-wrap gap-2 mb-4">
                       {post.tags.map(tag => (
@@ -117,23 +132,7 @@ export function CaseStudyList({ allCaseStudies }: CaseStudyListProps) {
                     </CardTitle>
                     <CardDescription className="text-sm">{post.excerpt}</CardDescription>
                   </CardContent>
-                  <CardFooter className="p-6 pt-0 flex flex-col items-start gap-4">
-                      <div className="w-full border-t border-border pt-4 flex items-center justify-between text-sm text-muted-foreground">
-                          <div className="flex items-center gap-2">
-                              <UserCircle className="h-4 w-4" />
-                              <span>{post.author}</span>
-                          </div>
-                           <div className="flex items-center gap-4">
-                               <div className="flex items-center gap-2">
-                                  <CalendarDays className="h-4 w-4" />
-                                  <span>{post.date}</span>
-                              </div>
-                              <div className="flex items-center gap-1.5">
-                                <Eye className="h-4 w-4" />
-                                <span>{formatViews(post.views)}</span>
-                              </div>
-                           </div>
-                      </div>
+                  <CardFooter className="p-6 pt-0">
                       <Button asChild variant="link" className="p-0 h-auto text-primary">
                           <Link href={`/case-study/${post.slug}`}>
                               Read More <ArrowRight className="ml-2 h-4 w-4" />
