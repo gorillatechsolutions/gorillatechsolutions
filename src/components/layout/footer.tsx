@@ -134,7 +134,7 @@ export function Footer() {
             <div className="flex items-center gap-2 px-3 py-2 rounded-md" style={{ backgroundColor: '#f2f5f7', color: 'black' }}>
                 <Image src="https://placehold.co/24x24.png" alt="Meta Business" width={24} height={24} data-ai-hint="logo" />
                 <div className="flex flex-col items-start">
-                    <span className="font-semibold text-sm" style={{ color: '#0081FB' }}>Meta Business</span>
+                    <span className="text-sm" style={{ color: '#0081FB' }}>Meta Business</span>
                     <div className="flex items-center gap-1">
                         <CheckCircle className="h-3 w-3 text-green-500" />
                         <span className="text-xs" style={{ color: 'limegreen' }}>Verified Partner</span>
