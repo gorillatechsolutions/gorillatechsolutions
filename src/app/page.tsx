@@ -89,18 +89,22 @@ export default function Home() {
             <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">We follow a transparent, proven methodology that ensures your project succeeds. Every step is designed to deliver exceptional results while keeping you informed.</p>
           </header>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
             {processSteps.map((step) => (
-              <Card key={step.title} className="flex flex-col text-center items-center bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 p-6">
-                <div className="p-4 bg-accent/10 rounded-full mb-4">
-                  {step.icon}
+              <Card key={step.title} className="bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 p-6">
+                <div className="flex items-start gap-6">
+                  <div className="p-3 bg-accent/10 rounded-full flex-shrink-0 mt-1">
+                    {step.icon}
+                  </div>
+                  <div className="flex-1">
+                    <CardHeader className="p-0 mb-2">
+                      <CardTitle className="font-headline text-xl">{step.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-0">
+                      <p className="text-muted-foreground leading-relaxed">{step.description}</p>
+                    </CardContent>
+                  </div>
                 </div>
-                <CardHeader className="p-0">
-                  <CardTitle className="font-headline text-xl mb-2">{step.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="p-0 flex-1">
-                  <p className="text-muted-foreground leading-relaxed">{step.description}</p>
-                </CardContent>
               </Card>
             ))}
           </div>
