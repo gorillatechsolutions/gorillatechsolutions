@@ -30,9 +30,8 @@ export function Footer() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 sm:px-6 lg:px-8 py-12">
         {/* Column 1: Logo and About */}
         <div className="flex flex-col gap-4 items-start">
-          <Link href="/" className="flex items-center gap-2">
-            <BotMessageSquare className="h-8 w-8 text-primary" />
-            <span className="text-xl font-bold font-headline text-primary">Gorilla Tech Solutions</span>
+          <Link href="/" className="flex items-center">
+            <BotMessageSquare className="h-8 w-8 sm:h-10 sm:w-10 text-primary" />
           </Link>
           <p className="text-muted-foreground text-sm">
             Driving growth with data-driven digital marketing strategies that deliver results.
