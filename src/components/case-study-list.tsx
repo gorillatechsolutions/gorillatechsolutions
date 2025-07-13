@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
@@ -133,7 +132,7 @@ export function CaseStudyList({ allCaseStudies }: CaseStudyListProps) {
                     <CardDescription className="text-sm">{post.excerpt}</CardDescription>
                   </CardContent>
                   <CardFooter className="p-6 pt-0">
-                      <Button asChild style={{ backgroundColor: '#373737', color: 'white' }} className="rounded-sm">
+                      <Button asChild style={{ backgroundColor: '#373737', color: 'white' }} className="rounded-none">
                           <Link href={`/case-study/${post.slug}`}>
                               Read More <ArrowRight className="ml-2 h-4 w-4" />
                           </Link>
