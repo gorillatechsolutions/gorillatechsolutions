@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
@@ -129,7 +130,9 @@ export function CaseStudyList({ allCaseStudies }: CaseStudyListProps) {
                         {post.title}
                       </Link>
                     </CardTitle>
-                    <CardDescription className="text-sm">{post.excerpt}</CardDescription>
+                    <CardDescription className="text-sm">
+                        {post.excerpt.length > 160 ? `${post.excerpt.substring(0, 160)}...` : post.excerpt}
+                    </CardDescription>
                   </CardContent>
                   <CardFooter className="p-6 pt-0">
                       <Button asChild style={{ backgroundColor: '#373737', color: 'white' }} className="rounded-none">
