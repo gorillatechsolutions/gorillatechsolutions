@@ -6,7 +6,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Download, Star, Globe, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Download, Star, Globe, ChevronLeft, ChevronRight, Share2 } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 type AppLinks = {
   web?: string;
@@ -38,7 +39,6 @@ const GooglePlayStoreIcon = () => (
     </svg>
 );
 
-
 const IosAppStoreIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
         <path d="M17.6,3.4A4.6,4.6,0,0,0,12,5.7,4.6,4.6,0,0,0,6.4,3.4,4.5,4.5,0,0,0,2,7.9c0,4.4,2.8,8.8,5.9,11.5a13.3,13.3,0,0,0,4.1,2.6,13.3,13.3,0,0,0,4.1-2.6C19.2,16.7,22,12.3,22,7.9A4.5,4.5,0,0,0,17.6,3.4ZM12,18.8a1.9,1.9,0,0,1-1.2-.4,1.9,1.9,0,0,1-1.2.4,1.8,1.8,0,0,1-1.8-1.8c0-1.2,1-2.2,2.2-2.2a2.3,2.3,0,0,1,2.1,2.2A1.8,1.8,0,0,1,12,18.8Z" />
@@ -48,6 +48,7 @@ const IosAppStoreIcon = () => (
 
 export function AppsList({ allApps }: AppsListProps) {
   const [currentPage, setCurrentPage] = useState(1);
+  const { toast } = useToast();
 
   const totalPages = Math.ceil(allApps.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -59,6 +60,36 @@ export function AppsList({ allApps }: AppsListProps) {
       window.scrollTo(0, 0);
     }
   };
+
+  const handleShare = async (app: App) => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: app.title,
+          text: app.description,
+          url: window.location.href, // Or a specific app URL if available
+        });
+      } catch (error) {
+        console.log('Error sharing', error);
+      }
+    } else {
+      // Fallback for browsers that don't support the Web Share API
+      try {
+          await navigator.clipboard.writeText(`${app.title} - ${app.description}. Find out more at ${window.location.href}`);
+          toast({
+              title: "Link Copied!",
+              description: "App details copied to clipboard.",
+          });
+      } catch (err) {
+          toast({
+              variant: "destructive",
+              title: "Failed to Copy",
+              description: "Could not copy link to clipboard.",
+          });
+      }
+    }
+  };
+
 
   return (
     <>
@@ -121,6 +152,10 @@ export function AppsList({ allApps }: AppsListProps) {
                           </Link>
                       </Button>
                   )}
+                   <Button variant="outline" size="sm" className="flex-1 min-w-[40px]" onClick={() => handleShare(app)}>
+                        <Share2 className="h-5 w-5" />
+                        <span className="sr-only">Share {app.title}</span>
+                    </Button>
                 </div>
               </CardContent>
             </Card>
