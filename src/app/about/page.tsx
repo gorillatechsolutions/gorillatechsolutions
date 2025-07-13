@@ -13,10 +13,10 @@ export const metadata: Metadata = {
 };
 
 const values = [
-    { icon: <Zap className="h-8 w-8 text-accent" />, title: "Innovation", description: "We constantly explore new technologies and strategies to keep you ahead of the curve." },
-    { icon: <Target className="h-8 w-8 text-accent" />, title: "Results-Driven", description: "Our focus is on delivering measurable results that translate to real business growth." },
-    { icon: <Users className="h-8 w-8 text-accent" />, title: "Client Partnership", description: "We work as an extension of your team, fostering open communication and true collaboration." },
-    { icon: <Handshake className="h-8 w-8 text-accent" />, title: "Integrity & Transparency", description: "We believe in transparency and honesty in all our interactions and campaign reporting." },
+    { icon: <Zap className="h-10 w-10 text-primary" />, title: "Innovation", description: "We constantly explore new technologies and strategies to keep you ahead of the curve." },
+    { icon: <Target className="h-10 w-10 text-primary" />, title: "Results-Driven", description: "Our focus is on delivering measurable results that translate to real business growth." },
+    { icon: <Users className="h-10 w-10 text-primary" />, title: "Client Partnership", description: "We work as an extension of your team, fostering open communication and true collaboration." },
+    { icon: <Handshake className="h-10 w-10 text-primary" />, title: "Integrity", description: "We believe in transparency and honesty in all our interactions and campaign reporting." },
 ];
 
 export default function AboutPage() {
@@ -59,17 +59,17 @@ export default function AboutPage() {
                   <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">The Principles That Guide Us</h2>
                   <p className="mt-3 text-lg text-muted-foreground max-w-2xl mx-auto">Our core values are the bedrock of our company culture and client relationships, ensuring we deliver excellence in every project.</p>
               </header>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {values.map((value, index) => (
-                      <div key={value.title} className="flex items-start gap-6 p-6 bg-card rounded-lg shadow-sm hover:shadow-lg transition-shadow">
-                          <div className="p-3 bg-accent/10 rounded-full flex-shrink-0 mt-1">
-                              {value.icon}
-                          </div>
-                          <div>
-                              <h3 className="font-headline text-xl font-semibold mb-2">{value.title}</h3>
-                              <p className="text-muted-foreground text-sm leading-relaxed">{value.description}</p>
-                          </div>
-                      </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                  {values.map((value) => (
+                      <Card key={value.title} className="bg-card rounded-lg shadow-sm hover:shadow-lg transition-shadow p-6 group">
+                         <div className="flex justify-center mb-4">
+                             <div className="p-4 bg-primary/10 rounded-full group-hover:bg-accent/20 transition-colors">
+                                 {value.icon}
+                             </div>
+                         </div>
+                          <h3 className="font-headline text-xl font-semibold mb-2">{value.title}</h3>
+                          <p className="text-muted-foreground text-sm leading-relaxed">{value.description}</p>
+                      </Card>
                   ))}
               </div>
           </div>
