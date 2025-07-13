@@ -132,15 +132,15 @@ export function Footer() {
         <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center px-4 sm:px-6 lg:px-8 text-sm text-white/80 gap-4 py-2">
           <p className="text-center sm:text-left">&copy; {new Date().getFullYear()} Gorilla Tech Solutions. All rights reserved.</p>
           <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2">
-            <Link href="#" className="hover:underline flex items-center gap-2 px-3 py-1 rounded-md" style={{ backgroundColor: '#f2f5f7', color: 'black' }}>
+            <div className="flex items-center gap-2 px-3 py-1 rounded-md" style={{ backgroundColor: '#f2f5f7', color: 'black' }}>
                 <Image src="https://placehold.co/20x20.png" alt="Meta Business" width={20} height={20} data-ai-hint="logo" />
                 <span>Meta Business</span>
-            </Link>
-            <Link href="#" className="hover:underline flex items-center gap-2 px-3 py-1 rounded-md text-black" style={{ backgroundColor: '#f0f4f6' }}>
+            </div>
+            <div className="flex items-center gap-2 px-3 py-1 rounded-md text-black" style={{ backgroundColor: '#f0f4f6' }}>
                 <Image src="https://placehold.co/20x20.png" alt="AWS Startup" width={24} height={24} data-ai-hint="logo" />
                 <span>AWS Startup</span>
-            </Link>
-            <Link href="#" className="hover:underline px-3 py-1 rounded-md text-black" style={{ backgroundColor: '#f0f4f6' }}>ISO 9001:2015</Link>
+            </div>
+            <div className="px-3 py-1 rounded-md text-black" style={{ backgroundColor: '#f0f4f6' }}>ISO 9001:2015</div>
           </div>
         </div>
       </div>
