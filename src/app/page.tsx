@@ -1,8 +1,40 @@
 
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Search, ListChecks, Rocket, CheckCircle, Percent } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+
+const processSteps = [
+    {
+        icon: <Search className="h-10 w-10 text-accent" />,
+        title: 'Discovery',
+        description: 'We start by understanding your business, goals, and target audience to lay the groundwork for a successful strategy.'
+    },
+    {
+        icon: <ListChecks className="h-10 w-10 text-accent" />,
+        title: 'Planning',
+        description: 'Our team crafts a detailed, data-driven plan, outlining the key strategies and milestones for your project.'
+    },
+    {
+        icon: <Rocket className="h-10 w-10 text-accent" />,
+        title: 'Execution',
+        description: 'We launch your campaigns, continuously optimizing for performance and delivering measurable results.'
+    }
+];
+
+const stats = [
+    { value: 98, label: 'On-Time Delivery', description: 'of projects delivered on schedule' },
+    { value: 99, label: 'Client Satisfaction', description: 'Based on 500+ completed projects' },
+    { value: 97, label: 'Goal Achievement', description: 'Projects meet or exceed expectations' }
+];
+
+const benefits = [
+    'Clear Communication',
+    'Regular Updates',
+    'Quality Assurance',
+    '24/7 Support'
+];
 
 export default function Home() {
   return (
@@ -40,6 +72,61 @@ export default function Home() {
               priority={true}
             />
           </div>
+        </div>
+      </section>
+
+      {/* Our Proven Process Section */}
+      <section className="w-full py-16 md:py-24 bg-background">
+        <div className="container mx-auto px-4">
+          <header className="text-center mb-12">
+            <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">Our Proven Process</h2>
+            <p className="mt-3 text-lg text-muted-foreground max-w-2xl mx-auto">We follow a strategic and transparent process to ensure every project is a success.</p>
+          </header>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            {processSteps.map((step) => (
+              <Card key={step.title} className="flex flex-col text-center items-center bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 p-6">
+                <div className="p-4 bg-accent/10 rounded-full mb-4">
+                  {step.icon}
+                </div>
+                <CardHeader className="p-0">
+                  <CardTitle className="font-headline text-xl mb-2">{step.title}</CardTitle>
+                </CardHeader>
+                <CardContent className="p-0 flex-1">
+                  <p className="text-muted-foreground leading-relaxed">{step.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <Card className="bg-secondary/30 p-8 md:p-12 rounded-lg">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h3 className="font-headline text-2xl md:text-3xl font-bold text-primary mb-6">Why Our Process Works</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+                        {stats.map(stat => (
+                            <div key={stat.label} className="text-center">
+                                <div className="relative text-5xl font-bold font-headline text-accent">
+                                    {stat.value}<span className="text-3xl">%</span>
+                                </div>
+                                <p className="font-semibold mt-2">{stat.label}</p>
+                                <p className="text-sm text-muted-foreground">{stat.description}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <div>
+                    <ul className="space-y-4">
+                        {benefits.map(benefit => (
+                            <li key={benefit} className="flex items-center gap-3">
+                                <CheckCircle className="h-6 w-6 text-green-500 shrink-0" />
+                                <span className="text-lg text-foreground">{benefit}</span>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+          </Card>
         </div>
       </section>
     </div>
