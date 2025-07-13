@@ -76,17 +76,33 @@ export default function AboutPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-24 bg-primary text-primary-foreground">
-          <div className="container mx-auto px-4 text-center">
-              <h2 className="font-headline text-3xl md:text-4xl font-bold">Ready to Elevate Your Brand?</h2>
-              <p className="mt-4 text-lg max-w-2xl mx-auto text-primary-foreground/80">
-                  Let's discuss how our digital marketing expertise can help you achieve your business goals. Your journey to digital excellence starts with a single click.
-              </p>
-              <Button asChild size="lg" className="mt-8 bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transition-transform transform hover:scale-105">
-                  <Link href="/contact">
-                  Get in Touch <ArrowRight className="ml-2 h-5 w-5" />
-                  </Link>
-              </Button>
+      <section className="py-16 md:py-24 bg-secondary/30">
+          <div className="container mx-auto px-4">
+              <Card className="overflow-hidden shadow-xl">
+                  <div className="grid grid-cols-1 md:grid-cols-2 items-center">
+                      <div className="p-8 md:p-12 order-2 md:order-1">
+                          <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">Ready to Elevate Your Brand?</h2>
+                          <p className="mt-4 text-muted-foreground">
+                              Let's discuss how our digital marketing expertise can help you achieve your business goals. Your journey to digital excellence starts here.
+                          </p>
+                          <Button asChild size="lg" className="mt-6">
+                              <Link href="/contact">
+                                  Get in Touch <ArrowRight className="ml-2 h-5 w-5" />
+                              </Link>
+                          </Button>
+                      </div>
+                       <div className="relative h-64 md:h-full w-full order-1 md:order-2">
+                          <Image
+                              src="https://placehold.co/600x500.png"
+                              alt="A single leaf representing growth"
+                              layout="fill"
+                              objectFit="cover"
+                              data-ai-hint="growth business"
+                              className="object-center"
+                          />
+                      </div>
+                  </div>
+              </Card>
           </div>
       </section>
     </div>
