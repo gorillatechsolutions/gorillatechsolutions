@@ -58,35 +58,35 @@ export function Footer() {
 
         {/* Column 2: Links */}
         <div className="lg:text-center">
-          <h3 className="font-headline font-semibold mb-4">Quick Links</h3>
+          <h3 className="font-headline font-semibold mb-4" style={{ color: '#383838' }}>Quick Links</h3>
           <ul className="flex flex-col items-start lg:items-center space-y-2">
             <li className='flex flex-wrap items-center justify-center'>
                 {footerLinks.company.map((link, index) => (
                   <div key={link.name} className="flex items-center">
-                    <Link href={link.href} className="text-sm text-muted-foreground hover:text-primary whitespace-nowrap px-2">
+                    <Link href={link.href} className="text-sm hover:text-primary whitespace-nowrap px-2" style={{ color: '#383838' }}>
                       {link.name}
                     </Link>
-                    {index < footerLinks.company.length - 1 && <span className="text-muted-foreground">&bull;</span>}
+                    {index < footerLinks.company.length - 1 && <span style={{ color: '#383838' }}>&bull;</span>}
                   </div>
                 ))}
             </li>
             <li className='flex flex-wrap items-center justify-center'>
                 {footerLinks.about.map((link, index) => (
                     <div key={link.name} className="flex items-center">
-                    <Link href={link.href} className="text-sm text-muted-foreground hover:text-primary whitespace-nowrap px-2">
+                    <Link href={link.href} className="text-sm hover:text-primary whitespace-nowrap px-2" style={{ color: '#383838' }}>
                         {link.name}
                     </Link>
-                    {index < footerLinks.about.length - 1 && <span className="text-muted-foreground">&bull;</span>}
+                    {index < footerLinks.about.length - 1 && <span style={{ color: '#383838' }}>&bull;</span>}
                     </div>
                 ))}
             </li>
             <li className='flex flex-wrap items-center justify-center'>
                 {footerLinks.legal.map((link, index) => (
                     <div key={link.name} className="flex items-center">
-                    <Link href={link.href} className="text-sm text-muted-foreground hover:text-primary whitespace-nowrap px-2">
+                    <Link href={link.href} className="text-sm hover:text-primary whitespace-nowrap px-2" style={{ color: '#383838' }}>
                         {link.name}
                     </Link>
-                    {index < footerLinks.legal.length - 1 && <span className="text-muted-foreground">&bull;</span>}
+                    {index < footerLinks.legal.length - 1 && <span style={{ color: '#383838' }}>&bull;</span>}
                     </div>
                 ))}
             </li>
