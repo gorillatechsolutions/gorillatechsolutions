@@ -91,20 +91,20 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-16">
             {processSteps.map((step) => (
-              <Card key={step.title} className="bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 text-center pt-12 pb-8 px-6 relative">
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                    <div className="bg-background p-1.5 rounded-full ring-4 ring-accent">
-                        <div className="bg-accent/10 p-4 rounded-full">
+              <Card key={step.title} className="bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 relative overflow-visible">
+                <div className="flex flex-col h-full p-6 pt-12">
+                    <div className="absolute -top-6 left-6">
+                        <div className="bg-accent/10 p-4 rounded-full ring-4 ring-background">
                            {step.icon}
                         </div>
                     </div>
+                    <CardHeader className="p-0 mb-2">
+                      <CardTitle className="font-headline text-xl text-primary">{step.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-0 flex-1">
+                      <p className="text-muted-foreground leading-relaxed">{step.description}</p>
+                    </CardContent>
                 </div>
-                <CardHeader className="p-0 mb-2 justify-center">
-                  <CardTitle className="font-headline text-xl text-accent">{step.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="p-0">
-                  <p className="text-muted-foreground leading-relaxed">{step.description}</p>
-                </CardContent>
               </Card>
             ))}
           </div>
