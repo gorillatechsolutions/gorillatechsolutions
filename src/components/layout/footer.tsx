@@ -95,19 +95,19 @@ export function Footer() {
 
         {/* Column 3: Connect With Us */}
         <div className="flex flex-col items-center text-center">
-          <h3 className="font-headline font-semibold mb-4">Connect With Us</h3>
+          <h3 className="font-headline font-semibold mb-4" style={{ color: '#383838' }}>Connect With Us</h3>
           <div className="space-y-2 text-sm flex flex-col items-center">
             <div className="flex items-start gap-3">
-              <MapPin className="h-5 w-5 mt-0.5 text-muted-foreground shrink-0" />
-              <p className="text-muted-foreground">123 Marketing Lane<br/>New York, NY 10001</p>
+              <MapPin className="h-5 w-5 mt-0.5 shrink-0" style={{ color: '#383838' }} />
+              <p style={{ color: '#383838' }}>123 Marketing Lane<br/>New York, NY 10001</p>
             </div>
             <div className="flex items-center gap-3">
-              <Phone className="h-5 w-5 text-muted-foreground shrink-0" />
-              <a href="tel:+1234567890" className="text-muted-foreground hover:text-primary">+1 (234) 567-890</a>
+              <Phone className="h-5 w-5 shrink-0" style={{ color: '#383838' }}/>
+              <a href="tel:+1234567890" className="hover:text-primary" style={{ color: '#383838' }}>+1 (234) 567-890</a>
             </div>
             <div className="flex items-center gap-3">
-              <Mail className="h-5 w-5 text-muted-foreground shrink-0" />
-              <a href="mailto:hello@gorillatech.solutions" className="text-muted-foreground hover:text-primary">hello@gorillatech.solutions</a>
+              <Mail className="h-5 w-5 shrink-0" style={{ color: '#383838' }}/>
+              <a href="mailto:hello@gorillatech.solutions" className="hover:text-primary" style={{ color: '#383838' }}>hello@gorillatech.solutions</a>
             </div>
             <TooltipProvider>
               <Tooltip>
