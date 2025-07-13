@@ -208,9 +208,9 @@ export default function Home() {
       </section>
       
       {/* CTA Section */}
-      <section className="w-full py-12 md:py-16 bg-background">
-          <div className="container mx-auto px-4">
-              <div className="bg-gradient-to-r from-primary to-primary/80 rounded-lg shadow-lg p-8 md:p-12">
+      <section className="w-full bg-background">
+          <div className="bg-gradient-to-r from-primary to-primary/80 p-8 md:p-12">
+              <div className="container mx-auto px-4">
                   <div className="grid md:grid-cols-[1fr_auto] items-center gap-8">
                       <div className="flex items-start gap-6">
                            <div className="hidden sm:block mt-1 p-3 bg-white/20 rounded-full">
