@@ -1,6 +1,6 @@
 
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Search, ListChecks, Rocket, CheckCircle, Percent } from 'lucide-react';
+import { ArrowRight, Search, ListChecks, Rocket, CheckCircle, Percent, Award } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -20,6 +20,11 @@ const processSteps = [
         icon: <Rocket className="h-10 w-10 text-accent" />,
         title: 'Execution',
         description: 'We launch your campaigns, continuously optimizing for performance and delivering measurable results.'
+    },
+    {
+        icon: <Award className="h-10 w-10 text-accent" />,
+        title: 'Review & Launch',
+        description: 'We review the results, provide detailed reports, and successfully launch your project for the world to see.'
     }
 ];
 
@@ -79,11 +84,11 @@ export default function Home() {
       <section className="w-full py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4">
           <header className="text-center mb-12">
-            <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">Our Proven Process</h2>
-            <p className="mt-3 text-lg text-muted-foreground max-w-2xl mx-auto">We follow a strategic and transparent process to ensure every project is a success.</p>
+            <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">From Idea to Reality</h2>
+            <p className="mt-3 text-lg text-muted-foreground max-w-2xl mx-auto">in 4 Simple Steps</p>
           </header>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
             {processSteps.map((step) => (
               <Card key={step.title} className="flex flex-col text-center items-center bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 p-6">
                 <div className="p-4 bg-accent/10 rounded-full mb-4">
