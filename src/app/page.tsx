@@ -1,6 +1,6 @@
 
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Search, ListChecks, Rocket, CheckCircle, Percent, Award, CalendarCheck, Smile, Trophy, Star, Sparkles } from 'lucide-react';
+import { ArrowRight, Search, ListChecks, Rocket, CheckCircle, Award, CalendarCheck, Smile, Trophy, Star, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -148,13 +148,17 @@ export default function Home() {
                             ))}
                         </div>
                     </div>
-                    <div>
-                         <h3 className="font-headline text-2xl md:text-3xl font-bold text-primary mb-8 text-center lg:text-left lg:mt-10">Our Commitment to You</h3>
-                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
+                    <div className="lg:pl-12">
+                         <h3 className="font-headline text-2xl md:text-3xl font-bold text-primary mb-8 text-center lg:text-left">Our Commitment to You</h3>
+                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             {benefits.map(benefit => (
-                                <li key={benefit} className="flex items-center gap-3">
-                                    <CheckCircle className="h-6 w-6 text-green-500 shrink-0" />
-                                    <span className="text-lg text-foreground">{benefit}</span>
+                                <li key={benefit}>
+                                    <Card className="bg-card h-full">
+                                        <CardContent className="p-4 flex items-center gap-3">
+                                            <CheckCircle className="h-6 w-6 text-green-500 shrink-0" />
+                                            <span className="text-base text-foreground font-medium">{benefit}</span>
+                                        </CardContent>
+                                    </Card>
                                 </li>
                             ))}
                         </ul>
