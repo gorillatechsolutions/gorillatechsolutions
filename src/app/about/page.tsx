@@ -13,10 +13,10 @@ export const metadata: Metadata = {
 };
 
 const values = [
-    { icon: <Zap className="h-10 w-10 text-primary" />, title: "Innovation", description: "We constantly explore new technologies and strategies to keep you ahead of the curve." },
-    { icon: <Target className="h-10 w-10 text-primary" />, title: "Results-Driven", description: "Our focus is on delivering measurable results that translate to real business growth." },
-    { icon: <Users className="h-10 w-10 text-primary" />, title: "Client Partnership", description: "We work as an extension of your team, fostering open communication and true collaboration." },
-    { icon: <Handshake className="h-10 w-10 text-primary" />, title: "Integrity", description: "We believe in transparency and honesty in all our interactions and campaign reporting." },
+    { icon: <Zap className="h-8 w-8 text-primary" />, title: "Innovation", description: "We constantly explore new technologies and strategies to keep you ahead of the curve." },
+    { icon: <Target className="h-8 w-8 text-primary" />, title: "Results-Driven", description: "Our focus is on delivering measurable results that translate to real business growth." },
+    { icon: <Users className="h-8 w-8 text-primary" />, title: "Client Partnership", description: "We work as an extension of your team, fostering open communication and true collaboration." },
+    { icon: <Handshake className="h-8 w-8 text-primary" />, title: "Integrity", description: "We believe in transparency and honesty in all our interactions and campaign reporting." },
 ];
 
 export default function AboutPage() {
@@ -53,24 +53,20 @@ export default function AboutPage() {
       </section>
 
       {/* Core Values Section */}
-      <section className="py-12 md:py-16 bg-secondary/30">
+      <section className="py-16 md:py-24 bg-secondary/30">
         <div className="container mx-auto px-4">
-          <header className="text-center mb-12">
+          <header className="text-center mb-16">
             <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">The Principles That Guide Us</h2>
             <p className="mt-3 text-lg text-muted-foreground max-w-2xl mx-auto">Our core values are the bedrock of our company culture and client relationships, ensuring we deliver excellence in every project.</p>
           </header>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
             {values.map((value) => (
-              <Card key={value.title} className="bg-card shadow-sm hover:shadow-md transition-shadow duration-300">
-                <CardContent className="p-6 flex items-start gap-6">
-                  <div className="p-3 bg-primary/10 rounded-full">
+              <Card key={value.title} className="bg-card text-center shadow-lg hover:shadow-xl hover:-translate-y-2 transition-transform duration-300 flex flex-col items-center p-8 rounded-xl">
+                <div className="mb-6 p-4 bg-gradient-to-br from-primary/10 to-primary/20 rounded-full">
                     {value.icon}
-                  </div>
-                  <div>
-                    <h3 className="font-headline text-xl font-semibold mb-1 text-primary">{value.title}</h3>
-                    <p className="text-muted-foreground leading-relaxed">{value.description}</p>
-                  </div>
-                </CardContent>
+                </div>
+                <h3 className="font-headline text-xl font-bold mb-2 text-primary">{value.title}</h3>
+                <p className="text-muted-foreground leading-relaxed text-sm">{value.description}</p>
               </Card>
             ))}
           </div>
