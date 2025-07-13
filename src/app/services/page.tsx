@@ -45,40 +45,42 @@ const services = [
 
 export default function ServicesPage() {
   return (
-    <div className="bg-secondary/30">
+    <div className="bg-background">
         <div className="container py-12 md:py-20">
-        <header className="text-center mb-16">
-            <h1 className="font-headline text-4xl md:text-5xl font-bold text-primary">Our Services</h1>
-            <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
-            A comprehensive suite of digital marketing services designed to elevate your brand and accelerate growth.
-            </p>
-        </header>
+            <header className="text-center mb-16">
+                <h1 className="font-headline text-4xl md:text-5xl font-bold text-primary">Our Services</h1>
+                <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
+                    A comprehensive suite of digital marketing services designed to elevate your brand and accelerate growth.
+                </p>
+            </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {services.map((service) => (
-            <Card key={service.title} className="flex flex-col md:flex-row items-start gap-6 p-6 bg-card rounded-lg shadow-sm hover:shadow-lg transition-shadow">
-                <div className="p-3 bg-accent/10 rounded-full flex-shrink-0 mt-1">
-                    {service.icon}
-                </div>
-                <div className="flex-1">
-                    <CardTitle className="font-headline text-xl mb-2">{service.title}</CardTitle>
-                    <CardDescription>{service.description}</CardDescription>
-                </div>
-            </Card>
-            ))}
-        </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {services.map((service) => (
+                    <Card key={service.title} className="flex flex-col text-center items-center bg-card rounded-lg shadow-sm hover:shadow-lg transition-shadow p-6">
+                        <div className="p-4 bg-accent/10 rounded-full mb-4">
+                            {service.icon}
+                        </div>
+                        <CardHeader className="p-0">
+                            <CardTitle className="font-headline text-xl mb-2">{service.title}</CardTitle>
+                        </CardHeader>
+                        <CardContent className="p-0 flex-1">
+                            <CardDescription className="leading-relaxed">{service.description}</CardDescription>
+                        </CardContent>
+                    </Card>
+                ))}
+            </div>
 
-        <div className="mt-16 text-center">
-            <h2 className="font-headline text-3xl font-bold text-primary">Ready to Grow Your Business?</h2>
-            <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
-                Let's discuss how our digital marketing expertise can help you achieve your business goals. Your journey to digital excellence starts here.
-            </p>
-            <Button asChild size="lg" className="mt-8 bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transition-transform transform hover:scale-105">
-                <Link href="/contact">
-                    Get a Free Consultation <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-            </Button>
-        </div>
+            <div className="mt-20 text-center bg-secondary/50 p-10 rounded-lg">
+                <h2 className="font-headline text-3xl font-bold text-primary">Ready to Grow Your Business?</h2>
+                <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
+                    Let's discuss how our digital marketing expertise can help you achieve your business goals. Your journey to digital excellence starts here.
+                </p>
+                <Button asChild size="lg" className="mt-8 bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transition-transform transform hover:scale-105">
+                    <Link href="/contact">
+                        Get a Free Consultation <ArrowRight className="ml-2 h-5 w-5" />
+                    </Link>
+                </Button>
+            </div>
         </div>
     </div>
   );
