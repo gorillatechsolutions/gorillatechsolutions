@@ -30,7 +30,7 @@ const processSteps = [
 
 const stats = [
     { value: 98, label: 'On-Time Delivery', description: 'of projects delivered on schedule' },
-    { value: 99, label: 'Client Satisfaction', description: 'Based on 500+ completed projects' },
+    { value: 99, label: 'ClientSatisfaction', description: 'Based on 500+ completed projects' },
     { value: 97, label: 'Goal Achievement', description: 'Projects meet or exceed expectations' }
 ];
 
@@ -89,18 +89,18 @@ export default function Home() {
             <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">We follow a transparent, proven methodology that ensures your project succeeds. Every step is designed to deliver exceptional results while keeping you informed.</p>
           </header>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-16">
             {processSteps.map((step) => (
-              <Card key={step.title} className="bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 text-center pt-12 pb-8 px-6">
-                <div className="flex justify-center -mt-24 mb-6">
-                    <div className="bg-background p-1.5 rounded-full ring-4 ring-accent/80">
+              <Card key={step.title} className="bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 text-center pt-12 pb-8 px-6 relative">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                    <div className="bg-background p-1.5 rounded-full ring-4 ring-accent">
                         <div className="bg-accent/10 p-4 rounded-full">
                            {step.icon}
                         </div>
                     </div>
                 </div>
                 <CardHeader className="p-0 mb-2 justify-center">
-                  <CardTitle className="font-headline text-xl">{step.title}</CardTitle>
+                  <CardTitle className="font-headline text-xl text-accent">{step.title}</CardTitle>
                 </CardHeader>
                 <CardContent className="p-0">
                   <p className="text-muted-foreground leading-relaxed">{step.description}</p>
