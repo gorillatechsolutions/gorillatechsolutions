@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -33,17 +33,30 @@ type App = {
 
 type AppsListProps = {
   allApps: App[];
+  searchTerm: string;
 };
 
 const ITEMS_PER_PAGE = 12;
 
-export function AppsList({ allApps }: AppsListProps) {
+export function AppsList({ allApps, searchTerm }: AppsListProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const { toast } = useToast();
+  
+  const filteredApps = useMemo(() => {
+    return allApps.filter(app =>
+      app.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      app.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      app.description.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [searchTerm, allApps]);
 
-  const totalPages = Math.ceil(allApps.length / ITEMS_PER_PAGE);
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm]);
+
+  const totalPages = Math.ceil(filteredApps.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const paginatedApps = allApps.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  const paginatedApps = filteredApps.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
@@ -58,13 +71,12 @@ export function AppsList({ allApps }: AppsListProps) {
         await navigator.share({
           title: app.title,
           text: app.description,
-          url: window.location.href, // Or a specific app URL if available
+          url: window.location.href,
         });
       } catch (error) {
         console.log('Error sharing', error);
       }
     } else {
-      // Fallback for browsers that don't support the Web Share API
       try {
           await navigator.clipboard.writeText(`${app.title} - ${app.description}. Find out more at ${window.location.href}`);
           toast({
@@ -187,7 +199,7 @@ export function AppsList({ allApps }: AppsListProps) {
       ) : (
         <div className="text-center py-16">
           <h2 className="text-2xl font-bold font-headline">No applications found.</h2>
-          <p className="mt-2 text-muted-foreground">Check back later for our new apps!</p>
+          <p className="mt-2 text-muted-foreground">Try adjusting your search term.</p>
         </div>
       )}
 

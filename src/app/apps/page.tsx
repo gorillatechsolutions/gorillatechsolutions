@@ -1,15 +1,13 @@
 
-import Image from 'next/image';
-import Link from 'next/link';
+'use client';
+
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Search } from 'lucide-react';
 import type { Metadata } from 'next';
 import { AppsList } from '@/components/apps-list';
-
-export const metadata: Metadata = {
-  title: 'Our Innovative Applications | Gorilla Tech Solutions',
-  description: 'Explore a portfolio of powerful and intuitive applications built by Gorilla Tech Solutions. Discover tools for productivity, marketing, analytics, and more, available on various platforms.',
-};
+import Link from 'next/link';
+import { Input } from '@/components/ui/input';
 
 const apps = [
   {
@@ -203,30 +201,37 @@ const apps = [
 ];
 
 export default function AppsPage() {
+  const [searchTerm, setSearchTerm] = useState('');
+  
   return (
     <div className="w-full bg-background text-foreground">
-      {/* Hero Section */}
-      <section className="bg-secondary/30 py-16 md:py-24">
+      <section className="bg-secondary/30 py-12 md:py-16">
         <div className="container mx-auto px-4 text-center">
           <h1 className="font-headline text-4xl md:text-5xl lg:text-6xl font-bold text-primary">Our Suite of Applications</h1>
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
             Discover powerful, intuitive, and beautifully designed applications to enhance your productivity, streamline workflows, and drive business growth.
           </p>
-          <div className="mt-8 flex justify-center gap-4">
-              <Image src="https://placehold.co/150x50.png" alt="Get it on Google Play" width={150} height={50} data-ai-hint="google play" />
-              <Image src="https://placehold.co/150x50.png" alt="Download on the App Store" width={150} height={50} data-ai-hint="app store" />
+          <div className="mt-8 max-w-xl mx-auto">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <Input
+                type="text"
+                placeholder="Search our apps..."
+                className="pl-10 text-base w-full"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Apps Grid Section */}
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
-            <AppsList allApps={apps} />
+            <AppsList allApps={apps} searchTerm={searchTerm} />
         </div>
       </section>
 
-      {/* CTA Section */}
        <section className="py-16 md:py-24 bg-secondary/30">
           <div className="container mx-auto px-4 text-center">
               <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">Have a Project in Mind?</h2>
