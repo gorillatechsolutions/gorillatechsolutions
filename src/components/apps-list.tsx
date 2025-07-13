@@ -14,6 +14,7 @@ type AppLinks = {
   playStore?: string;
   appStore?: string;
   download?: string;
+  buy?: string;
 };
 
 type App = {
@@ -116,30 +117,37 @@ export function AppsList({ allApps }: AppsListProps) {
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {app.links.playStore && (
-                      <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px] text-xs px-2 h-8">
+                      <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px] text-xs px-2 h-7">
                           <Link href={app.links.playStore} target="_blank" rel="noopener noreferrer" aria-label={`Get ${app.title} on Google Play`}>
                               Play Store
                           </Link>
                       </Button>
                   )}
                   {app.links.appStore && (
-                      <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px] text-xs px-2 h-8">
+                      <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px] text-xs px-2 h-7">
                           <Link href={app.links.appStore} target="_blank" rel="noopener noreferrer" aria-label={`Download ${app.title} on the App Store`}>
                               App Store
                           </Link>
                       </Button>
                   )}
                   {app.links.web && (
-                      <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px] text-xs px-2 h-8">
+                      <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px] text-xs px-2 h-7">
                           <Link href={app.links.web} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${app.title} website`}>
                               Web
                           </Link>
                       </Button>
                   )}
                   {app.links.download && (
-                       <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px] text-xs px-2 h-8">
+                       <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px] text-xs px-2 h-7">
                           <Link href={app.links.download} download aria-label={`Download ${app.title}`}>
                               Download
+                          </Link>
+                      </Button>
+                  )}
+                  {app.links.buy && (
+                       <Button asChild variant="default" size="sm" className="flex-1 min-w-[40px] text-xs px-2 h-7 bg-accent text-accent-foreground hover:bg-accent/90">
+                          <Link href={app.links.buy} aria-label={`Buy ${app.title}`}>
+                              Buy
                           </Link>
                       </Button>
                   )}
