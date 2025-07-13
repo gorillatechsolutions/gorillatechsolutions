@@ -54,25 +54,27 @@ export default function AboutPage() {
 
       {/* Core Values Section */}
       <section className="py-12 md:py-16 bg-secondary/30">
-          <div className="container mx-auto px-4">
-              <header className="text-center mb-12">
-                  <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">The Principles That Guide Us</h2>
-                  <p className="mt-3 text-lg text-muted-foreground max-w-2xl mx-auto">Our core values are the bedrock of our company culture and client relationships, ensuring we deliver excellence in every project.</p>
-              </header>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-                  {values.map((value) => (
-                      <Card key={value.title} className="bg-card rounded-lg shadow-sm hover:shadow-lg transition-shadow p-6 group">
-                         <div className="flex justify-center mb-4">
-                             <div className="p-4 bg-primary/10 rounded-full group-hover:bg-accent/20 transition-colors">
-                                 {value.icon}
-                             </div>
-                         </div>
-                          <h3 className="font-headline text-xl font-semibold mb-2">{value.title}</h3>
-                          <p className="text-muted-foreground text-sm leading-relaxed">{value.description}</p>
-                      </Card>
-                  ))}
-              </div>
+        <div className="container mx-auto px-4">
+          <header className="text-center mb-12">
+            <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">The Principles That Guide Us</h2>
+            <p className="mt-3 text-lg text-muted-foreground max-w-2xl mx-auto">Our core values are the bedrock of our company culture and client relationships, ensuring we deliver excellence in every project.</p>
+          </header>
+          <div className="max-w-4xl mx-auto space-y-6">
+            {values.map((value) => (
+              <Card key={value.title} className="bg-card shadow-sm hover:shadow-md transition-shadow duration-300">
+                <CardContent className="p-6 flex items-start gap-6">
+                  <div className="p-4 bg-primary/10 rounded-full">
+                    {value.icon}
+                  </div>
+                  <div>
+                    <h3 className="font-headline text-xl font-semibold mb-1 text-primary">{value.title}</h3>
+                    <p className="text-muted-foreground leading-relaxed">{value.description}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
+        </div>
       </section>
 
       {/* CTA Section */}
