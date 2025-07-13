@@ -10,6 +10,7 @@ import { Star, ChevronLeft, ChevronRight, Share2, Crown, Gem, KeyRound } from 'l
 import { useToast } from '@/hooks/use-toast';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import type { AppFilter } from '@/app/apps/page';
 
 type AppLinks = {
   web?: string;
@@ -34,25 +35,41 @@ type App = {
 type AppsListProps = {
   allApps: App[];
   searchTerm: string;
+  filter: AppFilter;
 };
 
 const ITEMS_PER_PAGE = 12;
 
-export function AppsList({ allApps, searchTerm }: AppsListProps) {
+export function AppsList({ allApps, searchTerm, filter }: AppsListProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const { toast } = useToast();
   
   const filteredApps = useMemo(() => {
-    return allApps.filter(app =>
-      app.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      app.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      app.description.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }, [searchTerm, allApps]);
+    let apps = allApps;
+
+    if (filter === 'mobile') {
+        apps = apps.filter(app => app.links.playStore || app.links.appStore);
+    } else if (filter === 'web') {
+        apps = apps.filter(app => app.links.web);
+    } else if (filter === 'desktop') {
+        apps = apps.filter(app => app.links.download);
+    }
+
+    if (searchTerm) {
+        apps = apps.filter(app =>
+            app.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            app.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            app.description.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    }
+
+    return apps;
+
+  }, [searchTerm, allApps, filter]);
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchTerm]);
+  }, [searchTerm, filter]);
 
   const totalPages = Math.ceil(filteredApps.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -199,7 +216,7 @@ export function AppsList({ allApps, searchTerm }: AppsListProps) {
       ) : (
         <div className="text-center py-16">
           <h2 className="text-2xl font-bold font-headline">No applications found.</h2>
-          <p className="mt-2 text-muted-foreground">Try adjusting your search term.</p>
+          <p className="mt-2 text-muted-foreground">Try adjusting your search or filter.</p>
         </div>
       )}
 

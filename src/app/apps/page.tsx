@@ -3,10 +3,11 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Search } from 'lucide-react';
+import { ArrowRight, Search, Smartphone, Globe, HardDriveDownload } from 'lucide-react';
 import { AppsList } from '@/components/apps-list';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
 
 const apps = [
   {
@@ -199,8 +200,11 @@ const apps = [
   }
 ];
 
+export type AppFilter = 'all' | 'mobile' | 'web' | 'desktop';
+
 export default function AppsPage() {
   const [searchTerm, setSearchTerm] = useState('');
+  const [filter, setFilter] = useState<AppFilter>('all');
   
   return (
     <div className="w-full bg-background text-foreground">
@@ -221,13 +225,42 @@ export default function AppsPage() {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
+            <div className="mt-4 flex flex-wrap justify-center gap-2">
+                <Button 
+                    variant={filter === 'all' ? 'default' : 'outline'} 
+                    onClick={() => setFilter('all')}
+                >
+                    All Apps
+                </Button>
+                <Button 
+                    variant={filter === 'mobile' ? 'default' : 'outline'} 
+                    onClick={() => setFilter('mobile')}
+                >
+                    <Smartphone className="mr-2 h-4 w-4"/>
+                    Mobile Apps
+                </Button>
+                <Button 
+                    variant={filter === 'web' ? 'default' : 'outline'} 
+                    onClick={() => setFilter('web')}
+                >
+                    <Globe className="mr-2 h-4 w-4"/>
+                    Web Apps
+                </Button>
+                <Button 
+                    variant={filter === 'desktop' ? 'default' : 'outline'} 
+                    onClick={() => setFilter('desktop')}
+                >
+                    <HardDriveDownload className="mr-2 h-4 w-4"/>
+                    Desktop Apps
+                </Button>
+            </div>
           </div>
         </div>
       </section>
 
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
-            <AppsList allApps={apps} searchTerm={searchTerm} />
+            <AppsList allApps={apps} searchTerm={searchTerm} filter={filter} />
         </div>
       </section>
 
