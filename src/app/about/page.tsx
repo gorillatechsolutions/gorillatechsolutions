@@ -76,10 +76,10 @@ export default function AboutPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-24 bg-primary">
+      <section className="py-16 md:py-24 bg-background">
           <div className="container mx-auto px-4 text-center">
-              <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary-foreground">Ready to Elevate Your Brand?</h2>
-              <p className="mt-4 text-primary-foreground/90 max-w-2xl mx-auto">
+              <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">Ready to Elevate Your Brand?</h2>
+              <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
                   Let's discuss how our digital marketing expertise can help you achieve your business goals. Your journey to digital excellence starts here.
               </p>
               <Button asChild size="lg" className="mt-8 bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transition-transform transform hover:scale-105">
