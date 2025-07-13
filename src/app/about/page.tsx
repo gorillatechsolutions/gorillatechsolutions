@@ -59,11 +59,11 @@ export default function AboutPage() {
             <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">The Principles That Guide Us</h2>
             <p className="mt-3 text-lg text-muted-foreground max-w-2xl mx-auto">Our core values are the bedrock of our company culture and client relationships, ensuring we deliver excellence in every project.</p>
           </header>
-          <div className="max-w-4xl mx-auto space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {values.map((value) => (
               <Card key={value.title} className="bg-card shadow-sm hover:shadow-md transition-shadow duration-300">
                 <CardContent className="p-6 flex items-start gap-6">
-                  <div className="p-4 bg-primary/10 rounded-full">
+                  <div className="p-3 bg-primary/10 rounded-full">
                     {value.icon}
                   </div>
                   <div>
