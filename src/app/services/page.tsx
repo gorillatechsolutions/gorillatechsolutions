@@ -54,7 +54,7 @@ export default function ServicesPage() {
                 </p>
             </header>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {services.map((service) => (
                     <Card key={service.title} className="flex flex-col text-center items-center bg-card rounded-lg shadow-sm hover:shadow-lg transition-shadow p-6">
                         <div className="p-4 bg-accent/10 rounded-full mb-4">
