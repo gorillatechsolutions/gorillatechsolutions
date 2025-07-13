@@ -13,6 +13,7 @@ const footerLinks = {
         { name: 'Website Roadmap', href: '/case-study' },
     ],
     about: [
+        { name: 'Reviews', href: '/contact' },
         { name: 'Site Map', href: '/'},
         { name: 'About Us', href: '/about' },
         { name: 'Privacy Policy', href: '/contact' },
