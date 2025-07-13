@@ -153,11 +153,12 @@ export function Footer() {
                 </div>
             </div>
             <div className="flex items-center gap-2 px-3 py-2 rounded-md text-black" style={{ backgroundColor: '#f0f4f6' }}>
+                <Image src="https://placehold.co/24x24.png" alt="ISO 9001:2015" width={24} height={24} data-ai-hint="certificate" />
                 <div className="flex flex-col items-start text-left">
                     <span className="font-semibold text-sm">ISO 9001:2015</span>
                     <div className="flex items-center gap-1">
                         <CheckCircle className="h-3 w-3 text-green-500" />
-                        <span className="text-xs text-muted-foreground">certified</span>
+                        <span className="text-xs text-muted-foreground">Trusted</span>
                     </div>
                 </div>
             </div>
