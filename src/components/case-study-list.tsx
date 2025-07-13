@@ -122,7 +122,7 @@ export function CaseStudyList({ allCaseStudies }: CaseStudyListProps) {
                   <CardContent className="p-6 flex-1 flex flex-col">
                     <div className="flex flex-wrap gap-2 mb-4">
                       {post.tags.map(tag => (
-                        <Badge key={tag} variant="secondary">{tag}</Badge>
+                        <Badge key={tag} variant="secondary" className="text-[11px] px-2 py-0.5 font-normal">{tag}</Badge>
                       ))}
                     </div>
                     <CardTitle className="font-headline text-xl mb-3 leading-tight flex-1">
