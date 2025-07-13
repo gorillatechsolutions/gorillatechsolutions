@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Download, Star, Globe, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -20,6 +20,7 @@ type App = {
   category: string;
   rating: number;
   downloads: string;
+  description: string;
   icon: string;
   dataAiHint: string;
   links: AppLinks;
@@ -32,16 +33,15 @@ type AppsListProps = {
 const ITEMS_PER_PAGE = 12;
 
 const GooglePlayStoreIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
-        <path d="M3.86 2.14a.5.5 0 0 0-.42.23l-1.35 2.45a.5.5 0 0 0 .04.59l8.65 8.65a.5.5 0 0 0 .7 0l8.65-8.65a.5.5 0 0 0 .04-.59L20.56 2.37a.5.5 0 0 0-.42-.23H3.86zM12 15l-4.24-4.24 .88-.88L12 13.2l3.36-3.36.88.88L12 15zM2.14 8.86l-1.7 1.7a.5.5 0 0 0 0 .7l10.85 10.85a.5.5 0 0 0 .7 0l10.85-10.85a.5.5 0 0 0 0-.7l-1.7-1.7L12 18.29 2.14 8.86z"/>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
+        <path d="M21.53,9.13l-1.5-1.5L12,12l8.03,8.03,1.5-1.5-2-3.46,2-3.47ZM2.47,20.87l1.5,1.5,6-6-6-6-1.5,1.5,2,3.47-2,3.46Z" />
     </svg>
 );
 
 
 const IosAppStoreIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
-        <path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06Z"/>
-        <path d="M10 2c1 .5 2 2 2 5"/>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
+        <path d="M17.6,3.4A4.6,4.6,0,0,0,12,5.7,4.6,4.6,0,0,0,6.4,3.4,4.5,4.5,0,0,0,2,7.9c0,4.4,2.8,8.8,5.9,11.5a13.3,13.3,0,0,0,4.1,2.6,13.3,13.3,0,0,0,4.1-2.6C19.2,16.7,22,12.3,22,7.9A4.5,4.5,0,0,0,17.6,3.4ZM12,18.8a1.9,1.9,0,0,1-1.2-.4,1.9,1.9,0,0,1-1.2.4,1.8,1.8,0,0,1-1.8-1.8c0-1.2,1-2.2,2.2-2.2a2.3,2.3,0,0,1,2.1,2.2A1.8,1.8,0,0,1,12,18.8Z" />
     </svg>
 );
 
@@ -86,7 +86,12 @@ export function AppsList({ allApps }: AppsListProps) {
                       </div>
                   </div>
               </CardHeader>
-              <CardContent className="p-4 pt-0 flex-1 flex flex-col justify-end">
+              <CardContent className="p-4 pt-0 flex-1 flex flex-col justify-between">
+                <div>
+                   <CardDescription className="text-sm mb-4">
+                     {app.description.length > 100 ? `${app.description.substring(0, 100)}...` : app.description}
+                   </CardDescription>
+                </div>
                 <div className="flex flex-wrap gap-2">
                   {app.links.playStore && (
                       <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px]">

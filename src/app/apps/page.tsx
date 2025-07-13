@@ -17,6 +17,7 @@ const apps = [
     category: 'Business',
     rating: 4.8,
     downloads: '1M+',
+    description: 'Monitor your key business metrics in real-time with our powerful analytics dashboard. Visualize data and gain actionable insights.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'analytics chart',
     links: { web: '#' }
@@ -26,6 +27,7 @@ const apps = [
     category: 'Productivity',
     rating: 4.7,
     downloads: '500K+',
+    description: 'Plan, schedule, and publish your social media content across all major platforms from a single, intuitive interface.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'calendar social',
     links: { playStore: '#', appStore: '#' }
@@ -35,6 +37,7 @@ const apps = [
     category: 'Marketing',
     rating: 4.9,
     downloads: '250K+',
+    description: 'Discover high-impact keywords and track your search rankings to dominate the SERPs and drive organic traffic.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'seo keyword',
     links: { web: '#' }
@@ -44,6 +47,7 @@ const apps = [
     category: 'Productivity',
     rating: 4.6,
     downloads: '750K+',
+    description: 'Manage projects, assign tasks, and collaborate with your team to deliver projects on time and within budget.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'project management',
     links: { playStore: '#', appStore: '#', web: '#' }
@@ -53,6 +57,7 @@ const apps = [
     category: 'AI Tools',
     rating: 4.8,
     downloads: '300K+',
+    description: 'Generate high-quality marketing copy, blog posts, and more with our advanced AI-powered writing assistant.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'ai writing',
     links: { web: '#' }
@@ -62,6 +67,7 @@ const apps = [
     category: 'Marketing',
     rating: 4.5,
     downloads: '100K+',
+    description: 'Automate lead capture and qualification on your website with our intelligent chatbot solution. Never miss a lead again.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'robot chat',
     links: { download: '#' }
@@ -71,6 +77,7 @@ const apps = [
     category: 'Business',
     rating: 4.7,
     downloads: '400K+',
+    description: 'Get deep insights into your eCommerce store\'s performance, from sales trends to customer behavior analytics.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'ecommerce analytics',
     links: { playStore: '#', appStore: '#' }
@@ -80,6 +87,7 @@ const apps = [
     category: 'Communication',
     rating: 4.6,
     downloads: '1.2M+',
+    description: 'A unified communication platform for your team, featuring chat, video calls, and file sharing to keep everyone in sync.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'team chat',
     links: { playStore: '#', appStore: '#', web: '#' }
@@ -89,6 +97,7 @@ const apps = [
     category: 'Finance',
     rating: 4.9,
     downloads: '600K+',
+    description: 'Create and send professional invoices in minutes. Track payments and manage your finances effortlessly.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'invoice document',
     links: { download: '#' }
@@ -98,6 +107,7 @@ const apps = [
     category: 'Marketing',
     rating: 4.8,
     downloads: '150K+',
+    description: 'Maximize your return on ad spend with AI-powered campaign optimization and performance tracking.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'digital advertising',
     links: { web: '#' }
@@ -107,6 +117,7 @@ const apps = [
     category: 'Developer Tools',
     rating: 4.9,
     downloads: '800K+',
+    description: 'A powerful snippet manager for developers. Store, organize, and share your code snippets across all your devices.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'code editor',
     links: { download: '#' }
@@ -116,6 +127,7 @@ const apps = [
     category: 'Health & Fitness',
     rating: 4.7,
     downloads: '2M+',
+    description: 'Track your workouts, monitor your progress, and stay motivated on your fitness journey with our all-in-one tracker.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'fitness tracking',
     links: { playStore: '#', appStore: '#' }
@@ -125,6 +137,7 @@ const apps = [
     category: 'Health & Fitness',
     rating: 4.8,
     downloads: '900K+',
+    description: 'Find calm and reduce stress with guided meditations, breathing exercises, and mindfulness practices.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'meditation calm',
     links: { playStore: '#', appStore: '#' }
@@ -134,6 +147,7 @@ const apps = [
     category: 'Finance',
     rating: 4.6,
     downloads: '1.5M+',
+    description: 'Take control of your finances. Track your spending, set budgets, and see where your money is going.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'finance chart',
     links: { playStore: '#', appStore: '#' }
@@ -143,6 +157,7 @@ const apps = [
     category: 'Productivity',
     rating: 4.7,
     downloads: '350K+',
+    description: 'Organize your events from start to finish. Manage guest lists, vendors, schedules, and budgets with ease.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'event calendar',
     links: { web: '#' }
@@ -152,6 +167,7 @@ const apps = [
     category: 'Education',
     rating: 4.8,
     downloads: '1.8M+',
+    description: 'Learn a new language with fun, bite-sized lessons. Practice speaking, reading, listening, and writing.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'language learning',
     links: { playStore: '#', appStore: '#' }
@@ -161,6 +177,7 @@ const apps = [
     category: 'Security',
     rating: 4.9,
     downloads: '1M+',
+    description: 'Keep your passwords, documents, and other sensitive information safe with our encrypted digital vault.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'security vault',
     links: { download: '#', playStore: '#' }
@@ -170,6 +187,7 @@ const apps = [
     category: 'Art & Design',
     rating: 4.7,
     downloads: '650K+',
+    description: 'Unleash your creativity with a powerful digital drawing and painting application. Perfect for artists of all levels.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'digital art',
     links: { web: '#', appStore: '#' }
