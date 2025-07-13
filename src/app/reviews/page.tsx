@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description: 'See what our clients have to say about Gorilla Tech Solutions. Read our reviews and learn how we help businesses achieve their goals.',
 };
 
-const reviews = [
+export const reviews = [
   {
     name: 'Sarah L.',
     company: 'EcoFriendly Goods',
@@ -162,8 +162,8 @@ const StarRating = ({ rating }: { rating: number }) => (
 
 export default function ReviewsPage() {
     const sortedReviews = [...reviews].sort((a, b) => {
-        if ((a as any).pinned && !(b as any).pinned) return -1;
-        if (!(a as any).pinned && (b as any).pinned) return 1;
+        if (a.pinned && !b.pinned) return -1;
+        if (!a.pinned && b.pinned) return 1;
         return 0;
     });
 
@@ -183,7 +183,7 @@ export default function ReviewsPage() {
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {sortedReviews.map((review: any, index: number) => (
+            {sortedReviews.map((review, index) => (
               <Card key={index} className={cn("flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 relative", review.pinned && "border-primary/50 ring-2 ring-primary/20")}>
                 {review.pinned && (
                     <div className="absolute top-3 right-3 bg-primary text-primary-foreground p-1.5 rounded-full z-10">
