@@ -64,7 +64,7 @@ export function Header() {
              <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-                         <div className="h-10 w-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-xl">
+                         <div className="h-10 w-10 rounded-full bg-muted text-accent flex items-center justify-center font-bold text-xl">
                             G
                         </div>
                     </Button>
