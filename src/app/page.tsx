@@ -149,8 +149,8 @@ export default function Home() {
                         </div>
                     </div>
                     <div>
-                         <h3 className="font-headline text-2xl md:text-3xl font-bold text-primary mb-6 text-center lg:text-left">Our Commitment to You</h3>
-                        <ul className="space-y-4">
+                         <h3 className="font-headline text-2xl md:text-3xl font-bold text-primary mb-8 text-center lg:text-left lg:mt-10">Our Commitment to You</h3>
+                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
                             {benefits.map(benefit => (
                                 <li key={benefit} className="flex items-center gap-3">
                                     <CheckCircle className="h-6 w-6 text-green-500 shrink-0" />
