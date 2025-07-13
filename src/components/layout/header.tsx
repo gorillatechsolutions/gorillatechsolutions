@@ -42,9 +42,6 @@ export function Header() {
               </Link>
             ))}
           </nav>
-           <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
-             <Link href="/contact">Get a Quote</Link>
-           </Button>
         </div>
 
         <div className="md:hidden">
@@ -82,11 +79,6 @@ export function Header() {
                       </Link>
                     ))}
                   </nav>
-                  <div className="mt-auto p-4 border-t">
-                    <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                        <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>Get a Quote</Link>
-                    </Button>
-                  </div>
                 </div>
               </SheetContent>
             </Sheet>
