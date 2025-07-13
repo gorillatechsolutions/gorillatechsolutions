@@ -1,11 +1,10 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Download, Star, ArrowRight, Smartphone, AppStore, Globe } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import type { Metadata } from 'next';
-import { Badge } from '@/components/ui/badge';
+import { AppsList } from '@/components/apps-list';
 
 export const metadata: Metadata = {
   title: 'Our Innovative Applications | Gorilla Tech Solutions',
@@ -177,15 +176,6 @@ const apps = [
   }
 ];
 
-const PlayStoreIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-play"><polygon points="6 3 20 12 6 21 6 3"/></svg>
-);
-
-const AppStoreIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-apple"><path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06Z"/><path d="M10 2c1 .5 2 2 2 5"/></svg>
-);
-
-
 export default function AppsPage() {
   return (
     <div className="w-full bg-background text-foreground">
@@ -206,64 +196,7 @@ export default function AppsPage() {
       {/* Apps Grid Section */}
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {apps.map((app) => (
-              <Card key={app.title} className="flex flex-col overflow-hidden group border-border/80 hover:border-primary/50 hover:shadow-lg transition-all duration-300">
-                <CardHeader className="flex flex-row items-start gap-4 p-4">
-                    <Image
-                        src={app.icon}
-                        alt={`${app.title} icon`}
-                        width={64}
-                        height={64}
-                        className="rounded-xl border"
-                        data-ai-hint={app.dataAiHint}
-                        loading="lazy"
-                    />
-                    <div className="flex-1">
-                        <CardTitle className="font-headline text-lg mb-1">{app.title}</CardTitle>
-                        <p className="text-sm text-muted-foreground">{app.category}</p>
-                        <div className="flex items-center gap-2 mt-1 text-sm text-muted-foreground">
-                            <span>{app.rating}</span>
-                            <Star className="h-4 w-4 text-amber-400 fill-amber-400" />
-                            <span className="text-xs">({app.downloads})</span>
-                        </div>
-                    </div>
-                </CardHeader>
-                <CardContent className="p-4 pt-0 flex-1 flex flex-col justify-end">
-                  <div className="flex flex-wrap gap-2">
-                    {app.links.playStore && (
-                        <Button asChild variant="outline" size="sm" className="flex-1">
-                            <Link href={app.links.playStore} target="_blank" rel="noopener noreferrer">
-                                <PlayStoreIcon />
-                            </Link>
-                        </Button>
-                    )}
-                    {app.links.appStore && (
-                        <Button asChild variant="outline" size="sm" className="flex-1">
-                            <Link href={app.links.appStore} target="_blank" rel="noopener noreferrer">
-                                <AppStoreIcon />
-                            </Link>
-                        </Button>
-                    )}
-                    {app.links.web && (
-                        <Button asChild variant="outline" size="sm" className="flex-1">
-                            <Link href={app.links.web} target="_blank" rel="noopener noreferrer">
-                                <Globe />
-                            </Link>
-                        </Button>
-                    )}
-                    {app.links.download && (
-                         <Button asChild variant="outline" size="sm" className="flex-1">
-                            <Link href={app.links.download} download>
-                                <Download />
-                            </Link>
-                        </Button>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+            <AppsList allApps={apps} />
         </div>
       </section>
 
