@@ -152,13 +152,11 @@ export default function Home() {
                          <h3 className="font-headline text-2xl md:text-3xl font-bold text-primary mb-8 text-center lg:text-left">Our Commitment to You</h3>
                         <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             {benefits.map(benefit => (
-                                <li key={benefit}>
-                                    <Card className="bg-card h-full">
-                                        <CardContent className="p-4 flex items-center gap-3">
-                                            <CheckCircle className="h-6 w-6 text-green-500 shrink-0" />
-                                            <span className="text-base text-foreground font-medium">{benefit}</span>
-                                        </CardContent>
-                                    </Card>
+                                <li key={benefit} className="flex items-start gap-3">
+                                    <div className="flex-shrink-0 mt-1">
+                                        <CheckCircle className="h-6 w-6 text-green-500" />
+                                    </div>
+                                    <span className="text-base text-foreground font-medium">{benefit}</span>
                                 </li>
                             ))}
                         </ul>
