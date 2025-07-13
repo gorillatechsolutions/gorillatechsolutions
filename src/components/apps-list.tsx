@@ -33,19 +33,6 @@ type AppsListProps = {
 
 const ITEMS_PER_PAGE = 12;
 
-const GooglePlayStoreIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
-        <path d="M21.53,9.13l-1.5-1.5L12,12l8.03,8.03,1.5-1.5-2-3.46,2-3.47ZM2.47,20.87l1.5,1.5,6-6-6-6-1.5,1.5,2,3.47-2,3.46Z" />
-    </svg>
-);
-
-const IosAppStoreIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
-      <path d="M19.3,4.31A3.18,3.18,0,0,0,16.24,3a4.34,4.34,0,0,0-4.24,4.45,1,1,0,0,0,1,1,1,1,0,0,0,1-1,2.33,2.33,0,0,1,2.23-2.45,2.1,2.1,0,0,1,2,2.2,2.18,2.18,0,0,1-1.7,2.32,3.45,3.45,0,0,0-3.3,3.4v.1a1,1,0,0,0,1,1h.1a1,1,0,0,0,1-1v-.1a1.44,1.44,0,0,1,1.3-1.4,3.18,3.18,0,0,0,3.18-3.18A3.44,3.44,0,0,0,19.3,4.31ZM12,13.16a3.39,3.39,0,0,0-3.29,2.4,1,1,0,0,0,1,.8H14.3a1,1,0,0,0,1-.8A3.39,3.39,0,0,0,12,13.16Z"/>
-    </svg>
-);
-
-
 export function AppsList({ allApps }: AppsListProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const { toast } = useToast();
@@ -129,30 +116,30 @@ export function AppsList({ allApps }: AppsListProps) {
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {app.links.playStore && (
-                      <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px]">
+                      <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px] text-xs px-2">
                           <Link href={app.links.playStore} target="_blank" rel="noopener noreferrer" aria-label={`Get ${app.title} on Google Play`}>
-                              <GooglePlayStoreIcon />
+                              Play Store
                           </Link>
                       </Button>
                   )}
                   {app.links.appStore && (
-                      <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px]">
+                      <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px] text-xs px-2">
                           <Link href={app.links.appStore} target="_blank" rel="noopener noreferrer" aria-label={`Download ${app.title} on the App Store`}>
-                              <IosAppStoreIcon />
+                              App Store
                           </Link>
                       </Button>
                   )}
                   {app.links.web && (
-                      <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px]">
+                      <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px] text-xs px-2">
                           <Link href={app.links.web} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${app.title} website`}>
-                              <Globe className="h-5 w-5" />
+                              Web
                           </Link>
                       </Button>
                   )}
                   {app.links.download && (
-                       <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px]">
+                       <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px] text-xs px-2">
                           <Link href={app.links.download} download aria-label={`Download ${app.title}`}>
-                              <Download className="h-5 w-5" />
+                              Download
                           </Link>
                       </Button>
                   )}
