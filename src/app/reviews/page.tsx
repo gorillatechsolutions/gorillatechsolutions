@@ -2,10 +2,11 @@
 import type { Metadata } from 'next';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Star } from 'lucide-react';
+import { Star, Pin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = {
   title: 'Client Reviews & Testimonials',
@@ -20,6 +21,7 @@ const reviews = [
     dataAiHint: 'woman portrait',
     rating: 5,
     quote: 'Gorilla Tech Solutions completely transformed our online presence. Their SEO strategy was a game-changer, tripling our organic traffic in just six months. We couldn\'t be happier with the results!',
+    pinned: true,
   },
   {
     name: 'Mark C.',
@@ -75,6 +77,12 @@ const StarRating = ({ rating }: { rating: number }) => (
 );
 
 export default function ReviewsPage() {
+    const sortedReviews = [...reviews].sort((a, b) => {
+        if ((a as any).pinned && !(b as any).pinned) return -1;
+        if (!(a as any).pinned && (b as any).pinned) return 1;
+        return 0;
+    });
+
   return (
     <div className="w-full bg-background text-foreground">
       {/* Hero Section */}
@@ -91,8 +99,13 @@ export default function ReviewsPage() {
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {reviews.map((review, index) => (
-              <Card key={index} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+            {sortedReviews.map((review: any, index: number) => (
+              <Card key={index} className={cn("flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 relative", review.pinned && "border-primary/50 ring-2 ring-primary/20")}>
+                {review.pinned && (
+                    <div className="absolute top-3 right-3 bg-primary text-primary-foreground p-1.5 rounded-full z-10">
+                        <Pin className="h-5 w-5" />
+                    </div>
+                )}
                 <CardHeader className="p-6">
                   <StarRating rating={review.rating} />
                 </CardHeader>
