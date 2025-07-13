@@ -83,28 +83,28 @@ export default function Home() {
       {/* Our Proven Process Section */}
       <section className="w-full py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4">
-          <header className="text-center mb-12">
+          <header className="text-center mb-20">
             <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">From Idea to Reality</h2>
             <h3 className="font-headline text-3xl md:text-4xl font-bold text-primary/80 mt-2">in 4 Simple Steps</h3>
             <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">We follow a transparent, proven methodology that ensures your project succeeds. Every step is designed to deliver exceptional results while keeping you informed.</p>
           </header>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mb-16">
             {processSteps.map((step) => (
-              <Card key={step.title} className="bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 p-6">
-                <div className="flex items-start gap-6">
-                  <div className="p-3 bg-accent/10 rounded-full flex-shrink-0 mt-1">
-                    {step.icon}
-                  </div>
-                  <div className="flex-1">
-                    <CardHeader className="p-0 mb-2">
-                      <CardTitle className="font-headline text-xl">{step.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-0">
-                      <p className="text-muted-foreground leading-relaxed">{step.description}</p>
-                    </CardContent>
-                  </div>
+              <Card key={step.title} className="bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 text-center pt-12 pb-8 px-6">
+                <div className="flex justify-center -mt-24 mb-6">
+                    <div className="bg-background p-1.5 rounded-full ring-4 ring-accent/80">
+                        <div className="bg-accent/10 p-4 rounded-full">
+                           {step.icon}
+                        </div>
+                    </div>
                 </div>
+                <CardHeader className="p-0 mb-2 justify-center">
+                  <CardTitle className="font-headline text-xl">{step.title}</CardTitle>
+                </CardHeader>
+                <CardContent className="p-0">
+                  <p className="text-muted-foreground leading-relaxed">{step.description}</p>
+                </CardContent>
               </Card>
             ))}
           </div>
