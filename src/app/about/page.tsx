@@ -76,17 +76,32 @@ export default function AboutPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-24 border-t border-border bg-gradient-to-r from-primary to-blue-800 text-primary-foreground">
-          <div className="container mx-auto px-4 text-center">
-              <h2 className="font-headline text-3xl md:text-4xl font-bold">Ready to Elevate Your Brand?</h2>
-              <p className="mt-4 text-lg text-primary-foreground/90 max-w-2xl mx-auto">
-                  Let's discuss how our digital marketing expertise can help you achieve your business goals.
-              </p>
-              <Button asChild size="lg" className="mt-8 bg-accent text-accent-foreground hover:bg-white hover:text-accent shadow-lg transition-transform transform hover:scale-105">
-                <Link href="/contact">
-                  Get in Touch <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-              </Button>
+      <section className="py-16 md:py-24 bg-primary">
+          <div className="container mx-auto px-4">
+              <div className="grid md:grid-cols-2 gap-12 items-center bg-primary-foreground text-card-foreground p-8 md:p-12 rounded-xl shadow-2xl">
+                <div className="relative h-64 md:h-full w-full">
+                    <Image 
+                        src="https://placehold.co/600x400.png" 
+                        alt="Digital marketing strategy session" 
+                        layout="fill" 
+                        objectFit="cover" 
+                        className="rounded-lg" 
+                        data-ai-hint="digital marketing"
+                        loading="lazy"
+                    />
+                </div>
+                <div className="flex flex-col items-start text-left">
+                    <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">Ready to Elevate Your Brand?</h2>
+                    <p className="mt-4 text-lg text-muted-foreground">
+                        Let's discuss how our digital marketing expertise can help you achieve your business goals.
+                    </p>
+                    <Button asChild size="lg" className="mt-8 bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transition-transform transform hover:scale-105">
+                        <Link href="/contact">
+                        Get in Touch <ArrowRight className="ml-2 h-5 w-5" />
+                        </Link>
+                    </Button>
+                </div>
+              </div>
           </div>
       </section>
     </div>
