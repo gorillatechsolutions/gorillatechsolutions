@@ -1,21 +1,22 @@
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowRight, CheckCircle } from 'lucide-react';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-    title: 'Digital Marketing Case Studies',
-    description: 'Explore our case studies to see the real-world results we have delivered for clients in SEO, PPC, social media, and more.',
+    title: 'Digital Marketing Case Studies | Gorilla Tech Solutions',
+    description: 'Explore our case studies to see the real-world results we have delivered for clients in SEO, PPC, social media, and content marketing.',
 };
 
 const caseStudies = [
   {
     client: 'EcoFriendly Goods',
     title: 'How We Tripled Organic Traffic for a Sustainable eCommerce Brand',
-    description: 'Our comprehensive SEO and content strategy focused on high-intent keywords and valuable blog content, establishing EcoFriendly Goods as a thought leader in the sustainable products space. The result was a massive influx of qualified organic traffic and a significant boost in online sales.',
+    description: 'Our comprehensive SEO and content strategy focused on high-intent keywords and valuable blog content, establishing EcoFriendly Goods as a thought leader in the sustainable products space.',
     image: 'https://placehold.co/600x450.png',
     dataAiHint: 'ecommerce analytics',
     tags: ['SEO', 'Content Marketing', 'eCommerce'],
@@ -44,7 +45,7 @@ const caseStudies = [
     description: 'Through engaging content, targeted local ads, and proactive community management, we transformed The Corner Cafe\'s social media presence into a vibrant hub for coffee lovers. This translated directly into increased brand awareness and more customers walking through the door.',
     image: 'https://placehold.co/600x450.png',
     dataAiHint: 'cafe interior',
-    tags: ['Social Media', 'Local SEO', 'Community Management'],
+    tags: ['Social Media', 'Local SEO', 'Community'],
     results: [
         '5x growth in social media engagement',
         '200% increase in follower count',
@@ -66,48 +67,50 @@ export default function CaseStudyPage() {
         </div>
       </section>
 
-      {/* Case Studies Sections */}
-      <div className="py-16 md:py-24 space-y-16 md:space-y-24">
-        {caseStudies.map((study, index) => (
-          <section key={study.client} className="container mx-auto px-4">
-            <article className={`grid md:grid-cols-2 gap-8 md:gap-12 items-center ${index % 2 !== 0 ? 'md:grid-flow-col-dense' : ''}`}>
-              <div className={`relative h-80 md:h-96 ${index % 2 !== 0 ? 'md:col-start-2' : ''}`}>
-                <Image
-                  src={study.image}
-                  alt={`Image representing the case study for ${study.client}`}
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded-lg shadow-xl"
-                  data-ai-hint={study.dataAiHint}
-                  loading="lazy"
-                />
-              </div>
-              <div className="flex flex-col justify-center">
-                <p className="text-sm font-semibold text-accent mb-2">{study.client}</p>
-                <h2 className="font-headline text-2xl md:text-3xl font-bold mb-4">{study.title}</h2>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {study.tags.map(tag => (
-                    <Badge key={tag} variant="secondary">{tag}</Badge>
-                  ))}
-                </div>
-                <p className="text-muted-foreground mb-6 leading-relaxed">{study.description}</p>
-                
-                <div className="space-y-4">
-                    <h3 className="font-headline text-lg font-semibold">Key Results:</h3>
-                    <ul className="space-y-3">
+      {/* Case Studies Section */}
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {caseStudies.map((study) => (
+              <Card key={study.client} className="flex flex-col overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
+                <CardHeader className="p-0">
+                  <div className="relative h-56 w-full">
+                    <Image
+                      src={study.image}
+                      alt={`Case study for ${study.client}`}
+                      layout="fill"
+                      objectFit="cover"
+                      data-ai-hint={study.dataAiHint}
+                      loading="lazy"
+                    />
+                  </div>
+                </CardHeader>
+                <CardContent className="p-6 flex-1 flex flex-col">
+                  <p className="text-sm font-semibold text-accent mb-2">{study.client}</p>
+                  <CardTitle className="font-headline text-xl mb-3 leading-tight">{study.title}</CardTitle>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {study.tags.map(tag => (
+                      <Badge key={tag} variant="secondary">{tag}</Badge>
+                    ))}
+                  </div>
+                  <CardDescription className="mb-6 text-sm flex-1">{study.description}</CardDescription>
+                  <div>
+                    <h4 className="font-headline text-md font-semibold mb-3">Key Results:</h4>
+                    <ul className="space-y-2">
                         {study.results.map(result => (
                             <li key={result} className="flex items-start">
-                                <CheckCircle className="h-5 w-5 text-green-500 mr-3 mt-1 flex-shrink-0" />
-                                <span className="text-muted-foreground">{result}</span>
+                                <CheckCircle className="h-5 w-5 text-green-500 mr-2.5 mt-0.5 flex-shrink-0" />
+                                <span className="text-muted-foreground text-sm">{result}</span>
                             </li>
                         ))}
                     </ul>
-                </div>
-              </div>
-            </article>
-          </section>
-        ))}
-      </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
 
        {/* CTA Section */}
        <section className="bg-primary/5 py-16 md:py-24">
