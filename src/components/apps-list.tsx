@@ -97,7 +97,7 @@ export function AppsList({ allApps }: AppsListProps) {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {paginatedApps.map((app) => (
             <Card key={app.title} className="flex flex-col overflow-hidden group border-border/80 hover:border-primary/50 hover:shadow-lg transition-all duration-300">
-              <CardHeader className="flex flex-row items-start gap-4 p-4">
+              <CardHeader className="relative flex flex-row items-start gap-4 p-4">
                   <Image
                       src={app.icon}
                       alt={`${app.title} icon`}
@@ -116,6 +116,10 @@ export function AppsList({ allApps }: AppsListProps) {
                           <span className="text-xs">({app.downloads})</span>
                       </div>
                   </div>
+                   <Button variant="ghost" size="icon" className="absolute top-2 right-2 h-8 w-8" onClick={() => handleShare(app)}>
+                        <Share2 className="h-5 w-5 text-muted-foreground" />
+                        <span className="sr-only">Share {app.title}</span>
+                    </Button>
               </CardHeader>
               <CardContent className="p-4 pt-0 flex-1 flex flex-col justify-between">
                 <div>
@@ -152,10 +156,6 @@ export function AppsList({ allApps }: AppsListProps) {
                           </Link>
                       </Button>
                   )}
-                   <Button variant="outline" size="sm" className="flex-1 min-w-[40px]" onClick={() => handleShare(app)}>
-                        <Share2 className="h-5 w-5" />
-                        <span className="sr-only">Share {app.title}</span>
-                    </Button>
                 </div>
               </CardContent>
             </Card>
