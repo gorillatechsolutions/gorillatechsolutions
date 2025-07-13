@@ -1,6 +1,6 @@
 
 import Link from 'next/link';
-import { Facebook, Instagram, Linkedin, Mail, Phone, MapPin, Github, CheckCircle, BrainCircuit } from 'lucide-react';
+import { Mail, Phone, MapPin, Github, CheckCircle, BrainCircuit } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -37,21 +37,23 @@ export function Footer() {
             Driving growth with data-driven digital marketing strategies that deliver results.
           </p>
           <div className="flex gap-3 mt-2">
-            <Link href="https://facebook.com" target="_blank" aria-label="Facebook" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-facebook text-white"><Facebook className="h-5 w-5" /></Link>
-            <Link href="https://instagram.com" target="_blank" aria-label="Instagram" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-instagram text-white"><Instagram className="h-5 w-5" /></Link>
-            <Link href="https://linkedin.com" target="_blank" aria-label="LinkedIn" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-linkedin text-white"><Linkedin className="h-5 w-5" /></Link>
+            <Link href="https://facebook.com" target="_blank" aria-label="Facebook" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-facebook text-white">
+                <Image src="https://placehold.co/24x24.png" alt="Facebook" width={20} height={20} data-ai-hint="facebook logo" />
+            </Link>
+            <Link href="https://instagram.com" target="_blank" aria-label="Instagram" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-instagram text-white">
+                <Image src="https://placehold.co/24x24.png" alt="Instagram" width={20} height={20} data-ai-hint="instagram logo" />
+            </Link>
+            <Link href="https://linkedin.com" target="_blank" aria-label="LinkedIn" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-linkedin text-white">
+                 <Image src="https://placehold.co/24x24.png" alt="LinkedIn" width={20} height={20} data-ai-hint="linkedin logo" />
+            </Link>
             <Link href="https://wa.me/1234567890" target="_blank" aria-label="WhatsApp" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-whatsapp text-white">
-                <svg
-                    className="h-5 w-5"
-                    fill="currentColor"
-                    viewBox="0 0 24 24">
-                    <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.06 21.94L7.3 20.58C8.75 21.37 10.36 21.82 12.04 21.82C17.5 21.82 21.95 17.37 21.95 11.91C21.95 6.45 17.5 2 12.04 2ZM12.04 20.13C10.56 20.13 9.12 19.71 7.89 18.9L7.52 18.68L4.82 19.4L5.64 16.79L5.41 16.42C4.55 15.04 4.09 13.5 4.09 11.91C4.09 7.55 7.69 4 12.04 4C16.39 4 20 7.55 20 11.91C20 16.27 16.39 20.13 12.04 20.13ZM16.56 14.45C16.31 14.18 15.82 14.04 15.54 13.88C15.27 13.72 14.12 13.16 13.89 13.08C13.66 13 13.49 12.96 13.31 13.24C13.14 13.52 12.68 14.04 12.55 14.2C12.41 14.37 12.28 14.41 12.01 14.29C11.74 14.18 10.97 13.94 10.04 13.11C9.31 12.46 8.79 11.64 8.63 11.36C8.47 11.08 8.59 10.97 8.71 10.85C8.82 10.74 8.95 10.56 9.07 10.42C9.18 10.28 9.22 10.17 9.3 10.03C9.38 9.89 9.34 9.76 9.28 9.64C9.22 9.52 8.77 8.38 8.58 7.93C8.4 7.48 8.21 7.55 8.07 7.55C7.94 7.55 7.77 7.55 7.6 7.55H7.43C7.26 7.55 6.95 7.64 6.69 7.92C6.44 8.2 5.93 8.76 5.93 9.9C5.93 11.04 6.71 12.11 6.85 12.28C6.99 12.45 8.71 14.99 11.2 16.12C13.68 17.26 14.21 16.97 14.71 16.91C15.22 16.84 16.14 16.3 16.35 15.72C16.56 15.14 16.56 14.65 16.48 14.45L16.56 14.45Z" />
-                </svg>
+                 <Image src="https://placehold.co/24x24.png" alt="WhatsApp" width={20} height={20} data-ai-hint="whatsapp logo" />
             </Link>
             <Link href="https://google.com" target="_blank" aria-label="Google Business" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-google text-white">
-              <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M21.35,11.1H12.18V13.83H18.69C18.36,17.64 15.19,19.27 12.19,19.27C8.36,19.27 5,16.25 5,12C5,7.9 8.2,4.73 12.19,4.73C15.29,4.73 17.1,6.7 17.1,6.7L19,4.72C19,4.72 16.56,2 12.19,2C6.42,2 2.03,6.8 2.03,12C2.03,17.05 6.16,22 12.19,22C17.6,22 21.5,18.33 21.5,12.33C21.5,11.76 21.35,11.1 21.35,11.1Z" />
-              </svg>
+                <Image src="https://placehold.co/24x24.png" alt="Google" width={20} height={20} data-ai-hint="google logo" />
+            </Link>
+            <Link href="https://wikipedia.org" target="_blank" aria-label="Wikipedia" className="h-8 w-8 flex items-center justify-center rounded-full bg-black text-white">
+                <Image src="https://placehold.co/24x24.png" alt="Wikipedia" width={20} height={20} data-ai-hint="wikipedia logo" />
             </Link>
           </div>
         </div>
