@@ -43,6 +43,76 @@ const caseStudies = [
     author: 'Alice Johnson',
     date: 'August 02, 2023'
   },
+  {
+    slug: 'healthcare-content-strategy',
+    title: 'Content Strategy for a Dental Clinic: 150% Increase in New Patient Bookings',
+    excerpt: 'We developed a content strategy centered on patient education, resulting in a 150% increase in new patient bookings through organic search and social media.',
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'dental clinic',
+    tags: ['Content Marketing', 'Healthcare', 'SEO'],
+    author: 'Emily White',
+    date: 'July 21, 2023'
+  },
+  {
+    slug: 'financial-services-lead-gen',
+    title: 'Generating High-Quality Leads for a Financial Advisor with LinkedIn Ads',
+    excerpt: 'Our targeted LinkedIn advertising campaign generated a 5X return on ad spend and a steady stream of high-quality leads for a financial advisory firm.',
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'finance meeting',
+    tags: ['PPC', 'Lead Generation', 'Financial Services'],
+    author: 'Michael Brown',
+    date: 'June 10, 2023'
+  },
+  {
+    slug: 'real-estate-local-seo',
+    title: 'Dominating Local Search: How a Real Estate Agency Ranked #1',
+    excerpt: 'A hyper-focused local SEO strategy helped a boutique real estate agency achieve the #1 ranking for "best real estate agent" in their city, leading to record sales.',
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'modern house',
+    tags: ['Local SEO', 'Real Estate', 'Branding'],
+    author: 'Sarah Davis',
+    date: 'May 05, 2023'
+  },
+  {
+    slug: 'tech-startup-product-launch',
+    title: 'Launching a New Tech Product with an Integrated Digital Campaign',
+    excerpt: 'We executed an integrated digital campaign for a new app launch, securing 50,000 downloads in the first month through a mix of PR, influencer marketing, and ads.',
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'mobile app',
+    tags: ['Product Launch', 'Tech', 'Integrated Marketing'],
+    author: 'Chris Green',
+    date: 'April 18, 2023'
+  },
+  {
+    slug: 'non-profit-email-marketing',
+    title: 'Boosting Donations by 200% Through Targeted Email Nurture Sequences',
+    excerpt: 'We revamped a non-profit\'s email marketing strategy, implementing donor segmentation and automated nurture sequences that boosted online donations by 200%.',
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'community event',
+    tags: ['Email Marketing', 'Non-Profit', 'Automation'],
+    author: 'Jessica Miller',
+    date: 'March 22, 2023'
+  },
+  {
+    slug: 'hospitality-social-media-engagement',
+    title: 'Increasing Hotel Bookings by 75% with a Visual Social Media Strategy',
+    excerpt: 'A visually-driven Instagram and Pinterest strategy for a luxury hotel resulted in a 75% increase in direct bookings and a significant lift in brand engagement.',
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'luxury hotel',
+    tags: ['Social Media', 'Hospitality', 'eCommerce'],
+    author: 'David Wilson',
+    date: 'February 14, 2023'
+  },
+  {
+    slug: 'education-ppc-enrollment',
+    title: 'Driving Student Enrollment for an Online Course with Google Ads',
+    excerpt: 'Our optimized Google Ads funnel for an online coding bootcamp lowered the cost per acquisition by 30% and increased student enrollment by 50% semester-over-semester.',
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'online learning',
+    tags: ['PPC', 'Education', 'Lead Generation'],
+    author: 'Laura Taylor',
+    date: 'January 30, 2023'
+  }
 ];
 
 export default function CaseStudyPage() {
@@ -65,7 +135,7 @@ export default function CaseStudyPage() {
             {caseStudies.map((post) => (
               <Card key={post.slug} className="flex flex-col overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
                 <CardHeader className="p-0">
-                  <Link href={`/case-study/${post.slug}`} className="block overflow-hidden">
+                  <Link href={`/case-study/${post.slug}`} className="block overflow-hidden group">
                     <div className="relative h-56 w-full">
                         <Image
                         src={post.image}
