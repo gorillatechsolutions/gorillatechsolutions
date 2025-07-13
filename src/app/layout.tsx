@@ -12,10 +12,6 @@ export const metadata: Metadata = {
     default: 'Gorilla Tech Solutions | Data-Driven Digital Marketing Agency',
   },
   description: 'Gorilla Tech Solutions is a leading digital marketing agency specializing in SEO, PPC, and content strategies to drive measurable growth for your business.',
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-  },
 };
 
 export default function RootLayout({
@@ -25,7 +21,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head />
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </head>
       <body className={cn('min-h-screen bg-background font-body antialiased')}>
         <div className="relative flex min-h-dvh flex-col">
             <Header />
