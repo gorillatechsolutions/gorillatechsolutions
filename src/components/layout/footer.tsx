@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { BotMessageSquare, Facebook, Instagram, Linkedin, Mail, Phone, MapPin, Github } from 'lucide-react';
+import { BotMessageSquare, Facebook, Instagram, Linkedin, Mail, Phone, MapPin, Github, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -132,12 +132,18 @@ export function Footer() {
         <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center px-4 sm:px-6 lg:px-8 text-sm text-white/80 gap-4 py-2">
           <p className="text-center sm:text-left">&copy; {new Date().getFullYear()} Gorilla Tech Solutions. All rights reserved.</p>
           <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2">
-            <div className="flex items-center gap-2 px-3 py-1 rounded-md" style={{ backgroundColor: '#f2f5f7', color: 'black' }}>
-                <Image src="https://placehold.co/20x20.png" alt="Meta Business" width={20} height={20} data-ai-hint="logo" />
-                <span>Meta Business</span>
+            <div className="flex items-center gap-2 px-3 py-2 rounded-md" style={{ backgroundColor: '#f2f5f7', color: 'black' }}>
+                <Image src="https://placehold.co/24x24.png" alt="Meta Business" width={24} height={24} data-ai-hint="logo" />
+                <div className="flex flex-col items-start">
+                    <span className="font-semibold text-sm">Meta Business</span>
+                    <div className="flex items-center gap-1">
+                        <CheckCircle className="h-3 w-3 text-green-500" />
+                        <span className="text-xs text-muted-foreground">Verified Partner</span>
+                    </div>
+                </div>
             </div>
             <div className="flex items-center gap-2 px-3 py-1 rounded-md text-black" style={{ backgroundColor: '#f0f4f6' }}>
-                <Image src="https://placehold.co/20x20.png" alt="AWS Startup" width={24} height={24} data-ai-hint="logo" />
+                <Image src="https://placehold.co/24x24.png" alt="AWS Startup" width={24} height={24} data-ai-hint="logo" />
                 <span>AWS Startup</span>
             </div>
             <div className="px-3 py-1 rounded-md text-black" style={{ backgroundColor: '#f0f4f6' }}>ISO 9001:2015</div>
