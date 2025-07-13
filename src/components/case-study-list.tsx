@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { ArrowRight, CalendarDays, UserCircle, Search, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowRight, CalendarDays, UserCircle, Search, ChevronLeft, ChevronRight, Eye } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -19,6 +19,7 @@ type CaseStudy = {
   tags: string[];
   author: string;
   date: string;
+  views: number;
 };
 
 type CaseStudyListProps = {
@@ -52,6 +53,13 @@ export function CaseStudyList({ allCaseStudies }: CaseStudyListProps) {
       setCurrentPage(newPage);
       window.scrollTo(0, 0);
     }
+  };
+  
+  const formatViews = (views: number) => {
+    if (views >= 1000) {
+      return `${(views / 1000).toFixed(1)}k`;
+    }
+    return views;
   };
 
   return (
@@ -115,10 +123,16 @@ export function CaseStudyList({ allCaseStudies }: CaseStudyListProps) {
                               <UserCircle className="h-4 w-4" />
                               <span>{post.author}</span>
                           </div>
-                          <div className="flex items-center gap-2">
-                              <CalendarDays className="h-4 w-4" />
-                              <span>{post.date}</span>
-                          </div>
+                           <div className="flex items-center gap-4">
+                               <div className="flex items-center gap-2">
+                                  <CalendarDays className="h-4 w-4" />
+                                  <span>{post.date}</span>
+                              </div>
+                              <div className="flex items-center gap-1.5">
+                                <Eye className="h-4 w-4" />
+                                <span>{formatViews(post.views)}</span>
+                              </div>
+                           </div>
                       </div>
                       <Button asChild variant="link" className="p-0 h-auto text-primary">
                           <Link href={`/case-study/${post.slug}`}>

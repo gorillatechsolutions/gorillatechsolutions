@@ -16,7 +16,8 @@ const allCaseStudies = [
     dataAiHint: 'ecommerce analytics',
     tags: ['SEO', 'Content Marketing', 'eCommerce'],
     author: 'Jane Doe',
-    date: 'October 26, 2023'
+    date: 'October 26, 2023',
+    views: 1245
   },
   {
     slug: 'slashing-b2b-saas-cpa',
@@ -26,7 +27,8 @@ const allCaseStudies = [
     dataAiHint: 'tech startup',
     tags: ['PPC', 'CRO', 'B2B SaaS'],
     author: 'John Smith',
-    date: 'September 15, 2023'
+    date: 'September 15, 2023',
+    views: 987
   },
   {
     slug: 'building-community-with-social-media',
@@ -36,7 +38,8 @@ const allCaseStudies = [
     dataAiHint: 'cafe interior',
     tags: ['Social Media', 'Local SEO', 'Community'],
     author: 'Alice Johnson',
-    date: 'August 02, 2023'
+    date: 'August 02, 2023',
+    views: 2103
   },
     {
     slug: 'healthcare-content-strategy',
@@ -46,7 +49,8 @@ const allCaseStudies = [
     dataAiHint: 'dental clinic',
     tags: ['Content Marketing', 'Healthcare', 'SEO'],
     author: 'Emily White',
-    date: 'July 21, 2023'
+    date: 'July 21, 2023',
+    views: 850
   },
   {
     slug: 'financial-services-lead-gen',
@@ -56,7 +60,8 @@ const allCaseStudies = [
     dataAiHint: 'finance meeting',
     tags: ['PPC', 'Lead Generation', 'Financial Services'],
     author: 'Michael Brown',
-    date: 'June 10, 2023'
+    date: 'June 10, 2023',
+    views: 765
   },
   {
     slug: 'real-estate-local-seo',
@@ -66,7 +71,8 @@ const allCaseStudies = [
     dataAiHint: 'modern house',
     tags: ['Local SEO', 'Real Estate', 'Branding'],
     author: 'Sarah Davis',
-    date: 'May 05, 2023'
+    date: 'May 05, 2023',
+    views: 1532
   },
   {
     slug: 'tech-startup-product-launch',
@@ -76,7 +82,8 @@ const allCaseStudies = [
     dataAiHint: 'mobile app',
     tags: ['Product Launch', 'Tech', 'Integrated Marketing'],
     author: 'Chris Green',
-    date: 'April 18, 2023'
+    date: 'April 18, 2023',
+    views: 3400
   },
   {
     slug: 'non-profit-email-marketing',
@@ -86,7 +93,8 @@ const allCaseStudies = [
     dataAiHint: 'community event',
     tags: ['Email Marketing', 'Non-Profit', 'Automation'],
     author: 'Jessica Miller',
-    date: 'March 22, 2023'
+    date: 'March 22, 2023',
+    views: 650
   },
   {
     slug: 'hospitality-social-media-engagement',
@@ -96,7 +104,8 @@ const allCaseStudies = [
     dataAiHint: 'luxury hotel',
     tags: ['Social Media', 'Hospitality', 'eCommerce'],
     author: 'David Wilson',
-    date: 'February 14, 2023'
+    date: 'February 14, 2023',
+    views: 1890
   },
   {
     slug: 'education-ppc-enrollment',
@@ -106,7 +115,8 @@ const allCaseStudies = [
     dataAiHint: 'online learning',
     tags: ['PPC', 'Education', 'Lead Generation'],
     author: 'Laura Taylor',
-    date: 'January 30, 2023'
+    date: 'January 30, 2023',
+    views: 1120
   },
   {
     slug: 'fashion-brand-influencer-marketing',
@@ -116,7 +126,8 @@ const allCaseStudies = [
     dataAiHint: 'fashion model',
     tags: ['Influencer Marketing', 'Fashion', 'Social Media'],
     author: 'Olivia Martinez',
-    date: 'November 5, 2023'
+    date: 'November 5, 2023',
+    views: 2540
   },
   {
     slug: 'local-restaurant-video-campaign',
@@ -126,7 +137,8 @@ const allCaseStudies = [
     dataAiHint: 'gourmet food',
     tags: ['Video Marketing', 'Local Business', 'Social Media'],
     author: 'Daniel Garcia',
-    date: 'December 12, 2023'
+    date: 'December 12, 2023',
+    views: 1380
   },
   {
     slug: 'legal-firm-seo-authority',
@@ -136,7 +148,8 @@ const allCaseStudies = [
     dataAiHint: 'law library',
     tags: ['SEO', 'Legal', 'Content Marketing'],
     author: 'Sophia Rodriguez',
-    date: 'January 20, 2024'
+    date: 'January 20, 2024',
+    views: 920
   },
   {
     slug: 'automotive-ppc-optimization',
@@ -146,7 +159,8 @@ const allCaseStudies = [
     dataAiHint: 'luxury car',
     tags: ['PPC', 'Automotive', 'Lead Generation'],
     author: 'Liam Hernandez',
-    date: 'February 28, 2024'
+    date: 'February 28, 2024',
+    views: 1050
   },
   {
     slug: 'travel-agency-content-revamp',
@@ -156,7 +170,8 @@ const allCaseStudies = [
     dataAiHint: 'tropical beach',
     tags: ['Content Marketing', 'Travel', 'SEO'],
     author: 'Ava King',
-    date: 'March 19, 2024'
+    date: 'March 19, 2024',
+    views: 1780
   },
   {
     slug: 'pet-supply-ecommerce-cro',
@@ -166,7 +181,8 @@ const allCaseStudies = [
     dataAiHint: 'happy dog',
     tags: ['CRO', 'eCommerce', 'UX'],
     author: 'Noah Lee',
-    date: 'April 09, 2024'
+    date: 'April 09, 2024',
+    views: 990
   },
   {
     slug: 'manufacturing-b2b-lead-magnet',
@@ -176,7 +192,8 @@ const allCaseStudies = [
     dataAiHint: 'factory machinery',
     tags: ['B2B', 'Lead Generation', 'Content Marketing'],
     author: 'Isabella Scott',
-    date: 'May 01, 2024'
+    date: 'May 01, 2024',
+    views: 810
   },
   {
     slug: 'fitness-app-social-ads',
@@ -186,7 +203,8 @@ const allCaseStudies = [
     dataAiHint: 'fitness workout',
     tags: ['Social Media', 'Mobile App', 'PPC'],
     author: 'James Green',
-    date: 'June 25, 2024'
+    date: 'June 25, 2024',
+    views: 4500
   }
 ];
 
