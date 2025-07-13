@@ -102,18 +102,19 @@ export function AppsList({ allApps }: AppsListProps) {
             const badgeContent = app.badge ? getBadgeContent(app.badge) : null;
             return (
                 <Card key={app.title} className="flex flex-col overflow-hidden group border-border/80 hover:border-primary/50 hover:shadow-lg transition-all duration-300">
-                <CardHeader className="relative flex flex-row items-start gap-4 p-4 pb-2">
-                    {badgeContent && (
-                        <Badge className={cn("absolute top-2 left-2 z-10 text-xs px-2 py-1", badgeContent.className)}>
-                            {badgeContent.icon}
-                            {badgeContent.text}
-                        </Badge>
-                    )}
-                    <Button variant="ghost" size="icon" className="absolute top-2 right-2 h-8 w-8 z-10" onClick={() => handleShare(app)}>
-                        <Share2 className="h-5 w-5 text-muted-foreground" />
-                        <span className="sr-only">Share {app.title}</span>
-                    </Button>
-                    <div className="w-full mt-8">
+                    <CardHeader className="flex flex-col p-4 pb-2">
+                        <div className="relative h-8 mb-2">
+                            {badgeContent && (
+                                <Badge className={cn("absolute top-0 left-0 z-10 text-xs px-2 py-1", badgeContent.className)}>
+                                    {badgeContent.icon}
+                                    {badgeContent.text}
+                                </Badge>
+                            )}
+                            <Button variant="ghost" size="icon" className="absolute top-0 right-0 h-8 w-8 z-10" onClick={() => handleShare(app)}>
+                                <Share2 className="h-5 w-5 text-muted-foreground" />
+                                <span className="sr-only">Share {app.title}</span>
+                            </Button>
+                        </div>
                         <div className="flex items-start gap-4">
                             <Image
                                 src={app.icon}
@@ -134,8 +135,7 @@ export function AppsList({ allApps }: AppsListProps) {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </CardHeader>
+                    </CardHeader>
                 <CardContent className="p-4 pt-2 flex-1 flex flex-col justify-between">
                     <div>
                     <CardDescription className="text-sm mb-4">
