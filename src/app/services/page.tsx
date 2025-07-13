@@ -1,5 +1,5 @@
 
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Search, MousePointerClick, Share2, FileText, Mail, BarChart3, ArrowRight } from 'lucide-react';
 import type { Metadata } from 'next';
 import { Button } from '@/components/ui/button';
@@ -14,32 +14,44 @@ const services = [
   {
     icon: <Search className="h-14 w-14 text-accent-foreground" />,
     title: 'Search Engine Optimization (SEO)',
-    description: 'Boost your organic visibility and climb the search rankings. We use proven strategies to drive qualified traffic to your website.'
+    description: 'Boost your organic visibility and climb the search rankings. We use proven strategies to drive qualified traffic to your website.',
+    contactHref: '/contact',
+    detailsHref: '/case-study/tripled-organic-traffic-ecommerce',
   },
   {
     icon: <MousePointerClick className="h-14 w-14 text-accent-foreground" />,
     title: 'Pay-Per-Click (PPC) Advertising',
-    description: 'Get immediate results with targeted ad campaigns on Google, Bing, and social platforms. Maximize your ROI with our expert management.'
+    description: 'Get immediate results with targeted ad campaigns on Google, Bing, and social platforms. Maximize your ROI with our expert management.',
+    contactHref: '/contact',
+    detailsHref: '/case-study/slashing-b2b-saas-cpa',
   },
   {
     icon: <Share2 className="h-14 w-14 text-accent-foreground" />,
     title: 'Social Media Marketing',
-    description: 'Engage your audience and build a loyal community. We create and manage social media campaigns that resonate with your customers.'
+    description: 'Engage your audience and build a loyal community. We create and manage social media campaigns that resonate with your customers.',
+    contactHref: '/contact',
+    detailsHref: '/case-study/building-community-with-social-media',
   },
   {
     icon: <FileText className="h-14 w-14 text-accent-foreground" />,
     title: 'Content Creation & Marketing',
-    description: 'From compelling blog posts to captivating videos, we produce high-quality content that tells your story and drives engagement.'
+    description: 'From compelling blog posts to captivating videos, we produce high-quality content that tells your story and drives engagement.',
+    contactHref: '/contact',
+    detailsHref: '/case-study/healthcare-content-strategy',
   },
   {
     icon: <Mail className="h-14 w-14 text-accent-foreground" />,
     title: 'Email Marketing & Automation',
-    description: 'Nurture leads and retain customers with personalized email campaigns. We design, write, and manage emails that convert.'
+    description: 'Nurture leads and retain customers with personalized email campaigns. We design, write, and manage emails that convert.',
+    contactHref: '/contact',
+    detailsHref: '/case-study/non-profit-email-marketing',
   },
   {
     icon: <BarChart3 className="h-14 w-14 text-accent-foreground" />,
     title: 'Analytics & Performance Reporting',
-    description: 'Understand what\'s working and what\'s not. We provide clear, actionable reports to guide your marketing decisions.'
+    description: 'Understand what\'s working and what\'s not. We provide clear, actionable reports to guide your marketing decisions.',
+    contactHref: '/contact',
+    detailsHref: '/case-study',
   }
 ];
 
@@ -56,8 +68,8 @@ export default function ServicesPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-10">
                 {services.map((service) => (
-                    <Card key={service.title} className="bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 relative overflow-visible">
-                        <div className="flex flex-col h-full p-6 pt-12">
+                    <Card key={service.title} className="bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 relative overflow-visible flex flex-col">
+                        <div className="flex flex-col h-full p-6 pt-12 flex-1">
                              <div className="absolute -top-10 left-6">
                                 <div className="bg-accent p-4 rounded-full ring-8 ring-background">
                                    {service.icon}
@@ -70,6 +82,20 @@ export default function ServicesPage() {
                                 <CardDescription className="leading-relaxed">{service.description}</CardDescription>
                             </CardContent>
                         </div>
+                        {(service.contactHref || service.detailsHref) && (
+                            <CardFooter className="p-6 pt-4 flex gap-4">
+                                {service.contactHref && (
+                                    <Button asChild size="sm" className="flex-1">
+                                        <Link href={service.contactHref}>Contact Us</Link>
+                                    </Button>
+                                )}
+                                {service.detailsHref && (
+                                    <Button asChild variant="outline" size="sm" className="flex-1">
+                                        <Link href={service.detailsHref}>Read Details</Link>
+                                    </Button>
+                                )}
+                            </CardFooter>
+                        )}
                     </Card>
                 ))}
             </div>
