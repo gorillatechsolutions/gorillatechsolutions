@@ -26,8 +26,8 @@ const footerLinks = {
 
 export function Footer() {
   return (
-    <footer className="w-full border-t bg-card text-card-foreground">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 sm:px-6 lg:px-8 py-12">
+    <footer className="w-full border-t text-card-foreground">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 sm:px-6 lg:px-8 py-12" style={{ backgroundColor: '#dedede' }}>
         {/* Column 1: Logo and About */}
         <div className="flex flex-col gap-4 items-start">
           <Link href="/" className="flex items-center">
@@ -137,7 +137,7 @@ export function Footer() {
                     <span className="font-semibold text-sm" style={{ color: '#0081FB' }}>Meta Business</span>
                     <div className="flex items-center gap-1">
                         <CheckCircle className="h-3 w-3 text-green-500" />
-                        <span className="text-xs text-lime-500">Verified Partner</span>
+                        <span className="text-xs" style={{ color: 'limegreen' }}>Verified Partner</span>
                     </div>
                 </div>
             </div>
@@ -150,7 +150,7 @@ export function Footer() {
                     </div>
                     <div className="flex items-center gap-1">
                         <CheckCircle className="h-3 w-3 text-green-500" />
-                        <span className="text-xs text-lime-500">Verified Partner</span>
+                        <span className="text-xs" style={{ color: 'limegreen' }}>Verified Partner</span>
                     </div>
                 </div>
             </div>
@@ -160,7 +160,7 @@ export function Footer() {
                     <span className="font-semibold text-sm">ISO 9001:2015</span>
                     <div className="flex items-center gap-1">
                         <CheckCircle className="h-3 w-3 text-green-500" />
-                        <span className="text-xs text-lime-500">Trusted</span>
+                        <span className="text-xs" style={{ color: 'limegreen' }}>Trusted</span>
                     </div>
                 </div>
             </div>
