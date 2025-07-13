@@ -11,7 +11,7 @@ export const NAV_LINKS: NavLink[] = [
   { name: 'Home', href: '/', icon: Home },
   { name: 'About Us', href: '/about', icon: Info },
   { name: 'Our Services', href: '/services', icon: Cog },
-  { name: 'Blog', href: '/blog', icon: BookText },
+  { name: 'Case Studies', href: '/case-study', icon: ClipboardList },
   { name: 'Our Apps', href: '/apps', icon: AppWindow },
   { name: 'Contact Us', href: '/contact', icon: Mail },
 ];
