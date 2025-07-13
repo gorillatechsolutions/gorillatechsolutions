@@ -1,6 +1,6 @@
 
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Search, ListChecks, Rocket, CheckCircle, Percent, Award, CalendarCheck, Smile, Trophy, Star } from 'lucide-react';
+import { ArrowRight, Search, ListChecks, Rocket, CheckCircle, Percent, Award, CalendarCheck, Smile, Trophy, Star, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -344,16 +344,29 @@ export default function Home() {
       
       {/* CTA Section */}
       <section className="w-full py-16 md:py-24 bg-background">
-          <div className="container mx-auto px-4 text-center">
-              <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">Ready to Transform Your Business?</h2>
-              <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
-                  Get started with our cutting-edge digital solutions and take your business to the next level.
-              </p>
-              <Button asChild size="lg" className="mt-8 bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transition-transform transform hover:scale-105">
-                  <Link href="/contact">
-                      Get Started Now
-                  </Link>
-              </Button>
+          <div className="container mx-auto px-4">
+              <div className="bg-gradient-to-r from-primary to-primary/80 rounded-lg shadow-lg p-8 md:p-12">
+                  <div className="grid md:grid-cols-[1fr_auto] items-center gap-8">
+                      <div className="flex items-start gap-6">
+                           <div className="hidden sm:block mt-1 p-3 bg-white/20 rounded-full">
+                                <Sparkles className="h-8 w-8 text-white" />
+                           </div>
+                           <div className="text-white">
+                                <h2 className="font-headline text-3xl md:text-4xl font-bold">Ready to Transform Your Business?</h2>
+                                <p className="mt-2 text-white/90 max-w-2xl">
+                                    Get started with our cutting-edge digital solutions and take your business to the next level.
+                                </p>
+                           </div>
+                      </div>
+                      <div className="flex justify-center md:justify-end">
+                           <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transition-transform transform hover:scale-105 w-full sm:w-auto">
+                              <Link href="/contact">
+                                  Get Started Now
+                              </Link>
+                           </Button>
+                      </div>
+                  </div>
+              </div>
           </div>
       </section>
     </div>
