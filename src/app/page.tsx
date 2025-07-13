@@ -88,7 +88,7 @@ export default function Home() {
               width={600}
               height={400}
               alt="Team discussing digital marketing strategy on a whiteboard"
-              className="mx-auto aspect-video overflow-hidden rounded-xl object-cover"
+              className="mx-auto aspect-square overflow-hidden rounded-full object-cover"
               data-ai-hint="digital marketing"
               priority={true}
             />
@@ -150,12 +150,14 @@ export default function Home() {
                     </div>
                     <div className="lg:pl-12">
                         <h3 className="font-headline text-2xl md:text-3xl font-bold text-primary mb-8 text-center lg:text-left">Our Commitment to You</h3>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             {benefits.map((benefit) => (
-                                <div key={benefit} className="flex items-center gap-3">
-                                    <CheckCircle className="h-6 w-6 text-green-500 flex-shrink-0" />
-                                    <span className="text-base text-foreground font-medium">{benefit}</span>
-                                </div>
+                                <Card key={benefit} className="bg-card/70">
+                                    <CardContent className="flex items-center gap-3 p-4">
+                                        <CheckCircle className="h-6 w-6 text-green-500 flex-shrink-0" />
+                                        <span className="text-base text-foreground font-medium">{benefit}</span>
+                                    </CardContent>
+                                </Card>
                             ))}
                         </div>
                     </div>
