@@ -3,6 +3,7 @@ import { BotMessageSquare, Facebook, Instagram, Linkedin, Mail, Phone, MapPin, G
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import Image from 'next/image';
 
 const footerLinks = {
     company: [
@@ -132,12 +133,7 @@ export function Footer() {
           <p className="text-center sm:text-left">&copy; {new Date().getFullYear()} Gorilla Tech Solutions. All rights reserved.</p>
           <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2">
             <Link href="#" className="hover:underline flex items-center gap-2 px-3 py-1 rounded-md" style={{ backgroundColor: '#f2f5f7', color: 'black' }}>
-                <svg
-                    className="h-5 w-5"
-                    fill="#3083ff"
-                    viewBox="0 0 24 24">
-                    <path d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.988H7.904v-2.89h2.534V9.695c0-2.512 1.493-3.89 3.776-3.89 1.094 0 2.238.195 2.238.195v2.466h-1.26c-1.24 0-1.628.772-1.628 1.562v1.874h2.776l-.443 2.89h-2.333v6.988C18.343 21.128 22 16.991 22 12c0-5.523-4.477-10-10-10Z" />
-                </svg>
+                <Image src="https://placehold.co/20x20.png" alt="Meta Business" width={20} height={20} data-ai-hint="logo" />
                 <span>Meta Business</span>
             </Link>
             <Link href="#" className="hover:underline flex items-center gap-2 px-3 py-1 rounded-md text-black" style={{ backgroundColor: '#f0f4f6' }}>
