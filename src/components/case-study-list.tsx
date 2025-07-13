@@ -123,18 +123,45 @@ export function CaseStudyList({ allCaseStudies }: CaseStudyListProps) {
               {listViewStudies.length > 0 && (
                 <div className="mt-16">
                   <h2 className="text-3xl font-bold font-headline mb-8 text-center">More Case Studies</h2>
-                  <div className="max-w-4xl mx-auto space-y-4">
+                  <div className="max-w-4xl mx-auto space-y-8">
                     {listViewStudies.map((post) => (
-                      <Link key={post.slug} href={`/case-study/${post.slug}`} className="block p-4 rounded-lg border hover:bg-secondary transition-colors">
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-4">
-                                <FileText className="h-6 w-6 text-primary shrink-0"/>
-                                <h3 className="font-headline font-semibold">{post.title}</h3>
+                      <Link key={post.slug} href={`/case-study/${post.slug}`} className="block group">
+                        <Card className="overflow-hidden transition-shadow duration-300 group-hover:shadow-lg">
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div className="p-6 md:col-span-2 flex flex-col">
+                              <div className="flex flex-wrap gap-2 mb-3">
+                                {post.tags.map(tag => (
+                                  <Badge key={tag} variant="secondary">{tag}</Badge>
+                                ))}
+                              </div>
+                              <h3 className="font-headline font-semibold text-xl mb-3 group-hover:text-primary transition-colors">
+                                {post.title}
+                              </h3>
+                              <p className="text-muted-foreground text-sm flex-1 mb-4">{post.excerpt}</p>
+                              <div className="flex items-center justify-between text-sm text-muted-foreground border-t pt-4">
+                                <div className="flex items-center gap-2">
+                                  <UserCircle className="h-4 w-4" />
+                                  <span>{post.author}</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <CalendarDays className="h-4 w-4" />
+                                  <span>{post.date}</span>
+                                </div>
+                              </div>
                             </div>
-                            <Button variant="link" size="sm" className="hidden md:inline-flex">
-                                Read More <ArrowRight className="ml-2 h-4 w-4" />
-                            </Button>
-                        </div>
+                            <div className="relative min-h-[200px] w-full md:min-h-full">
+                              <Image
+                                src={post.image}
+                                alt={post.title}
+                                layout="fill"
+                                objectFit="cover"
+                                className="transition-transform duration-300 group-hover:scale-105"
+                                data-ai-hint={post.dataAiHint}
+                                loading="lazy"
+                              />
+                            </div>
+                          </div>
+                        </Card>
                       </Link>
                     ))}
                   </div>
