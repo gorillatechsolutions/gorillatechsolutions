@@ -64,10 +64,9 @@ export function Header() {
              <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-                        <Avatar className="h-10 w-10">
-                            <AvatarImage src={`https://i.pravatar.cc/150?u=${user.email}`} alt={user.name} />
-                            <AvatarFallback>{user.name.charAt(0).toUpperCase()}</AvatarFallback>
-                        </Avatar>
+                         <div className="h-10 w-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-xl">
+                            G
+                        </div>
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56" align="end" forceMount>
