@@ -56,9 +56,9 @@ export default function ServicesPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-10">
                 {services.map((service) => (
-                    <Card key={service.title} className="bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 relative overflow-visible text-center">
+                    <Card key={service.title} className="bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 relative overflow-visible">
                         <div className="flex flex-col h-full p-6 pt-12">
-                             <div className="absolute -top-8 left-1/2 -translate-x-1/2">
+                             <div className="absolute -top-8 left-6">
                                 <div className="bg-accent p-4 rounded-full ring-8 ring-background">
                                    {service.icon}
                                 </div>
