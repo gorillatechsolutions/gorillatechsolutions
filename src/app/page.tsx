@@ -309,8 +309,8 @@ export default function Home() {
             </p>
           </header>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {pinnedReviews.slice(0, 3).map((review) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {pinnedReviews.slice(0, 4).map((review) => (
               <Card key={review.name} className="flex flex-col bg-card shadow-lg hover:shadow-xl transition-shadow">
                  <CardContent className="p-6 flex-1 flex flex-col">
                   <StarRating rating={review.rating} />
