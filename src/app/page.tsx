@@ -150,12 +150,14 @@ export default function Home() {
                     </div>
                     <div className="lg:pl-12">
                         <h3 className="font-headline text-2xl md:text-3xl font-bold text-primary mb-8 text-center lg:text-left">Our Commitment to You</h3>
-                        <div className="bg-card border border-border/50 rounded-lg p-6 space-y-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             {benefits.map((benefit) => (
-                                <div key={benefit} className="flex items-start gap-3">
-                                    <CheckCircle className="h-6 w-6 text-green-500 flex-shrink-0 mt-0.5" />
-                                    <span className="text-base text-foreground font-medium">{benefit}</span>
-                                </div>
+                                <Card key={benefit} className="bg-card border-border/50 rounded-lg p-4">
+                                    <div className="flex items-center gap-3">
+                                        <CheckCircle className="h-6 w-6 text-green-500 flex-shrink-0" />
+                                        <span className="text-base text-foreground font-medium">{benefit}</span>
+                                    </div>
+                                </Card>
                             ))}
                         </div>
                     </div>
