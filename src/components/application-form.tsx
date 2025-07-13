@@ -133,7 +133,7 @@ export function ApplicationForm() {
           )}
         />
         <Button type="submit" size="lg" className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-          Submit Application <Send className="ml-2 h-4 w-4" />
+          Request My Free Consultation <Send className="ml-2 h-4 w-4" />
         </Button>
       </form>
     </Form>

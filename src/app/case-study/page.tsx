@@ -1,6 +1,12 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: 'Digital Marketing Case Studies',
+    description: 'Explore our case studies to see the real-world results we have delivered for clients in SEO, PPC, social media, and more.',
+};
 
 const caseStudies = [
   {
@@ -33,9 +39,9 @@ export default function CaseStudyPage() {
   return (
     <div className="container py-12 md:py-20">
       <header className="text-center mb-16">
-        <h1 className="font-headline text-4xl md:text-5xl font-bold">Case Studies</h1>
+        <h1 className="font-headline text-4xl md:text-5xl font-bold">Our Success Stories</h1>
         <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
-          Don't just take our word for it. See the results we've delivered for our clients.
+          Don't just take our word for it. See the real-world results we've delivered for our clients.
         </p>
       </header>
 
@@ -43,7 +49,7 @@ export default function CaseStudyPage() {
         {caseStudies.map((study) => (
           <Card key={study.title} className="flex flex-col overflow-hidden group">
             <div className="overflow-hidden">
-                <Image src={study.image} alt={study.title} width={600} height={400} className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300" data-ai-hint={study.dataAiHint} />
+                <Image src={study.image} alt={`Case study for ${study.client}: ${study.title}`} width={600} height={400} className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300" data-ai-hint={study.dataAiHint} />
             </div>
             <CardHeader>
               <p className="text-sm text-accent font-semibold">{study.client}</p>

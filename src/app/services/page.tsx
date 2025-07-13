@@ -1,5 +1,11 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Search, MousePointerClick, Share2, FileText, Mail, BarChart3 } from 'lucide-react';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: 'Our Digital Marketing Services',
+    description: 'We offer a full suite of digital marketing services, including SEO, PPC, social media marketing, content creation, and email marketing to grow your business.',
+};
 
 const services = [
   {
@@ -19,17 +25,17 @@ const services = [
   },
   {
     icon: <FileText className="h-8 w-8 text-accent" />,
-    title: 'Content Creation',
+    title: 'Content Creation & Marketing',
     description: 'From compelling blog posts to captivating videos, we produce high-quality content that tells your story and drives engagement.'
   },
   {
     icon: <Mail className="h-8 w-8 text-accent" />,
-    title: 'Email Marketing',
+    title: 'Email Marketing & Automation',
     description: 'Nurture leads and retain customers with personalized email campaigns. We design, write, and manage emails that convert.'
   },
   {
     icon: <BarChart3 className="h-8 w-8 text-accent" />,
-    title: 'Analytics & Reporting',
+    title: 'Analytics & Performance Reporting',
     description: 'Understand what\'s working and what\'s not. We provide clear, actionable reports to guide your marketing decisions.'
   }
 ];
@@ -38,7 +44,7 @@ export default function ServicesPage() {
   return (
     <div className="container py-12 md:py-20">
       <header className="text-center mb-16">
-        <h1 className="font-headline text-4xl md:text-5xl font-bold">Our Services</h1>
+        <h1 className="font-headline text-4xl md:text-5xl font-bold">Our Digital Marketing Services</h1>
         <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
           We offer a comprehensive suite of digital marketing services tailored to your business needs.
         </p>

@@ -1,11 +1,17 @@
 import { ContactForm } from "@/components/contact-form";
 import { Mail, Phone, MapPin } from "lucide-react";
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: 'Contact Us for Digital Marketing Services',
+    description: 'Get in touch with Gorilla Tech Solutions. Contact us for a free quote or to discuss your project. We are ready to help you grow your business.',
+};
 
 export default function ContactPage() {
     return (
         <div className="container py-12 md:py-20">
             <header className="text-center mb-16">
-                <h1 className="font-headline text-4xl md:text-5xl font-bold">Get In Touch</h1>
+                <h1 className="font-headline text-4xl md:text-5xl font-bold">Contact Us</h1>
                 <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
                     Have a project in mind or just want to say hello? We'd love to hear from you.
                 </p>
@@ -13,7 +19,7 @@ export default function ContactPage() {
 
             <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
                 <div className="space-y-8">
-                    <h2 className="font-headline text-3xl font-bold">Contact Information</h2>
+                    <h2 className="font-headline text-3xl font-bold">Our Contact Information</h2>
                     <div className="flex items-start gap-4">
                         <div className="p-3 bg-accent/10 rounded-full text-accent mt-1">
                             <MapPin className="h-6 w-6" />

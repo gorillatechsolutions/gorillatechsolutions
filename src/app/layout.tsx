@@ -6,8 +6,11 @@ import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 
 export const metadata: Metadata = {
-  title: 'Gorilla Tech Solutions',
-  description: 'Driving growth with data-driven digital marketing strategies.',
+  title: {
+    template: '%s | Gorilla Tech Solutions',
+    default: 'Gorilla Tech Solutions | Data-Driven Digital Marketing Agency',
+  },
+  description: 'Gorilla Tech Solutions is a leading digital marketing agency specializing in SEO, PPC, and content strategies to drive measurable growth for your business.',
 };
 
 export default function RootLayout({
