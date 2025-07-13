@@ -128,14 +128,14 @@ export function Footer() {
           </div>
         </div>
       </div>
-      <div className="border-t py-6" style={{ backgroundColor: '#243878' }}>
+      <div className="border-t py-4" style={{ backgroundColor: '#243878' }}>
         <div className="w-full flex flex-col sm:flex-row justify-between items-center text-sm text-white/80 gap-4 px-4 sm:px-6 lg:px-8">
           <p className="text-center sm:text-left">&copy; {new Date().getFullYear()} Gorilla Tech Solutions. All rights reserved.</p>
           <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2">
             <div className="flex items-center gap-2 px-3 py-2 rounded-md" style={{ backgroundColor: '#f2f5f7', color: 'black' }}>
                 <Image src="https://placehold.co/24x24.png" alt="Meta Business" width={24} height={24} data-ai-hint="logo" />
                 <div className="flex flex-col items-start">
-                    <span className="font-semibold text-sm">Meta Business</span>
+                    <span className="font-semibold text-sm" style={{ color: '#0081FB' }}>Meta Business</span>
                     <div className="flex items-center gap-1">
                         <CheckCircle className="h-3 w-3 text-green-500" />
                         <span className="text-xs text-lime-500">Verified Partner</span>
