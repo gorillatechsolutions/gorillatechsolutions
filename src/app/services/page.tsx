@@ -12,32 +12,32 @@ export const metadata: Metadata = {
 
 const services = [
   {
-    icon: <Search className="h-10 w-10 text-accent-foreground" />,
+    icon: <Search className="h-14 w-14 text-accent-foreground" />,
     title: 'Search Engine Optimization (SEO)',
     description: 'Boost your organic visibility and climb the search rankings. We use proven strategies to drive qualified traffic to your website.'
   },
   {
-    icon: <MousePointerClick className="h-10 w-10 text-accent-foreground" />,
+    icon: <MousePointerClick className="h-14 w-14 text-accent-foreground" />,
     title: 'Pay-Per-Click (PPC) Advertising',
     description: 'Get immediate results with targeted ad campaigns on Google, Bing, and social platforms. Maximize your ROI with our expert management.'
   },
   {
-    icon: <Share2 className="h-10 w-10 text-accent-foreground" />,
+    icon: <Share2 className="h-14 w-14 text-accent-foreground" />,
     title: 'Social Media Marketing',
     description: 'Engage your audience and build a loyal community. We create and manage social media campaigns that resonate with your customers.'
   },
   {
-    icon: <FileText className="h-10 w-10 text-accent-foreground" />,
+    icon: <FileText className="h-14 w-14 text-accent-foreground" />,
     title: 'Content Creation & Marketing',
     description: 'From compelling blog posts to captivating videos, we produce high-quality content that tells your story and drives engagement.'
   },
   {
-    icon: <Mail className="h-10 w-10 text-accent-foreground" />,
+    icon: <Mail className="h-14 w-14 text-accent-foreground" />,
     title: 'Email Marketing & Automation',
     description: 'Nurture leads and retain customers with personalized email campaigns. We design, write, and manage emails that convert.'
   },
   {
-    icon: <BarChart3 className="h-10 w-10 text-accent-foreground" />,
+    icon: <BarChart3 className="h-14 w-14 text-accent-foreground" />,
     title: 'Analytics & Performance Reporting',
     description: 'Understand what\'s working and what\'s not. We provide clear, actionable reports to guide your marketing decisions.'
   }
@@ -58,7 +58,7 @@ export default function ServicesPage() {
                 {services.map((service) => (
                     <Card key={service.title} className="bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 relative overflow-visible">
                         <div className="flex flex-col h-full p-6 pt-12">
-                             <div className="absolute -top-8 left-6">
+                             <div className="absolute -top-10 left-6">
                                 <div className="bg-accent p-4 rounded-full ring-8 ring-background">
                                    {service.icon}
                                 </div>
