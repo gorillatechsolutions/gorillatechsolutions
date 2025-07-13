@@ -4,10 +4,16 @@
 import { useRouter } from 'next/navigation';
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
-type User = {
+export type User = {
     name: string;
     email: string;
     role: 'admin' | 'user';
+    phone?: string;
+    whatsapp?: string;
+    address?: string;
+    zipcode?: string;
+    country?: string;
+    state?: string;
 };
 
 type AuthContextType = {
@@ -24,9 +30,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     useEffect(() => {
         // Check for user in local storage on initial load
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
+        try {
+            const storedUser = localStorage.getItem('user');
+            if (storedUser) {
+                setUser(JSON.parse(storedUser));
+            }
+        } catch (error) {
+            console.error("Failed to parse user from localStorage", error);
+            localStorage.removeItem('user');
         }
     }, []);
 
