@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { BotMessageSquare, Facebook, Instagram, Linkedin, Mail, Phone, MapPin, Github, CheckCircle } from 'lucide-react';
+import { Facebook, Instagram, Linkedin, Mail, Phone, MapPin, Github, CheckCircle, BrainCircuit } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -28,10 +28,9 @@ export function Footer() {
   return (
     <footer className="w-full border-t text-card-foreground">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 sm:px-6 lg:px-8 py-12" style={{ backgroundColor: '#dedede' }}>
-        {/* Column 1: Logo and About */}
         <div className="flex flex-col gap-4 items-start">
           <Link href="/" className="flex items-center">
-            <BotMessageSquare className="h-8 w-8 sm:h-10 sm:w-10 text-primary" />
+            <BrainCircuit className="h-8 w-8 sm:h-10 sm:w-10 text-primary" />
           </Link>
           <p className="text-sm" style={{ color: '#383838' }}>
             Driving growth with data-driven digital marketing strategies that deliver results.
@@ -56,7 +55,6 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Column 2: Links */}
         <div className="lg:text-center">
           <h3 className="font-headline font-semibold mb-4" style={{ color: '#383838' }}>Quick Links</h3>
           <ul className="flex flex-col items-start lg:items-center space-y-2">
@@ -93,7 +91,6 @@ export function Footer() {
           </ul>
         </div>
 
-        {/* Column 3: Connect With Us */}
         <div className="flex flex-col items-center text-center">
           <h3 className="font-headline font-semibold mb-4" style={{ color: '#383838' }}>Connect With Us</h3>
           <div className="space-y-2 text-sm flex flex-col items-center">

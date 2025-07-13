@@ -3,11 +3,13 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import { Menu, X, BotMessageSquare } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 import { NAV_LINKS } from '@/lib/navigation';
+import { BrainCircuit } from 'lucide-react';
+
 
 export function Header() {
   const pathname = usePathname();
@@ -17,7 +19,7 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2 mr-auto">
-          <BotMessageSquare className="h-8 w-8 text-primary" /> 
+          <BrainCircuit className="h-8 w-8 text-primary" /> 
           <span className="text-xl font-bold font-headline text-primary">
             Gorilla Tech Solutions
           </span>
@@ -56,7 +58,7 @@ export function Header() {
                 <div className="flex flex-col h-full">
                     <div className="flex justify-between items-center p-4 border-b">
                         <Link href="/" className="flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
-                            <BotMessageSquare className="h-6 w-6 text-primary" />
+                            <BrainCircuit className="h-6 w-6 text-primary" />
                             <span className="text-lg font-bold font-headline text-primary">Gorilla Tech Solutions</span>
                         </Link>
                         <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(false)}>
