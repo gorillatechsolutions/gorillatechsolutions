@@ -1,10 +1,11 @@
 
 import { ContactForm } from "@/components/contact-form";
-import { Mail, Phone, MapPin, Twitter, Facebook, Instagram, Linkedin } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
 import type { Metadata } from 'next';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Image from "next/image";
 
 export const metadata: Metadata = {
     title: 'Contact Us | Gorilla Tech Solutions',
@@ -32,11 +33,12 @@ const contactDetails = [
 ];
 
 const socialLinks = [
-    { name: 'Facebook', icon: <Facebook className="h-5 w-5" />, href: '#' },
-    { name: 'Twitter', icon: <Twitter className="h-5 w-5" />, href: '#' },
-    { name: 'Instagram', icon: <Instagram className="h-5 w-5" />, href: '#' },
-    { name: 'LinkedIn', icon: <Linkedin className="h-5 w-5" />, href: '#' },
-]
+    { name: 'Facebook', icon: 'https://placehold.co/32x32.png', dataAiHint: "facebook logo", href: '#' },
+    { name: 'Twitter', icon: 'https://placehold.co/32x32.png', dataAiHint: "twitter logo", href: '#' },
+    { name: 'Instagram', icon: 'https://placehold.co/32x32.png', dataAiHint: "instagram logo", href: '#' },
+    { name: 'LinkedIn', icon: 'https://placehold.co/32x32.png', dataAiHint: "linkedin logo", href: '#' },
+];
+
 
 export default function ContactPage() {
     return (
@@ -102,11 +104,22 @@ export default function ContactPage() {
                                 <CardContent>
                                      <div className="flex gap-4">
                                         {socialLinks.map((social) => (
-                                            <Button key={social.name} asChild variant="outline" size="icon" className="h-12 w-12 hover:bg-accent/80 hover:text-accent-foreground transition-colors">
-                                                <Link href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.name}>
-                                                    {social.icon}
-                                                </Link>
-                                            </Button>
+                                            <Link 
+                                                key={social.name} 
+                                                href={social.href} 
+                                                target="_blank" 
+                                                rel="noopener noreferrer" 
+                                                aria-label={social.name} 
+                                                className="h-12 w-12 flex items-center justify-center rounded-full bg-secondary hover:bg-accent/20 transition-colors"
+                                            >
+                                                <Image 
+                                                    src={social.icon} 
+                                                    alt={`${social.name} logo`}
+                                                    width={24} 
+                                                    height={24} 
+                                                    data-ai-hint={social.dataAiHint}
+                                                />
+                                            </Link>
                                         ))}
                                     </div>
                                 </CardContent>
