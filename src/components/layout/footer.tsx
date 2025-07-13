@@ -33,7 +33,7 @@ export function Footer() {
           <Link href="/" className="flex items-center">
             <BotMessageSquare className="h-8 w-8 sm:h-10 sm:w-10 text-primary" />
           </Link>
-          <p className="text-muted-foreground text-sm">
+          <p className="text-sm" style={{ color: '#383838' }}>
             Driving growth with data-driven digital marketing strategies that deliver results.
           </p>
           <div className="flex gap-3 mt-2">
@@ -127,7 +127,7 @@ export function Footer() {
           </div>
         </div>
       </div>
-      <div className="border-t py-4" style={{ backgroundColor: '#243878' }}>
+      <div className="py-4" style={{ backgroundColor: '#243878' }}>
         <div className="w-full flex flex-col sm:flex-row justify-between items-center text-sm text-white/80 gap-4 px-4 sm:px-6 lg:px-8">
           <p className="text-center sm:text-left">&copy; {new Date().getFullYear()} Gorilla Tech Solutions. All rights reserved.</p>
           <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2">
