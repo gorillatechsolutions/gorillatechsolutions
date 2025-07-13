@@ -20,8 +20,6 @@ import Link from "next/link";
 import { useState } from "react";
 import { useAuth } from "@/context/auth-context";
 import { useRouter } from "next/navigation";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Terminal } from "lucide-react";
 
 
 const formSchema = z.object({
@@ -72,16 +70,6 @@ export function LoginForm() {
 
   return (
     <Form {...form}>
-       <Alert className="mb-6 border-accent text-accent">
-            <Terminal className="h-4 w-4 !text-accent" />
-            <AlertTitle>Demo Credentials</AlertTitle>
-            <AlertDescription>
-                <div className="text-xs">
-                <p className="mb-2"><b>Admin User:</b> <br/><code>admin@example.com</code> / <code>password123</code></p>
-                <p><b>Normal User:</b> <br/><code>user@example.com</code> / <code>password123</code></p>
-                </div>
-            </AlertDescription>
-        </Alert>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
