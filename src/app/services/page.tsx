@@ -12,32 +12,32 @@ export const metadata: Metadata = {
 
 const services = [
   {
-    icon: <Search className="h-10 w-10 text-accent" />,
+    icon: <Search className="h-10 w-10 text-accent-foreground" />,
     title: 'Search Engine Optimization (SEO)',
     description: 'Boost your organic visibility and climb the search rankings. We use proven strategies to drive qualified traffic to your website.'
   },
   {
-    icon: <MousePointerClick className="h-10 w-10 text-accent" />,
+    icon: <MousePointerClick className="h-10 w-10 text-accent-foreground" />,
     title: 'Pay-Per-Click (PPC) Advertising',
     description: 'Get immediate results with targeted ad campaigns on Google, Bing, and social platforms. Maximize your ROI with our expert management.'
   },
   {
-    icon: <Share2 className="h-10 w-10 text-accent" />,
+    icon: <Share2 className="h-10 w-10 text-accent-foreground" />,
     title: 'Social Media Marketing',
     description: 'Engage your audience and build a loyal community. We create and manage social media campaigns that resonate with your customers.'
   },
   {
-    icon: <FileText className="h-10 w-10 text-accent" />,
+    icon: <FileText className="h-10 w-10 text-accent-foreground" />,
     title: 'Content Creation & Marketing',
     description: 'From compelling blog posts to captivating videos, we produce high-quality content that tells your story and drives engagement.'
   },
   {
-    icon: <Mail className="h-10 w-10 text-accent" />,
+    icon: <Mail className="h-10 w-10 text-accent-foreground" />,
     title: 'Email Marketing & Automation',
     description: 'Nurture leads and retain customers with personalized email campaigns. We design, write, and manage emails that convert.'
   },
   {
-    icon: <BarChart3 className="h-10 w-10 text-accent" />,
+    icon: <BarChart3 className="h-10 w-10 text-accent-foreground" />,
     title: 'Analytics & Performance Reporting',
     description: 'Understand what\'s working and what\'s not. We provide clear, actionable reports to guide your marketing decisions.'
   }
@@ -54,18 +54,22 @@ export default function ServicesPage() {
                 </p>
             </header>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-10">
                 {services.map((service) => (
-                    <Card key={service.title} className="flex flex-col text-center items-center bg-card rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 p-6">
-                        <div className="p-4 bg-accent/10 rounded-full mb-4">
-                            {service.icon}
+                    <Card key={service.title} className="bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 relative overflow-visible text-center">
+                        <div className="flex flex-col h-full p-6 pt-12">
+                             <div className="absolute -top-8 left-1/2 -translate-x-1/2">
+                                <div className="bg-accent p-4 rounded-full ring-8 ring-background">
+                                   {service.icon}
+                                </div>
+                            </div>
+                            <CardHeader className="p-0 mb-2">
+                                <CardTitle className="font-headline text-xl">{service.title}</CardTitle>
+                            </CardHeader>
+                            <CardContent className="p-0 flex-1">
+                                <CardDescription className="leading-relaxed">{service.description}</CardDescription>
+                            </CardContent>
                         </div>
-                        <CardHeader className="p-0">
-                            <CardTitle className="font-headline text-xl mb-2">{service.title}</CardTitle>
-                        </CardHeader>
-                        <CardContent className="p-0 flex-1">
-                            <CardDescription className="leading-relaxed">{service.description}</CardDescription>
-                        </CardContent>
                     </Card>
                 ))}
             </div>
