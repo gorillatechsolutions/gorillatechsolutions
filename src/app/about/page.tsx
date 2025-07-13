@@ -61,32 +61,27 @@ export default function AboutPage() {
 
       {/* Core Values Section */}
       <section className="py-16 md:py-24 bg-secondary/30">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div className="relative h-80 md:h-[450px]">
-              <Image src="https://placehold.co/600x800.png" alt="Guiding principles abstract art" layout="fill" objectFit="cover" className="rounded-lg shadow-xl" data-ai-hint="abstract compass" loading="lazy" />
-            </div>
-            <div>
-              <header className="mb-8">
+          <div className="container mx-auto px-4">
+              <header className="text-center mb-12">
                   <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">The Principles That Guide Us</h2>
-                  <p className="mt-3 text-lg text-muted-foreground">Our core values are the bedrock of our company culture and client relationships.</p>
+                  <p className="mt-3 text-lg text-muted-foreground max-w-2xl mx-auto">Our core values are the bedrock of our company culture and client relationships, ensuring we deliver excellence in every project.</p>
               </header>
-              <div className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                   {values.map(value => (
-                      <div key={value.title} className="flex items-start gap-4">
-                          <div className="flex-shrink-0 p-3 bg-accent/10 rounded-full">
-                              {value.icon}
-                          </div>
-                          <div>
-                              <h3 className="font-headline text-xl font-semibold">{value.title}</h3>
-                              <p className="text-muted-foreground mt-1">{value.description}</p>
-                          </div>
-                      </div>
+                      <Card key={value.title} className="text-center bg-card hover:shadow-xl transition-shadow">
+                          <CardHeader className="items-center">
+                            <div className="p-4 bg-accent/10 rounded-full inline-flex">
+                                {value.icon}
+                            </div>
+                          </CardHeader>
+                          <CardContent>
+                              <h3 className="font-headline text-xl font-semibold mb-2">{value.title}</h3>
+                              <p className="text-muted-foreground text-sm">{value.description}</p>
+                          </CardContent>
+                      </Card>
                   ))}
               </div>
-            </div>
           </div>
-        </div>
       </section>
 
       {/* Meet The Team Section */}
