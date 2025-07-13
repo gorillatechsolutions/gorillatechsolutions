@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { CheckCircle, Zap, Target, Users, TrendingUp, Handshake, ArrowRight } from 'lucide-react';
+import { Target, TrendingUp, Handshake, ArrowRight, Zap, Users } from 'lucide-react';
 import type { Metadata } from 'next';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
