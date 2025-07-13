@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { reviews as allReviews } from '@/app/reviews/page';
+import { cn } from '@/lib/utils';
 
 const processSteps = [
     {
@@ -63,7 +64,10 @@ export default function Home() {
       <section className="w-full py-12 md:py-24 lg:py-32 flex justify-center" style={{ backgroundColor: '#F1F4F7' }}>
         <div className="w-[95%] grid items-center justify-center gap-8 lg:grid-cols-2 lg:gap-16">
           <div className="flex flex-col items-center justify-center space-y-6 text-center lg:items-start lg:text-left">
-            <h1 className="text-4xl font-extrabold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl font-headline text-foreground">
+            <h1 className={cn(
+              "text-4xl font-extrabold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl font-headline",
+              "animated-gradient-text animate-gradient"
+            )}>
               Elevate Your Digital Marketing
             </h1>
             <p className="mt-6 text-lg text-muted-foreground md:text-xl max-w-[600px]">
@@ -152,12 +156,10 @@ export default function Home() {
                         <h3 className="font-headline text-2xl md:text-3xl font-bold text-primary mb-8 text-center lg:text-left">Our Commitment to You</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             {benefits.map((benefit) => (
-                                <Card key={benefit} className="bg-card/70">
-                                    <CardContent className="flex items-center gap-3 p-4">
-                                        <CheckCircle className="h-6 w-6 text-green-500 flex-shrink-0" />
-                                        <span className="text-base text-foreground font-medium">{benefit}</span>
-                                    </CardContent>
-                                </Card>
+                                <div key={benefit} className="flex items-center gap-3">
+                                    <CheckCircle className="h-6 w-6 text-green-500 flex-shrink-0" />
+                                    <span className="text-base text-foreground font-medium">{benefit}</span>
+                                </div>
                             ))}
                         </div>
                     </div>
