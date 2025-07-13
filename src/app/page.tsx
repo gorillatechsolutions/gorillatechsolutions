@@ -85,7 +85,7 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <header className="text-center mb-12">
             <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">From Idea to Reality</h2>
-            <p className="font-headline text-2xl md:text-3xl font-bold text-primary/80 mt-2">in 4 Simple Steps</p>
+            <h3 className="font-headline text-3xl md:text-4xl font-bold text-primary/80 mt-2">in 4 Simple Steps</h3>
             <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">We follow a transparent, proven methodology that ensures your project succeeds. Every step is designed to deliver exceptional results while keeping you informed.</p>
           </header>
 
