@@ -13,10 +13,10 @@ export const metadata: Metadata = {
 };
 
 const values = [
-    { icon: <Zap className="h-8 w-8 text-primary" />, title: "Innovation", description: "We constantly explore new technologies and strategies to keep you ahead of the curve." },
-    { icon: <Target className="h-8 w-8 text-primary" />, title: "Results-Driven", description: "Our focus is on delivering measurable results that translate to real business growth." },
-    { icon: <Users className="h-8 w-8 text-primary" />, title: "Client Partnership", description: "We work as an extension of your team, fostering open communication and true collaboration." },
-    { icon: <Handshake className="h-8 w-8 text-primary" />, title: "Integrity", description: "We believe in transparency and honesty in all our interactions and campaign reporting." },
+    { icon: <Zap className="h-10 w-10 text-primary" />, title: "Innovation", description: "We constantly explore new technologies and strategies to keep you ahead of the curve, ensuring your business benefits from the latest digital marketing advancements." },
+    { icon: <Target className="h-10 w-10 text-primary" />, title: "Results-Driven", description: "Our focus is on delivering measurable results that translate to real business growth. We track key metrics to ensure our campaigns are effective and impactful." },
+    { icon: <Users className="h-10 w-10 text-primary" />, title: "Client Partnership", description: "We work as an extension of your team, fostering open communication and true collaboration to achieve shared goals and build long-term relationships." },
+    { icon: <Handshake className="h-10 w-10 text-primary" />, title: "Integrity", description: "We believe in transparency and honesty in all our interactions. You'll receive clear, straightforward reporting on all campaign activities and results." },
 ];
 
 export default function AboutPage() {
@@ -59,15 +59,19 @@ export default function AboutPage() {
             <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">The Principles That Guide Us</h2>
             <p className="mt-3 text-lg text-muted-foreground max-w-2xl mx-auto">Our core values are the bedrock of our company culture and client relationships, ensuring we deliver excellence in every project.</p>
           </header>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
-            {values.map((value) => (
-              <Card key={value.title} className="bg-card text-center shadow-lg hover:shadow-xl hover:-translate-y-2 transition-transform duration-300 flex flex-col items-center p-8 rounded-xl">
-                <div className="mb-6 p-4 bg-gradient-to-br from-primary/10 to-primary/20 rounded-full">
-                    {value.icon}
+          <div className="flex flex-col gap-16 max-w-4xl mx-auto">
+            {values.map((value, index) => (
+              <div key={value.title} className={`flex flex-col md:flex-row items-center gap-8 md:gap-12 ${index % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}>
+                <div className="flex-shrink-0">
+                    <div className="p-6 bg-primary/10 rounded-full">
+                        {value.icon}
+                    </div>
                 </div>
-                <h3 className="font-headline text-xl font-bold mb-2 text-primary">{value.title}</h3>
-                <p className="text-muted-foreground leading-relaxed text-sm">{value.description}</p>
-              </Card>
+                <div className={`text-center md:text-left ${index % 2 !== 0 ? 'md:text-right' : ''}`}>
+                    <h3 className="font-headline text-2xl font-bold mb-2 text-primary">{value.title}</h3>
+                    <p className="text-muted-foreground leading-relaxed">{value.description}</p>
+                </div>
+              </div>
             ))}
           </div>
         </div>
