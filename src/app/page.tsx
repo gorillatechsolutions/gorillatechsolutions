@@ -1,6 +1,6 @@
 
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Search, ListChecks, Rocket, CheckCircle, Percent, Award } from 'lucide-react';
+import { ArrowRight, Search, ListChecks, Rocket, CheckCircle, Percent, Award, CalendarCheck, Smile, Trophy } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -29,9 +29,9 @@ const processSteps = [
 ];
 
 const stats = [
-    { value: 98, label: 'On-Time Delivery', description: 'of projects delivered on schedule' },
-    { value: 99, label: 'ClientSatisfaction', description: 'Based on 500+ completed projects' },
-    { value: 97, label: 'Goal Achievement', description: 'Projects meet or exceed expectations' }
+    { icon: <CalendarCheck className="h-8 w-8 text-accent-foreground" />, value: 98, label: 'On-Time Delivery', description: 'of projects delivered on schedule' },
+    { icon: <Smile className="h-8 w-8 text-accent-foreground" />, value: 99, label: 'Client Satisfaction', description: 'Based on 500+ completed projects' },
+    { icon: <Trophy className="h-8 w-8 text-accent-foreground" />, value: 97, label: 'Goal Achievement', description: 'Projects meet or exceed expectations' }
 ];
 
 const benefits = [
@@ -109,34 +109,42 @@ export default function Home() {
             ))}
           </div>
 
-          <Card className="bg-secondary/30 p-8 md:p-12 rounded-lg">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div>
-                    <h3 className="font-headline text-2xl md:text-3xl font-bold text-primary mb-6">Why Our Process Works</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
-                        {stats.map(stat => (
-                            <div key={stat.label} className="text-center">
-                                <div className="relative text-5xl font-bold font-headline text-accent">
-                                    {stat.value}<span className="text-3xl">%</span>
-                                </div>
-                                <p className="font-semibold mt-2">{stat.label}</p>
-                                <p className="text-sm text-muted-foreground">{stat.description}</p>
-                            </div>
-                        ))}
+          <div className="bg-secondary/30 p-8 md:p-12 rounded-lg">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h3 className="font-headline text-2xl md:text-3xl font-bold text-primary mb-12 text-center lg:text-left">Why Our Process Works</h3>
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+                            {stats.map(stat => (
+                                <Card key={stat.label} className="bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 relative overflow-visible text-center pt-8">
+                                    <div className="absolute -top-6 right-6">
+                                        <div className="bg-accent p-3 rounded-full ring-8 ring-secondary/30">
+                                           {stat.icon}
+                                        </div>
+                                    </div>
+                                    <CardContent className="p-4">
+                                        <div className="relative text-5xl font-bold font-headline text-accent">
+                                            {stat.value}<span className="text-3xl">%</span>
+                                        </div>
+                                        <p className="font-semibold mt-2">{stat.label}</p>
+                                        <p className="text-sm text-muted-foreground mt-1">{stat.description}</p>
+                                    </CardContent>
+                                </Card>
+                            ))}
+                        </div>
+                    </div>
+                    <div>
+                         <h3 className="font-headline text-2xl md:text-3xl font-bold text-primary mb-6 text-center lg:text-left">Our Commitment to You</h3>
+                        <ul className="space-y-4">
+                            {benefits.map(benefit => (
+                                <li key={benefit} className="flex items-center gap-3">
+                                    <CheckCircle className="h-6 w-6 text-green-500 shrink-0" />
+                                    <span className="text-lg text-foreground">{benefit}</span>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
                 </div>
-                <div>
-                    <ul className="space-y-4">
-                        {benefits.map(benefit => (
-                            <li key={benefit} className="flex items-center gap-3">
-                                <CheckCircle className="h-6 w-6 text-green-500 shrink-0" />
-                                <span className="text-lg text-foreground">{benefit}</span>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
             </div>
-          </Card>
         </div>
       </section>
     </div>
