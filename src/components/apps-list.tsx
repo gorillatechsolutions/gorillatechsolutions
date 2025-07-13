@@ -6,8 +6,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Star, ChevronLeft, ChevronRight, Share2 } from 'lucide-react';
+import { Star, ChevronLeft, ChevronRight, Share2, Crown, Gem, KeyRound } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
 
 type AppLinks = {
   web?: string;
@@ -26,6 +28,7 @@ type App = {
   icon: string;
   dataAiHint: string;
   links: AppLinks;
+  badge?: string;
 };
 
 type AppsListProps = {
@@ -78,83 +81,108 @@ export function AppsList({ allApps }: AppsListProps) {
     }
   };
 
+  const getBadgeContent = (badgeText: string) => {
+      switch (badgeText) {
+          case 'Premium':
+              return { icon: <Crown className="h-3 w-3 mr-1" />, text: 'Premium', className: 'bg-amber-500 text-white' };
+          case 'Gold':
+              return { icon: <Gem className="h-3 w-3 mr-1" />, text: 'Gold', className: 'bg-yellow-400 text-black' };
+          case 'Login Required':
+              return { icon: <KeyRound className="h-3 w-3 mr-1" />, text: 'Login Required', className: 'bg-gray-500 text-white' };
+          default:
+              return null;
+      }
+  };
 
   return (
     <>
       {paginatedApps.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {paginatedApps.map((app) => (
-            <Card key={app.title} className="flex flex-col overflow-hidden group border-border/80 hover:border-primary/50 hover:shadow-lg transition-all duration-300">
-              <CardHeader className="relative flex flex-row items-start gap-4 p-4">
-                  <Image
-                      src={app.icon}
-                      alt={`${app.title} icon`}
-                      width={64}
-                      height={64}
-                      className="rounded-xl border"
-                      data-ai-hint={app.dataAiHint}
-                      loading="lazy"
-                  />
-                  <div className="flex-1">
-                      <CardTitle className="font-headline text-lg mb-1">{app.title}</CardTitle>
-                      <p className="text-sm text-muted-foreground">{app.category}</p>
-                      <div className="flex items-center gap-2 mt-1 text-sm text-muted-foreground">
-                          <span>{app.rating}</span>
-                          <Star className="h-4 w-4 text-amber-400 fill-amber-400" />
-                          <span className="text-xs">({app.downloads})</span>
-                      </div>
-                  </div>
-                   <Button variant="ghost" size="icon" className="absolute top-2 right-2 h-8 w-8" onClick={() => handleShare(app)}>
+          {paginatedApps.map((app) => {
+            const badgeContent = app.badge ? getBadgeContent(app.badge) : null;
+            return (
+                <Card key={app.title} className="flex flex-col overflow-hidden group border-border/80 hover:border-primary/50 hover:shadow-lg transition-all duration-300">
+                <CardHeader className="relative flex flex-row items-start gap-4 p-4 pb-2">
+                    {badgeContent && (
+                        <Badge className={cn("absolute top-2 left-2 z-10 text-xs px-2 py-1", badgeContent.className)}>
+                            {badgeContent.icon}
+                            {badgeContent.text}
+                        </Badge>
+                    )}
+                    <Button variant="ghost" size="icon" className="absolute top-2 right-2 h-8 w-8 z-10" onClick={() => handleShare(app)}>
                         <Share2 className="h-5 w-5 text-muted-foreground" />
                         <span className="sr-only">Share {app.title}</span>
                     </Button>
-              </CardHeader>
-              <CardContent className="p-4 pt-0 flex-1 flex flex-col justify-between">
-                <div>
-                   <CardDescription className="text-sm mb-4">
-                     {app.description.length > 100 ? `${app.description.substring(0, 100)}...` : app.description}
-                   </CardDescription>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {app.links.playStore && (
-                      <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px] text-xs px-2 h-7">
-                          <Link href={app.links.playStore} target="_blank" rel="noopener noreferrer" aria-label={`Get ${app.title} on Google Play`}>
-                              Play Store
-                          </Link>
-                      </Button>
-                  )}
-                  {app.links.appStore && (
-                      <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px] text-xs px-2 h-7">
-                          <Link href={app.links.appStore} target="_blank" rel="noopener noreferrer" aria-label={`Download ${app.title} on the App Store`}>
-                              App Store
-                          </Link>
-                      </Button>
-                  )}
-                  {app.links.web && (
-                      <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px] text-xs px-2 h-7">
-                          <Link href={app.links.web} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${app.title} website`}>
-                              Web
-                          </Link>
-                      </Button>
-                  )}
-                  {app.links.download && (
-                       <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px] text-xs px-2 h-7">
-                          <Link href={app.links.download} download aria-label={`Download ${app.title}`}>
-                              Download
-                          </Link>
-                      </Button>
-                  )}
-                  {app.links.buy && (
-                       <Button asChild variant="default" size="sm" className="flex-1 min-w-[40px] text-xs px-2 h-7 bg-accent text-accent-foreground hover:bg-accent/90">
-                          <Link href={app.links.buy} aria-label={`Buy ${app.title}`}>
-                              Buy
-                          </Link>
-                      </Button>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                    <div className="w-full mt-8">
+                        <div className="flex items-start gap-4">
+                            <Image
+                                src={app.icon}
+                                alt={`${app.title} icon`}
+                                width={64}
+                                height={64}
+                                className="rounded-xl border"
+                                data-ai-hint={app.dataAiHint}
+                                loading="lazy"
+                            />
+                            <div className="flex-1">
+                                <CardTitle className="font-headline text-lg mb-1">{app.title}</CardTitle>
+                                <p className="text-sm text-muted-foreground">{app.category}</p>
+                                <div className="flex items-center gap-2 mt-1 text-sm text-muted-foreground">
+                                    <span>{app.rating}</span>
+                                    <Star className="h-4 w-4 text-amber-400 fill-amber-400" />
+                                    <span className="text-xs">({app.downloads})</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </CardHeader>
+                <CardContent className="p-4 pt-2 flex-1 flex flex-col justify-between">
+                    <div>
+                    <CardDescription className="text-sm mb-4">
+                        {app.description.length > 100 ? `${app.description.substring(0, 100)}...` : app.description}
+                    </CardDescription>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                    {app.links.playStore && (
+                        <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px] text-xs px-2 h-7">
+                            <Link href={app.links.playStore} target="_blank" rel="noopener noreferrer" aria-label={`Get ${app.title} on Google Play`}>
+                                Play Store
+                            </Link>
+                        </Button>
+                    )}
+                    {app.links.appStore && (
+                        <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px] text-xs px-2 h-7">
+                            <Link href={app.links.appStore} target="_blank" rel="noopener noreferrer" aria-label={`Download ${app.title} on the App Store`}>
+                                App Store
+                            </Link>
+                        </Button>
+                    )}
+                    {app.links.web && (
+                        <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px] text-xs px-2 h-7">
+                            <Link href={app.links.web} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${app.title} website`}>
+                                Web
+                            </Link>
+                        </Button>
+                    )}
+                    {app.links.download && (
+                        <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px] text-xs px-2 h-7">
+                            <Link href={app.links.download} download aria-label={`Download ${app.title}`}>
+                                Download
+                            </Link>
+                        </Button>
+                    )}
+                    {app.links.buy && (
+                        <Button asChild variant="default" size="sm" className="flex-1 min-w-[40px] text-xs px-2 h-7 bg-accent text-accent-foreground hover:bg-accent/90">
+                            <Link href={app.links.buy} aria-label={`Buy ${app.title}`}>
+                                Buy
+                            </Link>
+                        </Button>
+                    )}
+                    </div>
+                </CardContent>
+                </Card>
+            )
+          })}
         </div>
       ) : (
         <div className="text-center py-16">

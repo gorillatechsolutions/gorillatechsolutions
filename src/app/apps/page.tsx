@@ -20,7 +20,8 @@ const apps = [
     description: 'Monitor your key business metrics in real-time with our powerful analytics dashboard. Visualize data and gain actionable insights.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'analytics chart',
-    links: { web: '#', buy: '#' }
+    links: { web: '#', buy: '#' },
+    badge: 'Premium',
   },
   {
     title: 'Social Scheduler',
@@ -30,7 +31,7 @@ const apps = [
     description: 'Plan, schedule, and publish your social media content across all major platforms from a single, intuitive interface.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'calendar social',
-    links: { playStore: '#', appStore: '#' }
+    links: { playStore: '#', appStore: '#' },
   },
   {
     title: 'SEO Keyword Finder',
@@ -40,7 +41,8 @@ const apps = [
     description: 'Discover high-impact keywords and track your search rankings to dominate the SERPs and drive organic traffic.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'seo keyword',
-    links: { web: '#', buy: '#' }
+    links: { web: '#', buy: '#' },
+    badge: 'Gold',
   },
   {
     title: 'Project Pilot',
@@ -50,7 +52,7 @@ const apps = [
     description: 'Manage projects, assign tasks, and collaborate with your team to deliver projects on time and within budget.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'project management',
-    links: { playStore: '#', appStore: '#', web: '#' }
+    links: { playStore: '#', appStore: '#', web: '#' },
   },
   {
     title: 'Content Crafter AI',
@@ -60,7 +62,8 @@ const apps = [
     description: 'Generate high-quality marketing copy, blog posts, and more with our advanced AI-powered writing assistant.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'ai writing',
-    links: { web: '#', buy: '#' }
+    links: { web: '#', buy: '#' },
+    badge: 'Login Required',
   },
   {
     title: 'Lead Gen Bot',
@@ -70,7 +73,7 @@ const apps = [
     description: 'Automate lead capture and qualification on your website with our intelligent chatbot solution. Never miss a lead again.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'robot chat',
-    links: { download: '#' }
+    links: { download: '#' },
   },
   {
     title: 'E-com Insights',
@@ -80,7 +83,8 @@ const apps = [
     description: 'Get deep insights into your eCommerce store\'s performance, from sales trends to customer behavior analytics.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'ecommerce analytics',
-    links: { playStore: '#', appStore: '#', buy: '#' }
+    links: { playStore: '#', appStore: '#', buy: '#' },
+    badge: 'Premium',
   },
   {
     title: 'Team Sync',
@@ -90,7 +94,7 @@ const apps = [
     description: 'A unified communication platform for your team, featuring chat, video calls, and file sharing to keep everyone in sync.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'team chat',
-    links: { playStore: '#', appStore: '#', web: '#' }
+    links: { playStore: '#', appStore: '#', web: '#' },
   },
   {
     title: 'Invoice Master',
@@ -100,7 +104,8 @@ const apps = [
     description: 'Create and send professional invoices in minutes. Track payments and manage your finances effortlessly.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'invoice document',
-    links: { download: '#', buy: '#' }
+    links: { download: '#', buy: '#' },
+    badge: 'Gold',
   },
     {
     title: 'Ad Optimizer',
@@ -120,7 +125,8 @@ const apps = [
     description: 'A powerful snippet manager for developers. Store, organize, and share your code snippets across all your devices.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'code editor',
-    links: { download: '#' }
+    links: { download: '#' },
+    badge: 'Login Required',
   },
   {
     title: 'Fit Tracker',
@@ -140,7 +146,8 @@ const apps = [
     description: 'Find calm and reduce stress with guided meditations, breathing exercises, and mindfulness practices.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'meditation calm',
-    links: { playStore: '#', appStore: '#', buy: '#' }
+    links: { playStore: '#', appStore: '#', buy: '#' },
+    badge: 'Premium',
   },
   {
     title: 'Expense Tracker',
@@ -180,7 +187,8 @@ const apps = [
     description: 'Keep your passwords, documents, and other sensitive information safe with our encrypted digital vault.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'security vault',
-    links: { download: '#', playStore: '#', buy: '#' }
+    links: { download: '#', playStore: '#', buy: '#' },
+    badge: 'Gold'
   },
   {
     title: 'Creative Canvas',
@@ -190,7 +198,7 @@ const apps = [
     description: 'Unleash your creativity with a powerful digital drawing and painting application. Perfect for artists of all levels.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'digital art',
-    links: { web: '#', appStore: '#', buy: '#' }
+    links: { web: '#', appStore: '#', buy: '#' },
   }
 ];
 
