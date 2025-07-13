@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Download, Star, Globe, ChevronLeft, ChevronRight, Share2 } from 'lucide-react';
+import { Star, ChevronLeft, ChevronRight, Share2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 type AppLinks = {
@@ -116,28 +116,28 @@ export function AppsList({ allApps }: AppsListProps) {
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {app.links.playStore && (
-                      <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px] text-xs px-2">
+                      <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px] text-xs px-2 h-8">
                           <Link href={app.links.playStore} target="_blank" rel="noopener noreferrer" aria-label={`Get ${app.title} on Google Play`}>
                               Play Store
                           </Link>
                       </Button>
                   )}
                   {app.links.appStore && (
-                      <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px] text-xs px-2">
+                      <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px] text-xs px-2 h-8">
                           <Link href={app.links.appStore} target="_blank" rel="noopener noreferrer" aria-label={`Download ${app.title} on the App Store`}>
                               App Store
                           </Link>
                       </Button>
                   )}
                   {app.links.web && (
-                      <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px] text-xs px-2">
+                      <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px] text-xs px-2 h-8">
                           <Link href={app.links.web} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${app.title} website`}>
                               Web
                           </Link>
                       </Button>
                   )}
                   {app.links.download && (
-                       <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px] text-xs px-2">
+                       <Button asChild variant="outline" size="sm" className="flex-1 min-w-[40px] text-xs px-2 h-8">
                           <Link href={app.links.download} download aria-label={`Download ${app.title}`}>
                               Download
                           </Link>
