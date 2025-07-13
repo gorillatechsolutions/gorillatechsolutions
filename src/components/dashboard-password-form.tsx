@@ -15,7 +15,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { Save } from "lucide-react";
+import { Save, Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
 
 const formSchema = z.object({
   currentPassword: z.string().min(1, { message: "Current password is required." }),
@@ -29,6 +30,9 @@ const formSchema = z.object({
 
 export function DashboardPasswordForm() {
   const { toast } = useToast();
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -61,7 +65,18 @@ export function DashboardPasswordForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Current Password</FormLabel>
-              <FormControl><Input type="password" placeholder="••••••••" {...field} /></FormControl>
+              <div className="relative">
+                <FormControl><Input type={showCurrentPassword ? "text" : "password"} placeholder="••••••••" {...field} /></FormControl>
+                <Button 
+                    type="button" 
+                    variant="ghost" 
+                    size="icon" 
+                    className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 text-muted-foreground"
+                    onClick={() => setShowCurrentPassword(prev => !prev)}
+                >
+                    {showCurrentPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </Button>
+              </div>
               <FormMessage />
             </FormItem>
           )}
@@ -72,7 +87,18 @@ export function DashboardPasswordForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>New Password</FormLabel>
-              <FormControl><Input type="password" placeholder="••••••••" {...field} /></FormControl>
+              <div className="relative">
+                <FormControl><Input type={showNewPassword ? "text" : "password"} placeholder="••••••••" {...field} /></FormControl>
+                 <Button 
+                    type="button" 
+                    variant="ghost" 
+                    size="icon" 
+                    className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 text-muted-foreground"
+                    onClick={() => setShowNewPassword(prev => !prev)}
+                >
+                    {showNewPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </Button>
+              </div>
               <FormMessage />
             </FormItem>
           )}
@@ -83,7 +109,18 @@ export function DashboardPasswordForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Confirm New Password</FormLabel>
-              <FormControl><Input type="password" placeholder="••••••••" {...field} /></FormControl>
+              <div className="relative">
+                <FormControl><Input type={showConfirmPassword ? "text" : "password"} placeholder="••••••••" {...field} /></FormControl>
+                <Button 
+                    type="button" 
+                    variant="ghost" 
+                    size="icon" 
+                    className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 text-muted-foreground"
+                    onClick={() => setShowConfirmPassword(prev => !prev)}
+                >
+                    {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </Button>
+              </div>
               <FormMessage />
             </FormItem>
           )}

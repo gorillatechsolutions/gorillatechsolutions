@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { LogIn } from "lucide-react";
+import { LogIn, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { useAuth } from "@/context/auth-context";
@@ -95,9 +95,20 @@ export function LoginForm() {
                         Forgot password?
                     </Link>
                 </div>
-              <FormControl>
-                <Input type={showPassword ? "text" : "password"} placeholder="********" {...field} />
-              </FormControl>
+              <div className="relative">
+                <FormControl>
+                    <Input type={showPassword ? "text" : "password"} placeholder="********" {...field} />
+                </FormControl>
+                <Button 
+                    type="button" 
+                    variant="ghost" 
+                    size="icon" 
+                    className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 text-muted-foreground"
+                    onClick={() => setShowPassword(prev => !prev)}
+                >
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </Button>
+              </div>
               <FormMessage />
             </FormItem>
           )}
