@@ -22,12 +22,11 @@ import { useState } from "react";
 import type { CaseStudy } from "@/types/case-study";
 import { generateArticleContent } from "@/ai/flows/article-generator";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./ui/card";
-import EditorjsEditor from "./editorjs-editor";
-import type { OutputData } from "@editorjs/editorjs";
+import { TiptapEditor } from "./tiptap-editor";
 
 const formSchema = z.object({
   title: z.string().min(2, { message: "Title must be at least 2 characters." }),
-  content: z.any().optional(),
+  content: z.string().min(10, { message: "Content must be at least 10 characters." }),
   excerpt: z.string().optional(),
   tags: z.string().optional(),
   author: z.string().optional(),
@@ -48,7 +47,7 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: existingArticle?.title || "",
-      content: existingArticle?.content || { blocks: [] },
+      content: existingArticle?.content || "",
       excerpt: existingArticle?.excerpt || "",
       tags: existingArticle?.tags.join(', ') || "",
       author: existingArticle?.author || "Admin",
@@ -91,20 +90,21 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
     try {
       const result = await generateArticleContent({ topic: watchedTitle });
       
-      const blocks = result.articleContent.split('\n\n').map(paragraph => {
+      const htmlContent = result.articleContent.split('\n\n').map(paragraph => {
         if (paragraph.startsWith('### ')) {
-            return { type: 'header', data: { text: paragraph.substring(4), level: 3 } };
+            return `<h3>${paragraph.substring(4)}</h3>`;
         }
         if (paragraph.startsWith('## ')) {
-            return { type: 'header', data: { text: paragraph.substring(3), level: 2 } };
+            return `<h2>${paragraph.substring(3)}</h2>`;
         }
         if (paragraph.startsWith('* ')) {
-            return { type: 'list', data: { style: 'unordered', items: [paragraph.substring(2)] }};
+            // This is a simplified conversion. A real implementation might group list items.
+            return `<ul><li>${paragraph.substring(2)}</li></ul>`;
         }
-        return { type: 'paragraph', data: { text: paragraph } };
-      });
+        return `<p>${paragraph}</p>`;
+      }).join('');
 
-      setValue('content', { time: Date.now(), blocks, version: "2.29.1" });
+      setValue('content', htmlContent, { shouldValidate: true });
       
       toast({
         title: "Content Generated!",
@@ -239,11 +239,10 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
                                     <FormItem className="h-full flex flex-col">
                                         <FormLabel>Content</FormLabel>
                                         <FormControl>
-                                            <div className="w-full h-full rounded-md border bg-card p-2">
-                                                <EditorjsEditor
-                                                    data={field.value}
-                                                    onChange={(data: OutputData) => field.onChange(data)}
-                                                    holder="editorjs-container"
+                                            <div className="w-full h-full rounded-md border bg-card p-2 prose prose-sm max-w-none">
+                                                <TiptapEditor
+                                                    content={field.value}
+                                                    onChange={field.onChange}
                                                 />
                                             </div>
                                         </FormControl>

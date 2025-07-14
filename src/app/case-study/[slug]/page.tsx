@@ -10,7 +10,6 @@ import Link from 'next/link';
 import { ArrowLeft, CalendarDays, UserCircle, Eye, Tag } from 'lucide-react';
 import type { Metadata } from 'next';
 import type { CaseStudy } from '@/types/case-study';
-import EditorJSRenderer from '@/components/editorjs-renderer';
 
 
 // This page now fetches data client-side, so generateStaticParams is no longer needed
@@ -118,9 +117,8 @@ export default function CaseStudyDetailPage({ params }: { params: { slug: string
                         </div>
                         <div 
                             className="prose prose-lg max-w-none mx-auto text-foreground prose-headings:text-primary prose-a:text-accent hover:prose-a:text-accent/80 prose-img:rounded-lg prose-video:rounded-lg"
-                        >
-                           <EditorJSRenderer data={caseStudy.content} />
-                        </div>
+                            dangerouslySetInnerHTML={{ __html: caseStudy.content }}
+                        />
                     </div>
                 </div>
             </article>

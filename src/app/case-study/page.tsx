@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react';
 import type { Metadata } from 'next';
 import { CaseStudyList } from '@/components/case-study-list';
 import type { CaseStudy } from '@/types/case-study';
-import type { OutputData } from '@editorjs/editorjs';
 
 // Note: Metadata is commented out because it can't be used in a client component.
 // We are fetching data client-side from localStorage, which requires 'use client'.
@@ -14,15 +13,9 @@ import type { OutputData } from '@editorjs/editorjs';
 //     description: 'Explore insights, tips, and case studies on digital marketing, SEO, PPC, and more from the experts at Gorilla Tech Solutions.',
 // };
 
-const createContent = (text: string): OutputData => ({
-    time: Date.now(),
-    blocks: text.split('\n\n').map(paragraph => ({
-        id: Math.random().toString(36).substring(2, 9),
-        type: 'paragraph',
-        data: { text: paragraph }
-    })),
-    version: "2.30.2"
-});
+const createContent = (text: string): string => {
+    return text.split('\n\n').map(paragraph => `<p>${paragraph}</p>`).join('');
+};
 
 const demoCaseStudies: CaseStudy[] = [
     {
