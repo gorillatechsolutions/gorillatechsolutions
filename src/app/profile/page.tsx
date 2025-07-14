@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { CheckCircle, Edit } from 'lucide-react';
+import { CheckCircle, Edit, MapPin } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 
 export default function ProfilePage() {
@@ -54,6 +54,12 @@ export default function ProfilePage() {
                                     <div className="flex items-center gap-1 text-green-600">
                                         <CheckCircle className="h-5 w-5" />
                                         <span className="font-semibold">Verified</span>
+                                    </div>
+                                )}
+                                {user.country && (
+                                    <div className="flex items-center gap-1 text-muted-foreground">
+                                        <MapPin className="h-5 w-5" />
+                                        <span className="">{user.country}</span>
                                     </div>
                                 )}
                             </div>
