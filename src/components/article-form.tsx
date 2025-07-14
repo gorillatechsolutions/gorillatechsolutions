@@ -24,6 +24,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { generateArticleContent } from "@/ai/flows/article-generator";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from "./ui/dialog";
+import { Label } from "./ui/label";
 
 const formSchema = z.object({
   title: z.string().min(5, "Title must be at least 5 characters."),
