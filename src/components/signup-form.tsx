@@ -15,9 +15,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { UserPlus } from "lucide-react";
+import { UserPlus, Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import type { User } from "@/types/user";
+import { useState } from "react";
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -34,6 +35,9 @@ const formSchema = z.object({
 export function SignupForm() {
   const { toast } = useToast();
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -176,9 +180,20 @@ export function SignupForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input type="password" placeholder="********" {...field} />
-              </FormControl>
+               <div className="relative">
+                <FormControl>
+                    <Input type={showPassword ? "text" : "password"} placeholder="********" {...field} />
+                </FormControl>
+                <Button 
+                    type="button" 
+                    variant="ghost" 
+                    size="icon" 
+                    className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 text-muted-foreground"
+                    onClick={() => setShowPassword(prev => !prev)}
+                >
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </Button>
+              </div>
               <FormMessage />
             </FormItem>
           )}
@@ -189,9 +204,20 @@ export function SignupForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Confirm Password</FormLabel>
-              <FormControl>
-                <Input type="password" placeholder="********" {...field} />
-              </FormControl>
+               <div className="relative">
+                <FormControl>
+                  <Input type={showConfirmPassword ? "text" : "password"} placeholder="********" {...field} />
+                </FormControl>
+                 <Button 
+                    type="button" 
+                    variant="ghost" 
+                    size="icon" 
+                    className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 text-muted-foreground"
+                    onClick={() => setShowConfirmPassword(prev => !prev)}
+                >
+                    {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </Button>
+              </div>
               <FormMessage />
             </FormItem>
           )}
