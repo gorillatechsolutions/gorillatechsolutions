@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { ChevronLeft, ChevronRight, Search, MoreHorizontal, UserPlus, Calendar, CheckCircle, Trash2, KeyRound, Eye, EyeOff, User as UserIcon, Phone, Edit } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Search, MoreHorizontal, UserPlus, Calendar, CheckCircle, Trash2, KeyRound, Eye, EyeOff, User as UserIcon, Phone, Edit, ShieldCheck } from 'lucide-react';
 import { format, formatDistanceToNow } from 'date-fns';
 import { type User, UserRole, UserStatus } from '@/types/user';
 import {
@@ -18,6 +18,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuPortal,
 } from '@/components/ui/dropdown-menu';
 import {
   Dialog,
@@ -122,6 +128,14 @@ export function UsersTable({ users, onDeleteUser, onAddUser, onUpdateUser }: Use
     });
     setChangePasswordOpen(false);
     setUserToEdit(null);
+  };
+
+  const handleRoleChange = (userId: string, newRole: UserRole) => {
+    onUpdateUser(userId, { role: newRole });
+    toast({
+      title: "Role Updated",
+      description: `User role has been changed to ${newRole}.`
+    });
   };
 
   const handleAddUserSuccess = () => {
@@ -290,6 +304,26 @@ export function UsersTable({ users, onDeleteUser, onAddUser, onUpdateUser }: Use
                                         <UserIcon className="mr-2 h-4 w-4" />
                                         View Details
                                     </DropdownMenuItem>
+
+                                    <DropdownMenuSub>
+                                      <DropdownMenuSubTrigger>
+                                        <ShieldCheck className="mr-2 h-4 w-4" />
+                                        <span>Change Role</span>
+                                      </DropdownMenuSubTrigger>
+                                      <DropdownMenuPortal>
+                                        <DropdownMenuSubContent>
+                                          <DropdownMenuRadioGroup
+                                            value={user.role}
+                                            onValueChange={(newRole) => handleRoleChange(user.id, newRole as UserRole)}
+                                          >
+                                            <DropdownMenuRadioItem value="admin">Admin</DropdownMenuRadioItem>
+                                            <DropdownMenuRadioItem value="editor">Editor</DropdownMenuRadioItem>
+                                            <DropdownMenuRadioItem value="user">User</DropdownMenuRadioItem>
+                                          </DropdownMenuRadioGroup>
+                                        </DropdownMenuSubContent>
+                                      </DropdownMenuPortal>
+                                    </DropdownMenuSub>
+
                                     <DropdownMenuItem onSelect={() => { setUserToEdit(user); setChangePasswordOpen(true);}}>
                                         <KeyRound className="mr-2 h-4 w-4" />
                                         Change Password
@@ -375,7 +409,7 @@ export function UsersTable({ users, onDeleteUser, onAddUser, onUpdateUser }: Use
                 </DialogHeader>
                 <Separator />
                 <dl className="grid grid-cols-2 gap-x-4 gap-y-6">
-                    <DetailItem icon={<UserIcon className="h-4 w-4" />} label="Role">
+                    <DetailItem icon={<ShieldCheck className="h-4 w-4" />} label="Role">
                        <div className="flex items-center gap-2">
                          <Badge variant="secondary" className={cn("capitalize", roleStyles[viewingUser.role])}>{viewingUser.role}</Badge>
                          <Select 
