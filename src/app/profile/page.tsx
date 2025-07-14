@@ -58,12 +58,6 @@ export default function ProfilePage() {
                 )}
             </header>
             <div>
-                <div className="mb-4">
-                    <h2 className="text-xl font-semibold">Profile Information</h2>
-                    <p className="text-muted-foreground text-sm">
-                        {isEditing ? "Update your personal details here. Click save when you're done." : "View your current profile details below."}
-                    </p>
-                </div>
                 <div>
                     {isEditing ? (
                         <ProfileForm currentUser={user} onUpdate={handleUpdate} onCancel={() => setIsEditing(false)} />
