@@ -65,7 +65,7 @@ const TiptapToolbar = ({ editor }: { editor: any }) => {
       <Toggle size="sm" onPressedChange={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} pressed={editor.isActive('heading', { level: 3 })}>
         <Heading3 className="h-4 w-4" />
       </Toggle>
-       <Toggle size="sm" onPressedChange={() => editor.chain().focus().toggleParagraph().run()} pressed={editor.isActive('paragraph')}>
+       <Toggle size="sm" onPressedChange={() => editor.chain().focus().setParagraph().run()} pressed={editor.isActive('paragraph')}>
         <Pilcrow className="h-4 w-4" />
       </Toggle>
       <Separator orientation="vertical" className="h-6" />
