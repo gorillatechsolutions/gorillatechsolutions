@@ -32,7 +32,7 @@ const TiptapToolbar = ({ editor }: { editor: any }) => {
   }, [editor]);
 
   return (
-    <div className="border border-input bg-transparent rounded-md p-1 flex flex-wrap items-center gap-1">
+    <div className="border border-input bg-transparent rounded-t-md p-1 flex flex-wrap items-center gap-1">
       <Toggle size="sm" onPressedChange={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} pressed={editor.isActive('heading', { level: 1 })}>
         <Heading1 className="h-4 w-4" />
       </Toggle>
@@ -99,15 +99,17 @@ export const TiptapEditor = ({ content, onChange }: { content: string; onChange:
     },
     editorProps: {
       attributes: {
-        class: 'prose dark:prose-invert prose-sm sm:prose-base lg:prose-lg xl:prose-2xl m-5 focus:outline-none min-h-[400px]',
+        class: 'prose dark:prose-invert prose-sm sm:prose-base lg:prose-lg xl:prose-2xl p-4 w-full focus:outline-none min-h-[400px]',
       },
     },
   });
 
   return (
-    <div className="flex flex-col gap-2 h-full border border-input rounded-md">
+    <div className="flex flex-col gap-0 h-full border border-input rounded-md">
       <TiptapToolbar editor={editor} />
-      <EditorContent editor={editor} className="flex-1 overflow-y-auto" />
+      <div className="flex-1 overflow-y-auto">
+        <EditorContent editor={editor} />
+      </div>
     </div>
   );
 };
