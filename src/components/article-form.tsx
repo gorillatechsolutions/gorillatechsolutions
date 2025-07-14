@@ -22,7 +22,6 @@ import { useState } from "react";
 import type { CaseStudy } from "@/types/case-study";
 import { generateArticleContent } from "@/ai/flows/article-generator";
 import { Card, CardContent } from "./ui/card";
-import { TiptapEditor } from "./tiptap-editor";
 
 const formSchema = z.object({
   title: z.string().min(2, { message: "Title must be at least 2 characters." }),
@@ -55,7 +54,7 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
     },
   });
 
-  const { watch, setValue, control } = form;
+  const { watch, setValue } = form;
   const watchedTitle = watch('title');
 
   const readFileAsDataURL = (file: File): Promise<string> => {
@@ -198,18 +197,19 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
                         />
                         <div className="flex-1 h-full min-h-[400px]">
                            <FormField
-                                control={control}
+                                control={form.control}
                                 name="content"
                                 render={({ field }) => (
                                     <FormItem className="h-full flex flex-col">
-                                    <FormLabel>Content</FormLabel>
-                                    <FormControl>
-                                        <TiptapEditor
-                                            content={field.value}
-                                            onChange={field.onChange}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
+                                        <FormLabel>Content</FormLabel>
+                                        <FormControl>
+                                            <Textarea
+                                                placeholder="Write your article here. You can use Markdown for formatting."
+                                                className="flex-1 resize-none"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
                                     </FormItem>
                                 )}
                             />
