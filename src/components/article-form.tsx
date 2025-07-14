@@ -91,7 +91,7 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
         return { type: 'paragraph', data: { text: paragraph } };
       });
 
-      setValue('content', { blocks });
+      setValue('content', { time: Date.now(), blocks, version: "2.29.1" });
       
       toast({
         title: "Content Generated!",
@@ -217,11 +217,13 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
                                     <FormItem className="h-full flex flex-col">
                                         <FormLabel>Content</FormLabel>
                                         <FormControl>
-                                            <EditorjsEditor
-                                                data={field.value}
-                                                onChange={(data: OutputData) => field.onChange(data)}
-                                                holder="editorjs-container"
-                                            />
+                                            <div className="w-full h-full rounded-md border border-input p-2">
+                                                <EditorjsEditor
+                                                    data={field.value}
+                                                    onChange={(data: OutputData) => field.onChange(data)}
+                                                    holder="editorjs-container"
+                                                />
+                                            </div>
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
