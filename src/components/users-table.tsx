@@ -236,7 +236,7 @@ export function UsersTable({ users, onDeleteUser, onDeleteMultipleUsers, onAddUs
   const BulkDeleteDialog = ({ onConfirm }: { onConfirm: () => void }) => (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive" size="sm" disabled={numSelected === 0}>
+        <Button variant="destructive" size="xs" disabled={numSelected === 0}>
           <Trash2 className="mr-2 h-4 w-4" />
           Delete Selected ({numSelected})
         </Button>
