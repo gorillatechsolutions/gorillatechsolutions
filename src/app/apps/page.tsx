@@ -11,11 +11,11 @@ import { cn } from '@/lib/utils';
 
 const apps = [
   {
-    title: 'Analytics Dashboard',
+    title: 'Analytics Hub',
     category: 'Business',
     rating: 4.8,
     downloads: '1M+',
-    description: 'Monitor your key business metrics in real-time with our powerful analytics dashboard. Visualize data and gain actionable insights.',
+    description: 'Monitor your key business metrics in real-time with our powerful analytics hub. Visualize data and gain actionable insights.',
     icon: 'https://placehold.co/128x128.png',
     dataAiHint: 'analytics chart',
     links: { web: '#', buy: '#' },
