@@ -16,15 +16,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Save, Sparkles, Loader2, Image as ImageIcon } from 'lucide-react';
+import { Save, Sparkles, Loader2 } from 'lucide-react';
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import type { CaseStudy } from "@/types/case-study";
 import { generateArticleContent } from "@/ai/flows/article-generator";
 import { Card, CardContent } from "./ui/card";
-import QuillEditor from "./quill-editor";
-import 'react-quill/dist/quill.snow.css';
-
 
 const formSchema = z.object({
   title: z.string().min(2, { message: "Title must be at least 2 characters." }),
@@ -57,20 +54,8 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
     },
   });
 
-  const { watch, setValue, trigger } = form;
+  const { watch, setValue } = form;
   const watchedTitle = watch('title');
-  const watchedContent = watch('content');
-
-  useEffect(() => {
-    if (existingArticle?.content) {
-      setValue('content', existingArticle.content);
-    }
-  }, [existingArticle, setValue]);
-
-  const handleContentChange = (content: string) => {
-    setValue('content', content);
-    trigger('content');
-  };
 
   const readFileAsDataURL = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -192,16 +177,17 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
             <div className="flex-1 grid lg:grid-cols-[1fr_380px] gap-4 p-4 overflow-y-auto">
                 {/* Main Content: Editor */}
                 <Card className="flex flex-col">
-                    <CardContent className="p-2 flex-1 flex flex-col gap-2">
+                    <CardContent className="p-4 flex-1 flex flex-col gap-4">
                          <FormField
                             control={form.control}
                             name="title"
                             render={({ field }) => (
                                 <FormItem>
+                                <FormLabel>Title</FormLabel>
                                 <FormControl>
                                     <Input
                                         placeholder="Article Title"
-                                        className="text-2xl font-bold font-headline tracking-tight border-0 shadow-none focus-visible:ring-0 h-auto p-4"
+                                        className="text-2xl font-bold font-headline tracking-tight h-auto p-2"
                                         {...field}
                                     />
                                 </FormControl>
@@ -214,9 +200,10 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
                                 control={form.control}
                                 name="content"
                                 render={({ field }) => (
-                                    <FormItem className="h-full">
+                                    <FormItem className="h-full flex flex-col">
+                                    <FormLabel>Content (Markdown supported)</FormLabel>
                                     <FormControl>
-                                        <QuillEditor value={field.value} onChange={handleContentChange} />
+                                        <Textarea placeholder="Write your article here..." className="flex-1" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                     </FormItem>
