@@ -6,7 +6,7 @@ import { useAuth } from '@/context/auth-context';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { SidebarProvider, Sidebar, SidebarTrigger, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from '@/components/ui/sidebar';
-import { User, Lock } from 'lucide-react';
+import { User, Shield } from 'lucide-react';
 import Link from 'next/link';
 
 export default function ProfileLayout({ children }: { children: React.ReactNode }) {
@@ -52,7 +52,7 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
                              <Link href="/profile/security" passHref>
                                 <SidebarMenuButton asChild tooltip="Security">
                                     <div>
-                                        <Lock />
+                                        <Shield />
                                         <span>Security</span>
                                     </div>
                                 </SidebarMenuButton>
