@@ -238,7 +238,7 @@ export function UsersTable({ users, onDeleteUser, onDeleteMultipleUsers, onAddUs
       <AlertDialogTrigger asChild>
         <Button variant="destructive" size="xs" disabled={numSelected === 0}>
           <Trash2 className="mr-2 h-4 w-4" />
-          Delete Selected ({numSelected})
+          Delete ({numSelected})
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
