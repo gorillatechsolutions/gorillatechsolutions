@@ -187,9 +187,9 @@ export function UsersTable({ users }: { users: User[] }) {
                                   </Button>
                                   </DropdownMenuTrigger>
                                   <DropdownMenuContent>
-                                  <DropdownMenuItem onSelect={() => setViewingUser(user)}>View Details</DropdownMenuItem>
-                                  <DropdownMenuItem>Edit User</DropdownMenuItem>
-                                  <DropdownMenuItem className="text-destructive">Archive User</DropdownMenuItem>
+                                    <DropdownMenuItem onSelect={() => setViewingUser(user)}>View Details</DropdownMenuItem>
+                                    <DropdownMenuItem>Change Password</DropdownMenuItem>
+                                    <DropdownMenuItem className="text-destructive">Delete User</DropdownMenuItem>
                                   </DropdownMenuContent>
                               </DropdownMenu>
                           </TableCell>
@@ -277,7 +277,8 @@ export function UsersTable({ users }: { users: User[] }) {
                     <DialogClose asChild>
                         <Button variant="outline">Close</Button>
                     </DialogClose>
-                    <Button>Edit User</Button>
+                    <Button>Change Password</Button>
+                    <Button variant="destructive">Delete User</Button>
                 </div>
                 </>
             )}
