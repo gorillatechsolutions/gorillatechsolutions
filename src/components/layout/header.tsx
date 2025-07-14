@@ -64,7 +64,7 @@ export function Header() {
              <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="relative h-10 w-10 rounded-full hover:bg-[#383838]">
-                        <div className="h-10 w-10 rounded-full flex items-center justify-center font-bold text-xl" style={{ color: '#f78f39' }}>
+                        <div className="h-10 w-10 rounded-full flex items-center justify-center font-bold text-2xl" style={{ color: '#f78f39' }}>
                             G
                         </div>
                     </Button>
