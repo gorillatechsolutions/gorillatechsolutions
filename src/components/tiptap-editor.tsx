@@ -23,6 +23,7 @@ import {
   Undo,
   Redo,
 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { Toggle } from '@/components/ui/toggle';
 import { Separator } from '@/components/ui/separator';
 import { useCallback } from 'react';
@@ -115,13 +116,13 @@ const TiptapEditor = ({ content, onChange }: { content: string, onChange: (richT
         <Separator orientation="vertical" className="h-6 mx-1" />
 
         <Toggle size="sm" pressed={editor.isActive('link')} onPressedChange={setLink}><LinkIcon className="h-4 w-4" /></Toggle>
-        <Toggle size="sm" onPressedChange={addImage}><ImageIcon className="h-4 w-4" /></Toggle>
-        <Toggle size="sm" onPressedChange={addYoutubeVideo}><YoutubeIcon className="h-4 w-4" /></Toggle>
+        <Button variant="ghost" size="icon" className="h-8 w-8 p-1.5" onClick={addImage}><ImageIcon className="h-4 w-4" /></Button>
+        <Button variant="ghost" size="icon" className="h-8 w-8 p-1.5" onClick={addYoutubeVideo}><YoutubeIcon className="h-4 w-4" /></Button>
 
         <Separator orientation="vertical" className="h-6 mx-1" />
         
-        <Toggle size="sm" onPressedChange={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()}><Undo className="h-4 w-4" /></Toggle>
-        <Toggle size="sm" onPressedChange={() => editor.chain().focus().redo().run()} disabled={!editor.can().redo()}><Redo className="h-4 w-4" /></Toggle>
+        <Button variant="ghost" size="icon" className="h-8 w-8 p-1.5" onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()}><Undo className="h-4 w-4" /></Button>
+        <Button variant="ghost" size="icon" className="h-8 w-8 p-1.5" onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().redo()}><Redo className="h-4 w-4" /></Button>
       </div>
       <EditorContent editor={editor} />
     </div>
