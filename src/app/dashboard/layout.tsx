@@ -49,7 +49,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                             </Link>
                         </SidebarMenuItem>
                         <SidebarMenuItem>
-                             <Link href="#" passHref>
+                             <Link href="/dashboard/users" passHref>
                                 <SidebarMenuButton asChild tooltip="Users">
                                     <div>
                                         <Users />
