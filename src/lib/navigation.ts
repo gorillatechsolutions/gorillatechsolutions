@@ -17,5 +17,5 @@ export const NAV_LINKS: NavLink[] = [
   { name: 'Our Apps', href: '/apps', icon: AppWindow },
   { name: 'Contact Us', href: '/contact', icon: Mail },
   { name: 'Login', href: '/login', icon: LogIn, auth: 'loggedOut' },
-  { name: 'Profile', href: '/profile', icon: UserCircle, auth: 'loggedIn'},
+  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, auth: 'loggedIn'},
 ];

@@ -35,7 +35,7 @@ export default function ProfilePage() {
         <div className="container py-12 md:py-20">
             <Card className="max-w-4xl mx-auto p-6 sm:p-8 relative">
                  <div className="absolute top-6 right-6">
-                    <Button variant="outline">
+                    <Button variant="outline" onClick={() => router.push('/dashboard')}>
                         <Edit className="mr-2 h-4 w-4" />
                         Edit Profile
                     </Button>
@@ -47,7 +47,7 @@ export default function ProfilePage() {
                             <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
                         </Avatar>
 
-                        <div className="flex-1">
+                        <div className="flex-1 mt-4 sm:mt-0">
                             <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                                 <h1 className="text-2xl md:text-3xl font-bold font-headline text-primary">{user.name}</h1>
                                 {user.verified && (
