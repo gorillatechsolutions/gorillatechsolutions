@@ -34,9 +34,11 @@ const formSchema = z.object({
 
 type ProfileFormProps = {
     currentUser: User;
+    onUpdate: () => void;
+    onCancel: () => void;
 }
 
-export function ProfileForm({ currentUser }: ProfileFormProps) {
+export function ProfileForm({ currentUser, onUpdate, onCancel }: ProfileFormProps) {
   const { toast } = useToast();
   const { login } = useAuth(); // We'll use login to update the user context
 
@@ -70,6 +72,7 @@ export function ProfileForm({ currentUser }: ProfileFormProps) {
       title: "Profile Updated!",
       description: "Your profile details have been successfully saved.",
     });
+    onUpdate();
   }
 
   return (
@@ -198,10 +201,15 @@ export function ProfileForm({ currentUser }: ProfileFormProps) {
             </div>
         </div>
         
-        <Button type="submit" size="lg">
-          <Save className="mr-2 h-4 w-4" />
-          Save Changes
-        </Button>
+        <div className="flex gap-2">
+            <Button type="submit" size="lg">
+              <Save className="mr-2 h-4 w-4" />
+              Save Changes
+            </Button>
+            <Button type="button" size="lg" variant="outline" onClick={onCancel}>
+              Cancel
+            </Button>
+        </div>
       </form>
     </Form>
   );
