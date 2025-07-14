@@ -19,6 +19,8 @@ import { UserPlus } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  username: z.string().min(3, { message: "Username must be at least 3 characters." }),
+  phone: z.string().optional(),
   email: z.string().email({ message: "Please enter a valid email address." }),
   password: z.string().min(8, { message: "Password must be at least 8 characters." }),
   confirmPassword: z.string(),
@@ -34,6 +36,8 @@ export function SignupForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
+      username: "",
+      phone: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -60,6 +64,32 @@ export function SignupForm() {
               <FormLabel>Full Name</FormLabel>
               <FormControl>
                 <Input placeholder="John Doe" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Username</FormLabel>
+              <FormControl>
+                <Input placeholder="johndoe" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="phone"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Phone Number (Optional)</FormLabel>
+              <FormControl>
+                <Input placeholder="+1 (234) 567-890" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
