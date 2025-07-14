@@ -18,17 +18,19 @@ import { useToast } from "@/hooks/use-toast";
 import { Save, Sparkles, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import type { CaseStudy } from "@/types/case-study";
-import React, { useState, useTransition } from "react";
+import React, { useState, useTransition, useMemo } from "react";
 import { generateArticleContent } from "@/ai/flows/article-generator";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from "./ui/dialog";
 import { Textarea } from "./ui/textarea";
-import TiptapEditor from './tiptap-editor';
 import { Label } from "./ui/label";
+import dynamic from 'next/dynamic';
+
+const QuillEditor = dynamic(() => import('./quill-editor'), { ssr: false });
 
 const formSchema = z.object({
   title: z.string().min(5, "Title must be at least 5 characters."),
   excerpt: z.string().min(10, "Excerpt must be at least 10 characters.").max(300, "Excerpt must be less than 300 characters."),
-  content: z.string().min(50, "Content must be at least 50 characters."),
+  content: z.string().min(10, "Content must be at least 10 characters."),
   tags: z.string().min(1, "Please provide at least one tag."),
   author: z.string().min(2, "Author name is required."),
   image: z.any(),
@@ -136,7 +138,6 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
     startAiTransition(async () => {
         try {
             const result = await generateArticleContent({ topic: aiTopic });
-            // Convert markdown to basic HTML for the editor
             const htmlContent = result.articleContent
                 .replace(/^### (.*$)/gim, '<h3>$1</h3>')
                 .replace(/^## (.*$)/gim, '<h2>$1</h2>')
@@ -191,27 +192,19 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
             </FormItem>
           )}
         />
-        <FormField
-            control={form.control}
-            name="content"
-            render={({ field }) => (
-                <FormItem>
-                    <div className="flex justify-between items-center mb-2 flex-wrap gap-2">
-                        <FormLabel>Full Content</FormLabel>
-                        <Button type="button" variant="outline" size="sm" onClick={() => setAiDialogOpen(true)}>
-                            <Sparkles className="h-4 w-4 mr-1" /> Generate with AI
-                        </Button>
-                    </div>
-                    <FormControl>
-                        <TiptapEditor
-                            content={field.value}
-                            onChange={field.onChange}
-                        />
-                    </FormControl>
-                    <FormMessage />
-                </FormItem>
-            )}
-        />
+        <FormItem>
+            <div className="flex justify-between items-center mb-2 flex-wrap gap-2">
+                <FormLabel>Full Content</FormLabel>
+                <Button type="button" variant="outline" size="sm" onClick={() => setAiDialogOpen(true)}>
+                    <Sparkles className="h-4 w-4 mr-1" /> Generate with AI
+                </Button>
+            </div>
+            <QuillEditor
+                value={form.watch('content')}
+                onChange={(value) => form.setValue('content', value, { shouldValidate: true, shouldDirty: true })}
+            />
+            <FormMessage>{form.formState.errors.content?.message}</FormMessage>
+        </FormItem>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             <FormField
             control={form.control}
@@ -271,7 +264,7 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
             )}
             />
         </div>
-        <Button type="submit" size="lg">
+        <Button type="submit" size="lg" disabled={form.formState.isSubmitting}>
           <Save className="mr-2 h-4 w-4" />
           {existingArticle ? 'Save Changes' : 'Publish Article'}
         </Button>

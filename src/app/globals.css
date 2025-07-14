@@ -117,13 +117,6 @@
   body {
     @apply bg-background text-foreground;
   }
-   /* Tiptap editor styles */
-  .ProseMirror {
-    @apply min-h-[150px] p-2 border border-input rounded-md;
-  }
-  .ProseMirror:focus {
-    @apply outline-none ring-2 ring-ring ring-offset-2;
-  }
   .prose :where(p):not(:where([class~="not-prose"] *)) {
     margin-top: 0.5em;
     margin-bottom: 0.5em;
@@ -147,6 +140,10 @@
       border-radius: 0.5rem;
       width: 100%;
       aspect-ratio: 16 / 9;
+  }
+
+  .ql-editor {
+      min-height: 200px;
   }
 }
 
