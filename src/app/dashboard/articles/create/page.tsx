@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation';
 import type { CaseStudy } from '@/types/case-study';
 import { Save, Sparkles, Loader2 } from 'lucide-react';
 import { generateArticleContent } from '@/ai/flows/article-generator';
-import TiptapEditor from '@/components/tiptap-editor';
+import QuillEditor from '@/components/quill-editor';
 
 export default function CreateArticlePage() {
     const { toast } = useToast();
@@ -136,7 +136,19 @@ export default function CreateArticlePage() {
                 </div>
             </header>
 
-            <div className="flex-1 grid lg:grid-cols-[380px_1fr] gap-4 p-4 overflow-y-auto">
+            <div className="flex-1 grid lg:grid-cols-[1fr_380px] gap-4 p-4 overflow-y-auto">
+                {/* Main Content: Editor */}
+                <Card className="flex flex-col">
+                    <CardContent className="p-2 flex-1 flex flex-col">
+                        <div className="flex-1 h-full min-h-[400px]">
+                            <QuillEditor
+                                value={content}
+                                onChange={setContent}
+                            />
+                        </div>
+                    </CardContent>
+                </Card>
+
                  {/* Sidebar */}
                 <div className="space-y-4">
                     <Card>
@@ -224,17 +236,6 @@ export default function CreateArticlePage() {
                         </CardContent>
                     </Card>
                 </div>
-                {/* Main Content: Editor */}
-                <Card className="flex flex-col">
-                    <CardContent className="p-2 flex-1 flex flex-col">
-                        <div className="flex-1 h-full min-h-[400px]">
-                            <TiptapEditor
-                                content={content}
-                                onChange={setContent}
-                            />
-                        </div>
-                    </CardContent>
-                </Card>
             </div>
         </form>
     );

@@ -1,1 +1,22 @@
-DELETE
+diff --git a/node_modules/react-quill/lib/index.js b/node_modules/react-quill/lib/index.js
+index 47c366a..ba8670c 100644
+--- a/node_modules/react-quill/lib/index.js
++++ b/node_modules/react-quill/lib/index.js
+@@ -1021,7 +1021,7 @@
+ 	},
+ 
+ 	getEditor: function getEditor() {
+-		return this.editor;
++		return this.editor; 
+ 	},
+ 
+ 	getEditingArea: function getEditingArea() {
+@@ -1030,7 +1030,7 @@
+ 	},
+ 
+ 	getEditingAreaNode: function getEditingAreaNode() {
+-		return ReactDOM.findDOMNode(this.getEditingArea());
++		return this.editingArea;
+ 	},
+ 
+ 	getEditorNode: function getEditorNode() {

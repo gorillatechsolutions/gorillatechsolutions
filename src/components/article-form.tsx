@@ -22,7 +22,8 @@ import { useState, useEffect } from "react";
 import type { CaseStudy } from "@/types/case-study";
 import { generateArticleContent } from "@/ai/flows/article-generator";
 import { Card, CardContent } from "./ui/card";
-import TiptapEditor from "./tiptap-editor";
+import QuillEditor from "./quill-editor";
+import 'react-quill/dist/quill.snow.css';
 
 
 const formSchema = z.object({
@@ -56,8 +57,20 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
     },
   });
 
-  const { watch, setValue } = form;
+  const { watch, setValue, trigger } = form;
   const watchedTitle = watch('title');
+  const watchedContent = watch('content');
+
+  useEffect(() => {
+    if (existingArticle?.content) {
+      setValue('content', existingArticle.content);
+    }
+  }, [existingArticle, setValue]);
+
+  const handleContentChange = (content: string) => {
+    setValue('content', content);
+    trigger('content');
+  };
 
   const readFileAsDataURL = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -203,7 +216,7 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
                                 render={({ field }) => (
                                     <FormItem className="h-full">
                                     <FormControl>
-                                        <TiptapEditor content={field.value} onChange={field.onChange} />
+                                        <QuillEditor value={field.value} onChange={handleContentChange} />
                                     </FormControl>
                                     <FormMessage />
                                     </FormItem>
@@ -333,4 +346,3 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
     </Form>
   );
 }
-
