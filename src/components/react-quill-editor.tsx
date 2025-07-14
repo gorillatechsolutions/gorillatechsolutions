@@ -1,7 +1,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useRef } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
@@ -29,9 +29,12 @@ const formats = [
 ];
 
 const ReactQuillEditor: React.FC<ReactQuillEditorProps> = ({ value, onChange }) => {
+  const quillRef = useRef<ReactQuill>(null);
+
   return (
     <div className="bg-card h-full">
       <ReactQuill
+        ref={quillRef}
         theme="snow"
         value={value}
         onChange={onChange}
