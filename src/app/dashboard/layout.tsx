@@ -58,6 +58,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                                 </SidebarMenuButton>
                             </Link>
                         </SidebarMenuItem>
+                        <SidebarMenuItem>
+                             <Link href="/dashboard/articles" passHref>
+                                <SidebarMenuButton asChild tooltip="Articles">
+                                    <div>
+                                        <FileText />
+                                        <span>Articles</span>
+                                    </div>
+                                </SidebarMenuButton>
+                            </Link>
+                        </SidebarMenuItem>
                          <SidebarMenuItem>
                              <Link href="#" passHref>
                                 <SidebarMenuButton asChild tooltip="Settings">
