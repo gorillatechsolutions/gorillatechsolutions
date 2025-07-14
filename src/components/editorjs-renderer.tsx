@@ -39,7 +39,7 @@ const renderers: { [key: string]: (data: BlockToolData, blockId: string) => Reac
       </blockquote>
     );
   },
-  delimiter: (blockId) => {
+  delimiter: (_data, blockId) => {
     return <hr key={blockId} />;
   },
   // Add other renderers as needed
@@ -56,6 +56,8 @@ const EditorJSRenderer: React.FC<EditorJSRendererProps> = ({ data }) => {
             const jsonData = JSON.parse(data);
             if (isOutputData(jsonData)) {
                 parsedData = jsonData;
+            } else {
+                 return <div dangerouslySetInnerHTML={{ __html: data }} />;
             }
         } catch (error) {
             // If parsing fails, treat it as plain text
@@ -63,16 +65,20 @@ const EditorJSRenderer: React.FC<EditorJSRendererProps> = ({ data }) => {
         }
     }
 
-    if (!parsedData) {
-        // Fallback for malformed but not stringified content
-        return <div>Invalid content format</div>;
+    if (!parsedData || !parsedData.blocks) {
+        // Fallback for malformed but not stringified content, or if there are no blocks
+        return <div/>;
     }
   
   return (
     <>
       {parsedData.blocks.map((block) => {
         const renderer = renderers[block.type];
-        return renderer ? renderer(block.data, block.id) : null;
+        if (!renderer) {
+          console.warn(`No renderer for block type: ${block.type}`);
+          return null;
+        }
+        return renderer(block.data, block.id);
       })}
     </>
   );

@@ -85,7 +85,7 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
        // A simple conversion from Markdown to Editor.js format
       const blocks = result.articleContent.split('\n\n').map(paragraph => ({
         type: 'paragraph',
-        data: { text: paragraph.replace(/#/g, '') } // Basic cleanup
+        data: { text: paragraph.replace(/##+\s?/g, '') } // Basic cleanup of markdown headings
       }));
 
       setValue('content', {
