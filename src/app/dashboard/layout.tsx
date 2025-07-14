@@ -36,7 +36,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     <SidebarTrigger />
                 </SidebarHeader>
                 <SidebarContent>
-                    <SidebarMenu>
+                    <SidebarMenu className="pt-20">
                         <SidebarMenuItem>
                             <SidebarMenuButton href="/dashboard" tooltip="Profile">
                                 <User />
