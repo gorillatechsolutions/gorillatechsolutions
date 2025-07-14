@@ -22,14 +22,10 @@ import { useState } from "react";
 import type { CaseStudy } from "@/types/case-study";
 import { generateArticleContent } from "@/ai/flows/article-generator";
 import { Card, CardContent } from "./ui/card";
-import dynamic from "next/dynamic";
-import type { OutputData } from "@editorjs/editorjs";
-
-const EditorjsEditor = dynamic(() => import('./editorjs-editor'), { ssr: false });
 
 const formSchema = z.object({
   title: z.string().min(2, { message: "Title must be at least 2 characters." }),
-  content: z.any().optional(),
+  content: z.string().optional(),
   excerpt: z.string().optional(),
   tags: z.string().optional(),
   author: z.string().optional(),
@@ -49,7 +45,7 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: existingArticle?.title || "",
-      content: existingArticle?.content || null,
+      content: existingArticle?.content || "",
       excerpt: existingArticle?.excerpt || "",
       tags: existingArticle?.tags.join(', ') || "",
       author: existingArticle?.author || "Admin",
@@ -82,17 +78,7 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
     setIsAiPending(true);
     try {
       const result = await generateArticleContent({ topic: watchedTitle });
-       // A simple conversion from Markdown to Editor.js format
-      const blocks = result.articleContent.split('\n\n').map(paragraph => ({
-        type: 'paragraph',
-        data: { text: paragraph.replace(/##+\s?/g, '') } // Basic cleanup of markdown headings
-      }));
-
-      setValue('content', {
-        time: new Date().getTime(),
-        blocks,
-        version: "2.29.1"
-      });
+      setValue('content', result.articleContent);
       toast({
         title: "Content Generated!",
         description: "AI has drafted the article content for you.",
@@ -126,7 +112,7 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
             ...existingArticle,
             slug,
             title: values.title,
-            content: values.content,
+            content: values.content || "",
             excerpt: values.excerpt || "",
             tags: values.tags?.split(',').map(tag => tag.trim()) || [],
             author: values.author || "Admin",
@@ -217,10 +203,10 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
                                     <FormItem className="h-full flex flex-col">
                                         <FormLabel>Content</FormLabel>
                                         <FormControl>
-                                            <EditorjsEditor
-                                                data={field.value}
-                                                onChange={(data: OutputData) => field.onChange(data)}
-                                                holder="editorjs-container"
+                                            <Textarea
+                                                placeholder="Start writing your story..."
+                                                className="flex-1 resize-none"
+                                                {...field}
                                             />
                                         </FormControl>
                                         <FormMessage />
