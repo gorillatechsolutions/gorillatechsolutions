@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { ChevronLeft, ChevronRight, Search, MoreHorizontal, UserPlus, Calendar, CheckCircle, Mail, User as UserIcon, Trash2, KeyRound } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Search, MoreHorizontal, UserPlus, Calendar, CheckCircle, Mail, User as UserIcon, Trash2, KeyRound, Eye, EyeOff } from 'lucide-react';
 import { format, formatDistanceToNow } from 'date-fns';
 import { type User, UserRole, UserStatus } from '@/types/user';
 import {
@@ -149,7 +149,9 @@ export function UsersTable({ users }: { users: User[] }) {
     </div>
   );
 
-  const ChangePasswordDialog = ({ user }: { user: User | null }) => (
+  const ChangePasswordDialog = ({ user }: { user: User | null }) => {
+    const [showPassword, setShowPassword] = useState(false);
+    return (
      <Dialog open={isChangePasswordOpen && userToEdit === user} onOpenChange={(isOpen) => { if (!isOpen) setUserToEdit(null); setChangePasswordOpen(isOpen);}}>
         <DialogContent>
             <DialogHeader>
@@ -160,8 +162,19 @@ export function UsersTable({ users }: { users: User[] }) {
             </DialogHeader>
             <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="new-password">New Password</Label>
-                    <Input id="new-password" type="password" className="col-span-3" placeholder="••••••••" />
+                    <Label htmlFor="new-password" className="text-right">New Password</Label>
+                    <div className="col-span-3 relative">
+                        <Input id="new-password" type={showPassword ? "text" : "password"} className="pr-10" placeholder="••••••••" />
+                        <Button 
+                            type="button" 
+                            variant="ghost" 
+                            size="icon" 
+                            className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 text-muted-foreground"
+                            onClick={() => setShowPassword(prev => !prev)}
+                        >
+                            {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        </Button>
+                    </div>
                 </div>
             </div>
             <DialogFooter>
@@ -170,7 +183,8 @@ export function UsersTable({ users }: { users: User[] }) {
             </DialogFooter>
         </DialogContent>
     </Dialog>
-  );
+    )
+  };
 
   const DeleteUserDialog = ({ user, children }: { user: User, children: React.ReactNode }) => (
     <AlertDialog>
