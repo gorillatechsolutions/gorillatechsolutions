@@ -12,7 +12,7 @@ import { DashboardProfileForm } from '@/components/dashboard-profile-form';
 import { DashboardPasswordForm } from '@/components/dashboard-password-form';
 import { Separator } from '@/components/ui/separator';
 
-export default function DashboardPage() {
+export default function ProfilePage() {
     const { user, logout } = useAuth();
     const router = useRouter();
 
@@ -33,7 +33,7 @@ export default function DashboardPage() {
     return (
         <div className="container py-12 md:py-20">
             <header className="mb-12">
-                <h1 className="font-headline text-4xl md:text-5xl font-bold">Your Dashboard</h1>
+                <h1 className="font-headline text-4xl md:text-5xl font-bold">Your Profile</h1>
                 <p className="mt-2 text-lg text-muted-foreground">
                     Welcome back, {user.name}! Manage your profile and account settings here.
                 </p>
