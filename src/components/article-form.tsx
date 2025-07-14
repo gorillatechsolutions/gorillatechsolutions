@@ -22,6 +22,7 @@ import { useState } from "react";
 import type { CaseStudy } from "@/types/case-study";
 import { generateArticleContent } from "@/ai/flows/article-generator";
 import { Card, CardContent } from "./ui/card";
+import { TiptapEditor } from "./tiptap-editor";
 
 const formSchema = z.object({
   title: z.string().min(2, { message: "Title must be at least 2 characters." }),
@@ -54,7 +55,7 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
     },
   });
 
-  const { watch, setValue } = form;
+  const { watch, setValue, control } = form;
   const watchedTitle = watch('title');
 
   const readFileAsDataURL = (file: File): Promise<string> => {
@@ -197,13 +198,16 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
                         />
                         <div className="flex-1 h-full min-h-[400px]">
                            <FormField
-                                control={form.control}
+                                control={control}
                                 name="content"
                                 render={({ field }) => (
                                     <FormItem className="h-full flex flex-col">
-                                    <FormLabel>Content (Markdown supported)</FormLabel>
+                                    <FormLabel>Content</FormLabel>
                                     <FormControl>
-                                        <Textarea placeholder="Write your article here..." className="flex-1" {...field} />
+                                        <TiptapEditor
+                                            content={field.value}
+                                            onChange={field.onChange}
+                                        />
                                     </FormControl>
                                     <FormMessage />
                                     </FormItem>
