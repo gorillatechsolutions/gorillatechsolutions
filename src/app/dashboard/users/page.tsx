@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { UsersTable } from '@/components/users-table';
-import type { User } from '@/types/user';
+import type { User, UserRole } from '@/types/user';
 import { useToast } from '@/hooks/use-toast';
 
 export default function UsersPage() {
@@ -50,6 +50,17 @@ export default function UsersPage() {
         updateUserList(updatedUsers);
     };
 
+    const handleUpdateUser = (userId: string, updates: Partial<User>) => {
+        const updatedUsers = userList.map(user => 
+            user.id === userId ? { ...user, ...updates } : user
+        );
+        updateUserList(updatedUsers);
+        toast({
+            title: 'User Updated',
+            description: 'The user details have been successfully updated.',
+        });
+    };
+
     return (
         <div className="p-4 sm:p-6 md:p-8">
             <header className="mb-8">
@@ -60,6 +71,7 @@ export default function UsersPage() {
                 users={userList} 
                 onDeleteUser={handleDeleteUser}
                 onAddUser={handleAddUser}
+                onUpdateUser={handleUpdateUser}
             />
         </div>
     )

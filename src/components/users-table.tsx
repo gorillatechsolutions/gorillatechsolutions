@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { ChevronLeft, ChevronRight, Search, MoreHorizontal, UserPlus, Calendar, CheckCircle, Trash2, KeyRound, Eye, EyeOff, User as UserIcon, Phone } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Search, MoreHorizontal, UserPlus, Calendar, CheckCircle, Trash2, KeyRound, Eye, EyeOff, User as UserIcon, Phone, Edit } from 'lucide-react';
 import { format, formatDistanceToNow } from 'date-fns';
 import { type User, UserRole, UserStatus } from '@/types/user';
 import {
@@ -55,6 +55,7 @@ const statusStyles: { [key in UserStatus]: string } = {
 
 const roleStyles: { [key in UserRole]: string } = {
   admin: 'bg-primary/10 text-primary',
+  editor: 'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-400',
   user: 'bg-secondary text-secondary-foreground',
 };
 
@@ -64,9 +65,10 @@ type UsersTableProps = {
     users: User[];
     onDeleteUser: (userId: string) => void;
     onAddUser: (user: Omit<User, 'id' | 'avatar' | 'dataAiHint' | 'status' | 'lastSeen' | 'joined'> & {password: string}) => void;
+    onUpdateUser: (userId: string, updates: Partial<User>) => void;
 }
 
-export function UsersTable({ users, onDeleteUser, onAddUser }: UsersTableProps) {
+export function UsersTable({ users, onDeleteUser, onAddUser, onUpdateUser }: UsersTableProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [roleFilter, setRoleFilter] = useState<UserRole | 'all'>('all');
   const [statusFilter, setStatusFilter] = useState<UserStatus | 'all'>('all');
@@ -215,6 +217,7 @@ export function UsersTable({ users, onDeleteUser, onAddUser }: UsersTableProps) 
                   <SelectContent>
                       <SelectItem value="all">All Roles</SelectItem>
                       <SelectItem value="admin">Admin</SelectItem>
+                      <SelectItem value="editor">Editor</SelectItem>
                       <SelectItem value="user">User</SelectItem>
                   </SelectContent>
                   </Select>
@@ -350,7 +353,7 @@ export function UsersTable({ users, onDeleteUser, onAddUser }: UsersTableProps) 
                       Fill in the details below to add a new user and send them an invitation.
                   </DialogDescription>
               </DialogHeader>
-              <AddUserForm onSuccess={handleAddUserSuccess} />
+              <AddUserForm onAddUser={onAddUser} onSuccess={handleAddUserSuccess} />
           </DialogContent>
       </Dialog>
       
@@ -373,7 +376,25 @@ export function UsersTable({ users, onDeleteUser, onAddUser }: UsersTableProps) 
                 <Separator />
                 <dl className="grid grid-cols-2 gap-x-4 gap-y-6">
                     <DetailItem icon={<UserIcon className="h-4 w-4" />} label="Role">
-                        <Badge variant="secondary" className={cn("capitalize", roleStyles[viewingUser.role])}>{viewingUser.role}</Badge>
+                       <div className="flex items-center gap-2">
+                         <Badge variant="secondary" className={cn("capitalize", roleStyles[viewingUser.role])}>{viewingUser.role}</Badge>
+                         <Select 
+                            defaultValue={viewingUser.role} 
+                            onValueChange={(newRole: UserRole) => {
+                                onUpdateUser(viewingUser.id, { role: newRole });
+                                setViewingUser(prev => prev ? { ...prev, role: newRole } : null);
+                            }}
+                         >
+                            <SelectTrigger className="h-7 w-28 text-xs">
+                                <SelectValue placeholder="Change role" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="admin">Admin</SelectItem>
+                                <SelectItem value="editor">Editor</SelectItem>
+                                <SelectItem value="user">User</SelectItem>
+                            </SelectContent>
+                         </Select>
+                       </div>
                     </DetailItem>
                     <DetailItem icon={<CheckCircle className="h-4 w-4" />} label="Status">
                         <Badge variant="secondary" className={cn("capitalize", statusStyles[viewingUser.status])}>{viewingUser.status}</Badge>

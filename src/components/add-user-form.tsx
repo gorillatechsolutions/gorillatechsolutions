@@ -22,7 +22,7 @@ import type { UserRole } from "@/types/user";
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
-  role: z.enum(['admin', 'user'], { required_error: "Please select a role." }),
+  role: z.enum(['admin', 'user', 'editor'], { required_error: "Please select a role." }),
   password: z.string().min(8, { message: "Password must be at least 8 characters." }),
   confirmPassword: z.string(),
 }).refine(data => data.password === data.confirmPassword, {
@@ -116,6 +116,7 @@ export function AddUserForm({ onAddUser, onSuccess }: { onAddUser: (user: any) =
                 <FormControl><SelectTrigger><SelectValue placeholder="Select a role" /></SelectTrigger></FormControl>
                 <SelectContent>
                   <SelectItem value="user">User</SelectItem>
+                  <SelectItem value="editor">Editor</SelectItem>
                   <SelectItem value="admin">Admin</SelectItem>
                 </SelectContent>
               </Select>
