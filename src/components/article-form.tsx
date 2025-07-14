@@ -196,7 +196,7 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
                 <FormItem>
                   <FormControl>
                      <Editor
-                        apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY} // Get a free key from tiny.cloud
+                        apiKey='no-api-key' // Using the development key. For production, get a free key from tiny.cloud and use an environment variable.
                         value={field.value}
                         onEditorChange={(content) => field.onChange(content)}
                         init={{
