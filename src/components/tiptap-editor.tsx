@@ -4,6 +4,7 @@
 import { useEditor, EditorContent, Editor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
+import Underline from '@tiptap/extension-underline';
 import { useCallback } from 'react';
 import {
   Bold,
@@ -16,6 +17,7 @@ import {
   Heading3,
   Link as LinkIcon,
   Quote,
+  Underline as UnderlineIcon,
 } from 'lucide-react';
 import { Toggle } from './ui/toggle';
 import { Separator } from './ui/separator';
@@ -80,6 +82,13 @@ const Toolbar = ({ editor }: { editor: Editor | null }) => {
       >
         <Italic className="h-4 w-4" />
       </Toggle>
+       <Toggle
+        size="sm"
+        pressed={editor.isActive('underline')}
+        onPressedChange={() => editor.chain().focus().toggleUnderline().run()}
+      >
+        <UnderlineIcon className="h-4 w-4" />
+      </Toggle>
       <Toggle
         size="sm"
         pressed={editor.isActive('strike')}
@@ -109,7 +118,7 @@ const Toolbar = ({ editor }: { editor: Editor | null }) => {
       >
         <Quote className="h-4 w-4" />
       </Toggle>
-      <Toggle size="sm" onPressedChange={setLink}>
+      <Toggle size="sm" onPressedChange={setLink} pressed={editor.isActive('link')}>
         <LinkIcon className="h-4 w-4" />
       </Toggle>
     </div>
@@ -125,6 +134,7 @@ const TiptapEditor = ({ content, onChange }: TiptapEditorProps) => {
   const editor = useEditor({
     extensions: [
       StarterKit.configure(),
+      Underline,
       Link.configure({
         openOnClick: false,
         autolink: true,
