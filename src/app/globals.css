@@ -1,3 +1,4 @@
+
 /* pt-sans-regular - latin */
 @font-face {
   font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
@@ -140,27 +141,6 @@
       border-radius: 0.5rem;
       width: 100%;
       aspect-ratio: 16 / 9;
-  }
-
-  /* React Quill Customizations */
-  .ql-toolbar {
-    @apply rounded-t-md border-input bg-card;
-  }
-  .ql-container {
-    @apply rounded-b-md border-input bg-card text-card-foreground;
-  }
-  .ql-editor {
-      min-height: 250px;
-  }
-
-  .ql-snow .ql-picker-label {
-      @apply text-card-foreground;
-  }
-  .ql-snow .ql-stroke {
-      @apply stroke-card-foreground;
-  }
-  .ql-snow .ql-fill {
-      @apply fill-card-foreground;
   }
 }
 

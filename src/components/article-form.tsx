@@ -22,10 +22,7 @@ import { useState } from "react";
 import type { CaseStudy } from "@/types/case-study";
 import { generateArticleContent } from "@/ai/flows/article-generator";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import dynamic from 'next/dynamic';
-import 'react-quill/dist/quill.snow.css';
-
-const ReactQuillEditor = dynamic(() => import('./react-quill-editor'), { ssr: false });
+import { TiptapEditor } from './tiptap-editor';
 
 const formSchema = z.object({
   title: z.string().min(2, { message: "Title must be at least 2 characters." }),
@@ -101,7 +98,6 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
             return `<h2>${paragraph.substring(3)}</h2>`;
         }
         if (paragraph.startsWith('* ')) {
-            // This is a simplified conversion. A real implementation might group list items.
             return `<ul><li>${paragraph.substring(2)}</li></ul>`;
         }
         return `<p>${paragraph}</p>`;
@@ -242,8 +238,8 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
                                     <FormItem className="h-full flex flex-col">
                                         <FormLabel>Content</FormLabel>
                                         <FormControl>
-                                            <ReactQuillEditor
-                                                value={field.value}
+                                            <TiptapEditor
+                                                content={field.value}
                                                 onChange={field.onChange}
                                             />
                                         </FormControl>
