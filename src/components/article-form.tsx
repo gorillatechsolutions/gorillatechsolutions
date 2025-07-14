@@ -24,7 +24,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { generateArticleContent } from "@/ai/flows/article-generator";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from "./ui/dialog";
-import { Label } from "./ui/label";
+import { Label } from "@/components/ui/label";
 
 const formSchema = z.object({
   title: z.string().min(5, "Title must be at least 5 characters."),
@@ -46,37 +46,36 @@ const useHistory = (initialState: string) => {
     const [history, setHistory] = useState<string[]>([initialState]);
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    const setState = (value: string, fromHistory = false) => {
-        if (fromHistory) {
-            // This is a travel in history, not a new state
-        } else {
-            const newHistory = history.slice(0, currentIndex + 1);
-            newHistory.push(value);
-            setHistory(newHistory);
-            setCurrentIndex(newHistory.length - 1);
-        }
+    const recordChange = (value: string) => {
+        if (value === history[currentIndex]) return;
+        const newHistory = history.slice(0, currentIndex + 1);
+        newHistory.push(value);
+        setHistory(newHistory);
+        setCurrentIndex(newHistory.length - 1);
     };
 
-    const undo = () => {
+    const undo = (currentValue: string) => {
         if (currentIndex > 0) {
-            setCurrentIndex(prev => prev - 1);
-            return history[currentIndex - 1];
+            const newIndex = currentIndex - 1;
+            setCurrentIndex(newIndex);
+            return history[newIndex];
         }
-        return null;
+        return currentValue;
     };
 
-    const redo = () => {
+    const redo = (currentValue: string) => {
         if (currentIndex < history.length - 1) {
-            setCurrentIndex(prev => prev + 1);
-            return history[currentIndex + 1];
+            const newIndex = currentIndex + 1;
+            setCurrentIndex(newIndex);
+            return history[newIndex];
         }
-        return null;
+        return currentValue;
     };
     
     const canUndo = currentIndex > 0;
     const canRedo = currentIndex < history.length - 1;
 
-    return { value: history[currentIndex] || '', setState, undo, redo, canUndo, canRedo };
+    return { recordChange, undo, redo, canUndo, canRedo };
 };
 
 export function ArticleForm({ existingArticle }: ArticleFormProps) {
@@ -101,12 +100,26 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
       views: existingArticle?.views || Math.floor(Math.random() * 500),
     },
   });
-  
-  const { value: contentValue, setState: setContent, undo, redo, canUndo, canRedo } = useHistory(form.getValues('content'));
 
-  useEffect(() => {
-    form.setValue('content', contentValue, { shouldValidate: true, shouldDirty: true });
-  }, [contentValue, form]);
+  const contentValue = form.watch('content');
+  const { recordChange, undo, redo, canUndo, canRedo } = useHistory(form.getValues('content'));
+
+  const setContent = (value: string, fromHistory: boolean = false) => {
+    form.setValue('content', value, { shouldValidate: true, shouldDirty: true });
+    if (!fromHistory) {
+      recordChange(value);
+    }
+  };
+
+  const handleUndo = () => {
+    const newValue = undo(contentValue);
+    setContent(newValue, true);
+  };
+  
+  const handleRedo = () => {
+    const newValue = redo(contentValue);
+    setContent(newValue, true);
+  };
 
   const readFileAsDataURL = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -191,6 +204,15 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
 
     const updatedValue = textarea.value.substring(0, start) + newText + textarea.value.substring(end);
     setContent(updatedValue);
+    
+    setTimeout(() => {
+        textarea.focus();
+        if (!selectedText) {
+            textarea.setSelectionRange(start + prefix.length, start + prefix.length + placeholder.length);
+        } else {
+            textarea.setSelectionRange(start + newText.length, start + newText.length);
+        }
+    }, 0);
   };
   
   const applyLineFormatting = (prefix: string) => {
@@ -199,31 +221,52 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
 
     const start = textarea.selectionStart;
     const lineStart = textarea.value.lastIndexOf('\n', start - 1) + 1;
-    const newText = prefix;
+    
+    // Find the end of the line
+    let lineEnd = textarea.value.indexOf('\n', lineStart);
+    if (lineEnd === -1) {
+        lineEnd = textarea.value.length;
+    }
 
-    const updatedValue = textarea.value.substring(0, lineStart) + newText + textarea.value.substring(lineStart);
+    const currentLine = textarea.value.substring(lineStart, lineEnd);
+    
+    let newText;
+    let newSelectionStart = lineStart;
+
+    if (currentLine.trim().startsWith(prefix.trim())) {
+      newText = currentLine.replace(prefix, '');
+      newSelectionStart += newText.length;
+    } else {
+      newText = prefix + currentLine;
+      newSelectionStart += newText.length;
+    }
+    
+    const updatedValue = textarea.value.substring(0, lineStart) + newText + textarea.value.substring(lineEnd);
     setContent(updatedValue);
+
+    setTimeout(() => {
+        textarea.focus();
+        textarea.setSelectionRange(newSelectionStart, newSelectionStart);
+    }, 0);
   };
   
-  const insertAtCursor = (text: string) => {
+  const insertAtCursor = (textToInsert: string) => {
       const textarea = contentRef.current;
       if (!textarea) return;
       const start = textarea.selectionStart;
-      const updatedValue = textarea.value.substring(0, start) + text + textarea.value.substring(start);
+      const updatedValue = textarea.value.substring(0, start) + textToInsert + textarea.value.substring(start);
       setContent(updatedValue);
+
+      setTimeout(() => {
+        textarea.focus();
+        textarea.setSelectionRange(start + textToInsert.length, start + textToInsert.length);
+      }, 0);
   }
 
   const handleLink = () => {
     const url = prompt('Enter the URL:');
     if (url) {
-        const textarea = contentRef.current;
-        if (!textarea) return;
-        const start = textarea.selectionStart;
-        const end = textarea.selectionEnd;
-        const selectedText = textarea.value.substring(start, end) || 'link text';
-        const newText = `[${selectedText}](${url})`;
-        const updatedValue = textarea.value.substring(0, start) + newText + textarea.value.substring(end);
-        setContent(updatedValue);
+        applyFormatting('[', `](${url})`, 'link text');
     }
   };
 
@@ -231,20 +274,10 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
     const url = prompt('Enter the image URL:');
     if (url) {
         const altText = prompt('Enter alt text for the image:', 'image');
-        const newText = `\n![${altText}](${url})\n`;
+        const newText = `\n![${altText || 'image'}](${url})\n`;
         insertAtCursor(newText);
     }
   };
-  
-  const handleUndo = () => {
-    const val = undo();
-    if(val !== null) form.setValue('content', val, { shouldValidate: true, shouldDirty: true });
-  }
-
-  const handleRedo = () => {
-    const val = redo();
-    if(val !== null) form.setValue('content', val, { shouldValidate: true, shouldDirty: true });
-  }
 
   const renderPreview = (markdown: string) => {
     const html = markdown
@@ -263,7 +296,6 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
         .replace(/^\* (.*$)/gim, '<ul>\n<li>$1</li>\n</ul>')
         .replace(/^1\. (.*$)/gim, '<ol>\n<li>$1</li>\n</ol>')
         .replace(/\n/g, '<br />')
-        // Clean up adjacent list tags
         .replace(/<\/ul><br \/><ul>/g, '') 
         .replace(/<\/ol><br \/>_?<ul>/g, '');
 
@@ -373,8 +405,7 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
                             {...field} 
                             ref={contentRef}
                             onChange={(e) => {
-                                field.onChange(e); // Notify RHF
-                                setContent(e.target.value); // Update history state
+                                setContent(e.target.value);
                             }}
                         />
                     </FormControl>
@@ -475,3 +506,5 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
     </Form>
   );
 }
+
+    
