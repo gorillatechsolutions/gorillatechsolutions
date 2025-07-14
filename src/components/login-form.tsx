@@ -57,6 +57,7 @@ export function LoginForm() {
             username: 'maryj',
             phone: '1234567890',
             role: 'user',
+            country: 'USA',
         }
     ];
 

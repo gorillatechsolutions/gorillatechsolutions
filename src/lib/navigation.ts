@@ -1,5 +1,5 @@
 
-import { Home, Info, Cog, BookText, ClipboardList, Mail, AppWindow, Star, LogIn, LayoutDashboard } from 'lucide-react';
+import { Home, Info, Cog, BookText, ClipboardList, Mail, AppWindow, Star, LogIn, UserCircle } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 type NavLink = {
@@ -17,5 +17,5 @@ export const NAV_LINKS: NavLink[] = [
   { name: 'Our Apps', href: '/apps', icon: AppWindow },
   { name: 'Contact Us', href: '/contact', icon: Mail },
   { name: 'Login', href: '/login', icon: LogIn, auth: 'loggedOut' },
-  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, auth: 'loggedIn'},
+  { name: 'Profile', href: '/profile', icon: UserCircle, auth: 'loggedIn'},
 ];
