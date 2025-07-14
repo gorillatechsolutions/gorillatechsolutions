@@ -18,12 +18,14 @@ import { useToast } from "@/hooks/use-toast";
 import { Save, Sparkles, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import type { CaseStudy } from "@/types/case-study";
-import React, { useState, useTransition, useRef, useMemo } from "react";
+import React, { useState, useTransition, useMemo } from "react";
 import { generateArticleContent } from "@/ai/flows/article-generator";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from "./ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "./ui/textarea";
-import JoditEditor from "jodit-react";
+
+// Import Quill's CSS
+import 'react-quill/dist/quill.snow.css';
 
 
 const formSchema = z.object({
@@ -48,7 +50,8 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
   const [isAiDialogOpen, setAiDialogOpen] = useState(false);
   const [aiTopic, setAiTopic] = useState('');
   
-  const editor = useRef(null);
+  // Dynamically import ReactQuill to avoid SSR issues
+  const ReactQuill = useMemo(() => typeof window !== 'undefined' ? require('react-quill') : () => null, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -63,11 +66,6 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
       views: existingArticle?.views || Math.floor(Math.random() * 500),
     },
   });
-
-  const config = useMemo(() => ({
-		readonly: false, 
-		placeholder: 'Start typing...'
-	}), []);
 
   const readFileAsDataURL = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -212,11 +210,11 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
             render={({ field }) => (
                 <FormItem>
                     <FormControl>
-                        <JoditEditor
-                            ref={editor}
-                            value={field.value}
-                            config={config}
-                            onBlur={field.onChange}
+                        <ReactQuill
+                          theme="snow"
+                          value={field.value}
+                          onChange={field.onChange}
+                          className="bg-card"
                         />
                     </FormControl>
                     <FormMessage />
