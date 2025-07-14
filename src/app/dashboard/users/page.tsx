@@ -35,6 +35,15 @@ export default function UsersPage() {
             description: 'The user has been permanently deleted.',
         });
     };
+
+    const handleDeleteMultipleUsers = (userIds: string[]) => {
+        const updatedUsers = userList.filter(user => !userIds.includes(user.id));
+        updateUserList(updatedUsers);
+        toast({
+            title: `${userIds.length} Users Deleted`,
+            description: 'The selected users have been permanently deleted.',
+        });
+    };
   
     const handleAddUser = (newUser: Omit<User, 'id' | 'avatar' | 'dataAiHint' | 'status' | 'lastSeen' | 'joined'> & {password: string}) => {
         const userToAdd: User = {
@@ -70,6 +79,7 @@ export default function UsersPage() {
             <UsersTable 
                 users={userList} 
                 onDeleteUser={handleDeleteUser}
+                onDeleteMultipleUsers={handleDeleteMultipleUsers}
                 onAddUser={handleAddUser}
                 onUpdateUser={handleUpdateUser}
             />

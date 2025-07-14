@@ -2,7 +2,7 @@
 'use client';
 
 import * as React from 'react';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -11,7 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { ChevronLeft, ChevronRight, Search, MoreHorizontal, UserPlus, Calendar, CheckCircle, Trash2, KeyRound, Eye, EyeOff, User as UserIcon, Phone, Edit, ShieldCheck } from 'lucide-react';
 import { format, formatDistanceToNow } from 'date-fns';
-import { type User, UserRole, UserStatus } from '@/types/user';
+import type { User, UserRole, UserStatus } from '@/types/user';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -51,6 +51,7 @@ import { AddUserForm } from './add-user-form';
 import { Separator } from './ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { Label } from './ui/label';
+import { Checkbox } from './ui/checkbox';
 
 
 const statusStyles: { [key in UserStatus]: string } = {
@@ -70,15 +71,17 @@ const ITEMS_PER_PAGE = 8;
 type UsersTableProps = {
     users: User[];
     onDeleteUser: (userId: string) => void;
+    onDeleteMultipleUsers: (userIds: string[]) => void;
     onAddUser: (user: Omit<User, 'id' | 'avatar' | 'dataAiHint' | 'status' | 'lastSeen' | 'joined'> & {password: string}) => void;
     onUpdateUser: (userId: string, updates: Partial<User>) => void;
 }
 
-export function UsersTable({ users, onDeleteUser, onAddUser, onUpdateUser }: UsersTableProps) {
+export function UsersTable({ users, onDeleteUser, onDeleteMultipleUsers, onAddUser, onUpdateUser }: UsersTableProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [roleFilter, setRoleFilter] = useState<UserRole | 'all'>('all');
   const [statusFilter, setStatusFilter] = useState<UserStatus | 'all'>('all');
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedUserIds, setSelectedUserIds] = useState<string[]>([]);
   const [isAddUserOpen, setAddUserOpen] = useState(false);
   const [viewingUser, setViewingUser] = useState<User | null>(null);
   const [userToEdit, setUserToEdit] = useState<User | null>(null);
@@ -113,6 +116,29 @@ export function UsersTable({ users, onDeleteUser, onAddUser, onUpdateUser }: Use
     currentPage * ITEMS_PER_PAGE
   );
 
+  useEffect(() => {
+    setSelectedUserIds([]);
+  }, [searchTerm, roleFilter, statusFilter, currentPage]);
+
+  const handleSelectAll = (checked: boolean | 'indeterminate') => {
+    if (checked === true) {
+      setSelectedUserIds(filteredUsers.map(user => user.id));
+    } else {
+      setSelectedUserIds([]);
+    }
+  };
+
+  const handleSelectUser = (userId: string, checked: boolean) => {
+    if (checked) {
+      setSelectedUserIds(prev => [...prev, userId]);
+    } else {
+      setSelectedUserIds(prev => prev.filter(id => id !== userId));
+    }
+  };
+
+  const numSelected = selectedUserIds.length;
+  const numFiltered = filteredUsers.length;
+
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setCurrentPage(newPage);
@@ -120,7 +146,6 @@ export function UsersTable({ users, onDeleteUser, onAddUser, onUpdateUser }: Use
   };
   
   const handleChangePassword = (userId: string) => {
-    // In a real app, this would be an API call.
     console.log(`Changing password for user ${userId}`);
     toast({
       title: 'Password Changed',
@@ -208,6 +233,31 @@ export function UsersTable({ users, onDeleteUser, onAddUser, onUpdateUser }: Use
     </AlertDialog>
   );
 
+  const BulkDeleteDialog = ({ onConfirm }: { onConfirm: () => void }) => (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button variant="destructive" disabled={numSelected === 0}>
+          <Trash2 className="mr-2 h-4 w-4" />
+          Delete Selected ({numSelected})
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone. This will permanently delete {numSelected} user account(s).
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={onConfirm} className={cn(buttonVariants({ variant: 'destructive' }))}>
+            Yes, delete users
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+
   return (
     <>
       <Dialog open={isAddUserOpen} onOpenChange={setAddUserOpen}>
@@ -223,7 +273,7 @@ export function UsersTable({ users, onDeleteUser, onAddUser, onUpdateUser }: Use
                   onChange={(e) => setSearchTerm(e.target.value)}
                   />
               </div>
-              <div className="flex gap-4">
+              <div className="flex flex-wrap gap-4">
                   <Select value={roleFilter} onValueChange={(value) => setRoleFilter(value as UserRole | 'all')}>
                   <SelectTrigger className="w-full sm:w-[150px]">
                       <SelectValue placeholder="Filter by role" />
@@ -254,23 +304,50 @@ export function UsersTable({ users, onDeleteUser, onAddUser, onUpdateUser }: Use
                   </DialogTrigger>
               </div>
           </div>
+
+          {numSelected > 0 && (
+            <div className="flex items-center justify-between gap-4 p-2.5 rounded-md bg-secondary border">
+                <div className="text-sm font-medium">
+                    {numSelected} of {numFiltered} user(s) selected.
+                </div>
+                <BulkDeleteDialog onConfirm={() => {
+                    onDeleteMultipleUsers(selectedUserIds);
+                    setSelectedUserIds([]);
+                }} />
+            </div>
+          )}
+
           <div className="border rounded-lg">
               <Table>
               <TableHeader>
                   <TableRow>
-                  <TableHead>User</TableHead>
-                  <TableHead>Role</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Joined</TableHead>
-                  <TableHead className="text-right">Last Seen</TableHead>
-                  <TableHead><span className="sr-only">Actions</span></TableHead>
+                    <TableHead className="w-[40px]">
+                        <Checkbox
+                            checked={numSelected === numFiltered && numFiltered > 0 ? true : (numSelected > 0 ? 'indeterminate' : false)}
+                            onCheckedChange={handleSelectAll}
+                            aria-label="Select all users"
+                        />
+                    </TableHead>
+                    <TableHead>User</TableHead>
+                    <TableHead>Role</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Joined</TableHead>
+                    <TableHead className="text-right">Last Seen</TableHead>
+                    <TableHead><span className="sr-only">Actions</span></TableHead>
                   </TableRow>
               </TableHeader>
               <TableBody>
                   {paginatedUsers.length > 0 ? (
                       paginatedUsers.map((user) => (
-                          <TableRow key={user.id}>
-                          <TableCell>
+                          <TableRow key={user.id} data-state={selectedUserIds.includes(user.id) ? 'selected' : undefined}>
+                            <TableCell>
+                                <Checkbox
+                                    checked={selectedUserIds.includes(user.id)}
+                                    onCheckedChange={(checked) => handleSelectUser(user.id, !!checked)}
+                                    aria-label={`Select user ${user.name}`}
+                                />
+                            </TableCell>
+                            <TableCell>
                               <div className="flex items-center gap-3">
                               <Avatar className="h-10 w-10">
                                   <AvatarImage src={user.avatar} alt={user.name} data-ai-hint={user.dataAiHint} />
@@ -281,18 +358,18 @@ export function UsersTable({ users, onDeleteUser, onAddUser, onUpdateUser }: Use
                                   <div className="text-sm text-muted-foreground">{user.email}</div>
                               </div>
                               </div>
-                          </TableCell>
-                          <TableCell>
-                              <Badge variant="secondary" className={cn("capitalize", roleStyles[user.role])}>{user.role}</Badge>
-                          </TableCell>
-                          <TableCell>
-                              <Badge variant="secondary" className={cn("capitalize", statusStyles[user.status])}>{user.status}</Badge>
-                          </TableCell>
-                          <TableCell>{format(new Date(user.joined), 'PP')}</TableCell>
-                          <TableCell className="text-right text-muted-foreground">
-                              {user.lastSeen ? `${formatDistanceToNow(new Date(user.lastSeen))} ago` : 'Never'}
-                          </TableCell>
-                          <TableCell className="text-right">
+                            </TableCell>
+                            <TableCell>
+                                <Badge variant="secondary" className={cn("capitalize", roleStyles[user.role])}>{user.role}</Badge>
+                            </TableCell>
+                            <TableCell>
+                                <Badge variant="secondary" className={cn("capitalize", statusStyles[user.status])}>{user.status}</Badge>
+                            </TableCell>
+                            <TableCell>{format(new Date(user.joined), 'PP')}</TableCell>
+                            <TableCell className="text-right text-muted-foreground">
+                                {user.lastSeen ? `${formatDistanceToNow(new Date(user.lastSeen))} ago` : 'Never'}
+                            </TableCell>
+                            <TableCell className="text-right">
                               <DropdownMenu>
                                   <DropdownMenuTrigger asChild>
                                   <Button variant="ghost" size="icon">
@@ -338,12 +415,12 @@ export function UsersTable({ users, onDeleteUser, onAddUser, onUpdateUser }: Use
                                   </DropdownMenuContent>
                               </DropdownMenu>
                               <ChangePasswordDialog user={user} />
-                          </TableCell>
+                            </TableCell>
                           </TableRow>
                   ))
                   ) : (
                       <TableRow>
-                          <TableCell colSpan={6} className="h-24 text-center">
+                          <TableCell colSpan={7} className="h-24 text-center">
                               No users found.
                           </TableCell>
                       </TableRow>
