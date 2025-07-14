@@ -3,7 +3,6 @@ import { ContactForm } from "@/components/contact-form";
 import { Mail, Phone, MapPin } from "lucide-react";
 import type { Metadata } from 'next';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 
