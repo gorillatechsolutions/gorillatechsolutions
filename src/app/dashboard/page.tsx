@@ -1,10 +1,13 @@
 
+'use client';
+
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { DollarSign, Users, CreditCard, Activity, ArrowUp, ExternalLink, BookOpen, BarChart } from 'lucide-react';
+import { DollarSign, Users, CreditCard, Activity, ArrowUp, ArrowDown, ExternalLink, BookOpen, BarChart } from 'lucide-react';
 import { Area, AreaChart, Bar, BarChart as RechartsBarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis, Legend } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 
 const chartData = [
   { month: 'January', desktop: 186, mobile: 80 },
@@ -171,7 +174,7 @@ export default function DashboardPage() {
                                         <TableCell className={`text-right font-semibold ${page.change > 0 ? 'text-green-500' : 'text-red-500'}`}>
                                             <div className="flex items-center justify-end">
                                                {page.change > 0 ? <ArrowUp className="h-4 w-4 mr-1"/> : <ArrowDown className="h-4 w-4 mr-1"/>}
-                                                {page.change}%
+                                                {Math.abs(page.change)}%
                                             </div>
                                         </TableCell>
                                     </TableRow>
