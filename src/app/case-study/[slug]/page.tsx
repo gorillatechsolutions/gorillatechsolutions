@@ -60,28 +60,6 @@ export default function CaseStudyDetailPage({ params }: { params: { slug: string
         );
     }
 
-    // A simple markdown to HTML converter for basic formatting
-    const renderContent = (content: string) => {
-        const htmlContent = content
-            .split('\n')
-            .map((line, index) => {
-                if (line.startsWith('### ')) {
-                    return <h3 key={index} className="text-xl font-bold mt-4 mb-2">{line.substring(4)}</h3>;
-                }
-                if (line.startsWith('## ')) {
-                    return <h2 key={index} className="text-2xl font-bold mt-6 mb-3">{line.substring(3)}</h2>;
-                }
-                if (line.startsWith('# ')) {
-                     return <h1 key={index} className="text-3xl font-bold mt-8 mb-4">{line.substring(2)}</h1>;
-                }
-                if (line.trim() === '') {
-                    return <br key={index} />;
-                }
-                return <p key={index}>{line}</p>;
-            });
-        return <div>{htmlContent}</div>;
-    };
-
 
     return (
         <div className="w-full bg-background text-foreground">
@@ -126,11 +104,10 @@ export default function CaseStudyDetailPage({ params }: { params: { slug: string
                                 priority
                             />
                         </div>
-                        <div className="prose prose-lg max-w-none mx-auto text-foreground prose-headings:text-primary prose-a:text-accent hover:prose-a:text-accent/80 prose-img:rounded-lg prose-video:rounded-lg">
-                            <p className="lead text-xl text-muted-foreground mb-8">{caseStudy.excerpt}</p>
-                            
-                             {renderContent(caseStudy.content)}
-                        </div>
+                        <div 
+                            className="prose prose-lg max-w-none mx-auto text-foreground prose-headings:text-primary prose-a:text-accent hover:prose-a:text-accent/80 prose-img:rounded-lg prose-video:rounded-lg"
+                            dangerouslySetInnerHTML={{ __html: caseStudy.content }}
+                        />
                     </div>
                 </div>
             </article>

@@ -22,6 +22,7 @@ import { useState } from "react";
 import type { CaseStudy } from "@/types/case-study";
 import { generateArticleContent } from "@/ai/flows/article-generator";
 import { Card, CardContent } from "./ui/card";
+import { TiptapEditor } from "./tiptap-editor";
 
 const formSchema = z.object({
   title: z.string().min(2, { message: "Title must be at least 2 characters." }),
@@ -78,7 +79,20 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
     setIsAiPending(true);
     try {
       const result = await generateArticleContent({ topic: watchedTitle });
-      setValue('content', result.articleContent);
+      
+      // Tiptap expects HTML, so we need a basic markdown-to-html conversion
+      const htmlContent = result.articleContent
+        .split('\n')
+        .map(line => {
+          if (line.startsWith('## ')) return `<h2>${line.substring(3)}</h2>`;
+          if (line.startsWith('### ')) return `<h3>${line.substring(4)}</h3>`;
+          if (line.trim() === '') return '<br>';
+          return `<p>${line}</p>`;
+        })
+        .join('');
+
+      setValue('content', htmlContent);
+      
       toast({
         title: "Content Generated!",
         description: "AI has drafted the article content for you.",
@@ -203,10 +217,9 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
                                     <FormItem className="h-full flex flex-col">
                                         <FormLabel>Content</FormLabel>
                                         <FormControl>
-                                            <Textarea
-                                                placeholder="Start writing your story..."
-                                                className="flex-1 resize-none"
-                                                {...field}
+                                            <TiptapEditor 
+                                              content={field.value || ''} 
+                                              onChange={field.onChange} 
                                             />
                                         </FormControl>
                                         <FormMessage />
