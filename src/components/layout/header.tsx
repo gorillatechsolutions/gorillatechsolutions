@@ -30,6 +30,7 @@ export function Header() {
   const navLinks = NAV_LINKS.filter(link => {
       if (link.auth === 'loggedIn') return !!user;
       if (link.auth === 'loggedOut') return !user;
+      if (link.auth === 'admin') return user?.role === 'admin';
       return true;
   });
 
