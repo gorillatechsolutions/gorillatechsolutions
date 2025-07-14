@@ -28,16 +28,6 @@ const EDITOR_TOOLS = {
         const Delimiter = (await import('@editorjs/delimiter')).default;
         return Delimiter as Tool;
     },
-    // Add other tools as needed
-    // image: {
-    //     class: ImageTool,
-    //     config: {
-    //         endpoints: {
-    //             byFile: 'http://localhost:3000/api/uploadFile', // Your backend file uploader endpoint
-    //             byUrl: 'http://localhost:3000/api/fetchUrl', // Your endpoint that provides uploading by Url
-    //         }
-    //     }
-    // }
 };
 
 interface EditorProps {
