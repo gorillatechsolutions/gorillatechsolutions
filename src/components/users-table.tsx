@@ -52,6 +52,7 @@ import { Separator } from './ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { Label } from './ui/label';
 import { Checkbox } from './ui/checkbox';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
 
 
 const statusStyles: { [key in UserStatus]: string } = {
