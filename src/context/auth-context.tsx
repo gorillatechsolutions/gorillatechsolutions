@@ -15,6 +15,7 @@ export type User = {
     zipcode?: string;
     country?: string;
     state?: string;
+    password?: string;
 };
 
 type AuthContextType = {

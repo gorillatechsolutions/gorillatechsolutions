@@ -49,7 +49,8 @@ export function LoginForm() {
             name: 'Admin User', 
             email: 'admin@example.com',
             username: 'admin_user',
-            role: 'admin' 
+            role: 'admin',
+            password: 'password123'
         },
         { 
             name: 'Mary Jacob',
@@ -58,20 +59,37 @@ export function LoginForm() {
             phone: '1234567890',
             role: 'user',
             country: 'USA',
+            password: 'password123'
         }
     ];
 
-    const foundUser = demoUsers.find(u => 
+    let allUsers: User[] = demoUsers;
+    try {
+        const storedUsersRaw = localStorage.getItem('users');
+        const storedUsers: User[] = storedUsersRaw ? JSON.parse(storedUsersRaw) : [];
+        const combinedUsers = [...demoUsers, ...storedUsers];
+        // Remove duplicates, preferring storedUsers over demoUsers if email matches
+        const uniqueUsers = Array.from(new Map(combinedUsers.map(user => [user.email, user])).values());
+        allUsers = uniqueUsers;
+    } catch (error) {
+        console.error("Failed to parse users from localStorage", error);
+    }
+
+    const foundUser = allUsers.find(u => 
         (u.email === values.identifier || u.username === values.identifier || u.phone === values.identifier)
     );
 
-    if (foundUser && values.password === 'password123') {
+    if (foundUser && foundUser.password === values.password) {
         login(foundUser);
         toast({
             title: "Login Successful!",
-            description: "Welcome back! Redirecting you to your profile...",
+            description: "Welcome back! Redirecting you...",
         });
-        router.push('/profile');
+        if (foundUser.role === 'admin') {
+            router.push('/dashboard');
+        } else {
+            router.push('/profile');
+        }
         form.reset();
     } else {
         toast({
