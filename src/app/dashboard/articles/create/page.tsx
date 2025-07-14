@@ -10,16 +10,9 @@ import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import type { CaseStudy } from '@/types/case-study';
-import { Save, Sparkles, Loader2, Image as ImageIcon } from 'lucide-react';
+import { Save, Sparkles, Loader2 } from 'lucide-react';
 import { generateArticleContent } from '@/ai/flows/article-generator';
-import dynamic from 'next/dynamic';
-import 'react-quill/dist/quill.snow.css';
-
-const QuillEditor = dynamic(() => import('@/components/quill-editor'), {
-  ssr: false,
-  loading: () => <div className="h-[200px] w-full rounded-md border border-input animate-pulse" />,
-});
-
+import TiptapEditor from '@/components/tiptap-editor';
 
 export default function CreateArticlePage() {
     const { toast } = useToast();
@@ -143,24 +136,8 @@ export default function CreateArticlePage() {
                 </div>
             </header>
 
-            <div className="flex-1 grid lg:grid-cols-[1fr_380px] gap-4 p-4 overflow-y-auto">
-                {/* Main Content: Editor */}
-                <Card className="flex flex-col">
-                    <CardContent className="p-2 flex-1 flex flex-col">
-                        <Input
-                            placeholder="Article Title"
-                            className="text-2xl font-bold font-headline tracking-tight border-0 shadow-none focus-visible:ring-0 h-auto p-4"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            required
-                        />
-                        <div className="flex-1 h-full min-h-[400px]">
-                           <QuillEditor value={content} onChange={setContent} />
-                        </div>
-                    </CardContent>
-                </Card>
-
-                {/* Sidebar */}
+            <div className="flex-1 grid lg:grid-cols-[380px_1fr] gap-4 p-4 overflow-y-auto">
+                 {/* Sidebar */}
                 <div className="space-y-4">
                     <Card>
                         <CardContent className="p-4 space-y-4">
@@ -179,6 +156,17 @@ export default function CreateArticlePage() {
                     </Card>
                     <Card>
                         <CardContent className="p-4 space-y-4">
+                             <div>
+                                <Label htmlFor="title">Title</Label>
+                                <Input
+                                    id="title"
+                                    placeholder="Article Title"
+                                    value={title}
+                                    onChange={(e) => setTitle(e.target.value)}
+                                    required
+                                    className="mt-1"
+                                />
+                            </div>
                             <div>
                                 <Label htmlFor="excerpt">Excerpt</Label>
                                 <Textarea
@@ -236,6 +224,17 @@ export default function CreateArticlePage() {
                         </CardContent>
                     </Card>
                 </div>
+                {/* Main Content: Editor */}
+                <Card className="flex flex-col">
+                    <CardContent className="p-2 flex-1 flex flex-col">
+                        <div className="flex-1 h-full min-h-[400px]">
+                            <TiptapEditor
+                                content={content}
+                                onChange={setContent}
+                            />
+                        </div>
+                    </CardContent>
+                </Card>
             </div>
         </form>
     );

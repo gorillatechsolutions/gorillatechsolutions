@@ -39,14 +39,16 @@ export default function EditArticlePage({ params }: { params: { slug: string } }
             </div>
         )
     }
+    
+    if (!article) {
+        return (
+            <div className="p-4 sm:p-6 md:p-8">
+               <p>Article not found.</p>
+           </div>
+        )
+    }
 
     return (
-        <div className="p-4 sm:p-6 md:p-8">
-             <header className="mb-8">
-                <h1 className="text-2xl font-bold font-headline">Edit Article</h1>
-                <p className="text-muted-foreground">Make changes to your article below.</p>
-            </header>
-            {article && <ArticleForm existingArticle={article} />}
-        </div>
+        <ArticleForm existingArticle={article} />
     )
 }
