@@ -2,7 +2,6 @@
 'use client';
 
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { ProfilePasswordForm } from '@/components/profile-password-form';
 import { useAuth } from '@/context/auth-context';
 import { useRouter } from 'next/navigation';
@@ -24,15 +23,13 @@ export default function SecurityPage() {
                 <h1 className="text-2xl font-bold font-headline">Security</h1>
                 <p className="text-muted-foreground">Manage your password and security settings.</p>
             </header>
-             <Card>
-                <CardHeader>
-                    <CardTitle>Change Password</CardTitle>
-                    <CardDescription>Enter your current and new password to update your credentials.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <ProfilePasswordForm />
-                </CardContent>
-            </Card>
+             <div>
+                <div className="mb-4">
+                    <h2 className="text-xl font-semibold">Change Password</h2>
+                    <p className="text-muted-foreground text-sm">Enter your current and new password to update your credentials.</p>
+                </div>
+                <ProfilePasswordForm />
+            </div>
         </div>
     );
 }
