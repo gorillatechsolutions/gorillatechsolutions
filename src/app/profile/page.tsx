@@ -8,8 +8,7 @@ import { useEffect } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { CheckCircle, MapPin, Building2, List, Edit } from 'lucide-react';
-import Link from 'next/link';
+import { CheckCircle, Edit } from 'lucide-react';
 
 export default function ProfilePage() {
     const { user } = useAuth();
@@ -47,7 +46,7 @@ export default function ProfilePage() {
 
                         <div className="flex-1">
                             <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-                                <h1 className="text-3xl md:text-4xl font-bold font-headline text-primary">{user.name}</h1>
+                                <h1 className="text-2xl md:text-3xl font-bold font-headline text-primary">{user.name}</h1>
                                 {user.verified && (
                                     <div className="flex items-center gap-1 text-green-600">
                                         <CheckCircle className="h-5 w-5" />
