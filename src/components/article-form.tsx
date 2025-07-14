@@ -16,11 +16,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Save, Bold, Italic, Link as LinkIcon, Eye, Pilcrow, Heading1, Heading2, Heading3, List, ListOrdered, Quote, Minus, Undo, Redo } from "lucide-react";
+import { Save, Bold, Italic, Link as LinkIcon, Eye, Pilcrow, Heading1, Heading2, Heading3, List, ListOrdered, Quote, Minus, Undo, Redo, Sparkles, Strikethrough, Code, Image as ImageIcon, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import type { CaseStudy } from "@/types/case-study";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useTransition } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { generateArticleContent } from "@/ai/flows/article-generator";
+import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from "./ui/dialog";
 
 const formSchema = z.object({
   title: z.string().min(5, "Title must be at least 5 characters."),
@@ -80,6 +83,9 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
   const router = useRouter();
   const contentRef = useRef<HTMLTextAreaElement>(null);
   const [showPreview, setShowPreview] = useState(false);
+  const [isAiPending, startAiTransition] = useTransition();
+  const [isAiDialogOpen, setAiDialogOpen] = useState(false);
+  const [aiTopic, setAiTopic] = useState('');
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -127,7 +133,7 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
 
         const articleData = {
             ...values,
-            slug: slug,
+            slug: existingArticle ? existingArticle.slug : slug,
             tags: values.tags.split(',').map(tag => tag.trim()),
             image: imageUrl,
             date: new Date().toISOString(),
@@ -219,6 +225,15 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
         setContent(updatedValue);
     }
   };
+
+  const handleImageInsert = () => {
+    const url = prompt('Enter the image URL:');
+    if (url) {
+        const altText = prompt('Enter alt text for the image:', 'image');
+        const newText = `\n![${altText}](${url})\n`;
+        insertAtCursor(newText);
+    }
+  };
   
   const handleUndo = () => {
     const val = undo();
@@ -238,18 +253,43 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
         .replace(/^\> (.*$)/gim, '<blockquote>$1</blockquote>')
         .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
         .replace(/\*(.*)\*/gim, '<em>$1</em>')
-        .replace(/!\[(.*?)\]\((.*?)\)/gim, "<img alt='$1' src='$2' />")
-        .replace(/\[(.*?)\]\((.*?)\)/gim, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+        .replace(/~~(.*)~~/gim, '<del>$1</del>')
+        .replace(/`([^`]+)`/gim, '<code>$1</code>')
+        .replace(/```([\s\S]*?)```/gim, '<pre><code>$1</code></pre>')
+        .replace(/!\[(.*?)\]\((.*?)\)/gim, "<img alt='$1' src='$2' class='rounded-lg shadow-md max-w-full h-auto mx-auto' />")
+        .replace(/\[(.*?)\]\((.*?)\)/gim, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">$1</a>')
         .replace(/^---$/gim, '<hr />')
         .replace(/^\* (.*$)/gim, '<ul>\n<li>$1</li>\n</ul>')
         .replace(/^1\. (.*$)/gim, '<ol>\n<li>$1</li>\n</ol>')
         .replace(/\n/g, '<br />')
         // Clean up adjacent list tags
         .replace(/<\/ul><br \/><ul>/g, '') 
-        .replace(/<\/ol><br \/>_?<ul>/g, '')
+        .replace(/<\/ol><br \/>_?<ul>/g, '');
 
     return html;
   }
+
+  const handleGenerateContent = () => {
+    startAiTransition(async () => {
+        try {
+            const result = await generateArticleContent({ topic: aiTopic });
+            setContent(result.articleContent);
+            setAiDialogOpen(false);
+            setAiTopic('');
+            toast({
+                title: "Content Generated!",
+                description: "AI has drafted the article content for you.",
+            });
+        } catch (error) {
+            console.error(error);
+            toast({
+                variant: 'destructive',
+                title: "AI Generation Failed",
+                description: "Could not generate content. Please try again.",
+            });
+        }
+    });
+  };
   
   const fileRef = form.register("image");
 
@@ -281,22 +321,30 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
         <div>
             <div className="flex justify-between items-center mb-2 flex-wrap gap-2">
                 <FormLabel>Full Content</FormLabel>
-                <div className="flex items-center gap-1 flex-wrap">
-                    <Button type="button" variant="outline" size="xs" onClick={handleUndo} disabled={!canUndo}><Undo className="h-4 w-4 mr-1"/>Undo</Button>
-                    <Button type="button" variant="outline" size="xs" onClick={handleRedo} disabled={!canRedo}><Redo className="h-4 w-4 mr-1"/>Redo</Button>
+                <div className="flex items-center gap-1 flex-wrap justify-end">
+                    <Button type="button" variant="outline" size="xs" onClick={() => setAiDialogOpen(true)}>
+                        <Sparkles className="h-4 w-4 mr-1" />
+                        Generate with AI
+                    </Button>
                     <span className="w-[1px] h-6 bg-border mx-1"></span>
-                    <Button type="button" variant="outline" size="xs" onClick={() => applyLineFormatting('# ')}><Heading1 className="h-4 w-4"/></Button>
-                    <Button type="button" variant="outline" size="xs" onClick={() => applyLineFormatting('## ')}><Heading2 className="h-4 w-4"/></Button>
-                    <Button type="button" variant="outline" size="xs" onClick={() => applyLineFormatting('### ')}><Heading3 className="h-4 w-4"/></Button>
+                    <Button type="button" variant="outline" size="xs" onClick={handleUndo} disabled={!canUndo}><Undo className="h-4 w-4" title="Undo" /></Button>
+                    <Button type="button" variant="outline" size="xs" onClick={handleRedo} disabled={!canRedo}><Redo className="h-4 w-4" title="Redo" /></Button>
                     <span className="w-[1px] h-6 bg-border mx-1"></span>
-                    <Button type="button" variant="outline" size="xs" onClick={() => applyFormatting('**')}><Bold className="h-4 w-4"/></Button>
-                    <Button type="button" variant="outline" size="xs" onClick={() => applyFormatting('*')}><Italic className="h-4 w-4"/></Button>
-                    <Button type="button" variant="outline" size="xs" onClick={handleLink}><LinkIcon className="h-4 w-4"/></Button>
+                    <Button type="button" variant="outline" size="xs" onClick={() => applyLineFormatting('# ')}><Heading1 className="h-4 w-4" title="Heading 1" /></Button>
+                    <Button type="button" variant="outline" size="xs" onClick={() => applyLineFormatting('## ')}><Heading2 className="h-4 w-4" title="Heading 2" /></Button>
+                    <Button type="button" variant="outline" size="xs" onClick={() => applyLineFormatting('### ')}><Heading3 className="h-4 w-4" title="Heading 3" /></Button>
                     <span className="w-[1px] h-6 bg-border mx-1"></span>
-                    <Button type="button" variant="outline" size="xs" onClick={() => applyLineFormatting('> ')}><Quote className="h-4 w-4"/></Button>
-                    <Button type="button" variant="outline" size="xs" onClick={() => applyLineFormatting('* ')}><List className="h-4 w-4"/></Button>
-                    <Button type="button" variant="outline" size="xs" onClick={() => applyLineFormatting('1. ')}><ListOrdered className="h-4 w-4"/></Button>
-                    <Button type="button" variant="outline" size="xs" onClick={() => insertAtCursor('\n---\n')}><Minus className="h-4 w-4"/></Button>
+                    <Button type="button" variant="outline" size="xs" onClick={() => applyFormatting('**')}><Bold className="h-4 w-4" title="Bold" /></Button>
+                    <Button type="button" variant="outline" size="xs" onClick={() => applyFormatting('*')}><Italic className="h-4 w-4" title="Italic" /></Button>
+                    <Button type="button" variant="outline" size="xs" onClick={() => applyFormatting('~~')}><Strikethrough className="h-4 w-4" title="Strikethrough" /></Button>
+                    <Button type="button" variant="outline" size="xs" onClick={handleLink}><LinkIcon className="h-4 w-4" title="Add Link" /></Button>
+                    <Button type="button" variant="outline" size="xs" onClick={() => applyFormatting('`')}><Code className="h-4 w-4" title="Code" /></Button>
+                    <Button type="button" variant="outline" size="xs" onClick={handleImageInsert}><ImageIcon className="h-4 w-4" title="Insert Image" /></Button>
+                    <span className="w-[1px] h-6 bg-border mx-1"></span>
+                    <Button type="button" variant="outline" size="xs" onClick={() => applyLineFormatting('> ')}><Quote className="h-4 w-4" title="Blockquote" /></Button>
+                    <Button type="button" variant="outline" size="xs" onClick={() => applyLineFormatting('* ')}><List className="h-4 w-4" title="Bulleted List" /></Button>
+                    <Button type="button" variant="outline" size="xs" onClick={() => applyLineFormatting('1. ')}><ListOrdered className="h-4 w-4" title="Numbered List" /></Button>
+                    <Button type="button" variant="outline" size="xs" onClick={() => insertAtCursor('\n---\n')}><Minus className="h-4 w-4" title="Horizontal Rule" /></Button>
                     <span className="w-[1px] h-6 bg-border mx-1"></span>
                     <Button type="button" variant={showPreview ? "secondary" : "outline"} size="xs" onClick={() => setShowPreview(!showPreview)}><Eye className="h-4 w-4 mr-1"/> Preview</Button>
                 </div>
@@ -399,7 +447,30 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
           {existingArticle ? 'Save Changes' : 'Publish Article'}
         </Button>
       </form>
+
+        <Dialog open={isAiDialogOpen} onOpenChange={setAiDialogOpen}>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>Generate Article with AI</DialogTitle>
+                    <DialogDescription>
+                        Enter a topic or headline, and our AI will draft the article for you. You can edit it afterwards.
+                    </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4 py-2">
+                    <Label htmlFor="ai-topic">Topic / Headline</Label>
+                    <Input id="ai-topic" value={aiTopic} onChange={(e) => setAiTopic(e.target.value)} placeholder="e.g., The Future of SEO in a Voice Search World" />
+                </div>
+                <DialogFooter>
+                    <DialogClose asChild>
+                        <Button variant="outline">Cancel</Button>
+                    </DialogClose>
+                    <Button onClick={handleGenerateContent} disabled={!aiTopic || isAiPending}>
+                        {isAiPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                        Generate Content
+                    </Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
     </Form>
   );
 }
-
