@@ -31,6 +31,7 @@ const formatViews = (views: number) => {
 
 export default function CaseStudyDetailPage({ params }: { params: { slug: string } }) {
     const [caseStudy, setCaseStudy] = useState<CaseStudy | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         try {
@@ -49,16 +50,26 @@ export default function CaseStudyDetailPage({ params }: { params: { slug: string
         } catch (error) {
             console.error(error);
             notFound();
+        } finally {
+            setIsLoading(false);
         }
     }, [params.slug]);
 
 
-    if (!caseStudy) {
+    if (isLoading) {
         return (
             <div className="w-full bg-background text-foreground text-center py-20">
-                <p>Loading article...</p>
+                <div className="flex justify-center items-center">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                    <p className="ml-4">Loading article...</p>
+                </div>
             </div>
         );
+    }
+    
+    if (!caseStudy) {
+        // This case is mostly handled by notFound(), but as a fallback.
+        return null;
     }
 
 
@@ -122,7 +133,8 @@ export default function CaseStudyDetailPage({ params }: { params: { slug: string
                     </p>
                     <Button asChild size="lg" className="mt-8">
                         <Link href="/case-study">
-                            Back to Case Studies <ArrowLeft className="mr-2 h-5 w-5" />
+                            <ArrowLeft className="mr-2 h-5 w-5" />
+                            Back to Case Studies
                         </Link>
                     </Button>
                 </div>

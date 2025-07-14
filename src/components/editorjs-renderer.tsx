@@ -2,7 +2,7 @@
 'use client';
 
 import React from 'react';
-import type { OutputData, BlockToolData } from '@editorjs/editorjs';
+import type { OutputData, BlockToolData, ToolSettings } from '@editorjs/editorjs';
 
 interface EditorJSRendererProps {
   data: OutputData | string;
@@ -52,16 +52,25 @@ const EditorJSRenderer: React.FC<EditorJSRendererProps> = ({ data }) => {
         parsedData = data;
     } else if (typeof data === 'string') {
         try {
-            // Fallback for content that might have been saved as a string
+            // Fallback for content that might have been saved as a stringified JSON
             const jsonData = JSON.parse(data);
             if (isOutputData(jsonData)) {
                 parsedData = jsonData;
             } else {
-                 return <div dangerouslySetInnerHTML={{ __html: data }} />;
+                 // If it's a string but not JSON, render it as a single paragraph
+                 parsedData = {
+                     time: Date.now(),
+                     blocks: [{ id: 'fallback', type: 'paragraph', data: { text: data } }],
+                     version: "2.29.1"
+                 };
             }
         } catch (error) {
-            // If parsing fails, treat it as plain text
-            return <div dangerouslySetInnerHTML={{ __html: data }} />;
+            // If parsing fails, treat it as plain text in a paragraph
+            parsedData = {
+                time: Date.now(),
+                blocks: [{ id: 'fallback', type: 'paragraph', data: { text: data } }],
+                version: "2.29.1"
+            };
         }
     }
 
@@ -73,6 +82,11 @@ const EditorJSRenderer: React.FC<EditorJSRendererProps> = ({ data }) => {
   return (
     <>
       {parsedData.blocks.map((block) => {
+        // Basic check for block validity
+        if (!block || typeof block.type !== 'string' || !block.data) {
+            return null;
+        }
+
         const renderer = renderers[block.type];
         if (!renderer) {
           console.warn(`No renderer for block type: ${block.type}`);
