@@ -57,8 +57,6 @@ export function LoginForm() {
             username: 'maryj',
             phone: '1234567890',
             role: 'user',
-            bio: "Covering all things real estate @nypost Send tips: dm's open",
-            verified: true,
         }
     ];
 

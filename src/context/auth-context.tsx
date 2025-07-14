@@ -15,14 +15,6 @@ export type User = {
     zipcode?: string;
     country?: string;
     state?: string;
-    // New fields for profile page
-    title?: string;
-    company?: string;
-    location?: string;
-    expertise?: string;
-    bio?: string;
-    verified?: boolean;
-    asSeenIn?: string[];
 };
 
 type AuthContextType = {

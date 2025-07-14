@@ -1,14 +1,10 @@
 
+"use client";
+
 import { LoginForm } from "@/components/login-form";
-import type { Metadata } from 'next';
 import Link from "next/link";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Info } from "lucide-react";
-
-export const metadata: Metadata = {
-    title: 'Login to Your Account',
-    description: 'Access your Gorilla Tech Solutions account to manage your projects and services.',
-};
 
 export default function LoginPage() {
     return (
