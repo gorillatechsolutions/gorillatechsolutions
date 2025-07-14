@@ -10,25 +10,26 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
-export const ArticleContentInputSchema = z.object({
+const ArticleContentInputSchema = z.object({
   topic: z.string().describe('The topic or headline for the article to be generated.'),
 });
 export type ArticleContentInput = z.infer<typeof ArticleContentInputSchema>;
 
-export const ArticleContentOutputSchema = z.object({
+const ArticleContentOutputSchema = z.object({
   articleContent: z.string().describe('The generated article content in Markdown format.'),
 });
 export type ArticleContentOutput = z.infer<typeof ArticleContentOutputSchema>;
 
-export async function generateArticleContent(input: ArticleContentInput): Promise<ArticleContentOutput> {
-  return generateArticleFlow(input);
-}
-
-const prompt = ai.definePrompt({
-  name: 'articleGeneratorPrompt',
-  input: {schema: ArticleContentInputSchema},
-  output: {schema: ArticleContentOutputSchema},
-  prompt: `You are an expert content writer for a digital marketing agency called Gorilla Tech Solutions. Your task is to write a well-structured, insightful, and engaging article in Markdown format based on the provided topic.
+const generateArticleFlow = ai.defineFlow(
+  {
+    name: 'generateArticleFlow',
+    inputSchema: ArticleContentInputSchema,
+    outputSchema: ArticleContentOutputSchema,
+  },
+  async input => {
+    const prompt = ai.definePrompt({
+        name: 'articleGeneratorPrompt',
+        prompt: `You are an expert content writer for a digital marketing agency called Gorilla Tech Solutions. Your task is to write a well-structured, insightful, and engaging article in Markdown format based on the provided topic.
 
 The article should be:
 - Informative and valuable to the reader.
@@ -39,16 +40,13 @@ The article should be:
 Topic: {{{topic}}}
 
 Generate the article content now.`,
-});
+    });
 
-const generateArticleFlow = ai.defineFlow(
-  {
-    name: 'generateArticleFlow',
-    inputSchema: ArticleContentInputSchema,
-    outputSchema: ArticleContentOutputSchema,
-  },
-  async input => {
     const {output} = await prompt(input);
     return output!;
   }
 );
+
+export async function generateArticleContent(input: ArticleContentInput): Promise<ArticleContentOutput> {
+  return generateArticleFlow(input);
+}
