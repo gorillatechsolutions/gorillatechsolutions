@@ -70,20 +70,6 @@ export default function ProfilePage() {
                                     </div>
                                 )}
                             </div>
-                            
-                            {user.asSeenIn && user.asSeenIn.length > 0 && (
-                                <div className="mt-4 text-sm">
-                                    <span className="font-semibold text-foreground">As seen in: </span>
-                                    {user.asSeenIn.map((outlet, index) => (
-                                        <React.Fragment key={outlet}>
-                                            <a href="#" className="text-primary hover:underline">{outlet}</a>
-                                            {index < user.asSeenIn!.length - 1 && ', '}
-                                        </React.Fragment>
-                                    ))}
-                                    {user.asSeenIn.length > 5 && <a href="#" className="text-primary font-semibold hover:underline"> and more</a>}
-                                </div>
-                            )}
-
                         </div>
                     </div>
                     
