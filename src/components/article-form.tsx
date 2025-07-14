@@ -194,22 +194,28 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
             </FormItem>
           )}
         />
-        <div>
-            <div className="flex justify-between items-center mb-2 flex-wrap gap-2">
-                <Label>Full Content</Label>
-                <Button type="button" variant="outline" size="sm" onClick={() => setAiDialogOpen(true)}>
-                    <Sparkles className="h-4 w-4 mr-1" /> Generate with AI
-                </Button>
-            </div>
-            <FormItem>
-                <QuillEditor
-                    value={form.watch('content')}
-                    onChange={(value) => form.setValue('content', value, { shouldValidate: true, shouldDirty: true })}
-                    className="bg-card"
-                />
-                <FormMessage>{form.formState.errors.content?.message}</FormMessage>
-            </FormItem>
-        </div>
+        <FormField
+            control={form.control}
+            name="content"
+            render={({ field }) => (
+                <FormItem>
+                    <div className="flex justify-between items-center mb-2 flex-wrap gap-2">
+                        <FormLabel>Full Content</FormLabel>
+                        <Button type="button" variant="outline" size="sm" onClick={() => setAiDialogOpen(true)}>
+                            <Sparkles className="h-4 w-4 mr-1" /> Generate with AI
+                        </Button>
+                    </div>
+                    <FormControl>
+                        <QuillEditor
+                            value={field.value}
+                            onChange={field.onChange}
+                            className="bg-card"
+                        />
+                    </FormControl>
+                    <FormMessage />
+                </FormItem>
+            )}
+        />
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             <FormField
             control={form.control}
