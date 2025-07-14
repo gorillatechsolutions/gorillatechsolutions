@@ -1,26 +1,37 @@
 diff --git a/node_modules/react-quill/lib/component.js b/node_modules/react-quill/lib/component.js
-index 9e92461..1b52d43 100644
+index 47c34b1..c384813 100644
 --- a/node_modules/react-quill/lib/component.js
 +++ b/node_modules/react-quill/lib/component.js
-@@ -282,7 +282,7 @@
- 	},
+@@ -194,14 +194,14 @@ var QuillComponent = /*#__PURE__*/function (_React$Component) {
+     };
  
- 	getEditorNode: function() {
--		return ReactDOM.findDOMNode(this.editor);
-+		return this.editor;
- 	},
+     _this.getEditor = function () {
+-      return _this.quill;
++      return _this.quill; 
+     };
  
- 	/*
+     _this.getEditorNode = function () {
+       return _reactDom.default.findDOMNode(_this.editor);
+     };
+-
+-    _this.getEditorContainerNode = function () {
+-      return _reactDom.default.findDOMNode(_this.editorContainer);
++    
++    _this.getEditorContainerNode = function () { 
++      return _this.editorContainer.current;
+     };
+ 
+     _this.getSelection = function () {
 diff --git a/node_modules/react-quill/lib/index.js b/node_modules/react-quill/lib/index.js
-index 1618195..81f6920 100644
+index 10842a1..878c946 100644
 --- a/node_modules/react-quill/lib/index.js
 +++ b/node_modules/react-quill/lib/index.js
-@@ -370,7 +370,7 @@
-   },
+@@ -216,7 +216,7 @@
+     };
  
-   getEditorNode: function getEditorNode() {
--    return _reactDom2.default.findDOMNode(this.editor);
-+    return this.editor;
-   },
+     _this.getEditorNode = function () {
+-      return _reactDom.default.findDOMNode(_this.editor);
++      return _this.editor.current;
+     };
  
-   /*
+     _this.focus = function () {
