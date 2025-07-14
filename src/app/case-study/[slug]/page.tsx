@@ -103,7 +103,7 @@ export default function CaseStudyDetailPage({ params }: { params: { slug: string
                                 priority
                             />
                         </div>
-                        <div className="prose prose-lg max-w-none mx-auto text-foreground prose-headings:text-primary prose-a:text-accent hover:prose-a:text-accent/80">
+                        <div className="prose prose-lg max-w-none mx-auto text-foreground prose-headings:text-primary prose-a:text-accent hover:prose-a:text-accent/80 prose-img:rounded-lg prose-video:rounded-lg">
                             <p className="lead text-xl text-muted-foreground mb-8">{caseStudy.excerpt}</p>
                             
                             {/* Render HTML content from custom editor */}

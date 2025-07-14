@@ -139,6 +139,15 @@
   .prose :where(a):not(:where([class~="not-prose"] *)) {
     @apply text-primary underline;
   }
+  .prose .ProseMirror-selectednode {
+      outline: 3px solid #68CEF8;
+  }
+  .prose iframe {
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+  }
 }
 
 @layer utilities {

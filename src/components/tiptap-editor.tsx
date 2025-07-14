@@ -5,6 +5,8 @@ import { useEditor, EditorContent, Editor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
 import Underline from '@tiptap/extension-underline';
+import Image from '@tiptap/extension-image';
+import Youtube from '@tiptap/extension-youtube';
 import { useCallback } from 'react';
 import {
   Bold,
@@ -18,6 +20,9 @@ import {
   Link as LinkIcon,
   Quote,
   Underline as UnderlineIcon,
+  Redo,
+  Image as ImageIcon,
+  Youtube as YoutubeIcon,
 } from 'lucide-react';
 import { Toggle } from './ui/toggle';
 import { Separator } from './ui/separator';
@@ -39,6 +44,27 @@ const Toolbar = ({ editor }: { editor: Editor | null }) => {
 
     editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
   }, [editor]);
+  
+  const addImage = useCallback(() => {
+    if (!editor) return;
+    const url = window.prompt('Image URL');
+
+    if (url) {
+      editor.chain().focus().setImage({ src: url }).run();
+    }
+  }, [editor]);
+  
+  const addYoutubeVideo = () => {
+    if (!editor) return;
+    const url = prompt('YouTube URL');
+
+    if (url) {
+      editor.commands.setYoutubeVideo({
+        src: url,
+      });
+    }
+  };
+
 
   if (!editor) {
     return null;
@@ -46,28 +72,6 @@ const Toolbar = ({ editor }: { editor: Editor | null }) => {
 
   return (
     <div className="border border-input bg-transparent rounded-t-md p-1 flex flex-wrap items-center gap-1">
-      <Toggle
-        size="sm"
-        pressed={editor.isActive('heading', { level: 1 })}
-        onPressedChange={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-      >
-        <Heading1 className="h-4 w-4" />
-      </Toggle>
-      <Toggle
-        size="sm"
-        pressed={editor.isActive('heading', { level: 2 })}
-        onPressedChange={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-      >
-        <Heading2 className="h-4 w-4" />
-      </Toggle>
-      <Toggle
-        size="sm"
-        pressed={editor.isActive('heading', { level: 3 })}
-        onPressedChange={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-      >
-        <Heading3 className="h-4 w-4" />
-      </Toggle>
-      <Separator orientation="vertical" className="h-8 mx-1" />
       <Toggle
         size="sm"
         pressed={editor.isActive('bold')}
@@ -99,6 +103,28 @@ const Toolbar = ({ editor }: { editor: Editor | null }) => {
       <Separator orientation="vertical" className="h-8 mx-1" />
       <Toggle
         size="sm"
+        pressed={editor.isActive('heading', { level: 1 })}
+        onPressedChange={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+      >
+        <Heading1 className="h-4 w-4" />
+      </Toggle>
+      <Toggle
+        size="sm"
+        pressed={editor.isActive('heading', { level: 2 })}
+        onPressedChange={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+      >
+        <Heading2 className="h-4 w-4" />
+      </Toggle>
+      <Toggle
+        size="sm"
+        pressed={editor.isActive('heading', { level: 3 })}
+        onPressedChange={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+      >
+        <Heading3 className="h-4 w-4" />
+      </Toggle>
+      <Separator orientation="vertical" className="h-8 mx-1" />
+      <Toggle
+        size="sm"
         pressed={editor.isActive('bulletList')}
         onPressedChange={() => editor.chain().focus().toggleBulletList().run()}
       >
@@ -118,8 +144,23 @@ const Toolbar = ({ editor }: { editor: Editor | null }) => {
       >
         <Quote className="h-4 w-4" />
       </Toggle>
+       <Separator orientation="vertical" className="h-8 mx-1" />
       <Toggle size="sm" onPressedChange={setLink} pressed={editor.isActive('link')}>
         <LinkIcon className="h-4 w-4" />
+      </Toggle>
+       <Toggle size="sm" onPressedChange={addImage}>
+        <ImageIcon className="h-4 w-4" />
+      </Toggle>
+      <Toggle size="sm" onPressedChange={addYoutubeVideo}>
+        <YoutubeIcon className="h-4 w-4" />
+      </Toggle>
+      <Separator orientation="vertical" className="h-8 mx-1" />
+       <Toggle
+        size="sm"
+        onPressedChange={() => editor.chain().focus().redo().run()}
+        disabled={!editor.can().redo()}
+      >
+        <Redo className="h-4 w-4" />
       </Toggle>
     </div>
   );
@@ -139,6 +180,10 @@ const TiptapEditor = ({ content, onChange }: TiptapEditorProps) => {
         openOnClick: false,
         autolink: true,
       }),
+      Image,
+      Youtube.configure({
+        nocookie: true,
+      }),
     ],
     content: content,
     onUpdate({ editor }) {
@@ -146,7 +191,7 @@ const TiptapEditor = ({ content, onChange }: TiptapEditorProps) => {
     },
     editorProps: {
       attributes: {
-        class: 'prose dark:prose-invert prose-sm sm:prose-base lg:prose-lg xl:prose-2xl m-5 focus:outline-none min-h-[150px]',
+        class: 'prose dark:prose-invert prose-sm sm:prose-base max-w-none m-5 focus:outline-none min-h-[150px]',
       },
     },
   });
