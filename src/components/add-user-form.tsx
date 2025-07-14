@@ -31,7 +31,7 @@ const formSchema = z.object({
 });
 
 
-export function AddUserForm({ onSuccess }: { onSuccess?: () => void }) {
+export function AddUserForm({ onAddUser, onSuccess }: { onAddUser: (user: any) => void, onSuccess?: () => void }) {
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -46,9 +46,7 @@ export function AddUserForm({ onSuccess }: { onSuccess?: () => void }) {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // In a real app, you'd call an API to create the user.
-    // Omit password from client-side logs in a real app.
-    console.log(values);
+    onAddUser(values);
     
     toast({
       title: "User Created!",

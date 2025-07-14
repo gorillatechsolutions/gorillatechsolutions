@@ -60,6 +60,7 @@ export function SignupForm() {
             username: values.username,
             phone: values.phone,
             email: values.email,
+            password: values.password, // This line was missing the password
             avatar: 'https://placehold.co/100x100.png',
             dataAiHint: 'person',
             role: 'user', // Default role
