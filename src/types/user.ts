@@ -12,5 +12,6 @@ export interface User {
   status: UserStatus;
   joined: string;
   lastSeen: string | null;
-  phone?: string;
+  phone: string;
+  username?: string;
 }

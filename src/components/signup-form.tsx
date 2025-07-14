@@ -16,11 +16,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { UserPlus } from "lucide-react";
+import { useRouter } from "next/navigation";
+import type { User } from "@/types/user";
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   username: z.string().min(3, { message: "Username must be at least 3 characters." }),
-  phone: z.string().optional(),
+  phone: z.string().min(1, { message: "Phone number is required." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
   password: z.string().min(8, { message: "Password must be at least 8 characters." }),
   confirmPassword: z.string(),
@@ -31,6 +33,7 @@ const formSchema = z.object({
 
 export function SignupForm() {
   const { toast } = useToast();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -45,12 +48,44 @@ export function SignupForm() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    toast({
-      title: "Account Created!",
-      description: "Welcome! Your account has been created successfully.",
-    });
-    form.reset();
+    // In a real app, this would be an API call.
+    // For this prototype, we'll store users in localStorage.
+    try {
+        const storedUsersRaw = localStorage.getItem('users');
+        const storedUsers: User[] = storedUsersRaw ? JSON.parse(storedUsersRaw) : [];
+        
+        const newUser: User = {
+            id: `usr-${Math.random().toString(36).substr(2, 9)}`,
+            name: values.name,
+            username: values.username,
+            phone: values.phone,
+            email: values.email,
+            avatar: 'https://placehold.co/100x100.png',
+            dataAiHint: 'person',
+            role: 'user', // Default role
+            status: 'active', // New users are active
+            joined: new Date().toISOString(),
+            lastSeen: new Date().toISOString(),
+        };
+
+        const updatedUsers = [...storedUsers, newUser];
+        localStorage.setItem('users', JSON.stringify(updatedUsers));
+        
+        toast({
+            title: "Account Created!",
+            description: "Welcome! Your account has been created successfully. Please log in.",
+        });
+        form.reset();
+        router.push('/login');
+
+    } catch (error) {
+        console.error("Failed to create account:", error);
+        toast({
+            variant: "destructive",
+            title: "An Error Occurred",
+            description: "Could not create your account. Please try again.",
+        });
+    }
   }
 
   return (
@@ -87,7 +122,7 @@ export function SignupForm() {
           name="phone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Phone Number (Optional)</FormLabel>
+              <FormLabel>Phone Number</FormLabel>
               <FormControl>
                 <Input placeholder="+1 (234) 567-890" {...field} />
               </FormControl>

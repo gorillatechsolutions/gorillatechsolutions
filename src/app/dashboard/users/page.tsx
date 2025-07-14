@@ -1,24 +1,35 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { UsersTable } from '@/components/users-table';
 import type { User } from '@/types/user';
-import { addDays, subDays } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 
-const now = new Date();
-
-const initialUsers: User[] = [];
-
-
 export default function UsersPage() {
-    const [userList, setUserList] = useState<User[]>(initialUsers);
+    const [userList, setUserList] = useState<User[]>([]);
     const { toast } = useToast();
 
+    useEffect(() => {
+        try {
+            const storedUsers = localStorage.getItem('users');
+            if (storedUsers) {
+                setUserList(JSON.parse(storedUsers));
+            }
+        } catch (error) {
+            console.error("Failed to parse users from localStorage", error);
+            localStorage.removeItem('users');
+        }
+    }, []);
+
+    const updateUserList = (newList: User[]) => {
+        setUserList(newList);
+        localStorage.setItem('users', JSON.stringify(newList));
+    };
+
     const handleDeleteUser = (userId: string) => {
-        // In a real app, this would be an API call.
-        setUserList(prevUsers => prevUsers.filter(user => user.id !== userId));
+        const updatedUsers = userList.filter(user => user.id !== userId);
+        updateUserList(updatedUsers);
         toast({
             title: 'User Deleted',
             description: 'The user has been permanently deleted.',
@@ -35,8 +46,9 @@ export default function UsersPage() {
             joined: new Date().toISOString(),
             lastSeen: null,
         };
-        setUserList(prev => [userToAdd, ...prev]);
-    }
+        const updatedUsers = [userToAdd, ...userList];
+        updateUserList(updatedUsers);
+    };
 
     return (
         <div className="p-4 sm:p-6 md:p-8">
