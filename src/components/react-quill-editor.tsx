@@ -37,7 +37,7 @@ const ReactQuillEditor: React.FC<ReactQuillEditorProps> = ({ value, onChange }) 
         onChange={onChange}
         modules={modules}
         formats={formats}
-        className="h-[calc(100%-42px)]" // Adjust height to fit toolbar
+        className="h-[calc(100%-42px)]" 
         placeholder="Write your amazing article here..."
       />
     </div>
