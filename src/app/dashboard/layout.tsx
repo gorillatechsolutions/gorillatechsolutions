@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { SidebarProvider, Sidebar, SidebarTrigger, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from '@/components/ui/sidebar';
 import { User, Lock } from 'lucide-react';
+import Link from 'next/link';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const { user } = useAuth();
@@ -38,16 +39,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 <SidebarContent>
                     <SidebarMenu className="pt-20">
                         <SidebarMenuItem>
-                            <SidebarMenuButton href="/dashboard" tooltip="Profile">
-                                <User />
-                                <span>Profile</span>
-                            </SidebarMenuButton>
+                            <Link href="/dashboard" passHref>
+                                <SidebarMenuButton asChild tooltip="Profile">
+                                    <User />
+                                    <span>Profile</span>
+                                </SidebarMenuButton>
+                            </Link>
                         </SidebarMenuItem>
                         <SidebarMenuItem>
-                             <SidebarMenuButton href="/dashboard/security" tooltip="Security">
-                                <Lock />
-                                <span>Security</span>
-                            </SidebarMenuButton>
+                             <Link href="/dashboard/security" passHref>
+                                <SidebarMenuButton asChild tooltip="Security">
+                                    <Lock />
+                                    <span>Security</span>
+                                </SidebarMenuButton>
+                            </Link>
                         </SidebarMenuItem>
                     </SidebarMenu>
                 </SidebarContent>
