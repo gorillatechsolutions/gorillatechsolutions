@@ -18,15 +18,12 @@ import { useToast } from "@/hooks/use-toast";
 import { Save, Sparkles, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import type { CaseStudy } from "@/types/case-study";
-import React, { useState, useTransition, useMemo } from "react";
+import React, { useState, useTransition } from "react";
 import { generateArticleContent } from "@/ai/flows/article-generator";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from "./ui/dialog";
 import { Textarea } from "./ui/textarea";
-import dynamic from 'next/dynamic';
-import 'react-quill/dist/quill.snow.css';
+import TiptapEditor from './tiptap-editor';
 import { Label } from "./ui/label";
-
-const QuillEditor = dynamic(() => import('./quill-editor'), { ssr: false });
 
 const formSchema = z.object({
   title: z.string().min(5, "Title must be at least 5 characters."),
@@ -206,10 +203,9 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
                         </Button>
                     </div>
                     <FormControl>
-                        <QuillEditor
-                            value={field.value}
+                        <TiptapEditor
+                            content={field.value}
                             onChange={field.onChange}
-                            className="bg-card"
                         />
                     </FormControl>
                     <FormMessage />

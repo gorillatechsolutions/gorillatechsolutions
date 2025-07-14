@@ -117,6 +117,28 @@
   body {
     @apply bg-background text-foreground;
   }
+   /* Tiptap editor styles */
+  .ProseMirror {
+    @apply min-h-[150px] p-2 border border-input rounded-md;
+  }
+  .ProseMirror:focus {
+    @apply outline-none ring-2 ring-ring ring-offset-2;
+  }
+  .prose :where(p):not(:where([class~="not-prose"] *)) {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+  .prose :where(ul):not(:where([class~="not-prose"] *)) {
+    list-style-type: disc;
+    margin-left: 1.5rem;
+  }
+  .prose :where(ol):not(:where([class~="not-prose"] *)) {
+    list-style-type: decimal;
+    margin-left: 1.5rem;
+  }
+  .prose :where(a):not(:where([class~="not-prose"] *)) {
+    @apply text-primary underline;
+  }
 }
 
 @layer utilities {
