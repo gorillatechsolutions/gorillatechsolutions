@@ -87,6 +87,7 @@ export function UsersTable({ users, onDeleteUser, onDeleteMultipleUsers, onAddUs
   const [userToEdit, setUserToEdit] = useState<User | null>(null);
   const [isChangePasswordOpen, setChangePasswordOpen] = useState(false);
   const { toast } = useToast();
+  const [showPassword, setShowPassword] = useState(false);
 
   const filteredUsers = useMemo(() => {
     let filtered = users;
@@ -177,7 +178,6 @@ export function UsersTable({ users, onDeleteUser, onDeleteMultipleUsers, onAddUs
   );
 
   const ChangePasswordDialog = ({ user }: { user: User | null }) => {
-    const [showPassword, setShowPassword] = useState(false);
     return (
      <Dialog open={isChangePasswordOpen && userToEdit === user} onOpenChange={(isOpen) => { if (!isOpen) setUserToEdit(null); setChangePasswordOpen(isOpen);}}>
         <DialogContent>
@@ -236,7 +236,7 @@ export function UsersTable({ users, onDeleteUser, onDeleteMultipleUsers, onAddUs
   const BulkDeleteDialog = ({ onConfirm }: { onConfirm: () => void }) => (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive" disabled={numSelected === 0}>
+        <Button variant="destructive" size="sm" disabled={numSelected === 0}>
           <Trash2 className="mr-2 h-4 w-4" />
           Delete Selected ({numSelected})
         </Button>
