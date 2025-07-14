@@ -29,7 +29,10 @@ import dynamic from 'next/dynamic';
 import 'react-quill/dist/quill.snow.css';
 
 // Dynamically import ReactQuill to avoid SSR issues
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+const ReactQuill = dynamic(
+  () => import('react-quill'), 
+  { ssr: false }
+);
 
 const formSchema = z.object({
   title: z.string().min(5, "Title must be at least 5 characters."),
@@ -172,6 +175,8 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
   
   const fileRef = form.register("image");
 
+  const QuillEditor = useMemo(() => dynamic(() => import('react-quill'), { ssr: false }), []);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -209,14 +214,13 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
             name="content"
             render={({ field }) => (
                 <FormItem>
-                    <FormControl>
-                        <ReactQuill
-                          theme="snow"
-                          value={field.value}
-                          onChange={field.onChange}
-                          className="bg-card"
-                        />
-                    </FormControl>
+                    {/* The FormControl wrapper is removed here to prevent conflicts */}
+                    <ReactQuill
+                      theme="snow"
+                      value={field.value}
+                      onChange={field.onChange}
+                      className="bg-card"
+                    />
                     <FormMessage />
                 </FormItem>
             )}
@@ -313,3 +317,5 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
     </Form>
   );
 }
+
+    
