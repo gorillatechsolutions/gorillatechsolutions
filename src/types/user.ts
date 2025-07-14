@@ -12,4 +12,5 @@ export interface User {
   status: UserStatus;
   joined: string;
   lastSeen: string | null;
+  phone?: string;
 }

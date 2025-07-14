@@ -20,6 +20,7 @@ const initialUsers: User[] = [
     status: 'active',
     joined: subDays(now, 5).toISOString(),
     lastSeen: subDays(now, 1).toISOString(),
+    phone: '111-222-3333',
   },
   {
     id: 'usr-002',
@@ -31,6 +32,7 @@ const initialUsers: User[] = [
     status: 'active',
     joined: subDays(now, 10).toISOString(),
     lastSeen: subDays(now, 2).toISOString(),
+    phone: '222-333-4444',
   },
   {
     id: 'usr-003',
@@ -53,6 +55,7 @@ const initialUsers: User[] = [
     status: 'active',
     joined: subDays(now, 30).toISOString(),
     lastSeen: subDays(now, 5).toISOString(),
+    phone: '444-555-6666',
   },
   {
     id: 'usr-005',
@@ -75,6 +78,7 @@ const initialUsers: User[] = [
     status: 'active',
     joined: subDays(now, 15).toISOString(),
     lastSeen: subDays(now, 1).toISOString(),
+    phone: '666-777-8888',
   },
   {
     id: 'usr-007',
@@ -97,6 +101,7 @@ const initialUsers: User[] = [
     status: 'invited',
     joined: subDays(now, 1).toISOString(),
     lastSeen: null,
+    phone: '888-999-0000',
   },
   {
     id: 'usr-009',
@@ -119,6 +124,7 @@ const initialUsers: User[] = [
     status: 'active',
     joined: subDays(now, 120).toISOString(),
     lastSeen: subDays(now, 8).toISOString(),
+    phone: '000-111-2222',
   },
 ];
 

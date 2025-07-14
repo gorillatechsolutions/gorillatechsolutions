@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { ChevronLeft, ChevronRight, Search, MoreHorizontal, UserPlus, Calendar, CheckCircle, Trash2, KeyRound, Eye, EyeOff, User as UserIcon } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Search, MoreHorizontal, UserPlus, Calendar, CheckCircle, Trash2, KeyRound, Eye, EyeOff, User as UserIcon, Phone } from 'lucide-react';
 import { format, formatDistanceToNow } from 'date-fns';
 import { type User, UserRole, UserStatus } from '@/types/user';
 import {
@@ -378,6 +378,7 @@ export function UsersTable({ users, onDeleteUser, onAddUser }: UsersTableProps) 
                     <DetailItem icon={<CheckCircle className="h-4 w-4" />} label="Status">
                         <Badge variant="secondary" className={cn("capitalize", statusStyles[viewingUser.status])}>{viewingUser.status}</Badge>
                     </DetailItem>
+                    <DetailItem icon={<Phone className="h-4 w-4" />} label="Phone Number" value={viewingUser.phone} />
                     <DetailItem icon={<Calendar className="h-4 w-4" />} label="Date Joined" value={format(new Date(viewingUser.joined), 'PPP')} />
                     <DetailItem icon={<Calendar className="h-4 w-4" />} label="Last Seen" value={viewingUser.lastSeen ? formatDistanceToNow(new Date(viewingUser.lastSeen), { addSuffix: true }) : 'Never'} />
                 </dl>
