@@ -54,13 +54,39 @@ export function SignupForm() {
         const storedUsersRaw = localStorage.getItem('users');
         const storedUsers: User[] = storedUsersRaw ? JSON.parse(storedUsersRaw) : [];
         
+        // Check for duplicates
+        if (storedUsers.some(user => user.email === values.email)) {
+            toast({
+                variant: "destructive",
+                title: "Registration Failed",
+                description: "An account with this email address already exists.",
+            });
+            return;
+        }
+        if (storedUsers.some(user => user.username === values.username)) {
+            toast({
+                variant: "destructive",
+                title: "Registration Failed",
+                description: "This username is already taken. Please choose another one.",
+            });
+            return;
+        }
+        if (storedUsers.some(user => user.phone === values.phone)) {
+            toast({
+                variant: "destructive",
+                title: "Registration Failed",
+                description: "An account with this phone number already exists.",
+            });
+            return;
+        }
+
         const newUser: User = {
             id: `usr-${Math.random().toString(36).substr(2, 9)}`,
             name: values.name,
             username: values.username,
             phone: values.phone,
             email: values.email,
-            password: values.password, // This line was missing the password
+            password: values.password,
             avatar: 'https://placehold.co/100x100.png',
             dataAiHint: 'person',
             role: 'user', // Default role
