@@ -26,7 +26,8 @@ import {
   DialogTitle,
   DialogDescription,
   DialogClose,
-  DialogFooter
+  DialogFooter,
+  DialogTrigger,
 } from '@/components/ui/dialog';
 import {
   AlertDialog,
@@ -397,5 +398,3 @@ export function UsersTable({ users }: { users: User[] }) {
     </>
   );
 }
-
-
