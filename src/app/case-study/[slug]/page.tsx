@@ -30,14 +30,13 @@ const formatViews = (views: number) => {
 
 export default function CaseStudyDetailPage({ params }: { params: { slug: string } }) {
     const [caseStudy, setCaseStudy] = useState<CaseStudy | null>(null);
-    const slug = params.slug;
 
     useEffect(() => {
         try {
             const storedArticles = localStorage.getItem('articles');
             if (storedArticles) {
                 const articles: CaseStudy[] = JSON.parse(storedArticles);
-                const foundArticle = articles.find(a => a.slug === slug);
+                const foundArticle = articles.find(a => a.slug === params.slug);
                 if(foundArticle) {
                     setCaseStudy(foundArticle);
                 } else {
@@ -50,7 +49,7 @@ export default function CaseStudyDetailPage({ params }: { params: { slug: string
             console.error(error);
             notFound();
         }
-    }, [slug]);
+    }, [params.slug]);
 
 
     if (!caseStudy) {
@@ -107,7 +106,7 @@ export default function CaseStudyDetailPage({ params }: { params: { slug: string
                         <div className="prose prose-lg max-w-none mx-auto text-foreground prose-headings:text-primary prose-a:text-accent hover:prose-a:text-accent/80">
                             <p className="lead text-xl text-muted-foreground mb-8">{caseStudy.excerpt}</p>
                             
-                            {/* Render HTML content from TinyMCE */}
+                            {/* Render HTML content from custom editor */}
                             <div dangerouslySetInnerHTML={{ __html: caseStudy.content }} />
                         </div>
                     </div>
