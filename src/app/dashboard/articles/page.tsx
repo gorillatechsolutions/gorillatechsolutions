@@ -29,10 +29,12 @@ import {
 } from '@/components/ui/alert-dialog';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { useRouter } from 'next/navigation';
 
 export default function ArticlesPage() {
     const [articles, setArticles] = useState<CaseStudy[]>([]);
     const { toast } = useToast();
+    const router = useRouter();
 
     useEffect(() => {
         try {
@@ -56,6 +58,10 @@ export default function ArticlesPage() {
             variant: 'destructive',
         });
     };
+    
+    const handleCreateArticle = () => {
+        router.push('/dashboard/articles/create');
+    }
 
     return (
         <div className="p-4 sm:p-6 md:p-8">
@@ -64,11 +70,9 @@ export default function ArticlesPage() {
                     <h1 className="text-2xl font-bold font-headline">Article Management</h1>
                     <p className="text-muted-foreground">Create, edit, and manage your articles and case studies.</p>
                 </div>
-                <Button asChild>
-                    <Link href="/dashboard/articles/create">
-                        <PlusCircle className="mr-2 h-4 w-4" />
-                        Create New Article
-                    </Link>
+                <Button onClick={handleCreateArticle}>
+                    <PlusCircle className="mr-2 h-4 w-4" />
+                    Create New Article
                 </Button>
             </header>
 
@@ -82,8 +86,8 @@ export default function ArticlesPage() {
                         <TableHeader>
                             <TableRow>
                                 <TableHead>Title</TableHead>
-                                <TableHead>Author</TableHead>
-                                <TableHead>Date</TableHead>
+                                <TableHead className="hidden md:table-cell">Author</TableHead>
+                                <TableHead className="hidden lg:table-cell">Date</TableHead>
                                 <TableHead>Tags</TableHead>
                                 <TableHead><span className="sr-only">Actions</span></TableHead>
                             </TableRow>
@@ -92,9 +96,9 @@ export default function ArticlesPage() {
                             {articles.length > 0 ? (
                                 articles.map(article => (
                                     <TableRow key={article.slug}>
-                                        <TableCell className="font-medium">{article.title}</TableCell>
-                                        <TableCell>{article.author}</TableCell>
-                                        <TableCell>{format(new Date(article.date), 'PP')}</TableCell>
+                                        <TableCell className="font-medium max-w-xs truncate">{article.title}</TableCell>
+                                        <TableCell className="hidden md:table-cell">{article.author}</TableCell>
+                                        <TableCell className="hidden lg:table-cell">{format(new Date(article.date), 'PP')}</TableCell>
                                         <TableCell>
                                             <div className="flex flex-wrap gap-1">
                                                 {article.tags.map(tag => <Badge key={tag} variant="secondary">{tag}</Badge>)}

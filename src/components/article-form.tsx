@@ -16,12 +16,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Save, Sparkles, Loader2 } from 'lucide-react';
+import { Save, Sparkles, Loader2, ArrowLeft } from 'lucide-react';
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { CaseStudy } from "@/types/case-study";
 import { generateArticleContent } from "@/ai/flows/article-generator";
-import { Card, CardContent } from "./ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./ui/card";
 import EditorjsEditor from "./editorjs-editor";
 import type { OutputData } from "@editorjs/editorjs";
 
@@ -42,6 +42,7 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isAiPending, setIsAiPending] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(existingArticle?.image || null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -68,6 +69,15 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
     });
   };
 
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (file) {
+          setImageFile(file);
+          const previewUrl = await readFileAsDataURL(file);
+          setImagePreview(previewUrl);
+      }
+  };
+
   const handleGenerateContent = async () => {
     if (!watchedTitle) {
       toast({
@@ -82,11 +92,14 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
       const result = await generateArticleContent({ topic: watchedTitle });
       
       const blocks = result.articleContent.split('\n\n').map(paragraph => {
+        if (paragraph.startsWith('### ')) {
+            return { type: 'header', data: { text: paragraph.substring(4), level: 3 } };
+        }
         if (paragraph.startsWith('## ')) {
             return { type: 'header', data: { text: paragraph.substring(3), level: 2 } };
         }
-        if (paragraph.startsWith('### ')) {
-            return { type: 'header', data: { text: paragraph.substring(4), level: 3 } };
+        if (paragraph.startsWith('* ')) {
+            return { type: 'list', data: { style: 'unordered', items: [paragraph.substring(2)] }};
         }
         return { type: 'paragraph', data: { text: paragraph } };
       });
@@ -128,7 +141,7 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
             title: values.title,
             content: values.content,
             excerpt: values.excerpt || "",
-            tags: values.tags?.split(',').map(tag => tag.trim()) || [],
+            tags: values.tags?.split(',').map(tag => tag.trim()).filter(Boolean) || [],
             author: values.author || "Admin",
             dataAiHint: values.dataAiHint || "",
             image: imageUrl,
@@ -179,10 +192,15 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="h-full flex flex-col">
             <header className="p-4 border-b bg-background flex justify-between items-center gap-4 sticky top-0 z-10">
-                <h1 className="text-xl font-bold font-headline">{existingArticle ? 'Edit Article' : 'Create New Article'}</h1>
+                 <div className="flex items-center gap-2">
+                    <Button type="button" variant="outline" size="icon" onClick={() => router.back()}>
+                        <ArrowLeft className="h-4 w-4" />
+                    </Button>
+                    <h1 className="text-xl font-bold font-headline">{existingArticle ? 'Edit Article' : 'Create New Article'}</h1>
+                </div>
                 <div className="flex items-center gap-2">
                     <Button type="submit" disabled={isSubmitting || isAiPending}>
-                        <Save className="mr-2 h-4 w-4" />
+                        {isSubmitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
                         {isSubmitting ? 'Saving...' : 'Save Article'}
                     </Button>
                 </div>
@@ -190,26 +208,30 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
 
             <div className="flex-1 grid lg:grid-cols-[1fr_380px] gap-4 p-4 overflow-y-auto">
                 {/* Main Content: Editor */}
-                <Card className="flex flex-col">
-                    <CardContent className="p-4 flex-1 flex flex-col gap-4">
-                         <FormField
-                            control={form.control}
-                            name="title"
-                            render={({ field }) => (
-                                <FormItem>
-                                <FormLabel>Title</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        placeholder="Article Title"
-                                        className="text-2xl font-bold font-headline tracking-tight h-auto p-2"
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <div className="flex-1 h-full min-h-[400px]">
+                <div className="flex flex-col gap-4">
+                     <Card>
+                        <CardContent className="p-4">
+                             <FormField
+                                control={form.control}
+                                name="title"
+                                render={({ field }) => (
+                                    <FormItem>
+                                    <FormLabel>Title</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="Your Amazing Article Title"
+                                            className="text-2xl font-bold font-headline tracking-tight h-auto p-2"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </CardContent>
+                     </Card>
+                    <Card className="flex-1">
+                        <CardContent className="p-4 h-full">
                            <FormField
                                 control={form.control}
                                 name="content"
@@ -217,7 +239,7 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
                                     <FormItem className="h-full flex flex-col">
                                         <FormLabel>Content</FormLabel>
                                         <FormControl>
-                                            <div className="w-full h-full rounded-md border border-input p-2">
+                                            <div className="w-full h-full rounded-md border bg-card p-2">
                                                 <EditorjsEditor
                                                     data={field.value}
                                                     onChange={(data: OutputData) => field.onChange(data)}
@@ -229,14 +251,17 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
                                     </FormItem>
                                 )}
                             />
-                        </div>
-                    </CardContent>
-                </Card>
+                        </CardContent>
+                    </Card>
+                </div>
 
                 {/* Sidebar */}
                 <div className="space-y-4">
                     <Card>
-                        <CardContent className="p-4 space-y-4">
+                        <CardHeader>
+                            <CardTitle>AI Tools</CardTitle>
+                        </CardHeader>
+                        <CardContent className="p-4 pt-0">
                              <div>
                                 <Button type="button" variant="outline" className="w-full" onClick={handleGenerateContent} disabled={isAiPending || isSubmitting}>
                                     {isAiPending ? (
@@ -251,7 +276,10 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
                         </CardContent>
                     </Card>
                     <Card>
-                        <CardContent className="p-4 space-y-4">
+                        <CardHeader>
+                            <CardTitle>Article Details</CardTitle>
+                        </CardHeader>
+                        <CardContent className="p-4 pt-0 space-y-4">
                             <FormField
                                 control={form.control}
                                 name="excerpt"
@@ -306,22 +334,26 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
                         </CardContent>
                     </Card>
                     <Card>
-                        <CardContent className="p-4 space-y-4">
+                        <CardHeader>
+                            <CardTitle>Featured Image</CardTitle>
+                        </CardHeader>
+                        <CardContent className="p-4 pt-0 space-y-4">
+                             {imagePreview && (
+                                // eslint-disable-next-line @next/next/no-img-element
+                                <img src={imagePreview} alt="Image preview" className="w-full h-auto rounded-md" />
+                            )}
                             <FormField
                                 control={form.control}
                                 name="image"
                                 render={({ field }) => (
                                     <FormItem>
-                                    <FormLabel>Featured Image</FormLabel>
+                                    <FormLabel>Upload Image</FormLabel>
                                     <FormControl>
                                         <Input
-                                        type="file"
-                                        accept="image/*"
-                                        onChange={(e) => {
-                                            field.onChange(e.target.files);
-                                            setImageFile(e.target.files ? e.target.files[0] : null);
-                                        }}
-                                        className="mt-1"
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={handleImageChange}
+                                            className="mt-1"
                                         />
                                     </FormControl>
                                     <FormMessage />

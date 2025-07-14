@@ -123,7 +123,7 @@ export function UsersTable({ users, onDeleteUser, onDeleteMultipleUsers, onAddUs
 
   const handleSelectAll = (checked: boolean | 'indeterminate') => {
     if (checked === true) {
-      setSelectedUserIds(filteredUsers.map(user => user.id));
+      setSelectedUserIds(paginatedUsers.map(user => user.id));
     } else {
       setSelectedUserIds([]);
     }
@@ -138,7 +138,7 @@ export function UsersTable({ users, onDeleteUser, onDeleteMultipleUsers, onAddUs
   };
 
   const numSelected = selectedUserIds.length;
-  const numFiltered = filteredUsers.length;
+  const numOnPage = paginatedUsers.length;
 
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
@@ -205,7 +205,7 @@ export function UsersTable({ users, onDeleteUser, onDeleteMultipleUsers, onAddUs
                 </div>
             </div>
             <DialogFooter>
-                <Button variant="outline" onClick={() => setChangePasswordOpen(false)}>Cancel</Button>
+                <Button variant="outline" onClick={() => {setChangePasswordOpen(false); setUserToEdit(null)}}>Cancel</Button>
                 <Button onClick={() => user && handleChangePassword(user.id)}>Save Changes</Button>
             </DialogFooter>
         </DialogContent>
@@ -236,7 +236,7 @@ export function UsersTable({ users, onDeleteUser, onDeleteMultipleUsers, onAddUs
   const BulkDeleteDialog = ({ onConfirm }: { onConfirm: () => void }) => (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive" size="xs" disabled={numSelected === 0}>
+        <Button variant="destructive" size="sm" disabled={numSelected === 0}>
           <Trash2 className="mr-2 h-4 w-4" />
           Delete ({numSelected})
         </Button>
@@ -262,200 +262,198 @@ export function UsersTable({ users, onDeleteUser, onDeleteMultipleUsers, onAddUs
     <>
       <Dialog open={isAddUserOpen} onOpenChange={setAddUserOpen}>
           <div className="space-y-4">
-          <div className="flex flex-col sm:flex-row gap-4 justify-between">
-              <div className="relative flex-1">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                  <Input
-                  type="text"
-                  placeholder="Search by name or email..."
-                  className="pl-10"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-              </div>
-              <div className="flex flex-wrap gap-4">
-                  <Select value={roleFilter} onValueChange={(value) => setRoleFilter(value as UserRole | 'all')}>
-                  <SelectTrigger className="w-full sm:w-[150px]">
-                      <SelectValue placeholder="Filter by role" />
-                  </SelectTrigger>
-                  <SelectContent>
-                      <SelectItem value="all">All Roles</SelectItem>
-                      <SelectItem value="admin">Admin</SelectItem>
-                      <SelectItem value="editor">Editor</SelectItem>
-                      <SelectItem value="user">User</SelectItem>
-                  </SelectContent>
-                  </Select>
-                  <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value as UserStatus | 'all')}>
-                  <SelectTrigger className="w-full sm:w-[150px]">
-                      <SelectValue placeholder="Filter by status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                      <SelectItem value="all">All Statuses</SelectItem>
-                      <SelectItem value="active">Active</SelectItem>
-                      <SelectItem value="invited">Invited</SelectItem>
-                      <SelectItem value="archived">Archived</SelectItem>
-                  </SelectContent>
-                  </Select>
-                  <DialogTrigger asChild>
-                      <Button>
-                          <UserPlus className="mr-2 h-4 w-4" />
-                          Add User
-                      </Button>
-                  </DialogTrigger>
-              </div>
-          </div>
-
-          {numSelected > 0 && (
-            <div className="flex items-center justify-between gap-4 p-2.5 rounded-md bg-secondary border">
-                <div className="text-sm font-medium">
-                    {numSelected} of {numFiltered} user(s) selected.
+          <Card>
+            <CardContent className="p-4 flex flex-col sm:flex-row gap-4 justify-between">
+                <div className="relative flex-1">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                    <Input
+                    type="text"
+                    placeholder="Search by name or email..."
+                    className="pl-10"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    />
                 </div>
-                <BulkDeleteDialog onConfirm={() => {
-                    onDeleteMultipleUsers(selectedUserIds);
-                    setSelectedUserIds([]);
-                }} />
-            </div>
-          )}
+                <div className="flex flex-wrap gap-4">
+                    <Select value={roleFilter} onValueChange={(value) => setRoleFilter(value as UserRole | 'all')}>
+                    <SelectTrigger className="w-full sm:w-[150px]">
+                        <SelectValue placeholder="Filter by role" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="all">All Roles</SelectItem>
+                        <SelectItem value="admin">Admin</SelectItem>
+                        <SelectItem value="editor">Editor</SelectItem>
+                        <SelectItem value="user">User</SelectItem>
+                    </SelectContent>
+                    </Select>
+                    <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value as UserStatus | 'all')}>
+                    <SelectTrigger className="w-full sm:w-[150px]">
+                        <SelectValue placeholder="Filter by status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="all">All Statuses</SelectItem>
+                        <SelectItem value="active">Active</SelectItem>
+                        <SelectItem value="invited">Invited</SelectItem>
+                        <SelectItem value="archived">Archived</SelectItem>
+                    </SelectContent>
+                    </Select>
+                    <DialogTrigger asChild>
+                        <Button>
+                            <UserPlus className="mr-2 h-4 w-4" />
+                            Add User
+                        </Button>
+                    </DialogTrigger>
+                </div>
+            </CardContent>
+          </Card>
 
-          <div className="border rounded-lg">
-              <Table>
-              <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-[40px]">
-                        <Checkbox
-                            checked={numSelected === numFiltered && numFiltered > 0 ? true : (numSelected > 0 ? 'indeterminate' : false)}
-                            onCheckedChange={handleSelectAll}
-                            aria-label="Select all users"
-                        />
-                    </TableHead>
-                    <TableHead>User</TableHead>
-                    <TableHead>Role</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Joined</TableHead>
-                    <TableHead className="text-right">Last Seen</TableHead>
-                    <TableHead><span className="sr-only">Actions</span></TableHead>
-                  </TableRow>
-              </TableHeader>
-              <TableBody>
-                  {paginatedUsers.length > 0 ? (
-                      paginatedUsers.map((user) => (
-                          <TableRow key={user.id} data-state={selectedUserIds.includes(user.id) ? 'selected' : undefined}>
-                            <TableCell>
-                                <Checkbox
-                                    checked={selectedUserIds.includes(user.id)}
-                                    onCheckedChange={(checked) => handleSelectUser(user.id, !!checked)}
-                                    aria-label={`Select user ${user.name}`}
-                                />
-                            </TableCell>
-                            <TableCell>
-                              <div className="flex items-center gap-3">
-                              <Avatar className="h-10 w-10">
-                                  <AvatarImage src={user.avatar} alt={user.name} data-ai-hint={user.dataAiHint} />
-                                  <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
-                              </Avatar>
-                              <div>
-                                  <div className="font-medium">{user.name}</div>
-                                  <div className="text-sm text-muted-foreground">{user.email}</div>
-                              </div>
-                              </div>
-                            </TableCell>
-                            <TableCell>
-                                <Badge variant="secondary" className={cn("capitalize", roleStyles[user.role])}>{user.role}</Badge>
-                            </TableCell>
-                            <TableCell>
-                                <Badge variant="secondary" className={cn("capitalize", statusStyles[user.status])}>{user.status}</Badge>
-                            </TableCell>
-                            <TableCell>{format(new Date(user.joined), 'PP')}</TableCell>
-                            <TableCell className="text-right text-muted-foreground">
-                                {user.lastSeen ? `${formatDistanceToNow(new Date(user.lastSeen))} ago` : 'Never'}
-                            </TableCell>
-                            <TableCell className="text-right">
-                              <DropdownMenu>
-                                  <DropdownMenuTrigger asChild>
-                                  <Button variant="ghost" size="icon">
-                                      <MoreHorizontal className="h-4 w-4" />
-                                  </Button>
-                                  </DropdownMenuTrigger>
-                                  <DropdownMenuContent>
-                                    <DropdownMenuItem onSelect={() => setViewingUser(user)}>
-                                        <UserIcon className="mr-2 h-4 w-4" />
-                                        View Details
-                                    </DropdownMenuItem>
-
-                                    <DropdownMenuSub>
-                                      <DropdownMenuSubTrigger>
-                                        <ShieldCheck className="mr-2 h-4 w-4" />
-                                        <span>Change Role</span>
-                                      </DropdownMenuSubTrigger>
-                                      <DropdownMenuPortal>
-                                        <DropdownMenuSubContent>
-                                          <DropdownMenuRadioGroup
-                                            value={user.role}
-                                            onValueChange={(newRole) => handleRoleChange(user.id, newRole as UserRole)}
-                                          >
-                                            <DropdownMenuRadioItem value="admin">Admin</DropdownMenuRadioItem>
-                                            <DropdownMenuRadioItem value="editor">Editor</DropdownMenuRadioItem>
-                                            <DropdownMenuRadioItem value="user">User</DropdownMenuRadioItem>
-                                          </DropdownMenuRadioGroup>
-                                        </DropdownMenuSubContent>
-                                      </DropdownMenuPortal>
-                                    </DropdownMenuSub>
-
-                                    <DropdownMenuItem onSelect={() => { setUserToEdit(user); setChangePasswordOpen(true);}}>
-                                        <KeyRound className="mr-2 h-4 w-4" />
-                                        Change Password
-                                    </DropdownMenuItem>
-                                    <DropdownMenuSeparator />
-                                    <DeleteUserDialog user={user}>
-                                        <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="text-destructive focus:bg-destructive/10 focus:text-destructive">
-                                            <Trash2 className="mr-2 h-4 w-4" />
-                                            Delete User
+          <Card>
+              <CardContent className="p-0">
+                <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead className="w-[60px] p-4">
+                            <Checkbox
+                                checked={numSelected === numOnPage && numOnPage > 0 ? true : (numSelected > 0 ? 'indeterminate' : false)}
+                                onCheckedChange={handleSelectAll}
+                                aria-label="Select all users on this page"
+                            />
+                        </TableHead>
+                        <TableHead>User</TableHead>
+                        <TableHead>Role</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead className="hidden lg:table-cell">Joined</TableHead>
+                        <TableHead className="hidden md:table-cell text-right">Last Seen</TableHead>
+                        <TableHead className="w-[80px]"><span className="sr-only">Actions</span></TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {paginatedUsers.length > 0 ? (
+                        paginatedUsers.map((user) => (
+                            <TableRow key={user.id} data-state={selectedUserIds.includes(user.id) ? 'selected' : undefined}>
+                                <TableCell className="p-4">
+                                    <Checkbox
+                                        checked={selectedUserIds.includes(user.id)}
+                                        onCheckedChange={(checked) => handleSelectUser(user.id, !!checked)}
+                                        aria-label={`Select user ${user.name}`}
+                                    />
+                                </TableCell>
+                                <TableCell>
+                                <div className="flex items-center gap-3">
+                                <Avatar className="h-10 w-10">
+                                    <AvatarImage src={user.avatar} alt={user.name} data-ai-hint={user.dataAiHint} />
+                                    <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                                </Avatar>
+                                <div>
+                                    <div className="font-medium">{user.name}</div>
+                                    <div className="text-sm text-muted-foreground">{user.email}</div>
+                                </div>
+                                </div>
+                                </TableCell>
+                                <TableCell>
+                                    <Badge variant="secondary" className={cn("capitalize", roleStyles[user.role])}>{user.role}</Badge>
+                                </TableCell>
+                                <TableCell>
+                                    <Badge variant="secondary" className={cn("capitalize", statusStyles[user.status])}>{user.status}</Badge>
+                                </TableCell>
+                                <TableCell className="hidden lg:table-cell">{format(new Date(user.joined), 'PP')}</TableCell>
+                                <TableCell className="hidden md:table-cell text-right text-muted-foreground">
+                                    {user.lastSeen ? `${formatDistanceToNow(new Date(user.lastSeen))} ago` : 'Never'}
+                                </TableCell>
+                                <TableCell className="text-right">
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                    <Button variant="ghost" size="icon">
+                                        <MoreHorizontal className="h-4 w-4" />
+                                    </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent>
+                                        <DropdownMenuItem onSelect={() => setViewingUser(user)}>
+                                            <UserIcon className="mr-2 h-4 w-4" />
+                                            View Details
                                         </DropdownMenuItem>
-                                    </DeleteUserDialog>
-                                  </DropdownMenuContent>
-                              </DropdownMenu>
-                              <ChangePasswordDialog user={user} />
+
+                                        <DropdownMenuSub>
+                                        <DropdownMenuSubTrigger>
+                                            <ShieldCheck className="mr-2 h-4 w-4" />
+                                            <span>Change Role</span>
+                                        </DropdownMenuSubTrigger>
+                                        <DropdownMenuPortal>
+                                            <DropdownMenuSubContent>
+                                            <DropdownMenuRadioGroup
+                                                value={user.role}
+                                                onValueChange={(newRole) => handleRoleChange(user.id, newRole as UserRole)}
+                                            >
+                                                <DropdownMenuRadioItem value="admin">Admin</DropdownMenuRadioItem>
+                                                <DropdownMenuRadioItem value="editor">Editor</DropdownMenuRadioItem>
+                                                <DropdownMenuRadioItem value="user">User</DropdownMenuRadioItem>
+                                            </DropdownMenuRadioGroup>
+                                            </DropdownMenuSubContent>
+                                        </DropdownMenuPortal>
+                                        </DropdownMenuSub>
+
+                                        <DropdownMenuItem onSelect={() => { setUserToEdit(user); setChangePasswordOpen(true);}}>
+                                            <KeyRound className="mr-2 h-4 w-4" />
+                                            Change Password
+                                        </DropdownMenuItem>
+                                        <DropdownMenuSeparator />
+                                        <DeleteUserDialog user={user}>
+                                            <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="text-destructive focus:bg-destructive/10 focus:text-destructive">
+                                                <Trash2 className="mr-2 h-4 w-4" />
+                                                Delete User
+                                            </DropdownMenuItem>
+                                        </DeleteUserDialog>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                                <ChangePasswordDialog user={user} />
+                                </TableCell>
+                            </TableRow>
+                    ))
+                    ) : (
+                        <TableRow>
+                            <TableCell colSpan={7} className="h-24 text-center">
+                                No users found.
                             </TableCell>
-                          </TableRow>
-                  ))
-                  ) : (
-                      <TableRow>
-                          <TableCell colSpan={7} className="h-24 text-center">
-                              No users found.
-                          </TableCell>
-                      </TableRow>
+                        </TableRow>
+                    )}
+                </TableBody>
+                </Table>
+              </CardContent>
+               <CardFooter className="flex justify-between items-center p-4">
+                  <div className="text-sm text-muted-foreground">
+                    {numSelected > 0 ? (
+                        <span>{numSelected} user(s) selected</span>
+                    ) : (
+                        <span>
+                            {filteredUsers.length} user(s) total
+                        </span>
+                    )}
+                  </div>
+                  {totalPages > 1 && (
+                      <div className="flex items-center gap-2">
+                          <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handlePageChange(currentPage - 1)}
+                              disabled={currentPage === 1}
+                          >
+                              <ChevronLeft className="h-4 w-4 mr-1" />
+                              Previous
+                          </Button>
+                          <span>Page {currentPage} of {totalPages}</span>
+                          <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handlePageChange(currentPage + 1)}
+                              disabled={currentPage === totalPages}
+                          >
+                              Next
+                              <ChevronRight className="h-4 w-4 ml-1" />
+                          </Button>
+                      </div>
                   )}
-              </TableBody>
-              </Table>
-          </div>
-          {totalPages > 1 && (
-              <div className="flex justify-between items-center text-sm text-muted-foreground">
-                  <div>
-                      Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1} to {Math.min(currentPage * ITEMS_PER_PAGE, filteredUsers.length)} of {filteredUsers.length} users.
-                  </div>
-                  <div className="flex items-center gap-2">
-                      <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handlePageChange(currentPage - 1)}
-                          disabled={currentPage === 1}
-                      >
-                          <ChevronLeft className="h-4 w-4 mr-1" />
-                          Previous
-                      </Button>
-                      <span>Page {currentPage} of {totalPages}</span>
-                      <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handlePageChange(currentPage + 1)}
-                          disabled={currentPage === totalPages}
-                      >
-                          Next
-                          <ChevronRight className="h-4 w-4 ml-1" />
-                      </Button>
-                  </div>
-              </div>
-          )}
+              </CardFooter>
+          </Card>
           </div>
           <DialogContent>
               <DialogHeader>

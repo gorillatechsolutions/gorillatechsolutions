@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { UsersTable } from '@/components/users-table';
 import type { User, UserRole } from '@/types/user';
 import { useToast } from '@/hooks/use-toast';
+import { demoUsers } from '@/lib/demo-data';
 
 export default function UsersPage() {
     const [userList, setUserList] = useState<User[]>([]);
@@ -12,13 +13,16 @@ export default function UsersPage() {
 
     useEffect(() => {
         try {
-            const storedUsers = localStorage.getItem('users');
-            if (storedUsers) {
-                setUserList(JSON.parse(storedUsers));
+            let storedUsers = localStorage.getItem('users');
+            if (!storedUsers || JSON.parse(storedUsers).length === 0) {
+                localStorage.setItem('users', JSON.stringify(demoUsers));
+                storedUsers = JSON.stringify(demoUsers);
             }
+            setUserList(JSON.parse(storedUsers));
         } catch (error) {
             console.error("Failed to parse users from localStorage", error);
-            localStorage.removeItem('users');
+            localStorage.setItem('users', JSON.stringify(demoUsers));
+            setUserList(demoUsers);
         }
     }, []);
 

@@ -8,6 +8,7 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 const chartData = [
   { month: 'January', desktop: 186, mobile: 80 },
@@ -149,7 +150,7 @@ export default function DashboardPage() {
                             <CardDescription>The most visited pages on your website.</CardDescription>
                         </div>
                         <Button asChild size="sm" className="ml-auto gap-1">
-                            <a href="#">View All <ExternalLink className="h-4 w-4" /></a>
+                            <Link href="#">View All <ExternalLink className="h-4 w-4" /></Link>
                         </Button>
                     </CardHeader>
                     <CardContent>
@@ -190,7 +191,7 @@ export default function DashboardPage() {
                             <CardDescription>How visitors are finding your website.</CardDescription>
                         </div>
                          <Button asChild size="sm" className="ml-auto gap-1">
-                            <a href="#">View All <ExternalLink className="h-4 w-4" /></a>
+                            <Link href="#">View All <ExternalLink className="h-4 w-4" /></Link>
                         </Button>
                     </CardHeader>
                      <CardContent>

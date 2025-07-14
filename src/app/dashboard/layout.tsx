@@ -8,10 +8,12 @@ import { useEffect, useState } from 'react';
 import { SidebarProvider, Sidebar, SidebarTrigger, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from '@/components/ui/sidebar';
 import { LayoutDashboard, Users, FileText, Settings } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const { user } = useAuth();
     const router = useRouter();
+    const pathname = usePathname();
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -24,12 +26,19 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
     if (isLoading) {
         return (
-            <div className="container py-12 md:py-20 text-center">
+            <div className="flex h-screen items-center justify-center">
                 <p>Loading Admin Dashboard...</p>
             </div>
         );
     }
     
+    const navItems = [
+        { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
+        { href: "/dashboard/articles", icon: FileText, label: "Articles" },
+        { href: "/dashboard/users", icon: Users, label: "Users" },
+        { href: "#", icon: Settings, label: "Settings" }
+    ];
+
     return (
         <SidebarProvider>
             <Sidebar>
@@ -38,50 +47,22 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 </SidebarHeader>
                 <SidebarContent>
                     <SidebarMenu className="pt-20">
-                        <SidebarMenuItem>
-                            <Link href="/dashboard" passHref>
-                                <SidebarMenuButton asChild tooltip="Dashboard">
-                                    <div>
-                                        <LayoutDashboard />
-                                        <span>Dashboard</span>
-                                    </div>
-                                </SidebarMenuButton>
-                            </Link>
-                        </SidebarMenuItem>
-                        <SidebarMenuItem>
-                             <Link href="/dashboard/users" passHref>
-                                <SidebarMenuButton asChild tooltip="Users">
-                                    <div>
-                                        <Users />
-                                        <span>Users</span>
-                                    </div>
-                                </SidebarMenuButton>
-                            </Link>
-                        </SidebarMenuItem>
-                        <SidebarMenuItem>
-                             <Link href="/dashboard/articles" passHref>
-                                <SidebarMenuButton asChild tooltip="Articles">
-                                    <div>
-                                        <FileText />
-                                        <span>Articles</span>
-                                    </div>
-                                </SidebarMenuButton>
-                            </Link>
-                        </SidebarMenuItem>
-                         <SidebarMenuItem>
-                             <Link href="#" passHref>
-                                <SidebarMenuButton asChild tooltip="Settings">
-                                    <div>
-                                        <Settings />
-                                        <span>Settings</span>
-                                    </div>
-                                </SidebarMenuButton>
-                            </Link>
-                        </SidebarMenuItem>
+                        {navItems.map((item) => (
+                             <SidebarMenuItem key={item.href}>
+                                <Link href={item.href} passHref>
+                                    <SidebarMenuButton asChild tooltip={item.label} isActive={pathname === item.href}>
+                                        <div>
+                                            <item.icon />
+                                            <span>{item.label}</span>
+                                        </div>
+                                    </SidebarMenuButton>
+                                </Link>
+                            </SidebarMenuItem>
+                        ))}
                     </SidebarMenu>
                 </SidebarContent>
             </Sidebar>
-            <div className="flex-1">
+            <div className="flex-1 bg-muted/40">
                 {children}
             </div>
         </SidebarProvider>
