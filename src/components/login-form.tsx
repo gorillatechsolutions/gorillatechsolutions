@@ -20,6 +20,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useAuth } from "@/context/auth-context";
 import { useRouter } from "next/navigation";
+import type { User } from "@/context/auth-context";
 
 
 const formSchema = z.object({
@@ -47,17 +48,34 @@ export function LoginForm() {
         (values.email === 'admin@example.com' && values.password === 'password123') ||
         (values.email === 'user@example.com' && values.password === 'password123')
     ) {
-        const user = {
-            name: values.email === 'admin@example.com' ? 'Admin User' : 'Normal User',
+        const baseUser = {
+            name: values.email === 'admin@example.com' ? 'Admin User' : 'Mary Jacob',
             email: values.email,
-            role: values.email === 'admin@example.com' ? 'admin' : 'user',
         };
+
+        const user: User = values.email === 'admin@example.com' 
+            ? { ...baseUser, role: 'admin' }
+            : { 
+                ...baseUser,
+                role: 'user',
+                title: 'Real Estate Reporter',
+                company: 'New York Post',
+                location: 'New York',
+                expertise: 'Real Estate',
+                bio: "Covering all things real estate @nypost Send tips: dm's open",
+                verified: true,
+                asSeenIn: [
+                    'New York Post', 'Yahoo Entertainment', 'Yahoo Life', 'MSN (US)', 'The Internet Archive', 
+                    'Yahoo News', 'Yahoo News Malaysia', 'Yahoo Singapore', 'Aol', 'Yahoo', 'Yahoo Finance'
+                ],
+            };
+            
         login(user);
         toast({
             title: "Login Successful!",
-            description: "Welcome back! Redirecting you to your dashboard...",
+            description: "Welcome back! Redirecting you to your profile...",
         });
-        router.push('/dashboard');
+        router.push('/profile');
         form.reset();
     } else {
         toast({

@@ -2,11 +2,13 @@
 'use client';
 
 import { useAuth } from '@/context/auth-context';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { DashboardProfileForm } from '@/components/dashboard-profile-form';
-import { DashboardPasswordForm } from '@/components/dashboard-password-form';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { CheckCircle, MapPin, Building2, List, Edit } from 'lucide-react';
+import Link from 'next/link';
 
 export default function ProfilePage() {
     const { user } = useAuth();
@@ -28,38 +30,77 @@ export default function ProfilePage() {
 
     return (
         <div className="container py-12 md:py-20">
-            <header className="mb-12">
-                <h1 className="font-headline text-4xl md:text-5xl font-bold">Your Profile</h1>
-                <p className="mt-2 text-lg text-muted-foreground">
-                    Welcome back, {user.name}! Manage your profile and account settings here.
-                </p>
-            </header>
+            <Card className="max-w-4xl mx-auto p-6 sm:p-8">
+                <CardContent className="p-0">
+                    <div className="flex flex-col sm:flex-row items-start gap-6 sm:gap-8">
+                        <Avatar className="h-32 w-32 sm:h-40 sm:w-40 border-4 border-white shadow-md">
+                            <AvatarImage src="https://placehold.co/200x200.png" alt={user.name} data-ai-hint="woman portrait" />
+                            <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                        </Avatar>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-                <div className="lg:col-span-2">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Profile Information</CardTitle>
-                            <CardDescription>Update your personal details here. Click save when you're done.</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <DashboardProfileForm currentUser={user} />
-                        </CardContent>
-                    </Card>
-                </div>
+                        <div className="flex-1">
+                            <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                                <h1 className="text-3xl md:text-4xl font-bold font-headline text-primary">{user.name}</h1>
+                                {user.verified && (
+                                    <div className="flex items-center gap-1 text-green-600">
+                                        <CheckCircle className="h-5 w-5" />
+                                        <span className="font-semibold">Verified</span>
+                                    </div>
+                                )}
+                            </div>
 
-                <div className="lg:col-span-1">
-                     <Card>
-                        <CardHeader>
-                            <CardTitle>Security</CardTitle>
-                            <CardDescription>Update your password here. Make sure it's a strong one.</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <DashboardPasswordForm />
-                        </CardContent>
-                    </Card>
-                </div>
+                            <div className="mt-4 space-y-2 text-muted-foreground">
+                                {user.title && user.company && (
+                                    <div className="flex items-center gap-3">
+                                        <Building2 className="h-5 w-5" />
+                                        <p>{user.title}, <span className="font-medium text-primary hover:underline"><a href="#">{user.company}</a></span></p>
+                                    </div>
+                                )}
+                                {user.location && (
+                                    <div className="flex items-center gap-3">
+                                        <MapPin className="h-5 w-5" />
+                                        <p>{user.location}</p>
+                                    </div>
+                                )}
+                                {user.expertise && (
+                                    <div className="flex items-center gap-3">
+                                        <List className="h-5 w-5" />
+                                        <p>{user.expertise}</p>
+                                    </div>
+                                )}
+                            </div>
+                            
+                            {user.asSeenIn && user.asSeenIn.length > 0 && (
+                                <div className="mt-4 text-sm">
+                                    <span className="font-semibold text-foreground">As seen in: </span>
+                                    {user.asSeenIn.map((outlet, index) => (
+                                        <React.Fragment key={outlet}>
+                                            <a href="#" className="text-primary hover:underline">{outlet}</a>
+                                            {index < user.asSeenIn!.length - 1 && ', '}
+                                        </React.Fragment>
+                                    ))}
+                                    {user.asSeenIn.length > 5 && <a href="#" className="text-primary font-semibold hover:underline"> and more</a>}
+                                </div>
+                            )}
+
+                        </div>
+                    </div>
+                    
+                    {user.bio && (
+                         <div className="mt-6 pt-6 border-t">
+                            <p className="text-foreground/90">{user.bio}</p>
+                        </div>
+                    )}
+
+                </CardContent>
+            </Card>
+
+             <div className="max-w-4xl mx-auto mt-6 text-right">
+                <Button variant="outline">
+                    <Edit className="mr-2 h-4 w-4" />
+                    Edit Profile
+                </Button>
             </div>
         </div>
-    )
+    );
 }
