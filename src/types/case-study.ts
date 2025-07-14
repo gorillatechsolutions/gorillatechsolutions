@@ -1,4 +1,6 @@
 
+import type { OutputData } from "@editorjs/editorjs";
+
 export type CaseStudy = {
   slug: string;
   title: string;
@@ -9,5 +11,5 @@ export type CaseStudy = {
   author: string;
   date: string;
   views: number;
-  content: string;
+  content: OutputData | string; // Can be Editor.js data or legacy markdown string
 };
