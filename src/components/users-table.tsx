@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { ChevronLeft, ChevronRight, Search, MoreHorizontal, UserPlus, Calendar, CheckCircle, Mail, User as UserIcon } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Search, MoreHorizontal, UserPlus, Calendar, CheckCircle, Mail, User as UserIcon, Trash2, KeyRound } from 'lucide-react';
 import { format, formatDistanceToNow } from 'date-fns';
 import { type User, UserRole, UserStatus } from '@/types/user';
 import {
@@ -17,6 +17,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 import {
   Dialog,
@@ -25,11 +26,25 @@ import {
   DialogTitle,
   DialogDescription,
   DialogTrigger,
-  DialogClose
+  DialogClose,
+  DialogFooter
 } from '@/components/ui/dialog';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { cn } from '@/lib/utils';
 import { AddUserForm } from './add-user-form';
 import { Separator } from './ui/separator';
+import { useToast } from '@/hooks/use-toast';
+import { Label } from './ui/label';
 
 
 const statusStyles: { [key in UserStatus]: string } = {
@@ -46,15 +61,19 @@ const roleStyles: { [key in UserRole]: string } = {
 const ITEMS_PER_PAGE = 8;
 
 export function UsersTable({ users }: { users: User[] }) {
+  const [userList, setUserList] = useState<User[]>(users);
   const [searchTerm, setSearchTerm] = useState('');
   const [roleFilter, setRoleFilter] = useState<UserRole | 'all'>('all');
   const [statusFilter, setStatusFilter] = useState<UserStatus | 'all'>('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [isAddUserOpen, setAddUserOpen] = useState(false);
   const [viewingUser, setViewingUser] = useState<User | null>(null);
+  const [userToEdit, setUserToEdit] = useState<User | null>(null);
+  const [isChangePasswordOpen, setChangePasswordOpen] = useState(false);
+  const { toast } = useToast();
 
   const filteredUsers = useMemo(() => {
-    let filtered = users;
+    let filtered = userList;
 
     if (searchTerm) {
       const lowercasedTerm = searchTerm.toLowerCase();
@@ -73,7 +92,7 @@ export function UsersTable({ users }: { users: User[] }) {
     }
 
     return filtered;
-  }, [users, searchTerm, roleFilter, statusFilter]);
+  }, [userList, searchTerm, roleFilter, statusFilter]);
 
   const totalPages = Math.ceil(filteredUsers.length / ITEMS_PER_PAGE);
   const paginatedUsers = filteredUsers.slice(
@@ -87,6 +106,40 @@ export function UsersTable({ users }: { users: User[] }) {
     }
   };
 
+  const handleDeleteUser = (userId: string) => {
+    // In a real app, this would be an API call.
+    setUserList(prevUsers => prevUsers.filter(user => user.id !== userId));
+    toast({
+      title: 'User Deleted',
+      description: 'The user has been permanently deleted.',
+    });
+  };
+  
+  const handleChangePassword = (userId: string) => {
+    // In a real app, this would be an API call.
+    console.log(`Changing password for user ${userId}`);
+    toast({
+      title: 'Password Changed',
+      description: 'The user\'s password has been successfully updated.',
+    });
+    setChangePasswordOpen(false);
+    setUserToEdit(null);
+  };
+
+  const handleAddUser = (newUser: Omit<User, 'id' | 'avatar' | 'dataAiHint' | 'status' | 'lastSeen' | 'joined'> & {password: string}) => {
+    const userToAdd: User = {
+        id: `usr-${Math.random().toString(36).substr(2, 9)}`,
+        ...newUser,
+        avatar: 'https://placehold.co/100x100.png',
+        dataAiHint: 'person',
+        status: 'invited',
+        joined: new Date().toISOString(),
+        lastSeen: null,
+    };
+    setUserList(prev => [userToAdd, ...prev]);
+    setAddUserOpen(false);
+  }
+
   const DetailItem = ({ icon, label, value, children }: { icon: React.ReactNode, label: string, value?: string | null, children?: React.ReactNode }) => (
     <div>
         <dt className="text-sm font-medium text-muted-foreground flex items-center gap-2">
@@ -94,6 +147,49 @@ export function UsersTable({ users }: { users: User[] }) {
         </dt>
         <dd className="mt-1 text-sm text-foreground">{value || children || 'N/A'}</dd>
     </div>
+  );
+
+  const ChangePasswordDialog = ({ user }: { user: User | null }) => (
+     <Dialog open={isChangePasswordOpen && userToEdit === user} onOpenChange={(isOpen) => { if (!isOpen) setUserToEdit(null); setChangePasswordOpen(isOpen);}}>
+        <DialogContent>
+            <DialogHeader>
+                <DialogTitle>Change Password for {user?.name}</DialogTitle>
+                <DialogDescription>
+                    Enter a new password for the user. They will be notified of this change.
+                </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+                <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="new-password">New Password</Label>
+                    <Input id="new-password" type="password" className="col-span-3" placeholder="••••••••" />
+                </div>
+            </div>
+            <DialogFooter>
+                <Button variant="outline" onClick={() => setChangePasswordOpen(false)}>Cancel</Button>
+                <Button onClick={() => user && handleChangePassword(user.id)}>Save Changes</Button>
+            </DialogFooter>
+        </DialogContent>
+    </Dialog>
+  );
+
+  const DeleteUserDialog = ({ user, children }: { user: User, children: React.ReactNode }) => (
+    <AlertDialog>
+        <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
+        <AlertDialogContent>
+            <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete the user account for <span className="font-semibold">{user.name}</span> and remove their data from our servers.
+                </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={() => handleDeleteUser(user.id)} className={cn(buttonVariants({ variant: 'destructive' }))}>
+                    Yes, delete user
+                </AlertDialogAction>
+            </AlertDialogFooter>
+        </AlertDialogContent>
+    </AlertDialog>
   );
 
   return (
@@ -187,11 +283,24 @@ export function UsersTable({ users }: { users: User[] }) {
                                   </Button>
                                   </DropdownMenuTrigger>
                                   <DropdownMenuContent>
-                                    <DropdownMenuItem onSelect={() => setViewingUser(user)}>View Details</DropdownMenuItem>
-                                    <DropdownMenuItem>Change Password</DropdownMenuItem>
-                                    <DropdownMenuItem className="text-destructive">Delete User</DropdownMenuItem>
+                                    <DropdownMenuItem onSelect={() => setViewingUser(user)}>
+                                        <UserIcon className="mr-2 h-4 w-4" />
+                                        View Details
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onSelect={() => { setUserToEdit(user); setChangePasswordOpen(true);}}>
+                                        <KeyRound className="mr-2 h-4 w-4" />
+                                        Change Password
+                                    </DropdownMenuItem>
+                                    <DropdownMenuSeparator />
+                                    <DeleteUserDialog user={user}>
+                                        <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="text-destructive focus:bg-destructive/10 focus:text-destructive">
+                                            <Trash2 className="mr-2 h-4 w-4" />
+                                            Delete User
+                                        </DropdownMenuItem>
+                                    </DeleteUserDialog>
                                   </DropdownMenuContent>
                               </DropdownMenu>
+                              <ChangePasswordDialog user={user} />
                           </TableCell>
                           </TableRow>
                   ))
@@ -277,8 +386,10 @@ export function UsersTable({ users }: { users: User[] }) {
                     <DialogClose asChild>
                         <Button variant="outline">Close</Button>
                     </DialogClose>
-                    <Button>Change Password</Button>
-                    <Button variant="destructive">Delete User</Button>
+                    <Button onClick={() => { setUserToEdit(viewingUser); setChangePasswordOpen(true); setViewingUser(null); }}>Change Password</Button>
+                    <DeleteUserDialog user={viewingUser}>
+                        <Button variant="destructive">Delete User</Button>
+                    </DeleteUserDialog>
                 </div>
                 </>
             )}
@@ -287,3 +398,4 @@ export function UsersTable({ users }: { users: User[] }) {
     </>
   );
 }
+
