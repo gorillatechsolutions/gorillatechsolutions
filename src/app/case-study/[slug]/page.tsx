@@ -30,13 +30,14 @@ const formatViews = (views: number) => {
 
 export default function CaseStudyDetailPage({ params }: { params: { slug: string } }) {
     const [caseStudy, setCaseStudy] = useState<CaseStudy | null>(null);
+    const slug = params.slug;
 
     useEffect(() => {
         try {
             const storedArticles = localStorage.getItem('articles');
             if (storedArticles) {
                 const articles: CaseStudy[] = JSON.parse(storedArticles);
-                const foundArticle = articles.find(a => a.slug === params.slug);
+                const foundArticle = articles.find(a => a.slug === slug);
                 if(foundArticle) {
                     setCaseStudy(foundArticle);
                 } else {
@@ -49,7 +50,7 @@ export default function CaseStudyDetailPage({ params }: { params: { slug: string
             console.error(error);
             notFound();
         }
-    }, [params.slug]);
+    }, [slug]);
 
 
     if (!caseStudy) {

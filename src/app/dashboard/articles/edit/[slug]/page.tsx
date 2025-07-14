@@ -9,13 +9,14 @@ import { notFound } from 'next/navigation';
 export default function EditArticlePage({ params }: { params: { slug: string } }) {
     const [article, setArticle] = useState<CaseStudy | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const slug = params.slug;
 
     useEffect(() => {
         try {
             const storedArticles = localStorage.getItem('articles');
             if (storedArticles) {
                 const articles: CaseStudy[] = JSON.parse(storedArticles);
-                const foundArticle = articles.find(a => a.slug === params.slug);
+                const foundArticle = articles.find(a => a.slug === slug);
                 if (foundArticle) {
                     setArticle(foundArticle);
                 } else {
@@ -29,7 +30,7 @@ export default function EditArticlePage({ params }: { params: { slug: string } }
         } finally {
             setIsLoading(false);
         }
-    }, [params.slug]);
+    }, [slug]);
 
     if (isLoading) {
         return (
