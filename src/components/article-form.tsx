@@ -2,7 +2,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,10 +23,13 @@ import { generateArticleContent } from "@/ai/flows/article-generator";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from "./ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "./ui/textarea";
+import dynamic from 'next/dynamic';
 
 // Import Quill's CSS
 import 'react-quill/dist/quill.snow.css';
 
+// Dynamically import ReactQuill to avoid SSR issues
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const formSchema = z.object({
   title: z.string().min(5, "Title must be at least 5 characters."),
@@ -50,9 +53,6 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
   const [isAiDialogOpen, setAiDialogOpen] = useState(false);
   const [aiTopic, setAiTopic] = useState('');
   
-  // Dynamically import ReactQuill to avoid SSR issues
-  const ReactQuill = useMemo(() => typeof window !== 'undefined' ? require('react-quill') : () => null, []);
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
