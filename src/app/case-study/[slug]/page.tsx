@@ -61,26 +61,6 @@ export default function CaseStudyDetailPage({ params }: { params: { slug: string
         );
     }
 
-    const renderContent = (markdown: string) => {
-        const html = markdown
-            .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-            .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-            .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-            .replace(/^\> (.*$)/gim, '<blockquote>$1</blockquote>')
-            .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
-            .replace(/\*(.*)\*/gim, '<em>$1</em>')
-            .replace(/!\[(.*?)\]\((.*?)\)/gim, "<img alt='$1' src='$2' />")
-            .replace(/\[(.*?)\]\((.*?)\)/gim, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">$1</a>')
-            .replace(/^---$/gim, '<hr class="my-8 border-border" />')
-            .replace(/^\* (.*$)/gim, '<ul>\n<li>$1</li>\n</ul>')
-            .replace(/^1\. (.*$)/gim, '<ol>\n<li>$1</li>\n</ol>')
-            .replace(/\n/g, '<br />')
-            .replace(/<\/ul><br \/><ul>/g, '')
-            .replace(/<\/ol><br \/>_?<ul>/g, '');
-
-        return html;
-    };
-
     return (
         <div className="w-full bg-background text-foreground">
             <section className="bg-secondary/30 py-12 md:py-16">
@@ -127,8 +107,8 @@ export default function CaseStudyDetailPage({ params }: { params: { slug: string
                         <div className="prose prose-lg max-w-none mx-auto text-foreground prose-headings:text-primary prose-a:text-accent hover:prose-a:text-accent/80">
                             <p className="lead text-xl text-muted-foreground mb-8">{caseStudy.excerpt}</p>
                             
-                            {/* The content is now directly rendered */}
-                            <div dangerouslySetInnerHTML={{ __html: renderContent(caseStudy.content) }} />
+                            {/* Render HTML content from TinyMCE */}
+                            <div dangerouslySetInnerHTML={{ __html: caseStudy.content }} />
                         </div>
                     </div>
                 </div>

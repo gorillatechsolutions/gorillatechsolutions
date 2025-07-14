@@ -2,7 +2,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,15 +16,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Save, Bold, Italic, Link as LinkIcon, Eye, Pilcrow, Heading1, Heading2, Heading3, List, ListOrdered, Quote, Minus, Undo, Redo, Sparkles, Strikethrough, Code, Image as ImageIcon, Loader2 } from "lucide-react";
+import { Save, Sparkles, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import type { CaseStudy } from "@/types/case-study";
-import React, { useRef, useState, useEffect, useTransition } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import React, { useState, useTransition } from "react";
 import { generateArticleContent } from "@/ai/flows/article-generator";
-import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from "./ui/dialog";
 import { Label } from "@/components/ui/label";
+import { Editor } from "@tinymce/tinymce-react";
 
 const formSchema = z.object({
   title: z.string().min(5, "Title must be at least 5 characters."),
@@ -41,48 +40,9 @@ type ArticleFormProps = {
     existingArticle?: CaseStudy;
 };
 
-// Simple history stack for undo/redo
-const useHistory = (initialState: string) => {
-    const [history, setHistory] = useState<string[]>([initialState]);
-    const [currentIndex, setCurrentIndex] = useState(0);
-
-    const recordChange = (value: string) => {
-        if (value === history[currentIndex]) return;
-        const newHistory = history.slice(0, currentIndex + 1);
-        newHistory.push(value);
-        setHistory(newHistory);
-        setCurrentIndex(newHistory.length - 1);
-    };
-
-    const undo = (currentValue: string) => {
-        if (currentIndex > 0) {
-            const newIndex = currentIndex - 1;
-            setCurrentIndex(newIndex);
-            return history[newIndex];
-        }
-        return currentValue;
-    };
-
-    const redo = (currentValue: string) => {
-        if (currentIndex < history.length - 1) {
-            const newIndex = currentIndex + 1;
-            setCurrentIndex(newIndex);
-            return history[newIndex];
-        }
-        return currentValue;
-    };
-    
-    const canUndo = currentIndex > 0;
-    const canRedo = currentIndex < history.length - 1;
-
-    return { recordChange, undo, redo, canUndo, canRedo };
-};
-
 export function ArticleForm({ existingArticle }: ArticleFormProps) {
   const { toast } = useToast();
   const router = useRouter();
-  const contentRef = useRef<HTMLTextAreaElement>(null);
-  const [showPreview, setShowPreview] = useState(false);
   const [isAiPending, startAiTransition] = useTransition();
   const [isAiDialogOpen, setAiDialogOpen] = useState(false);
   const [aiTopic, setAiTopic] = useState('');
@@ -100,26 +60,6 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
       views: existingArticle?.views || Math.floor(Math.random() * 500),
     },
   });
-
-  const contentValue = form.watch('content');
-  const { recordChange, undo, redo, canUndo, canRedo } = useHistory(form.getValues('content'));
-
-  const setContent = (value: string, fromHistory: boolean = false) => {
-    form.setValue('content', value, { shouldValidate: true, shouldDirty: true });
-    if (!fromHistory) {
-      recordChange(value);
-    }
-  };
-
-  const handleUndo = () => {
-    const newValue = undo(contentValue);
-    setContent(newValue, true);
-  };
-  
-  const handleRedo = () => {
-    const newValue = redo(contentValue);
-    setContent(newValue, true);
-  };
 
   const readFileAsDataURL = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -191,122 +131,12 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
         });
     }
   }
-
-  const applyFormatting = (prefix: string, suffix: string = prefix, placeholder: string = 'text') => {
-    const textarea = contentRef.current;
-    if (!textarea) return;
-
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const selectedText = textarea.value.substring(start, end);
-    const textToInsert = selectedText || placeholder;
-    const newText = `${prefix}${textToInsert}${suffix}`;
-
-    const updatedValue = textarea.value.substring(0, start) + newText + textarea.value.substring(end);
-    setContent(updatedValue);
-    
-    setTimeout(() => {
-        textarea.focus();
-        if (!selectedText) {
-            textarea.setSelectionRange(start + prefix.length, start + prefix.length + placeholder.length);
-        } else {
-            textarea.setSelectionRange(start + newText.length, start + newText.length);
-        }
-    }, 0);
-  };
   
-  const applyLineFormatting = (prefix: string) => {
-    const textarea = contentRef.current;
-    if (!textarea) return;
-
-    const start = textarea.selectionStart;
-    const lineStart = textarea.value.lastIndexOf('\n', start - 1) + 1;
-    
-    // Find the end of the line
-    let lineEnd = textarea.value.indexOf('\n', lineStart);
-    if (lineEnd === -1) {
-        lineEnd = textarea.value.length;
-    }
-
-    const currentLine = textarea.value.substring(lineStart, lineEnd);
-    
-    let newText;
-    let newSelectionStart = lineStart;
-
-    if (currentLine.trim().startsWith(prefix.trim())) {
-      newText = currentLine.replace(prefix, '');
-      newSelectionStart += newText.length;
-    } else {
-      newText = prefix + currentLine;
-      newSelectionStart += newText.length;
-    }
-    
-    const updatedValue = textarea.value.substring(0, lineStart) + newText + textarea.value.substring(lineEnd);
-    setContent(updatedValue);
-
-    setTimeout(() => {
-        textarea.focus();
-        textarea.setSelectionRange(newSelectionStart, newSelectionStart);
-    }, 0);
-  };
-  
-  const insertAtCursor = (textToInsert: string) => {
-      const textarea = contentRef.current;
-      if (!textarea) return;
-      const start = textarea.selectionStart;
-      const updatedValue = textarea.value.substring(0, start) + textToInsert + textarea.value.substring(start);
-      setContent(updatedValue);
-
-      setTimeout(() => {
-        textarea.focus();
-        textarea.setSelectionRange(start + textToInsert.length, start + textToInsert.length);
-      }, 0);
-  }
-
-  const handleLink = () => {
-    const url = prompt('Enter the URL:');
-    if (url) {
-        applyFormatting('[', `](${url})`, 'link text');
-    }
-  };
-
-  const handleImageInsert = () => {
-    const url = prompt('Enter the image URL:');
-    if (url) {
-        const altText = prompt('Enter alt text for the image:', 'image');
-        const newText = `\n![${altText || 'image'}](${url})\n`;
-        insertAtCursor(newText);
-    }
-  };
-
-  const renderPreview = (markdown: string) => {
-    const html = markdown
-        .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-        .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-        .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-        .replace(/^\> (.*$)/gim, '<blockquote>$1</blockquote>')
-        .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
-        .replace(/\*(.*)\*/gim, '<em>$1</em>')
-        .replace(/~~(.*)~~/gim, '<del>$1</del>')
-        .replace(/`([^`]+)`/gim, '<code>$1</code>')
-        .replace(/```([\s\S]*?)```/gim, '<pre><code>$1</code></pre>')
-        .replace(/!\[(.*?)\]\((.*?)\)/gim, "<img alt='$1' src='$2' class='rounded-lg shadow-md max-w-full h-auto mx-auto' />")
-        .replace(/\[(.*?)\]\((.*?)\)/gim, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">$1</a>')
-        .replace(/^---$/gim, '<hr />')
-        .replace(/^\* (.*$)/gim, '<ul>\n<li>$1</li>\n</ul>')
-        .replace(/^1\. (.*$)/gim, '<ol>\n<li>$1</li>\n</ol>')
-        .replace(/\n/g, '<br />')
-        .replace(/<\/ul><br \/><ul>/g, '') 
-        .replace(/<\/ol><br \/>_?<ul>/g, '');
-
-    return html;
-  }
-
   const handleGenerateContent = () => {
     startAiTransition(async () => {
         try {
             const result = await generateArticleContent({ topic: aiTopic });
-            setContent(result.articleContent);
+            form.setValue('content', result.articleContent, { shouldValidate: true, shouldDirty: true });
             setAiDialogOpen(false);
             setAiTopic('');
             toast({
@@ -354,66 +184,41 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
         <div>
             <div className="flex justify-between items-center mb-2 flex-wrap gap-2">
                 <FormLabel>Full Content</FormLabel>
-                <div className="flex items-center gap-1 flex-wrap justify-end">
-                    <Button type="button" variant="outline" size="xs" onClick={() => setAiDialogOpen(true)}>
-                        <Sparkles className="h-4 w-4 mr-1" />
-                        Generate with AI
-                    </Button>
-                    <span className="w-[1px] h-6 bg-border mx-1"></span>
-                    <Button type="button" variant="outline" size="xs" onClick={handleUndo} disabled={!canUndo}><Undo className="h-4 w-4" title="Undo" /></Button>
-                    <Button type="button" variant="outline" size="xs" onClick={handleRedo} disabled={!canRedo}><Redo className="h-4 w-4" title="Redo" /></Button>
-                    <span className="w-[1px] h-6 bg-border mx-1"></span>
-                    <Button type="button" variant="outline" size="xs" onClick={() => applyLineFormatting('# ')}><Heading1 className="h-4 w-4" title="Heading 1" /></Button>
-                    <Button type="button" variant="outline" size="xs" onClick={() => applyLineFormatting('## ')}><Heading2 className="h-4 w-4" title="Heading 2" /></Button>
-                    <Button type="button" variant="outline" size="xs" onClick={() => applyLineFormatting('### ')}><Heading3 className="h-4 w-4" title="Heading 3" /></Button>
-                    <span className="w-[1px] h-6 bg-border mx-1"></span>
-                    <Button type="button" variant="outline" size="xs" onClick={() => applyFormatting('**')}><Bold className="h-4 w-4" title="Bold" /></Button>
-                    <Button type="button" variant="outline" size="xs" onClick={() => applyFormatting('*')}><Italic className="h-4 w-4" title="Italic" /></Button>
-                    <Button type="button" variant="outline" size="xs" onClick={() => applyFormatting('~~')}><Strikethrough className="h-4 w-4" title="Strikethrough" /></Button>
-                    <Button type="button" variant="outline" size="xs" onClick={handleLink}><LinkIcon className="h-4 w-4" title="Add Link" /></Button>
-                    <Button type="button" variant="outline" size="xs" onClick={() => applyFormatting('`')}><Code className="h-4 w-4" title="Code" /></Button>
-                    <Button type="button" variant="outline" size="xs" onClick={handleImageInsert}><ImageIcon className="h-4 w-4" title="Insert Image" /></Button>
-                    <span className="w-[1px] h-6 bg-border mx-1"></span>
-                    <Button type="button" variant="outline" size="xs" onClick={() => applyLineFormatting('> ')}><Quote className="h-4 w-4" title="Blockquote" /></Button>
-                    <Button type="button" variant="outline" size="xs" onClick={() => applyLineFormatting('* ')}><List className="h-4 w-4" title="Bulleted List" /></Button>
-                    <Button type="button" variant="outline" size="xs" onClick={() => applyLineFormatting('1. ')}><ListOrdered className="h-4 w-4" title="Numbered List" /></Button>
-                    <Button type="button" variant="outline" size="xs" onClick={() => insertAtCursor('\n---\n')}><Minus className="h-4 w-4" title="Horizontal Rule" /></Button>
-                    <span className="w-[1px] h-6 bg-border mx-1"></span>
-                    <Button type="button" variant={showPreview ? "secondary" : "outline"} size="xs" onClick={() => setShowPreview(!showPreview)}><Eye className="h-4 w-4 mr-1"/> Preview</Button>
-                </div>
+                 <Button type="button" variant="outline" size="sm" onClick={() => setAiDialogOpen(true)}>
+                    <Sparkles className="h-4 w-4 mr-2" />
+                    Generate with AI
+                </Button>
             </div>
-             {showPreview ? (
-                <Card>
-                    <CardHeader><CardTitle>Content Preview</CardTitle></CardHeader>
-                    <CardContent>
-                        <div 
-                            className="prose prose-lg max-w-none text-foreground prose-headings:text-primary prose-a:text-accent hover:prose-a:text-accent/80" 
-                            dangerouslySetInnerHTML={{ __html: renderPreview(form.getValues('content')) }} 
-                        />
-                    </CardContent>
-                </Card>
-            ) : (
-                <FormField
-                control={form.control}
-                name="content"
-                render={({ field }) => (
-                    <FormItem>
-                    <FormControl>
-                        <Textarea 
-                            placeholder="Write the full article content here. Use the tools above for formatting." 
-                            className="min-h-[300px] font-mono" 
-                            {...field} 
-                            ref={contentRef}
-                            onChange={(e) => {
-                                setContent(e.target.value);
-                            }}
-                        />
-                    </FormControl>
-                    <FormMessage />
-                    </FormItem>
-                )}
-                />
-            )}
+            <FormField
+              control={form.control}
+              name="content"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                     <Editor
+                        apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY} // Get a free key from tiny.cloud
+                        value={field.value}
+                        onEditorChange={(content) => field.onChange(content)}
+                        init={{
+                          height: 500,
+                          menubar: true,
+                          plugins: [
+                            'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                            'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                            'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
+                          ],
+                          toolbar: 'undo redo | blocks | ' +
+                            'bold italic forecolor | alignleft aligncenter ' +
+                            'alignright alignjustify | bullist numlist outdent indent | ' +
+                            'removeformat | help',
+                          content_style: 'body { font-family: "PT Sans", sans-serif; font-size:16px }'
+                        }}
+                      />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             <FormField
@@ -506,5 +311,3 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
     </Form>
   );
 }
-
-    
