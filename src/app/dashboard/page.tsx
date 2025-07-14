@@ -5,7 +5,6 @@ import React from 'react';
 import { useAuth } from '@/context/auth-context';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { DashboardProfileForm } from '@/components/dashboard-profile-form';
 
 export default function DashboardProfilePage() {
@@ -29,15 +28,13 @@ export default function DashboardProfilePage() {
                 <h1 className="text-2xl font-bold font-headline">Profile</h1>
                 <p className="text-muted-foreground">Manage your personal information.</p>
             </header>
-            <Card>
-                <CardHeader>
-                    <CardTitle>Profile Information</CardTitle>
-                    <CardDescription>Update your personal details here. Click save when you're done.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <DashboardProfileForm currentUser={user} />
-                </CardContent>
-            </Card>
+            <div>
+                <div className="mb-4">
+                    <h2 className="text-xl font-semibold">Profile Information</h2>
+                    <p className="text-muted-foreground text-sm">Update your personal details here. Click save when you're done.</p>
+                </div>
+                <DashboardProfileForm currentUser={user} />
+            </div>
         </div>
     );
 }
