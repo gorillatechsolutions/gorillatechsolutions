@@ -16,10 +16,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Save, Bold, Italic, Link as LinkIcon, Eye } from "lucide-react";
+import { Save, Bold, Italic, Link as LinkIcon, Eye, Pilcrow, Heading1, Heading2, Heading3, List, ListOrdered, Quote, Minus, Undo, Redo } from "lucide-react";
 import { useRouter } from "next/navigation";
 import type { CaseStudy } from "@/types/case-study";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
 const formSchema = z.object({
@@ -37,12 +37,50 @@ type ArticleFormProps = {
     existingArticle?: CaseStudy;
 };
 
+// Simple history stack for undo/redo
+const useHistory = (initialState: string) => {
+    const [history, setHistory] = useState<string[]>([initialState]);
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    const setState = (value: string, fromHistory = false) => {
+        if (fromHistory) {
+            // This is a travel in history, not a new state
+        } else {
+            const newHistory = history.slice(0, currentIndex + 1);
+            newHistory.push(value);
+            setHistory(newHistory);
+            setCurrentIndex(newHistory.length - 1);
+        }
+    };
+
+    const undo = () => {
+        if (currentIndex > 0) {
+            setCurrentIndex(prev => prev - 1);
+            return history[currentIndex - 1];
+        }
+        return null;
+    };
+
+    const redo = () => {
+        if (currentIndex < history.length - 1) {
+            setCurrentIndex(prev => prev + 1);
+            return history[currentIndex + 1];
+        }
+        return null;
+    };
+    
+    const canUndo = currentIndex > 0;
+    const canRedo = currentIndex < history.length - 1;
+
+    return { value: history[currentIndex] || '', setState, undo, redo, canUndo, canRedo };
+};
+
 export function ArticleForm({ existingArticle }: ArticleFormProps) {
   const { toast } = useToast();
   const router = useRouter();
   const contentRef = useRef<HTMLTextAreaElement>(null);
   const [showPreview, setShowPreview] = useState(false);
-
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -56,8 +94,12 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
       views: existingArticle?.views || Math.floor(Math.random() * 500),
     },
   });
+  
+  const { value: contentValue, setState: setContent, undo, redo, canUndo, canRedo } = useHistory(form.getValues('content'));
 
-  const contentValue = form.watch("content");
+  useEffect(() => {
+    form.setValue('content', contentValue, { shouldValidate: true, shouldDirty: true });
+  }, [contentValue, form]);
 
   const readFileAsDataURL = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -130,35 +172,84 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
     }
   }
 
-  const applyFormatting = (style: 'bold' | 'italic' | 'link') => {
+  const applyFormatting = (prefix: string, suffix: string = prefix, placeholder: string = 'text') => {
     const textarea = contentRef.current;
     if (!textarea) return;
 
     const start = textarea.selectionStart;
     const end = textarea.selectionEnd;
     const selectedText = textarea.value.substring(start, end);
-    let newText = '';
-
-    switch (style) {
-        case 'bold':
-            newText = `**${selectedText}**`;
-            break;
-        case 'italic':
-            newText = `*${selectedText}*`;
-            break;
-        case 'link':
-            const url = prompt('Enter the URL:');
-            if (url) {
-                newText = `[${selectedText}](${url})`;
-            } else {
-                return;
-            }
-            break;
-    }
+    const textToInsert = selectedText || placeholder;
+    const newText = `${prefix}${textToInsert}${suffix}`;
 
     const updatedValue = textarea.value.substring(0, start) + newText + textarea.value.substring(end);
-    form.setValue('content', updatedValue, { shouldValidate: true });
+    setContent(updatedValue);
   };
+  
+  const applyLineFormatting = (prefix: string) => {
+    const textarea = contentRef.current;
+    if (!textarea) return;
+
+    const start = textarea.selectionStart;
+    const lineStart = textarea.value.lastIndexOf('\n', start - 1) + 1;
+    const newText = prefix;
+
+    const updatedValue = textarea.value.substring(0, lineStart) + newText + textarea.value.substring(lineStart);
+    setContent(updatedValue);
+  };
+  
+  const insertAtCursor = (text: string) => {
+      const textarea = contentRef.current;
+      if (!textarea) return;
+      const start = textarea.selectionStart;
+      const updatedValue = textarea.value.substring(0, start) + text + textarea.value.substring(start);
+      setContent(updatedValue);
+  }
+
+  const handleLink = () => {
+    const url = prompt('Enter the URL:');
+    if (url) {
+        const textarea = contentRef.current;
+        if (!textarea) return;
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const selectedText = textarea.value.substring(start, end) || 'link text';
+        const newText = `[${selectedText}](${url})`;
+        const updatedValue = textarea.value.substring(0, start) + newText + textarea.value.substring(end);
+        setContent(updatedValue);
+    }
+  };
+  
+  const handleUndo = () => {
+    const val = undo();
+    if(val !== null) form.setValue('content', val, { shouldValidate: true, shouldDirty: true });
+  }
+
+  const handleRedo = () => {
+    const val = redo();
+    if(val !== null) form.setValue('content', val, { shouldValidate: true, shouldDirty: true });
+  }
+
+  const renderPreview = (markdown: string) => {
+    const html = markdown
+        .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+        .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+        .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+        .replace(/^\> (.*$)/gim, '<blockquote>$1</blockquote>')
+        .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
+        .replace(/\*(.*)\*/gim, '<em>$1</em>')
+        .replace(/!\[(.*?)\]\((.*?)\)/gim, "<img alt='$1' src='$2' />")
+        .replace(/\[(.*?)\]\((.*?)\)/gim, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+        .replace(/^---$/gim, '<hr />')
+        .replace(/^\* (.*$)/gim, '<ul>\n<li>$1</li>\n</ul>')
+        .replace(/^1\. (.*$)/gim, '<ol>\n<li>$1</li>\n</ol>')
+        .replace(/\n/g, '<br />')
+        // Clean up adjacent list tags
+        .replace(/<\/ul><br \/><ul>/g, '') 
+        .replace(/<\/ol><br \/>_?<ul>/g, '')
+
+    return html;
+  }
   
   const fileRef = form.register("image");
 
@@ -188,12 +279,25 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
           )}
         />
         <div>
-            <div className="flex justify-between items-center mb-2">
+            <div className="flex justify-between items-center mb-2 flex-wrap gap-2">
                 <FormLabel>Full Content</FormLabel>
-                <div className="flex items-center gap-1">
-                    <Button type="button" variant="outline" size="xs" onClick={() => applyFormatting('bold')}><Bold className="h-4 w-4"/></Button>
-                    <Button type="button" variant="outline" size="xs" onClick={() => applyFormatting('italic')}><Italic className="h-4 w-4"/></Button>
-                    <Button type="button" variant="outline" size="xs" onClick={() => applyFormatting('link')}><LinkIcon className="h-4 w-4"/></Button>
+                <div className="flex items-center gap-1 flex-wrap">
+                    <Button type="button" variant="outline" size="xs" onClick={handleUndo} disabled={!canUndo}><Undo className="h-4 w-4 mr-1"/>Undo</Button>
+                    <Button type="button" variant="outline" size="xs" onClick={handleRedo} disabled={!canRedo}><Redo className="h-4 w-4 mr-1"/>Redo</Button>
+                    <span className="w-[1px] h-6 bg-border mx-1"></span>
+                    <Button type="button" variant="outline" size="xs" onClick={() => applyLineFormatting('# ')}><Heading1 className="h-4 w-4"/></Button>
+                    <Button type="button" variant="outline" size="xs" onClick={() => applyLineFormatting('## ')}><Heading2 className="h-4 w-4"/></Button>
+                    <Button type="button" variant="outline" size="xs" onClick={() => applyLineFormatting('### ')}><Heading3 className="h-4 w-4"/></Button>
+                    <span className="w-[1px] h-6 bg-border mx-1"></span>
+                    <Button type="button" variant="outline" size="xs" onClick={() => applyFormatting('**')}><Bold className="h-4 w-4"/></Button>
+                    <Button type="button" variant="outline" size="xs" onClick={() => applyFormatting('*')}><Italic className="h-4 w-4"/></Button>
+                    <Button type="button" variant="outline" size="xs" onClick={handleLink}><LinkIcon className="h-4 w-4"/></Button>
+                    <span className="w-[1px] h-6 bg-border mx-1"></span>
+                    <Button type="button" variant="outline" size="xs" onClick={() => applyLineFormatting('> ')}><Quote className="h-4 w-4"/></Button>
+                    <Button type="button" variant="outline" size="xs" onClick={() => applyLineFormatting('* ')}><List className="h-4 w-4"/></Button>
+                    <Button type="button" variant="outline" size="xs" onClick={() => applyLineFormatting('1. ')}><ListOrdered className="h-4 w-4"/></Button>
+                    <Button type="button" variant="outline" size="xs" onClick={() => insertAtCursor('\n---\n')}><Minus className="h-4 w-4"/></Button>
+                    <span className="w-[1px] h-6 bg-border mx-1"></span>
                     <Button type="button" variant={showPreview ? "secondary" : "outline"} size="xs" onClick={() => setShowPreview(!showPreview)}><Eye className="h-4 w-4 mr-1"/> Preview</Button>
                 </div>
             </div>
@@ -203,7 +307,7 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
                     <CardContent>
                         <div 
                             className="prose prose-lg max-w-none text-foreground prose-headings:text-primary prose-a:text-accent hover:prose-a:text-accent/80" 
-                            dangerouslySetInnerHTML={{ __html: contentValue.replace(/\n/g, '<br />').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>') }} 
+                            dangerouslySetInnerHTML={{ __html: renderPreview(form.getValues('content')) }} 
                         />
                     </CardContent>
                 </Card>
@@ -216,9 +320,13 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
                     <FormControl>
                         <Textarea 
                             placeholder="Write the full article content here. Use the tools above for formatting." 
-                            className="min-h-[300px]" 
+                            className="min-h-[300px] font-mono" 
                             {...field} 
                             ref={contentRef}
+                            onChange={(e) => {
+                                field.onChange(e); // Notify RHF
+                                setContent(e.target.value); // Update history state
+                            }}
                         />
                     </FormControl>
                     <FormMessage />
@@ -294,3 +402,4 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
     </Form>
   );
 }
+

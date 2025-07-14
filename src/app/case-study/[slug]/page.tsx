@@ -61,13 +61,23 @@ export default function CaseStudyDetailPage({ params }: { params: { slug: string
         );
     }
 
-    const renderContent = (content: string) => {
-        // Basic markdown-to-html conversion for preview
-        const html = content
+    const renderContent = (markdown: string) => {
+        const html = markdown
+            .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+            .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+            .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+            .replace(/^\> (.*$)/gim, '<blockquote>$1</blockquote>')
+            .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
+            .replace(/\*(.*)\*/gim, '<em>$1</em>')
+            .replace(/!\[(.*?)\]\((.*?)\)/gim, "<img alt='$1' src='$2' />")
+            .replace(/\[(.*?)\]\((.*?)\)/gim, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">$1</a>')
+            .replace(/^---$/gim, '<hr class="my-8 border-border" />')
+            .replace(/^\* (.*$)/gim, '<ul>\n<li>$1</li>\n</ul>')
+            .replace(/^1\. (.*$)/gim, '<ol>\n<li>$1</li>\n</ol>')
             .replace(/\n/g, '<br />')
-            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-            .replace(/\*(.*?)\*/g, '<em>$1</em>')
-            .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">$1</a>');
+            .replace(/<\/ul><br \/><ul>/g, '')
+            .replace(/<\/ol><br \/>_?<ul>/g, '');
+
         return html;
     };
 
