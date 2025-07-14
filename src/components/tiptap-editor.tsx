@@ -37,9 +37,13 @@ const TiptapEditor = ({ content, onChange }: { content: string, onChange: (richT
         openOnClick: false,
         autolink: true,
       }),
-      Image,
+      Image.configure({
+        inline: true,
+      }),
       Youtube.configure({
         nocookie: true,
+        width: 480,
+        height: 320,
       }),
     ],
     content: content,
@@ -97,10 +101,10 @@ const TiptapEditor = ({ content, onChange }: { content: string, onChange: (richT
   return (
     <div className="border rounded-md">
       <div className="p-2 flex flex-wrap items-center gap-1 border-b">
-        <Toggle size="sm" pressed={editor.isActive('bold')} onPressedChange={() => editor.chain().focus().toggleBold().run()}><Bold className="h-4 w-4" /></Toggle>
-        <Toggle size="sm" pressed={editor.isActive('italic')} onPressedChange={() => editor.chain().focus().toggleItalic().run()}><Italic className="h-4 w-4" /></Toggle>
-        <Toggle size="sm" pressed={editor.isActive('underline')} onPressedChange={() => editor.chain().focus().toggleUnderline().run()}><UnderlineIcon className="h-4 w-4" /></Toggle>
-        <Toggle size="sm" pressed={editor.isActive('strike')} onPressedChange={() => editor.chain().focus().toggleStrike().run()}><Strikethrough className="h-4 w-4" /></Toggle>
+        <Toggle size="sm" pressed={editor.isActive('bold')} onPressedChange={() => editor.chain().focus().toggleBold().run()} disabled={!editor.can().chain().focus().toggleBold().run()}><Bold className="h-4 w-4" /></Toggle>
+        <Toggle size="sm" pressed={editor.isActive('italic')} onPressedChange={() => editor.chain().focus().toggleItalic().run()} disabled={!editor.can().chain().focus().toggleItalic().run()}><Italic className="h-4 w-4" /></Toggle>
+        <Toggle size="sm" pressed={editor.isActive('underline')} onPressedChange={() => editor.chain().focus().toggleUnderline().run()} disabled={!editor.can().chain().focus().toggleUnderline().run()}><UnderlineIcon className="h-4 w-4" /></Toggle>
+        <Toggle size="sm" pressed={editor.isActive('strike')} onPressedChange={() => editor.chain().focus().toggleStrike().run()} disabled={!editor.can().chain().focus().toggleStrike().run()}><Strikethrough className="h-4 w-4" /></Toggle>
         
         <Separator orientation="vertical" className="h-6 mx-1" />
 
@@ -114,8 +118,8 @@ const TiptapEditor = ({ content, onChange }: { content: string, onChange: (richT
         <Toggle size="sm" pressed={editor.isActive('blockquote')} onPressedChange={() => editor.chain().focus().toggleBlockquote().run()}><Quote className="h-4 w-4" /></Toggle>
 
         <Separator orientation="vertical" className="h-6 mx-1" />
-
-        <Toggle size="sm" pressed={editor.isActive('link')} onPressedChange={setLink}><LinkIcon className="h-4 w-4" /></Toggle>
+        
+        <Button variant="ghost" size="icon" className="h-8 w-8 p-1.5" onClick={setLink} data-active={editor.isActive('link')}><LinkIcon className="h-4 w-4" /></Button>
         <Button variant="ghost" size="icon" className="h-8 w-8 p-1.5" onClick={addImage}><ImageIcon className="h-4 w-4" /></Button>
         <Button variant="ghost" size="icon" className="h-8 w-8 p-1.5" onClick={addYoutubeVideo}><YoutubeIcon className="h-4 w-4" /></Button>
 
