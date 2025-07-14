@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 import { useAuth } from '@/context/auth-context';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { ProfileForm } from '@/components/profile-form';
 import { Button } from '@/components/ui/button';
 import { Edit, User as UserIcon, AtSign, Phone, MessageSquare, Map, Globe, Mail, Landmark } from 'lucide-react';
@@ -58,14 +57,14 @@ export default function ProfilePage() {
                     </Button>
                 )}
             </header>
-            <Card>
-                <CardHeader>
-                    <CardTitle>Profile Information</CardTitle>
-                    <CardDescription>
+            <div>
+                <div className="mb-4">
+                    <h2 className="text-xl font-semibold">Profile Information</h2>
+                    <p className="text-muted-foreground text-sm">
                         {isEditing ? "Update your personal details here. Click save when you're done." : "View your current profile details below."}
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
+                    </p>
+                </div>
+                <div>
                     {isEditing ? (
                         <ProfileForm currentUser={user} onUpdate={handleUpdate} onCancel={() => setIsEditing(false)} />
                     ) : (
@@ -98,8 +97,8 @@ export default function ProfilePage() {
                             </div>
                         </div>
                     )}
-                </CardContent>
-            </Card>
+                </div>
+            </div>
         </div>
     );
 }
