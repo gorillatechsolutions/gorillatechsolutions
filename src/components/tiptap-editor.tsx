@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useEditor, EditorContent, Editor } from '@tiptap/react';
+import { useEditor, EditorContent, Editor, BubbleMenu } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
 import Underline from '@tiptap/extension-underline';
@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import { Toggle } from './ui/toggle';
 import { Separator } from './ui/separator';
+import { cn } from '@/lib/utils';
 
 const Toolbar = ({ editor }: { editor: Editor | null }) => {
   const setLink = useCallback(() => {
@@ -166,6 +167,7 @@ const Toolbar = ({ editor }: { editor: Editor | null }) => {
   );
 };
 
+
 interface TiptapEditorProps {
   content: string;
   onChange: (richText: string) => void;
@@ -196,8 +198,54 @@ const TiptapEditor = ({ content, onChange }: TiptapEditorProps) => {
     },
   });
 
+  const setLink = useCallback(() => {
+    if (!editor) return;
+    const previousUrl = editor.getAttributes('link').href;
+    const url = window.prompt('URL', previousUrl);
+
+    if (url === null) return;
+    if (url === '') {
+      editor.chain().focus().extendMarkRange('link').unsetLink().run();
+      return;
+    }
+    editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+  }, [editor]);
+
   return (
     <div className="border border-input rounded-md">
+      {editor && (
+        <BubbleMenu
+          editor={editor}
+          tippyOptions={{ duration: 100 }}
+          className="bg-background border border-border rounded-md shadow-lg p-1 flex items-center gap-1"
+        >
+          <Toggle
+            size="sm"
+            pressed={editor.isActive('bold')}
+            onPressedChange={() => editor.chain().focus().toggleBold().run()}
+          >
+            <Bold className="h-4 w-4" />
+          </Toggle>
+          <Toggle
+            size="sm"
+            pressed={editor.isActive('italic')}
+            onPressedChange={() => editor.chain().focus().toggleItalic().run()}
+          >
+            <Italic className="h-4 w-4" />
+          </Toggle>
+          <Toggle
+            size="sm"
+            pressed={editor.isActive('underline')}
+            onPressedChange={() => editor.chain().focus().toggleUnderline().run()}
+          >
+            <UnderlineIcon className="h-4 w-4" />
+          </Toggle>
+          <Separator orientation="vertical" className="h-6 mx-1" />
+          <Toggle size="sm" onPressedChange={setLink} pressed={editor.isActive('link')}>
+            <LinkIcon className="h-4 w-4" />
+          </Toggle>
+        </BubbleMenu>
+      )}
       <Toolbar editor={editor} />
       <EditorContent editor={editor} />
     </div>
