@@ -22,11 +22,12 @@ import { useState } from "react";
 import type { CaseStudy } from "@/types/case-study";
 import { generateArticleContent } from "@/ai/flows/article-generator";
 import { Card, CardContent } from "./ui/card";
-import { TiptapEditor } from "./tiptap-editor";
+import EditorjsEditor from "./editorjs-editor";
+import type { OutputData } from "@editorjs/editorjs";
 
 const formSchema = z.object({
   title: z.string().min(2, { message: "Title must be at least 2 characters." }),
-  content: z.string().optional(),
+  content: z.any().optional(),
   excerpt: z.string().optional(),
   tags: z.string().optional(),
   author: z.string().optional(),
@@ -46,7 +47,7 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: existingArticle?.title || "",
-      content: existingArticle?.content || "",
+      content: existingArticle?.content || { blocks: [] },
       excerpt: existingArticle?.excerpt || "",
       tags: existingArticle?.tags.join(', ') || "",
       author: existingArticle?.author || "Admin",
@@ -80,18 +81,17 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
     try {
       const result = await generateArticleContent({ topic: watchedTitle });
       
-      // Tiptap expects HTML, so we need a basic markdown-to-html conversion
-      const htmlContent = result.articleContent
-        .split('\n')
-        .map(line => {
-          if (line.startsWith('## ')) return `<h2>${line.substring(3)}</h2>`;
-          if (line.startsWith('### ')) return `<h3>${line.substring(4)}</h3>`;
-          if (line.trim() === '') return '<br>';
-          return `<p>${line}</p>`;
-        })
-        .join('');
+      const blocks = result.articleContent.split('\n\n').map(paragraph => {
+        if (paragraph.startsWith('## ')) {
+            return { type: 'header', data: { text: paragraph.substring(3), level: 2 } };
+        }
+        if (paragraph.startsWith('### ')) {
+            return { type: 'header', data: { text: paragraph.substring(4), level: 3 } };
+        }
+        return { type: 'paragraph', data: { text: paragraph } };
+      });
 
-      setValue('content', htmlContent);
+      setValue('content', { blocks });
       
       toast({
         title: "Content Generated!",
@@ -126,7 +126,7 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
             ...existingArticle,
             slug,
             title: values.title,
-            content: values.content || "",
+            content: values.content,
             excerpt: values.excerpt || "",
             tags: values.tags?.split(',').map(tag => tag.trim()) || [],
             author: values.author || "Admin",
@@ -217,9 +217,10 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
                                     <FormItem className="h-full flex flex-col">
                                         <FormLabel>Content</FormLabel>
                                         <FormControl>
-                                            <TiptapEditor 
-                                              content={field.value || ''} 
-                                              onChange={field.onChange} 
+                                            <EditorjsEditor
+                                                data={field.value}
+                                                onChange={(data: OutputData) => field.onChange(data)}
+                                                holder="editorjs-container"
                                             />
                                         </FormControl>
                                         <FormMessage />
