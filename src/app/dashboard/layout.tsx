@@ -41,16 +41,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         <SidebarMenuItem>
                             <Link href="/dashboard" passHref>
                                 <SidebarMenuButton asChild tooltip="Profile">
-                                    <User />
-                                    <span>Profile</span>
+                                    <div>
+                                        <User />
+                                        <span>Profile</span>
+                                    </div>
                                 </SidebarMenuButton>
                             </Link>
                         </SidebarMenuItem>
                         <SidebarMenuItem>
                              <Link href="/dashboard/security" passHref>
                                 <SidebarMenuButton asChild tooltip="Security">
-                                    <Lock />
-                                    <span>Security</span>
+                                    <div>
+                                        <Lock />
+                                        <span>Security</span>
+                                    </div>
                                 </SidebarMenuButton>
                             </Link>
                         </SidebarMenuItem>
