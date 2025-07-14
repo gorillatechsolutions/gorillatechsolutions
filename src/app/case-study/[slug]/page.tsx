@@ -61,6 +61,16 @@ export default function CaseStudyDetailPage({ params }: { params: { slug: string
         );
     }
 
+    const renderContent = (content: string) => {
+        // Basic markdown-to-html conversion for preview
+        const html = content
+            .replace(/\n/g, '<br />')
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*(.*?)\*/g, '<em>$1</em>')
+            .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">$1</a>');
+        return html;
+    };
+
     return (
         <div className="w-full bg-background text-foreground">
             <section className="bg-secondary/30 py-12 md:py-16">
@@ -108,7 +118,7 @@ export default function CaseStudyDetailPage({ params }: { params: { slug: string
                             <p className="lead text-xl text-muted-foreground mb-8">{caseStudy.excerpt}</p>
                             
                             {/* The content is now directly rendered */}
-                            <div dangerouslySetInnerHTML={{ __html: caseStudy.content.replace(/\n/g, '<br />') }} />
+                            <div dangerouslySetInnerHTML={{ __html: renderContent(caseStudy.content) }} />
                         </div>
                     </div>
                 </div>
