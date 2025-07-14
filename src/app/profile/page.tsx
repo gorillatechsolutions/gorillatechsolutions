@@ -55,27 +55,6 @@ export default function ProfilePage() {
                                     </div>
                                 )}
                             </div>
-
-                            <div className="mt-4 space-y-2 text-muted-foreground">
-                                {user.title && user.company && (
-                                    <div className="flex items-center gap-3">
-                                        <Building2 className="h-5 w-5" />
-                                        <p>{user.title}, <span className="font-medium text-primary hover:underline"><a href="#">{user.company}</a></span></p>
-                                    </div>
-                                )}
-                                {user.location && (
-                                    <div className="flex items-center gap-3">
-                                        <MapPin className="h-5 w-5" />
-                                        <p>{user.location}</p>
-                                    </div>
-                                )}
-                                {user.expertise && (
-                                    <div className="flex items-center gap-3">
-                                        <List className="h-5 w-5" />
-                                        <p>{user.expertise}</p>
-                                    </div>
-                                )}
-                            </div>
                         </div>
                     </div>
                     
