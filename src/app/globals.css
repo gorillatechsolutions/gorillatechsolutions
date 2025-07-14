@@ -142,63 +142,25 @@
       aspect-ratio: 16 / 9;
   }
 
-  .codex-editor__redactor {
-    padding-bottom: 100px !important;
+  /* React Quill Customizations */
+  .ql-toolbar {
+    @apply rounded-t-md border-input bg-card;
+  }
+  .ql-container {
+    @apply rounded-b-md border-input bg-card text-card-foreground;
+  }
+  .ql-editor {
+      min-height: 250px;
   }
 
-  .ce-toolbar__actions, .ce-settings {
-    background-color: hsl(var(--card));
-    border-color: hsl(var(--border));
+  .ql-snow .ql-picker-label {
+      @apply text-card-foreground;
   }
-  
-  .ce-toolbar__plus, .ce-toolbar__settings-btn {
-    color: hsl(var(--foreground));
+  .ql-snow .ql-stroke {
+      @apply stroke-card-foreground;
   }
-
-  .ce-toolbar__plus:hover, .ce-toolbar__settings-btn:hover {
-    background-color: hsl(var(--secondary));
-    color: hsl(var(--secondary-foreground));
-  }
-
-  .ce-conversion-tool--focused, .ce-conversion-tool:hover {
-      background-color: hsl(var(--secondary)) !important;
-  }
-
-  .ce-popover {
-    background-color: hsl(var(--card));
-    border: 1px solid hsl(var(--border));
-  }
-
-  .ce-popover__item-icon, .ce-popover__item-label {
-    color: hsl(var(--foreground));
-  }
-
-  .ce-popover__item:hover {
-    background-color: hsl(var(--secondary));
-  }
-
-  .ce-block--selected .ce-block__content {
-    background: hsl(var(--secondary));
-  }
-  
-  .ce-inline-tool {
-    background-color: hsl(var(--card));
-    border-color: hsl(var(--border));
-    color: hsl(var(--foreground));
-    box-shadow: 0 3px 15px -3px rgba(13,20,33,.12);
-  }
-
-  .ce-inline-tool-input {
-    background-color: hsl(var(--input));
-    color: hsl(var(--foreground));
-  }
-
-  .ce-inline-tool button {
-    color: hsl(var(--foreground));
-  }
-
-  .ce-inline-tool button:hover {
-    background-color: hsl(var(--secondary));
+  .ql-snow .ql-fill {
+      @apply fill-card-foreground;
   }
 }
 

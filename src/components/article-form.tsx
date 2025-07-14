@@ -21,8 +21,11 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { CaseStudy } from "@/types/case-study";
 import { generateArticleContent } from "@/ai/flows/article-generator";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./ui/card";
-import { TiptapEditor } from "./tiptap-editor";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import dynamic from 'next/dynamic';
+import 'react-quill/dist/quill.snow.css';
+
+const ReactQuillEditor = dynamic(() => import('./react-quill-editor'), { ssr: false });
 
 const formSchema = z.object({
   title: z.string().min(2, { message: "Title must be at least 2 characters." }),
@@ -239,12 +242,10 @@ export function ArticleForm({ existingArticle }: { existingArticle?: CaseStudy }
                                     <FormItem className="h-full flex flex-col">
                                         <FormLabel>Content</FormLabel>
                                         <FormControl>
-                                            <div className="w-full h-full rounded-md border bg-card p-2 prose prose-sm max-w-none">
-                                                <TiptapEditor
-                                                    content={field.value}
-                                                    onChange={field.onChange}
-                                                />
-                                            </div>
+                                            <ReactQuillEditor
+                                                value={field.value}
+                                                onChange={field.onChange}
+                                            />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
