@@ -2,18 +2,14 @@
 'use client';
 
 import { useAuth } from '@/context/auth-context';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { User, KeyRound } from 'lucide-react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { DashboardProfileForm } from '@/components/dashboard-profile-form';
 import { DashboardPasswordForm } from '@/components/dashboard-password-form';
-import { Separator } from '@/components/ui/separator';
 
 export default function ProfilePage() {
-    const { user, logout } = useAuth();
+    const { user } = useAuth();
     const router = useRouter();
 
     useEffect(() => {
@@ -39,21 +35,8 @@ export default function ProfilePage() {
                 </p>
             </header>
 
-            <Tabs defaultValue="profile" className="w-full">
-                <TabsList className="grid w-full max-w-md grid-cols-2">
-                    <TabsTrigger value="profile">
-                        <User className="mr-2 h-4 w-4" />
-                        Profile
-                    </TabsTrigger>
-                    <TabsTrigger value="security">
-                        <KeyRound className="mr-2 h-4 w-4" />
-                        Security
-                    </TabsTrigger>
-                </TabsList>
-                
-                <Separator className="my-6" />
-
-                <TabsContent value="profile">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                <div className="lg:col-span-2">
                     <Card>
                         <CardHeader>
                             <CardTitle>Profile Information</CardTitle>
@@ -63,20 +46,20 @@ export default function ProfilePage() {
                             <DashboardProfileForm currentUser={user} />
                         </CardContent>
                     </Card>
-                </TabsContent>
+                </div>
 
-                <TabsContent value="security">
+                <div className="lg:col-span-1">
                      <Card>
                         <CardHeader>
-                            <CardTitle>Change Password</CardTitle>
+                            <CardTitle>Security</CardTitle>
                             <CardDescription>Update your password here. Make sure it's a strong one.</CardDescription>
                         </CardHeader>
                         <CardContent>
                             <DashboardPasswordForm />
                         </CardContent>
                     </Card>
-                </TabsContent>
-            </Tabs>
+                </div>
+            </div>
         </div>
     )
 }
