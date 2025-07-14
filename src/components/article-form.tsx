@@ -21,18 +21,11 @@ import type { CaseStudy } from "@/types/case-study";
 import React, { useState, useTransition, useMemo } from "react";
 import { generateArticleContent } from "@/ai/flows/article-generator";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from "./ui/dialog";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "./ui/textarea";
 import dynamic from 'next/dynamic';
+import { Label } from "./ui/label";
 
-// Import Quill's CSS
-import 'react-quill/dist/quill.snow.css';
-
-// Dynamically import ReactQuill to avoid SSR issues
-const ReactQuill = dynamic(
-  () => import('react-quill'), 
-  { ssr: false }
-);
+const QuillEditor = dynamic(() => import('./quill-editor'), { ssr: false });
 
 const formSchema = z.object({
   title: z.string().min(5, "Title must be at least 5 characters."),
@@ -175,8 +168,6 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
   
   const fileRef = form.register("image");
 
-  const QuillEditor = useMemo(() => dynamic(() => import('react-quill'), { ssr: false }), []);
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -214,9 +205,7 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
             name="content"
             render={({ field }) => (
                 <FormItem>
-                    {/* The FormControl wrapper is removed here to prevent conflicts */}
-                    <ReactQuill
-                      theme="snow"
+                    <QuillEditor
                       value={field.value}
                       onChange={field.onChange}
                       className="bg-card"
@@ -317,5 +306,3 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
     </Form>
   );
 }
-
-    
