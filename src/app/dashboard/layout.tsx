@@ -60,16 +60,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         </SidebarMenuItem>
                          <SidebarMenuItem>
                              <Link href="#" passHref>
-                                <SidebarMenuButton asChild tooltip="Content">
-                                    <div>
-                                        <FileText />
-                                        <span>Content</span>
-                                    </div>
-                                </SidebarMenuButton>
-                            </Link>
-                        </SidebarMenuItem>
-                         <SidebarMenuItem>
-                             <Link href="#" passHref>
                                 <SidebarMenuButton asChild tooltip="Settings">
                                     <div>
                                         <Settings />
