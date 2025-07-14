@@ -2,13 +2,13 @@
 'use client';
 
 import React from 'react';
-import type { OutputData, BlockToolData, ToolSettings } from '@editorjs/editorjs';
+import type { OutputData, BlockToolData } from '@editorjs/editorjs';
 
 interface EditorJSRendererProps {
   data: OutputData | string;
 }
 
-// A simple type guard to check if the data is OutputData
+// A simple type guard to check if the data is a valid OutputData object
 function isOutputData(data: any): data is OutputData {
     return typeof data === 'object' && data !== null && Array.isArray(data.blocks) && 'version' in data;
 }
@@ -52,47 +52,45 @@ const EditorJSRenderer: React.FC<EditorJSRendererProps> = ({ data }) => {
         parsedData = data;
     } else if (typeof data === 'string') {
         try {
-            // Fallback for content that might have been saved as a stringified JSON
+            // Attempt to parse if it's a stringified JSON
             const jsonData = JSON.parse(data);
             if (isOutputData(jsonData)) {
                 parsedData = jsonData;
-            } else {
-                 // If it's a string but not JSON, render it as a single paragraph
-                 parsedData = {
-                     time: Date.now(),
-                     blocks: [{ id: 'fallback', type: 'paragraph', data: { text: data } }],
-                     version: "2.29.1"
-                 };
             }
         } catch (error) {
-            // If parsing fails, treat it as plain text in a paragraph
+            // If parsing fails, it's likely plain text.
+            // We'll wrap it in a simple block structure.
+        }
+        
+        if (!parsedData) {
             parsedData = {
                 time: Date.now(),
-                blocks: [{ id: 'fallback', type: 'paragraph', data: { text: data } }],
-                version: "2.29.1"
+                blocks: [{ id: 'fallback-string', type: 'paragraph', data: { text: data } }],
+                version: "2.30.2"
             };
         }
     }
 
-    if (!parsedData || !parsedData.blocks) {
-        // Fallback for malformed but not stringified content, or if there are no blocks
-        return <div/>;
+    if (!parsedData || !Array.isArray(parsedData.blocks)) {
+        console.warn("Invalid data passed to EditorJSRenderer", data);
+        return <div className="text-red-500">Could not render content.</div>;
     }
   
   return (
     <>
       {parsedData.blocks.map((block) => {
-        // Basic check for block validity
         if (!block || typeof block.type !== 'string' || !block.data) {
+            console.warn('Skipping malformed block:', block);
             return null;
         }
 
         const renderer = renderers[block.type];
         if (!renderer) {
           console.warn(`No renderer for block type: ${block.type}`);
-          return null;
+          // Fallback to rendering a simple paragraph with stringified data
+          return <p key={block.id || Math.random()}>{JSON.stringify(block.data)}</p>;
         }
-        return renderer(block.data, block.id);
+        return renderer(block.data, block.id || Math.random().toString());
       })}
     </>
   );

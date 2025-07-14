@@ -21,7 +21,7 @@ const createContent = (text: string): OutputData => ({
         type: 'paragraph',
         data: { text: paragraph }
     })),
-    version: "2.29.1"
+    version: "2.30.2"
 });
 
 const demoCaseStudies: CaseStudy[] = [
@@ -207,9 +207,10 @@ export default function CaseStudyPage() {
 
     } catch (error) {
         console.error("Failed to parse articles from localStorage", error);
+        // If parsing fails, it's safer to clear it and start fresh.
         localStorage.removeItem('articles');
-        // Fallback to demo data if localStorage is corrupt
         setAllCaseStudies(demoCaseStudies);
+        localStorage.setItem('articles', JSON.stringify(demoCaseStudies));
     }
   }, []);
 
