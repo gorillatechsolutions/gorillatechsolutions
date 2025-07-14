@@ -1,12 +1,14 @@
 
 'use client';
 
-import { useEditor, EditorContent, FloatingMenu, BubbleMenu } from '@tiptap/react';
+import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import Link from '@tiptap/extension-link';
+import Image from '@tiptap/extension-image';
+import Youtube from '@tiptap/extension-youtube';
 import { useCallback } from 'react';
-import { Bold, Italic, Strikethrough, Code, Heading1, Heading2, Heading3, List, ListOrdered, Link as LinkIcon, Pilcrow } from 'lucide-react';
+import { Bold, Italic, Strikethrough, Heading1, Heading2, Heading3, List, ListOrdered, Link as LinkIcon, Pilcrow, Image as ImageIcon, Youtube as YoutubeIcon } from 'lucide-react';
 import { Toggle } from '@/components/ui/toggle';
 import { Separator } from '@/components/ui/separator';
 
@@ -16,20 +18,41 @@ const TiptapToolbar = ({ editor }: { editor: any }) => {
   }
   
   const setLink = useCallback(() => {
-    const previousUrl = editor.getAttributes('link').href
-    const url = window.prompt('URL', previousUrl)
+    const previousUrl = editor.getAttributes('link').href;
+    const url = window.prompt('URL', previousUrl);
 
     if (url === null) {
-      return
+      return;
     }
 
     if (url === '') {
-      editor.chain().focus().extendMarkRange('link').unsetLink().run()
-      return
+      editor.chain().focus().extendMarkRange('link').unsetLink().run();
+      return;
     }
 
-    editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
+    editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
   }, [editor]);
+  
+  const addImage = useCallback(() => {
+    const url = window.prompt('Image URL');
+
+    if (url) {
+      editor.chain().focus().setImage({ src: url }).run();
+    }
+  }, [editor]);
+
+  const addYoutubeVideo = () => {
+    const url = prompt('Enter YouTube URL')
+
+    if (url) {
+      editor.commands.setYoutubeVideo({
+        src: url,
+        width: 640,
+        height: 480,
+      })
+    }
+  }
+
 
   return (
     <div className="border border-input bg-transparent rounded-t-md p-1 flex flex-wrap items-center gap-1">
@@ -66,6 +89,12 @@ const TiptapToolbar = ({ editor }: { editor: any }) => {
        <Toggle size="sm" onPressedChange={setLink} pressed={editor.isActive('link')}>
         <LinkIcon className="h-4 w-4" />
       </Toggle>
+      <Toggle size="sm" onClick={addImage}>
+        <ImageIcon className="h-4 w-4" />
+      </Toggle>
+       <Toggle size="sm" onClick={addYoutubeVideo} pressed={editor.isActive('youtube')}>
+          <YoutubeIcon className="h-4 w-4" />
+      </Toggle>
     </div>
   );
 };
@@ -91,6 +120,10 @@ export const TiptapEditor = ({ content, onChange }: { content: string; onChange:
       Link.configure({
         openOnClick: false,
         autolink: true,
+      }),
+      Image,
+      Youtube.configure({
+        controls: false,
       }),
     ],
     content: content,
