@@ -18,14 +18,12 @@ import { useToast } from "@/hooks/use-toast";
 import { Save, Sparkles, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import type { CaseStudy } from "@/types/case-study";
-import React, { useState, useTransition, useMemo } from "react";
+import React, { useState, useTransition } from "react";
 import { generateArticleContent } from "@/ai/flows/article-generator";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from "./ui/dialog";
 import { Textarea } from "./ui/textarea";
 import { Label } from "./ui/label";
-import dynamic from 'next/dynamic';
-
-const QuillEditor = dynamic(() => import('./quill-editor'), { ssr: false });
+import TiptapEditor from './tiptap-editor';
 
 const formSchema = z.object({
   title: z.string().min(5, "Title must be at least 5 characters."),
@@ -192,19 +190,27 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
             </FormItem>
           )}
         />
-        <FormItem>
-            <div className="flex justify-between items-center mb-2 flex-wrap gap-2">
-                <FormLabel>Full Content</FormLabel>
-                <Button type="button" variant="outline" size="sm" onClick={() => setAiDialogOpen(true)}>
-                    <Sparkles className="h-4 w-4 mr-1" /> Generate with AI
-                </Button>
-            </div>
-            <QuillEditor
-                value={form.watch('content')}
-                onChange={(value) => form.setValue('content', value, { shouldValidate: true, shouldDirty: true })}
-            />
-            <FormMessage>{form.formState.errors.content?.message}</FormMessage>
-        </FormItem>
+        <FormField
+            control={form.control}
+            name="content"
+            render={({ field }) => (
+                <FormItem>
+                    <div className="flex justify-between items-center mb-2 flex-wrap gap-2">
+                        <FormLabel>Full Content</FormLabel>
+                        <Button type="button" variant="outline" size="sm" onClick={() => setAiDialogOpen(true)}>
+                            <Sparkles className="h-4 w-4 mr-1" /> Generate with AI
+                        </Button>
+                    </div>
+                    <FormControl>
+                        <TiptapEditor
+                            content={field.value}
+                            onChange={field.onChange}
+                        />
+                    </FormControl>
+                    <FormMessage />
+                </FormItem>
+            )}
+        />
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             <FormField
             control={form.control}
