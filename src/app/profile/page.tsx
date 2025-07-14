@@ -12,13 +12,12 @@ import { Edit, User as UserIcon, AtSign, Phone, MessageSquare, Map, Globe, Mail,
 import { Separator } from '@/components/ui/separator';
 
 const DetailItem = ({ icon, label, value }: { icon: React.ReactNode, label: string, value?: string }) => {
-    if (!value) return null;
     return (
         <div className="flex items-start gap-4">
             <div className="text-muted-foreground w-6 h-6 flex-shrink-0">{icon}</div>
             <div>
                 <p className="text-sm text-muted-foreground">{label}</p>
-                <p className="font-medium">{value}</p>
+                <p className="font-medium">{value || '-'}</p>
             </div>
         </div>
     );
