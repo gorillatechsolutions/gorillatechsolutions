@@ -7,6 +7,7 @@ import React, { createContext, useContext, useState, ReactNode, useEffect } from
 export type User = {
     name: string;
     email: string;
+    username?: string;
     role: 'admin' | 'user';
     phone?: string;
     whatsapp?: string;

@@ -71,6 +71,16 @@ export default function ProfilePage() {
                     <div className="space-y-4 text-sm">
                         <h2 className="text-lg font-semibold font-headline text-primary mb-4">Contact & Location</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+                            <div>
+                                <p className="font-semibold text-muted-foreground">Full Name</p>
+                                <p className="text-foreground">{user.name}</p>
+                            </div>
+                             {user.username && (
+                                <div>
+                                    <p className="font-semibold text-muted-foreground">Username</p>
+                                    <p className="text-foreground">@{user.username}</p>
+                                </div>
+                            )}
                             {user.email && (
                                 <div>
                                     <p className="font-semibold text-muted-foreground">Email</p>

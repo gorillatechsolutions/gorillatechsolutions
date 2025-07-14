@@ -51,6 +51,7 @@ export function LoginForm() {
         const baseUser = {
             name: values.email === 'admin@example.com' ? 'Admin User' : 'Mary Jacob',
             email: values.email,
+            username: values.email === 'admin@example.com' ? 'admin_user' : 'maryj',
         };
 
         const user: User = values.email === 'admin@example.com' 
@@ -58,16 +59,8 @@ export function LoginForm() {
             : { 
                 ...baseUser,
                 role: 'user',
-                title: 'Real Estate Reporter',
-                company: 'New York Post',
-                location: 'New York',
-                expertise: 'Real Estate',
                 bio: "Covering all things real estate @nypost Send tips: dm's open",
                 verified: true,
-                asSeenIn: [
-                    'New York Post', 'Yahoo Entertainment', 'Yahoo Life', 'MSN (US)', 'The Internet Archive', 
-                    'Yahoo News', 'Yahoo News Malaysia', 'Yahoo Singapore', 'Aol', 'Yahoo', 'Yahoo Finance'
-                ],
             };
             
         login(user);
