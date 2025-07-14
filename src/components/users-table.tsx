@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { ChevronLeft, ChevronRight, Search, MoreHorizontal, UserPlus, Calendar, CheckCircle, Mail, User as UserIcon, Trash2, KeyRound, Eye, EyeOff } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Search, MoreHorizontal, UserPlus, Calendar, CheckCircle, Trash2, KeyRound, Eye, EyeOff, User as UserIcon } from 'lucide-react';
 import { format, formatDistanceToNow } from 'date-fns';
 import { type User, UserRole, UserStatus } from '@/types/user';
 import {
@@ -60,8 +60,13 @@ const roleStyles: { [key in UserRole]: string } = {
 
 const ITEMS_PER_PAGE = 8;
 
-export function UsersTable({ users }: { users: User[] }) {
-  const [userList, setUserList] = useState<User[]>(users);
+type UsersTableProps = {
+    users: User[];
+    onDeleteUser: (userId: string) => void;
+    onAddUser: (user: Omit<User, 'id' | 'avatar' | 'dataAiHint' | 'status' | 'lastSeen' | 'joined'> & {password: string}) => void;
+}
+
+export function UsersTable({ users, onDeleteUser, onAddUser }: UsersTableProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [roleFilter, setRoleFilter] = useState<UserRole | 'all'>('all');
   const [statusFilter, setStatusFilter] = useState<UserStatus | 'all'>('all');
@@ -73,7 +78,7 @@ export function UsersTable({ users }: { users: User[] }) {
   const { toast } = useToast();
 
   const filteredUsers = useMemo(() => {
-    let filtered = userList;
+    let filtered = users;
 
     if (searchTerm) {
       const lowercasedTerm = searchTerm.toLowerCase();
@@ -92,7 +97,7 @@ export function UsersTable({ users }: { users: User[] }) {
     }
 
     return filtered;
-  }, [userList, searchTerm, roleFilter, statusFilter]);
+  }, [users, searchTerm, roleFilter, statusFilter]);
 
   const totalPages = Math.ceil(filteredUsers.length / ITEMS_PER_PAGE);
   const paginatedUsers = filteredUsers.slice(
@@ -104,15 +109,6 @@ export function UsersTable({ users }: { users: User[] }) {
     if (newPage >= 1 && newPage <= totalPages) {
       setCurrentPage(newPage);
     }
-  };
-
-  const handleDeleteUser = (userId: string) => {
-    // In a real app, this would be an API call.
-    setUserList(prevUsers => prevUsers.filter(user => user.id !== userId));
-    toast({
-      title: 'User Deleted',
-      description: 'The user has been permanently deleted.',
-    });
   };
   
   const handleChangePassword = (userId: string) => {
@@ -126,17 +122,7 @@ export function UsersTable({ users }: { users: User[] }) {
     setUserToEdit(null);
   };
 
-  const handleAddUser = (newUser: Omit<User, 'id' | 'avatar' | 'dataAiHint' | 'status' | 'lastSeen' | 'joined'> & {password: string}) => {
-    const userToAdd: User = {
-        id: `usr-${Math.random().toString(36).substr(2, 9)}`,
-        ...newUser,
-        avatar: 'https://placehold.co/100x100.png',
-        dataAiHint: 'person',
-        status: 'invited',
-        joined: new Date().toISOString(),
-        lastSeen: null,
-    };
-    setUserList(prev => [userToAdd, ...prev]);
+  const handleAddUserSuccess = () => {
     setAddUserOpen(false);
   }
 
@@ -198,7 +184,7 @@ export function UsersTable({ users }: { users: User[] }) {
             </AlertDialogHeader>
             <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={() => handleDeleteUser(user.id)} className={cn(buttonVariants({ variant: 'destructive' }))}>
+                <AlertDialogAction onClick={() => onDeleteUser(user.id)} className={cn(buttonVariants({ variant: 'destructive' }))}>
                     Yes, delete user
                 </AlertDialogAction>
             </AlertDialogFooter>
@@ -364,7 +350,7 @@ export function UsersTable({ users }: { users: User[] }) {
                       Fill in the details below to add a new user and send them an invitation.
                   </DialogDescription>
               </DialogHeader>
-              <AddUserForm onSuccess={() => setAddUserOpen(false)} />
+              <AddUserForm onSuccess={handleAddUserSuccess} />
           </DialogContent>
       </Dialog>
       
