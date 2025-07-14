@@ -24,7 +24,7 @@ import type { User } from "@/context/auth-context";
 
 
 const formSchema = z.object({
-  email: z.string().email({ message: "Please enter a valid email address." }),
+  identifier: z.string().min(1, { message: "Please enter your email, username, or phone number." }),
   password: z.string().min(8, { message: "Password must be at least 8 characters." }),
 });
 
@@ -37,33 +37,37 @@ export function LoginForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
+      identifier: "",
       password: "",
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Demo login logic
-    if (
-        (values.email === 'admin@example.com' && values.password === 'password123') ||
-        (values.email === 'user@example.com' && values.password === 'password123')
-    ) {
-        const baseUser = {
-            name: values.email === 'admin@example.com' ? 'Admin User' : 'Mary Jacob',
-            email: values.email,
-            username: values.email === 'admin@example.com' ? 'admin_user' : 'maryj',
-        };
+    const demoUsers: User[] = [
+        { 
+            name: 'Admin User', 
+            email: 'admin@example.com',
+            username: 'admin_user',
+            role: 'admin' 
+        },
+        { 
+            name: 'Mary Jacob',
+            email: 'user@example.com',
+            username: 'maryj',
+            phone: '1234567890',
+            role: 'user',
+            bio: "Covering all things real estate @nypost Send tips: dm's open",
+            verified: true,
+        }
+    ];
 
-        const user: User = values.email === 'admin@example.com' 
-            ? { ...baseUser, role: 'admin' }
-            : { 
-                ...baseUser,
-                role: 'user',
-                bio: "Covering all things real estate @nypost Send tips: dm's open",
-                verified: true,
-            };
-            
-        login(user);
+    const foundUser = demoUsers.find(u => 
+        (u.email === values.identifier || u.username === values.identifier || u.phone === values.identifier)
+    );
+
+    if (foundUser && values.password === 'password123') {
+        login(foundUser);
         toast({
             title: "Login Successful!",
             description: "Welcome back! Redirecting you to your profile...",
@@ -74,7 +78,7 @@ export function LoginForm() {
         toast({
             variant: "destructive",
             title: "Login Failed",
-            description: "Invalid email or password. Please try again.",
+            description: "Invalid credentials. Please try again.",
         });
     }
   }
@@ -84,12 +88,12 @@ export function LoginForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
-          name="email"
+          name="identifier"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email Address</FormLabel>
+              <FormLabel>Email, Username, or Phone</FormLabel>
               <FormControl>
-                <Input placeholder="you@example.com" {...field} />
+                <Input placeholder="Enter your credentials" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
