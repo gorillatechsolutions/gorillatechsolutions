@@ -23,6 +23,7 @@ import { generateArticleContent } from "@/ai/flows/article-generator";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from "./ui/dialog";
 import { Textarea } from "./ui/textarea";
 import dynamic from 'next/dynamic';
+import 'react-quill/dist/quill.snow.css';
 import { Label } from "./ui/label";
 
 const QuillEditor = dynamic(() => import('./quill-editor'), { ssr: false });
@@ -194,26 +195,20 @@ export function ArticleForm({ existingArticle }: ArticleFormProps) {
           )}
         />
         <div>
-          <div className="flex justify-between items-center mb-2 flex-wrap gap-2">
-            <FormLabel>Full Content</FormLabel>
-            <Button type="button" variant="outline" size="sm" onClick={() => setAiDialogOpen(true)}>
-                <Sparkles className="h-4 w-4 mr-1" /> Generate with AI
-            </Button>
-          </div>
-          <FormField
-            control={form.control}
-            name="content"
-            render={({ field }) => (
-                <FormItem>
-                    <QuillEditor
-                      value={field.value}
-                      onChange={field.onChange}
-                      className="bg-card"
-                    />
-                    <FormMessage />
-                </FormItem>
-            )}
-            />
+            <div className="flex justify-between items-center mb-2 flex-wrap gap-2">
+                <Label>Full Content</Label>
+                <Button type="button" variant="outline" size="sm" onClick={() => setAiDialogOpen(true)}>
+                    <Sparkles className="h-4 w-4 mr-1" /> Generate with AI
+                </Button>
+            </div>
+            <FormItem>
+                <QuillEditor
+                    value={form.watch('content')}
+                    onChange={(value) => form.setValue('content', value, { shouldValidate: true, shouldDirty: true })}
+                    className="bg-card"
+                />
+                <FormMessage>{form.formState.errors.content?.message}</FormMessage>
+            </FormItem>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             <FormField
