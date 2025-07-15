@@ -99,7 +99,7 @@ export function Footer() {
           <div className="space-y-2 text-sm flex flex-col items-center" style={{ textAlign: 'justify' }}>
             <div className="flex items-start gap-3">
               <i className="fa fa-map-marker h-5 w-5 mt-0.5 shrink-0" style={{ color: '#383838' }} aria-hidden="true"></i>
-              <p style={{ color: '#383838' }}>Agartala, Tripura (W) India<br/>Pin: 799006</p>
+              <p style={{ color: '#383838', textAlign: 'justify' }}>Agartala, Tripura (W) India<br/>Pin: 799006</p>
             </div>
             <div className="flex items-center gap-3">
               <i className="fa fa-phone h-5 w-5 shrink-0" style={{ color: '#383838' }} aria-hidden="true"></i>
@@ -132,7 +132,7 @@ export function Footer() {
           <p className="text-center sm:text-left">&copy; {new Date().getFullYear()} Gorilla Tech Solutions. All rights reserved.</p>
           <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2">
             <div className="flex items-center gap-2 px-3 py-2 rounded-md" style={{ backgroundColor: '#f2f5f7', color: 'black' }}>
-                <Image src="https://placehold.co/24x24.png" alt="Meta Business" width={24} height={24} data-ai-hint="logo" loading="lazy" />
+                <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="#0081FB"><title>Meta</title><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 21.6c-5.302 0-9.6-4.298-9.6-9.6s4.298-9.6 9.6-9.6 9.6 4.298 9.6 9.6-4.298 9.6-9.6 9.6z"/><path d="M16.94 6.72h-1.85a3.97 3.97 0 0 0-3.969 3.969v1.851h-1.85v2.778h1.85v6.502h2.778v-6.502h1.85l.926-2.778h-2.777v-1.851c0-.76.222-1.389 1.389-1.389h1.85V6.72z"/></svg>
                 <div className="flex flex-col items-start">
                     <span className="text-sm" style={{ color: '#0081FB' }}>Meta Business</span>
                     <div className="flex items-center gap-1">
