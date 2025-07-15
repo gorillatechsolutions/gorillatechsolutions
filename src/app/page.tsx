@@ -250,26 +250,17 @@ export default function Home() {
       </section>
       
       {/* CTA Section */}
-      <section className="w-full bg-background pt-12 md:pt-20 pb-24 md:pb-32">
-          <div className="container mx-auto px-4">
-              <div className="relative overflow-hidden rounded-lg p-8 md:p-12 flex items-center" style={{ backgroundColor: '#4A61DD' }}>
-                  <div className="absolute left-4 -top-8 w-32 h-32 md:w-40 md:h-40 bg-yellow-400 rounded-full" />
-                  <div className="relative z-10 flex-1 flex flex-col md:flex-row items-center justify-between gap-8 text-white">
-                      <div className="md:pl-16 text-center md:text-left">
-                           <h2 className="font-headline text-3xl md:text-4xl font-bold">Ready to Transform Your Business?</h2>
-                           <p className="mt-2 max-w-xl">
-                               Get started with our cutting-edge digital solutions and take your business to the next level.
-                           </p>
-                      </div>
-                      <div className="flex-shrink-0">
-                           <Button asChild size="lg" className="bg-lime-500 text-black hover:bg-lime-600 font-bold shadow-lg transition-transform transform hover:scale-105 w-full sm:w-auto">
-                              <Link href="/contact">
-                                  Get Started Now
-                              </Link>
-                           </Button>
-                      </div>
-                  </div>
-              </div>
+      <section className="w-full bg-secondary/30 py-20 md:py-24">
+          <div className="container mx-auto px-4 text-center">
+              <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">Ready to Transform Your Business?</h2>
+              <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+                  Get started with our cutting-edge digital solutions and take your business to the next level. Let's build something amazing together.
+              </p>
+              <Button asChild size="lg" className="mt-8 bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transition-transform transform hover:scale-105">
+                  <Link href="/contact">
+                      Get Started Now
+                  </Link>
+              </Button>
           </div>
       </section>
     </div>
