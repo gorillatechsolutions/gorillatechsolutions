@@ -98,16 +98,16 @@ export function Footer() {
 
         <div className="flex flex-col items-start text-left">
           <h3 className="font-headline font-semibold mb-4 text-center w-full" style={{ color: '#383838' }}>Connect With Us</h3>
-          <div className="space-y-2 text-sm w-full" style={{textAlign: 'justify'}}>
-            <div className="flex items-start gap-3">
+          <div className="space-y-2 text-sm w-full" style={{textAlign: 'center'}}>
+            <div className="flex items-start gap-3 justify-center">
               <i className="fa fa-map-marker w-5 mt-0.5 shrink-0" style={{ color: '#383838' }} aria-hidden="true"></i>
               <p style={{ color: '#383838' }}>Agartala, Tripura (W) India<br/>Pin: 799006</p>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 justify-center">
               <i className="fa fa-phone w-5 shrink-0" style={{ color: '#383838' }} aria-hidden="true"></i>
               <a href="tel:03813599517" className="hover:text-primary" style={{ color: '#383838' }}>0381 359 9517</a>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 justify-center">
               <i className="fa fa-envelope w-5 shrink-0" style={{ color: '#383838' }} aria-hidden="true"></i>
               <a href="mailto:Business@GorillaTechSolution.com" className="hover:text-primary" style={{ color: '#383838' }}>Business@GorillaTechSolution.com</a>
             </div>
