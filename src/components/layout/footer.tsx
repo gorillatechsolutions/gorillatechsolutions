@@ -103,7 +103,7 @@ export function Footer() {
             </div>
             <div className="flex items-center gap-3">
               <i className="fa fa-phone h-5 w-5 shrink-0" style={{ color: '#383838' }} aria-hidden="true"></i>
-              <a href="tel:03813599517" className="hover:text-primary" style={{ color: '#383838' }}>0381 359 9517</a>
+              <a href="tel:03813599517" className="hover:text-primary" style={{ color: '#383838', textAlign: 'justify' }}>0381 359 9517</a>
             </div>
             <div className="flex items-center gap-3">
               <i className="fa fa-envelope h-5 w-5 shrink-0" style={{ color: '#383838' }} aria-hidden="true"></i>
@@ -132,7 +132,7 @@ export function Footer() {
           <p className="text-center sm:text-left">&copy; {new Date().getFullYear()} Gorilla Tech Solutions. All rights reserved.</p>
           <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2">
             <div className="flex items-center gap-2 px-3 py-2 rounded-md" style={{ backgroundColor: '#f2f5f7', color: 'black' }}>
-                <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="#0081FB"><title>Meta</title><path d="M12.0001 0.333252C5.55208 0.333252 0.333496 5.55184 0.333496 11.9999C0.333496 18.448 5.55208 23.6666 12.0001 23.6666C18.4481 23.6666 23.6668 18.448 23.6668 11.9999C23.6668 5.55184 18.4481 0.333252 12.0001 0.333252ZM17.1354 7.2185C16.5925 6.6433 15.9328 6.18371 15.222 5.86224C14.1163 5.3403 13.0645 5.06242 11.9999 5.06242C8.28695 5.06242 5.3059 7.97339 5.25016 11.6874C5.24933 11.7583 5.24933 11.8291 5.25016 11.9C5.25016 12.0233 5.25016 12.1466 5.25349 12.2691C5.3084 15.9848 8.28945 18.8958 11.9999 18.8958C14.1249 18.8958 15.9828 17.9424 17.1362 16.4C17.6525 15.7199 18.0691 14.9458 18.3649 14.1083C18.6749 13.2324 18.8333 12.3083 18.8333 11.3749C18.8333 10.3674 18.6366 9.40409 18.2324 8.52075C17.8424 7.66909 17.1354 7.2185 17.1354 7.2185ZM12.0008 6.72909C13.2841 6.72909 14.5158 7.08659 15.5425 7.74742C15.9925 8.04909 16.3983 8.41492 16.7358 8.84742C17.0666 9.27992 17.1991 9.77659 17.1991 10.2458C17.1991 10.9708 16.8991 11.6608 16.3458 12.1641C15.6591 12.7932 14.7433 13.1674 13.7508 13.1674C12.4675 13.1674 11.2358 12.81 10.2091 12.1491C9.75913 11.8474 9.3533 11.4816 9.01579 11.0491C8.68495 10.6166 8.55245 10.12 8.55245 9.65075C8.55245 8.92575 8.85245 8.23575 9.40579 7.73242C10.0925 7.10325 11.0083 6.72909 12.0008 6.72909Z"/></svg>
+                <i className="fa fa-infinity h-6 w-6" style={{color: '#0081FB'}} aria-hidden="true"></i>
                 <div className="flex flex-col items-start">
                     <span className="text-sm" style={{ color: '#0081FB' }}>Meta Business</span>
                     <div className="flex items-center gap-1">
