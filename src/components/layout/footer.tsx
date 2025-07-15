@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import Image from 'next/image';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMeta } from '@fortawesome/free-brands-svg-icons';
 
 const footerLinks = {
     company: [
@@ -132,7 +134,7 @@ export function Footer() {
           <p className="text-center sm:text-left">&copy; {new Date().getFullYear()} Gorilla Tech Solutions. All rights reserved.</p>
           <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2">
             <div className="flex items-center gap-2 px-3 py-2 rounded-md" style={{ backgroundColor: '#f2f5f7', color: 'black' }}>
-                <i className="fa fa-infinity h-6 w-6" style={{color: '#0081FB'}} aria-hidden="true"></i>
+                <FontAwesomeIcon icon={faMeta} className="h-6 w-6" style={{color: "#0081FB"}} />
                 <div className="flex flex-col items-start">
                     <span className="text-sm" style={{ color: '#0081FB' }}>Meta Business</span>
                     <div className="flex items-center gap-1">
