@@ -16,7 +16,7 @@ export function Header() {
   const navLinks = NAV_LINKS;
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
       <div className="flex h-16 items-center justify-between px-2">
         <Link href="/" className="flex items-center gap-2 mr-auto">
           <i className="fa fa-cogs fa-2x text-primary" aria-hidden="true"></i> 
