@@ -261,7 +261,7 @@ export default function Home() {
                 </Link>
               </Button>
               <div className="text-left">
-                <h2 className="font-headline text-2xl md:text-3xl font-bold">
+                <h2 className="font-headline text-xl sm:text-2xl md:text-3xl font-bold">
                   Ready to Transform Your Business?
                 </h2>
                 <p className="mt-2 text-white/80">
