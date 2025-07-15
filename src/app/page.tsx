@@ -252,7 +252,7 @@ export default function Home() {
       {/* CTA Section */}
       <section className="w-full bg-background py-20 md:py-24">
         <div className="container mx-auto px-4">
-          <div className="relative max-w-4xl mx-auto">
+          <div className="relative w-4/5 mx-auto">
             <div className="absolute -top-10 left-0 w-32 h-32 bg-yellow-300 rounded-full z-0"></div>
             <div className="relative z-10 flex items-center justify-between bg-blue-600 text-white p-8 md:p-12 rounded-lg shadow-lg">
               <div className="flex-1 pr-8">
