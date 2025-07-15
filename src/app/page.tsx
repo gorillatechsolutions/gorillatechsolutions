@@ -89,6 +89,16 @@ export default function Home() {
               </Button>
             </div>
              <div className="mt-6 flex flex-wrap justify-center lg:justify-start items-center gap-4">
+              <Link href="#" className="flex items-center gap-2 px-3 py-2 rounded-md text-black" style={{ backgroundColor: '#f0f4f6' }}>
+                  <FontAwesomeIcon icon={faCheckCircle} className="h-6 w-6" style={{color: 'limegreen'}} />
+                  <div className="flex flex-col items-start text-left">
+                      <span className="text-sm">ISO 9001:2015</span>
+                      <div className="flex items-center gap-1">
+                          <FontAwesomeIcon icon={faCheckCircle} className="mr-1 h-3 w-3" style={{color: 'limegreen'}} />
+                          <span className="text-xs" style={{ color: 'limegreen' }}>Trusted</span>
+                      </div>
+                  </div>
+              </Link>
               <Link href="#" className="flex items-center gap-2 px-3 py-2 rounded-md" style={{ backgroundColor: '#f2f5f7', color: 'black' }}>
                   <FontAwesomeIcon icon={faMeta} className="h-6 w-6" style={{color: "#0081FB"}} />
                   <div className="flex flex-col items-start">
