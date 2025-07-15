@@ -6,6 +6,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { reviews as allReviews } from '@/lib/reviews-data';
 import { cn } from '@/lib/utils';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAws, faMeta } from '@fortawesome/free-brands-svg-icons';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
 const processSteps = [
     {
@@ -84,6 +87,31 @@ export default function Home() {
                   Explore Our Services
                 </Link>
               </Button>
+            </div>
+             <div className="mt-6 flex flex-wrap justify-center lg:justify-start items-center gap-4">
+              <Link href="#" className="flex items-center gap-2 px-3 py-2 rounded-md" style={{ backgroundColor: '#f2f5f7', color: 'black' }}>
+                  <FontAwesomeIcon icon={faMeta} className="h-6 w-6" style={{color: "#0081FB"}} />
+                  <div className="flex flex-col items-start">
+                      <span className="text-sm" style={{ color: '#0081FB' }}>Meta Business</span>
+                      <div className="flex items-center gap-1">
+                          <FontAwesomeIcon icon={faCheckCircle} className="mr-1 h-3 w-3" style={{color: 'limegreen'}} />
+                          <span className="text-xs" style={{ color: 'limegreen' }}>Verified Partner</span>
+                      </div>
+                  </div>
+              </Link>
+              <Link href="#" className="flex items-center gap-2 px-3 py-2 rounded-md text-black" style={{ backgroundColor: '#f0f4f6' }}>
+                  <FontAwesomeIcon icon={faAws} className="h-6 w-6" style={{color: "#f78d38"}} />
+                  <div className="flex flex-col items-start">
+                      <div className="text-sm">
+                          <span style={{ color: '#f78f39' }}>AWS </span>
+                          <span style={{ color: '#383838' }}>Startup</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                          <FontAwesomeIcon icon={faCheckCircle} className="mr-1 h-3 w-3" style={{color: 'limegreen'}} />
+                          <span className="text-xs" style={{ color: 'limegreen' }}>Verified Partner</span>
+                      </div>
+                  </div>
+              </Link>
             </div>
           </div>
           <div className="flex items-center justify-center">
