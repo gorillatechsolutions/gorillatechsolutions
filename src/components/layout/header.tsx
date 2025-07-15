@@ -3,17 +3,33 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 import { NAV_LINKS } from '@/lib/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCogs, faBars } from '@fortawesome/free-solid-svg-icons';
+import { useRouter } from 'next/navigation';
 
 export function Header() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const user = localStorage.getItem('user');
+      setIsLoggedIn(!!user);
+    }
+  }, [pathname]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    setIsLoggedIn(false);
+    router.push('/');
+  };
 
   const navLinks = NAV_LINKS;
 
@@ -43,12 +59,19 @@ export function Header() {
             ))}
           </nav>
 
-          <div className="hidden md:flex">
-            <Button asChild>
-              <Link href="/contact">
-                Contact Us
-              </Link>
-            </Button>
+          <div className="hidden md:flex items-center gap-2">
+            {isLoggedIn ? (
+              <Button onClick={handleLogout} variant="outline">Logout</Button>
+            ) : (
+              <>
+                <Button asChild variant="ghost">
+                  <Link href="/login">Login</Link>
+                </Button>
+                <Button asChild>
+                  <Link href="/signup">Sign Up</Link>
+                </Button>
+              </>
+            )}
           </div>
 
           <div className="md:hidden">
@@ -82,12 +105,21 @@ export function Header() {
                     </Link>
                   ))}
                 </nav>
-                <div className="p-4 border-t">
-                  <Button asChild className="w-full">
-                    <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
-                      Contact Us
-                    </Link>
-                  </Button>
+                <div className="p-4 border-t space-y-2">
+                   {isLoggedIn ? (
+                     <Button onClick={() => { handleLogout(); setMobileMenuOpen(false); }} className="w-full">
+                       Logout
+                     </Button>
+                   ) : (
+                     <>
+                       <Button asChild className="w-full" variant="ghost">
+                         <Link href="/login" onClick={() => setMobileMenuOpen(false)}>Login</Link>
+                       </Button>
+                       <Button asChild className="w-full">
+                         <Link href="/signup" onClick={() => setMobileMenuOpen(false)}>Sign Up</Link>
+                       </Button>
+                     </>
+                   )}
                 </div>
               </SheetContent>
             </Sheet>
