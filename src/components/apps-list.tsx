@@ -11,6 +11,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import type { AppFilter } from '@/app/apps/page';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 type AppLinks = {
   web?: string;
@@ -43,6 +44,10 @@ const ITEMS_PER_PAGE = 12;
 export function AppsList({ allApps, searchTerm, filter }: AppsListProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const { toast } = useToast();
+
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   
   const filteredApps = useMemo(() => {
     let apps = allApps;
@@ -77,8 +82,10 @@ export function AppsList({ allApps, searchTerm, filter }: AppsListProps) {
 
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
+      const params = new URLSearchParams(searchParams);
+      params.set('page', newPage.toString());
+      router.push(`${pathname}?${params.toString()}`, { scroll: false });
       setCurrentPage(newPage);
-      window.scrollTo(0, 0);
     }
   };
 

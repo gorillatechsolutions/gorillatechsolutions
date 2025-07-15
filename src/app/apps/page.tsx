@@ -1,210 +1,19 @@
 
-'use client';
-
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Search, Smartphone, Globe, HardDriveDownload } from 'lucide-react';
 import { AppsList } from '@/components/apps-list';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
-import { cn } from '@/lib/utils';
+import { apps } from '@/lib/apps-data';
+import type { AppFilter } from '@/app/apps/page';
 
-const apps = [
-  {
-    title: 'Analytics Hub',
-    category: 'Business',
-    rating: 4.8,
-    downloads: '1M+',
-    description: 'Monitor your key business metrics in real-time with our powerful analytics hub. Visualize data and gain actionable insights.',
-    icon: 'https://placehold.co/128x128.png',
-    dataAiHint: 'analytics chart',
-    links: { web: '#', buy: '#' },
-    badge: 'Premium',
-  },
-  {
-    title: 'Social Scheduler',
-    category: 'Productivity',
-    rating: 4.7,
-    downloads: '500K+',
-    description: 'Plan, schedule, and publish your social media content across all major platforms from a single, intuitive interface.',
-    icon: 'https://placehold.co/128x128.png',
-    dataAiHint: 'calendar social',
-    links: { playStore: '#', appStore: '#' },
-  },
-  {
-    title: 'SEO Keyword Finder',
-    category: 'Marketing',
-    rating: 4.9,
-    downloads: '250K+',
-    description: 'Discover high-impact keywords and track your search rankings to dominate the SERPs and drive organic traffic.',
-    icon: 'https://placehold.co/128x128.png',
-    dataAiHint: 'seo keyword',
-    links: { web: '#', buy: '#' },
-    badge: 'Gold',
-  },
-  {
-    title: 'Project Pilot',
-    category: 'Productivity',
-    rating: 4.6,
-    downloads: '750K+',
-    description: 'Manage projects, assign tasks, and collaborate with your team to deliver projects on time and within budget.',
-    icon: 'https://placehold.co/128x128.png',
-    dataAiHint: 'project management',
-    links: { playStore: '#', appStore: '#', web: '#' },
-  },
-  {
-    title: 'Content Crafter AI',
-    category: 'AI Tools',
-    rating: 4.8,
-    downloads: '300K+',
-    description: 'Generate high-quality marketing copy, blog posts, and more with our advanced AI-powered writing assistant.',
-    icon: 'https://placehold.co/128x128.png',
-    dataAiHint: 'ai writing',
-    links: { web: '#', buy: '#' },
-    badge: 'Login Required',
-  },
-  {
-    title: 'Lead Gen Bot',
-    category: 'Marketing',
-    rating: 4.5,
-    downloads: '100K+',
-    description: 'Automate lead capture and qualification on your website with our intelligent chatbot solution. Never miss a lead again.',
-    icon: 'https://placehold.co/128x128.png',
-    dataAiHint: 'robot chat',
-    links: { download: '#' },
-  },
-  {
-    title: 'E-com Insights',
-    category: 'Business',
-    rating: 4.7,
-    downloads: '400K+',
-    description: 'Get deep insights into your eCommerce store\'s performance, from sales trends to customer behavior analytics.',
-    icon: 'https://placehold.co/128x128.png',
-    dataAiHint: 'ecommerce analytics',
-    links: { playStore: '#', appStore: '#', buy: '#' },
-    badge: 'Premium',
-  },
-  {
-    title: 'Team Sync',
-    category: 'Communication',
-    rating: 4.6,
-    downloads: '1.2M+',
-    description: 'A unified communication platform for your team, featuring chat, video calls, and file sharing to keep everyone in sync.',
-    icon: 'https://placehold.co/128x128.png',
-    dataAiHint: 'team chat',
-    links: { playStore: '#', appStore: '#', web: '#' },
-  },
-  {
-    title: 'Invoice Master',
-    category: 'Finance',
-    rating: 4.9,
-    downloads: '600K+',
-    description: 'Create and send professional invoices in minutes. Track payments and manage your finances effortlessly.',
-    icon: 'https://placehold.co/128x128.png',
-    dataAiHint: 'invoice document',
-    links: { download: '#', buy: '#' },
-    badge: 'Gold',
-  },
-    {
-    title: 'Ad Optimizer',
-    category: 'Marketing',
-    rating: 4.8,
-    downloads: '150K+',
-    description: 'Maximize your return on ad spend with AI-powered campaign optimization and performance tracking.',
-    icon: 'https://placehold.co/128x128.png',
-    dataAiHint: 'digital advertising',
-    links: { web: '#' }
-  },
-  {
-    title: 'Code Snippets',
-    category: 'Developer Tools',
-    rating: 4.9,
-    downloads: '800K+',
-    description: 'A powerful snippet manager for developers. Store, organize, and share your code snippets across all your devices.',
-    icon: 'https://placehold.co/128x128.png',
-    dataAiHint: 'code editor',
-    links: { download: '#' },
-    badge: 'Login Required',
-  },
-  {
-    title: 'Fit Tracker',
-    category: 'Health & Fitness',
-    rating: 4.7,
-    downloads: '2M+',
-    description: 'Track your workouts, monitor your progress, and stay motivated on your fitness journey with our all-in-one tracker.',
-    icon: 'https://placehold.co/128x128.png',
-    dataAiHint: 'fitness tracking',
-    links: { playStore: '#', appStore: '#' }
-  },
-  {
-    title: 'Mindful Moments',
-    category: 'Health & Fitness',
-    rating: 4.8,
-    downloads: '900K+',
-    description: 'Find calm and reduce stress with guided meditations, breathing exercises, and mindfulness practices.',
-    icon: 'https://placehold.co/128x128.png',
-    dataAiHint: 'meditation calm',
-    links: { playStore: '#', appStore: '#', buy: '#' },
-    badge: 'Premium',
-  },
-  {
-    title: 'Expense Tracker',
-    category: 'Finance',
-    rating: 4.6,
-    downloads: '1.5M+',
-    description: 'Take control of your finances. Track your spending, set budgets, and see where your money is going.',
-    icon: 'https://placehold.co/128x128.png',
-    dataAiHint: 'finance chart',
-    links: { playStore: '#', appStore: '#' }
-  },
-  {
-    title: 'Event Planner Pro',
-    category: 'Productivity',
-    rating: 4.7,
-    downloads: '350K+',
-    description: 'Organize your events from start to finish. Manage guest lists, vendors, schedules, and budgets with ease.',
-    icon: 'https://placehold.co/128x128.png',
-    dataAiHint: 'event calendar',
-    links: { web: '#', buy: '#' }
-  },
-  {
-    title: 'Language Leap',
-    category: 'Education',
-    rating: 4.8,
-    downloads: '1.8M+',
-    description: 'Learn a new language with fun, bite-sized lessons. Practice speaking, reading, listening, and writing.',
-    icon: 'https://placehold.co/128x128.png',
-    dataAiHint: 'language learning',
-    links: { playStore: '#', appStore: '#' }
-  },
-  {
-    title: 'Secure Vault',
-    category: 'Security',
-    rating: 4.9,
-    downloads: '1M+',
-    description: 'Keep your passwords, documents, and other sensitive information safe with our encrypted digital vault.',
-    icon: 'https://placehold.co/128x128.png',
-    dataAiHint: 'security vault',
-    links: { download: '#', playStore: '#', buy: '#' },
-    badge: 'Gold'
-  },
-  {
-    title: 'Creative Canvas',
-    category: 'Art & Design',
-    rating: 4.7,
-    downloads: '650K+',
-    description: 'Unleash your creativity with a powerful digital drawing and painting application. Perfect for artists of all levels.',
-    icon: 'https://placehold.co/128x128.png',
-    dataAiHint: 'digital art',
-    links: { web: '#', appStore: '#', buy: '#' },
-  }
-];
-
-export type AppFilter = 'all' | 'mobile' | 'web' | 'desktop';
-
-export default function AppsPage() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filter, setFilter] = useState<AppFilter>('all');
+export default function AppsPage({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
+  const searchTerm = typeof searchParams?.search === 'string' ? searchParams.search : '';
+  const filter = (typeof searchParams?.filter === 'string' ? searchParams.filter : 'all') as AppFilter;
   
   return (
     <div className="w-full bg-background text-foreground">
@@ -215,43 +24,40 @@ export default function AppsPage() {
             Discover powerful, intuitive, and beautifully designed applications to enhance your productivity, streamline workflows, and drive business growth.
           </p>
           <div className="mt-8 max-w-xl mx-auto">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-              <Input
-                type="text"
-                placeholder="Search our apps..."
-                className="pl-10 text-base w-full"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
+             <form action="/apps" method="GET">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <Input
+                  type="search"
+                  name="search"
+                  placeholder="Search our apps..."
+                  className="pl-10 text-base w-full"
+                  defaultValue={searchTerm}
+                />
+                 {filter !== 'all' && <input type="hidden" name="filter" value={filter} />}
+              </div>
+            </form>
             <div className="mt-4 flex flex-wrap justify-center gap-2">
-                <Button 
-                    variant={filter === 'all' ? 'default' : 'outline'} 
-                    onClick={() => setFilter('all')}
-                >
-                    All Apps
+                <Button asChild variant={filter === 'all' ? 'default' : 'outline'}>
+                    <Link href={`/apps?search=${searchTerm}`}>All Apps</Link>
                 </Button>
-                <Button 
-                    variant={filter === 'mobile' ? 'default' : 'outline'} 
-                    onClick={() => setFilter('mobile')}
-                >
-                    <Smartphone className="mr-2 h-4 w-4"/>
-                    Mobile Apps
+                <Button asChild variant={filter === 'mobile' ? 'default' : 'outline'}>
+                    <Link href={`/apps?filter=mobile&search=${searchTerm}`}>
+                        <Smartphone className="mr-2 h-4 w-4"/>
+                        Mobile Apps
+                    </Link>
                 </Button>
-                <Button 
-                    variant={filter === 'web' ? 'default' : 'outline'} 
-                    onClick={() => setFilter('web')}
-                >
-                    <Globe className="mr-2 h-4 w-4"/>
-                    Web Apps
+                <Button asChild variant={filter === 'web' ? 'default' : 'outline'}>
+                    <Link href={`/apps?filter=web&search=${searchTerm}`}>
+                        <Globe className="mr-2 h-4 w-4"/>
+                        Web Apps
+                    </Link>
                 </Button>
-                <Button 
-                    variant={filter === 'desktop' ? 'default' : 'outline'} 
-                    onClick={() => setFilter('desktop')}
-                >
-                    <HardDriveDownload className="mr-2 h-4 w-4"/>
-                    Desktop Apps
+                <Button asChild variant={filter === 'desktop' ? 'default' : 'outline'}>
+                    <Link href={`/apps?filter=desktop&search=${searchTerm}`}>
+                        <HardDriveDownload className="mr-2 h-4 w-4"/>
+                        Desktop Apps
+                    </Link>
                 </Button>
             </div>
           </div>
@@ -280,3 +86,5 @@ export default function AppsPage() {
     </div>
   );
 }
+
+export type AppFilter = 'all' | 'mobile' | 'web' | 'desktop';

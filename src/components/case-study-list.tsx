@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
@@ -11,7 +12,6 @@ import { ArrowRight, CalendarDays, UserCircle, Search, ChevronLeft, ChevronRight
 import Image from 'next/image';
 import Link from 'next/link';
 import type { CaseStudy } from '@/types/case-study';
-import { useDebouncedCallback } from 'use-debounce';
 
 const ITEMS_PER_PAGE = 9;
 
@@ -22,7 +22,6 @@ type CaseStudyListProps = {
 };
 
 export function CaseStudyList({ allCaseStudies, initialSearchTerm = '', initialPage = 1 }: CaseStudyListProps) {
-  const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
   const [currentPage, setCurrentPage] = useState(initialPage);
   
   const router = useRouter();
@@ -31,40 +30,32 @@ export function CaseStudyList({ allCaseStudies, initialSearchTerm = '', initialP
 
   const filteredCaseStudies = useMemo(() => {
     return allCaseStudies.filter(study =>
-      study.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      study.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      study.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+      study.title.toLowerCase().includes(initialSearchTerm.toLowerCase()) ||
+      study.excerpt.toLowerCase().includes(initialSearchTerm.toLowerCase()) ||
+      study.tags.some(tag => tag.toLowerCase().includes(initialSearchTerm.toLowerCase()))
     );
-  }, [searchTerm, allCaseStudies]);
-
-  const totalPages = Math.ceil(filteredCaseStudies.length / ITEMS_PER_PAGE);
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const paginatedCaseStudies = filteredCaseStudies.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-  
-  const handleSearch = useDebouncedCallback((term: string) => {
-    const params = new URLSearchParams(searchParams);
-    if (term) {
-      params.set('search', term);
-    } else {
-      params.delete('search');
-    }
-    params.set('page', '1');
-    router.replace(`${pathname}?${params.toString()}`);
-  }, 300);
+  }, [initialSearchTerm, allCaseStudies]);
 
   useEffect(() => {
-    setSearchTerm(initialSearchTerm);
+    setCurrentPage(1);
   }, [initialSearchTerm]);
 
   useEffect(() => {
     setCurrentPage(initialPage);
   }, [initialPage]);
 
+
+  const totalPages = Math.ceil(filteredCaseStudies.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedCaseStudies = filteredCaseStudies.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  
+
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
       const params = new URLSearchParams(searchParams);
       params.set('page', newPage.toString());
       router.push(`${pathname}?${params.toString()}`, { scroll: false });
+      setCurrentPage(newPage);
     }
   };
   
@@ -81,18 +72,18 @@ export function CaseStudyList({ allCaseStudies, initialSearchTerm = '', initialP
       <section className="py-8 md:py-12">
         <div className="container mx-auto px-4">
           <div className="max-w-xl mx-auto">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-              <Input
-                type="text"
-                placeholder="Search case studies..."
-                className="pl-10 text-base"
-                defaultValue={initialSearchTerm}
-                onChange={(e) => {
-                    handleSearch(e.target.value);
-                }}
-              />
-            </div>
+            <form action="/case-study" method="GET">
+                <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <Input
+                    type="search"
+                    name="search"
+                    placeholder="Search case studies..."
+                    className="pl-10 text-base"
+                    defaultValue={initialSearchTerm}
+                />
+                </div>
+            </form>
           </div>
         </div>
       </section>
