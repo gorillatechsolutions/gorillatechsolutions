@@ -4,35 +4,18 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import { Menu, X, LogOut, UserCircle } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 import { NAV_LINKS } from '@/lib/navigation';
 import { BrainCircuit } from 'lucide-react';
-import { useAuth } from '@/context/auth-context';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-
 
 export function Header() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { user, logout } = useAuth();
 
-  const navLinks = NAV_LINKS.filter(link => {
-      if (link.auth === 'loggedIn') return !!user;
-      if (link.auth === 'loggedOut') return !user;
-      if (link.auth === 'admin') return user?.role === 'admin';
-      return true;
-  });
+  const navLinks = NAV_LINKS;
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -52,8 +35,7 @@ export function Header() {
                 href={link.href}
                 className={cn(
                   'text-sm font-medium transition-colors hover:text-primary flex items-center gap-2',
-                  pathname === link.href ? 'text-primary' : 'text-[#383838]',
-                  link.name === 'Login' && !user && 'bg-accent text-accent-foreground hover:bg-accent/90 hover:text-accent-foreground px-4 py-2 rounded-md'
+                  pathname === link.href ? 'text-primary' : 'text-[#383838]'
                 )}
               >
                 <link.icon className="h-4 w-4" />
@@ -61,37 +43,6 @@ export function Header() {
               </Link>
             ))}
           </nav>
-          {user && (
-             <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="relative h-10 w-10 rounded-full hover:bg-[#383838]">
-                        <div className="h-10 w-10 rounded-full flex items-center justify-center font-bold text-2xl" style={{ color: '#f78f39' }}>
-                            G
-                        </div>
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56" align="end" forceMount>
-                    <DropdownMenuLabel className="font-normal">
-                        <div className="flex flex-col space-y-1">
-                            <p className="text-sm font-medium leading-none">{user.name}</p>
-                            <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
-                        </div>
-                    </DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem asChild>
-                        <Link href="/profile">
-                           <UserCircle className="mr-2 h-4 w-4" />
-                           <span>Profile</span>
-                        </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={logout}>
-                        <LogOut className="mr-2 h-4 w-4" />
-                        <span>Log out</span>
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-             </DropdownMenu>
-          )}
         </div>
 
         <div className="md:hidden">
@@ -121,20 +72,13 @@ export function Header() {
                         onClick={() => setMobileMenuOpen(false)}
                         className={cn(
                           'text-lg font-medium flex items-center gap-3',
-                           pathname === link.href ? 'text-primary' : 'text-[#383838]',
-                           link.name === 'Login' && !user && 'bg-accent text-accent-foreground hover:bg-accent/90 hover:text-accent-foreground px-4 py-2 rounded-md'
+                           pathname === link.href ? 'text-primary' : 'text-[#383838]'
                         )}
                       >
                         <link.icon className="h-5 w-5" />
                         {link.name}
                       </Link>
                     ))}
-                    {user && (
-                         <Button onClick={() => { logout(); setMobileMenuOpen(false); }} className="text-lg font-medium flex items-center gap-3 justify-start" variant="ghost">
-                            <LogOut className="h-5 w-5" />
-                            Logout
-                         </Button>
-                    )}
                   </nav>
                 </div>
               </SheetContent>

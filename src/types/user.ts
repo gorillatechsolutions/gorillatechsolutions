@@ -15,4 +15,9 @@ export interface User {
   phone?: string;
   username?: string;
   password?: string;
+  country?: string;
+  address?: string;
+  state?: string;
+  zipcode?: string;
+  whatsapp?: string;
 }

@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,26 +9,11 @@ import { Input } from '@/components/ui/input';
 import { ArrowRight, CalendarDays, UserCircle, Search, ChevronLeft, ChevronRight, Eye } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-
-type CaseStudy = {
-  slug: string;
-  title: string;
-  excerpt: string;
-  image: string;
-  dataAiHint: string;
-  tags: string[];
-  author: string;
-  date: string;
-  views: number;
-};
-
-type CaseStudyListProps = {
-  allCaseStudies: CaseStudy[];
-};
+import type { CaseStudy } from '@/types/case-study';
 
 const ITEMS_PER_PAGE = 9;
 
-export function CaseStudyList({ allCaseStudies }: CaseStudyListProps) {
+export function CaseStudyList({ allCaseStudies }: { allCaseStudies: CaseStudy[] }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -39,10 +24,6 @@ export function CaseStudyList({ allCaseStudies }: CaseStudyListProps) {
       study.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
     );
   }, [searchTerm, allCaseStudies]);
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [searchTerm]);
 
   const totalPages = Math.ceil(filteredCaseStudies.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -112,7 +93,7 @@ export function CaseStudyList({ allCaseStudies }: CaseStudyListProps) {
                       </div>
                       <div className="flex items-center gap-2">
                           <CalendarDays className="h-4 w-4" />
-                          <span>{post.date}</span>
+                          <span>{new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
                       </div>
                       <div className="flex items-center gap-1.5">
                         <Eye className="h-4 w-4" />

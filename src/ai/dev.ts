@@ -1,2 +1,3 @@
-// Flows will be imported for their side effects in this file.
-import './flows/article-generator';
+
+// This file is intentionally left blank.
+// Genkit flows can be added here for their side effects in the future.

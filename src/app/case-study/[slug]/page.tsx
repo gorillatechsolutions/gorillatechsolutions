@@ -1,25 +1,26 @@
 
 'use client';
 
-import { notFound, useRouter } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ArrowLeft, CalendarDays, UserCircle, Eye, Tag } from 'lucide-react';
-import type { Metadata } from 'next';
+import { ArrowLeft, CalendarDays, UserCircle, Eye } from 'lucide-react';
 import type { CaseStudy } from '@/types/case-study';
 import parse from 'html-react-parser';
+import { demoCaseStudies } from '@/lib/demo-data';
 
 
-// This page now fetches data client-side, so generateStaticParams is no longer needed
-// and would cause an error in a client component.
-// export async function generateStaticParams() {
-//     return allCaseStudies.map((study) => ({
-//       slug: study.slug,
-//     }))
-// }
+const allCaseStudies = demoCaseStudies;
+
+// This can be used to generate static pages at build time.
+export async function generateStaticParams() {
+    return allCaseStudies.map((study) => ({
+      slug: study.slug,
+    }))
+}
 
 const formatViews = (views: number) => {
     if (views >= 1000) {
@@ -31,32 +32,17 @@ const formatViews = (views: number) => {
 
 export default function CaseStudyDetailPage({ params }: { params: { slug: string } }) {
     const [caseStudy, setCaseStudy] = useState<CaseStudy | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        try {
-            const storedArticles = localStorage.getItem('articles');
-            if (storedArticles) {
-                const articles: CaseStudy[] = JSON.parse(storedArticles);
-                const foundArticle = articles.find(a => a.slug === params.slug);
-                if(foundArticle) {
-                    setCaseStudy(foundArticle);
-                } else {
-                    notFound();
-                }
-            } else {
-                notFound();
-            }
-        } catch (error) {
-            console.error("Failed to parse articles from localStorage on detail page:", error);
+        const foundArticle = allCaseStudies.find(a => a.slug === params.slug);
+        if(foundArticle) {
+            setCaseStudy(foundArticle);
+        } else {
             notFound();
-        } finally {
-            setIsLoading(false);
         }
     }, [params.slug]);
 
-
-    if (isLoading) {
+    if (!caseStudy) {
         return (
             <div className="w-full bg-background text-foreground text-center py-20">
                 <div className="flex justify-center items-center">
@@ -66,12 +52,6 @@ export default function CaseStudyDetailPage({ params }: { params: { slug: string
             </div>
         );
     }
-    
-    if (!caseStudy) {
-        // This case is mostly handled by notFound(), but as a fallback.
-        return null;
-    }
-
 
     return (
         <div className="w-full bg-background text-foreground">

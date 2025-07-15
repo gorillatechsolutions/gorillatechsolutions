@@ -1,12 +1,11 @@
 
-import { Home, Info, Cog, BookText, ClipboardList, Mail, AppWindow, Star, LogIn, UserCircle, LayoutDashboard } from 'lucide-react';
+import { Home, Info, Cog, ClipboardList, Mail, AppWindow } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 type NavLink = {
   name: string;
   href: string;
   icon: LucideIcon;
-  auth?: 'loggedIn' | 'loggedOut' | 'admin';
 }
 
 export const NAV_LINKS: NavLink[] = [
@@ -16,6 +15,4 @@ export const NAV_LINKS: NavLink[] = [
   { name: 'Case Studies', href: '/case-study', icon: ClipboardList },
   { name: 'Our Apps', href: '/apps', icon: AppWindow },
   { name: 'Contact Us', href: '/contact', icon: Mail },
-  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, auth: 'admin' },
-  { name: 'Login', href: '/login', icon: LogIn, auth: 'loggedOut' },
 ];
