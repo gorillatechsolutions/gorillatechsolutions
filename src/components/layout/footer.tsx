@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAws, faMeta } from '@fortawesome/free-brands-svg-icons';
+import { faAws, faGithub, faMeta } from '@fortawesome/free-brands-svg-icons';
 
 const footerLinks = {
     company: [
@@ -117,7 +117,7 @@ export function Footer() {
                   <TooltipTrigger asChild>
                     <Button asChild variant="outline" className="mt-4">
                       <Link href="https://github.com" target="_blank">
-                        <i className="fa fa-github mr-2 h-4 w-4" aria-hidden="true"></i>
+                        <FontAwesomeIcon icon={faGithub} className="mr-2 h-4 w-4" />
                         Download Source Code
                       </Link>
                     </Button>
