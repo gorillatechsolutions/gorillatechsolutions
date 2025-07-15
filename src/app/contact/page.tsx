@@ -26,7 +26,7 @@ const contactDetails = [
     {
         icon: <i className="fa fa-map-marker h-6 w-6 text-primary" aria-hidden="true"></i>,
         title: "Our Office",
-        value: "123 Marketing Lane, New York, NY 10001",
+        value: "Agartala, Tripura (W) India, Pin: 799006",
     }
 ];
 
