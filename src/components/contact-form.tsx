@@ -17,7 +17,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Send } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -101,7 +100,7 @@ export function ContactForm() {
           )}
         />
         <Button type="submit" className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-          Send Your Message <Send className="ml-2 h-4 w-4" />
+          Send Your Message <i className="fa fa-paper-plane ml-2" aria-hidden="true"></i>
         </Button>
       </form>
     </Form>

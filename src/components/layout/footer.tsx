@@ -1,6 +1,5 @@
 
 import Link from 'next/link';
-import { Mail, Phone, MapPin, Github, CheckCircle, BrainCircuit } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -32,7 +31,7 @@ export function Footer() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 sm:px-6 lg:px-8 py-12" style={{ backgroundColor: '#dedede' }}>
         <div className="flex flex-col gap-4 items-start">
           <Link href="/" className="flex items-center">
-            <BrainCircuit className="h-8 w-8 sm:h-10 sm:w-10 text-primary" />
+            <i className="fa fa-cogs fa-2x sm:fa-3x text-primary" aria-hidden="true"></i>
           </Link>
           <p className="text-sm" style={{ color: '#383838' }}>
             Driving growth with data-driven digital marketing strategies that deliver results.
@@ -99,15 +98,15 @@ export function Footer() {
           <h3 className="font-headline font-semibold mb-4" style={{ color: '#383838' }}>Connect With Us</h3>
           <div className="space-y-2 text-sm flex flex-col items-center">
             <div className="flex items-start gap-3">
-              <MapPin className="h-5 w-5 mt-0.5 shrink-0" style={{ color: '#383838' }} />
+              <i className="fa fa-map-marker h-5 w-5 mt-0.5 shrink-0" style={{ color: '#383838' }} aria-hidden="true"></i>
               <p style={{ color: '#383838' }}>123 Marketing Lane<br/>New York, NY 10001</p>
             </div>
             <div className="flex items-center gap-3">
-              <Phone className="h-5 w-5 shrink-0" style={{ color: '#383838' }}/>
+              <i className="fa fa-phone h-5 w-5 shrink-0" style={{ color: '#383838' }} aria-hidden="true"></i>
               <a href="tel:+1234567890" className="hover:text-primary" style={{ color: '#383838' }}>+1 (234) 567-890</a>
             </div>
             <div className="flex items-center gap-3">
-              <Mail className="h-5 w-5 shrink-0" style={{ color: '#383838' }}/>
+              <i className="fa fa-envelope h-5 w-5 shrink-0" style={{ color: '#383838' }} aria-hidden="true"></i>
               <a href="mailto:hello@gorillatech.solutions" className="hover:text-primary" style={{ color: '#383838' }}>hello@gorillatech.solutions</a>
             </div>
             <TooltipProvider>
@@ -115,7 +114,7 @@ export function Footer() {
                 <TooltipTrigger asChild>
                   <Button asChild variant="outline" className="mt-4">
                     <Link href="https://github.com" target="_blank">
-                      <Github className="mr-2 h-4 w-4" />
+                      <i className="fa fa-github mr-2 h-4 w-4" aria-hidden="true"></i>
                       Download Source Code
                     </Link>
                   </Button>
@@ -137,7 +136,7 @@ export function Footer() {
                 <div className="flex flex-col items-start">
                     <span className="text-sm" style={{ color: '#0081FB' }}>Meta Business</span>
                     <div className="flex items-center gap-1">
-                        <CheckCircle className="h-3 w-3 text-green-500" />
+                        <i className="fa fa-check-circle h-3 w-3 text-green-500" aria-hidden="true"></i>
                         <span className="text-xs" style={{ color: 'limegreen' }}>Verified Partner</span>
                     </div>
                 </div>
@@ -150,7 +149,7 @@ export function Footer() {
                         <span style={{ color: '#383838' }}>Startup</span>
                     </div>
                     <div className="flex items-center gap-1">
-                        <CheckCircle className="h-3 w-3 text-green-500" />
+                        <i className="fa fa-check-circle h-3 w-3 text-green-500" aria-hidden="true"></i>
                         <span className="text-xs" style={{ color: 'limegreen' }}>Verified Partner</span>
                     </div>
                 </div>
@@ -160,7 +159,7 @@ export function Footer() {
                 <div className="flex flex-col items-start text-left">
                     <span className="text-sm">ISO 9001:2015</span>
                     <div className="flex items-center gap-1">
-                        <CheckCircle className="h-3 w-3 text-green-500" />
+                        <i className="fa fa-check-circle h-3 w-3 text-green-500" aria-hidden="true"></i>
                         <span className="text-xs" style={{ color: 'limegreen' }}>Trusted</span>
                     </div>
                 </div>

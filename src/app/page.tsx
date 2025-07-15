@@ -1,6 +1,5 @@
 
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Search, ListChecks, Rocket, CheckCircle, Award, CalendarCheck, Smile, Trophy, Star, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,31 +9,31 @@ import { cn } from '@/lib/utils';
 
 const processSteps = [
     {
-        icon: <Search className="h-14 w-14 text-accent-foreground" />,
+        icon: <i className="fa fa-search fa-3x text-accent-foreground" aria-hidden="true"></i>,
         title: 'Discovery',
         description: 'We start by understanding your business, goals, and target audience to lay the groundwork for a successful strategy.'
     },
     {
-        icon: <ListChecks className="h-14 w-14 text-accent-foreground" />,
+        icon: <i className="fa fa-list-check fa-3x text-accent-foreground" aria-hidden="true"></i>,
         title: 'Planning',
         description: 'Our team crafts a detailed, data-driven plan, outlining the key strategies and milestones for your project.'
     },
     {
-        icon: <Rocket className="h-14 w-14 text-accent-foreground" />,
+        icon: <i className="fa fa-rocket fa-3x text-accent-foreground" aria-hidden="true"></i>,
         title: 'Execution',
         description: 'We launch your campaigns, continuously optimizing for performance and delivering measurable results.'
     },
     {
-        icon: <Award className="h-14 w-14 text-accent-foreground" />,
+        icon: <i className="fa fa-trophy fa-3x text-accent-foreground" aria-hidden="true"></i>,
         title: 'Review & Launch',
         description: 'We review the results, provide detailed reports, and successfully launch your project for the world to see.'
     }
 ];
 
 const stats = [
-    { icon: <CalendarCheck className="h-8 w-8 text-accent-foreground" />, value: 98, label: 'On-Time Delivery', description: 'of projects delivered on schedule' },
-    { icon: <Smile className="h-8 w-8 text-accent-foreground" />, value: 99, label: 'Client Satisfaction', description: 'Based on 500+ completed projects' },
-    { icon: <Trophy className="h-8 w-8 text-accent-foreground" />, value: 97, label: 'Goal Achievement', description: 'Projects meet or exceed expectations' }
+    { icon: <i className="fa fa-calendar-check-o fa-2x text-accent-foreground" aria-hidden="true"></i>, value: 98, label: 'On-Time Delivery', description: 'of projects delivered on schedule' },
+    { icon: <i className="fa fa-smile-o fa-2x text-accent-foreground" aria-hidden="true"></i>, value: 99, label: 'Client Satisfaction', description: 'Based on 500+ completed projects' },
+    { icon: <i className="fa fa-trophy fa-2x text-accent-foreground" aria-hidden="true"></i>, value: 97, label: 'Goal Achievement', description: 'Projects meet or exceed expectations' }
 ];
 
 const benefits = [
@@ -49,10 +48,11 @@ const pinnedReviews = allReviews.filter(review => review.pinned);
 const StarRating = ({ rating, className }: { rating: number, className?: string }) => (
   <div className="flex items-center gap-1">
     {[...Array(5)].map((_, i) => (
-      <Star
+      <i
         key={i}
-        className={`h-5 w-5 ${i < rating ? 'text-amber-400 fill-amber-400' : 'text-muted-foreground/30'} ${className}`}
-      />
+        className={`fa fa-star ${i < rating ? 'text-amber-400' : 'text-muted-foreground/30'} ${className}`}
+        aria-hidden="true"
+      ></i>
     ))}
   </div>
 );
@@ -76,7 +76,7 @@ export default function Home() {
             <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start">
               <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transition-transform transform hover:scale-105">
                 <Link href="/contact">
-                  Get Your Free Consultation <ArrowRight className="ml-2 h-5 w-5" />
+                  Get Your Free Consultation <i className="fa fa-arrow-right ml-2" aria-hidden="true"></i>
                 </Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="shadow-lg transition-transform transform hover:scale-105 border-border hover:bg-secondary">
@@ -114,7 +114,7 @@ export default function Home() {
               <Card key={step.title} className="bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 relative overflow-visible">
                 <div className="flex flex-col h-full p-6 pt-12">
                     <div className="absolute -top-10 left-6">
-                        <div className="bg-accent p-4 rounded-full ring-8 ring-background">
+                        <div className="bg-accent p-4 rounded-full ring-8 ring-background flex items-center justify-center w-24 h-24">
                            {step.icon}
                         </div>
                     </div>
@@ -137,7 +137,7 @@ export default function Home() {
                             {stats.map(stat => (
                                 <Card key={stat.label} className="bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 relative overflow-visible text-center pt-8">
                                     <div className="absolute -top-6 right-6">
-                                        <div className="bg-accent p-3 rounded-full ring-8 ring-secondary/30">
+                                        <div className="bg-accent p-3 rounded-full ring-8 ring-secondary/30 flex items-center justify-center w-14 h-14">
                                            {stat.icon}
                                         </div>
                                     </div>
@@ -157,7 +157,7 @@ export default function Home() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             {benefits.map((benefit) => (
                                 <div key={benefit} className="flex items-center gap-3">
-                                    <CheckCircle className="h-6 w-6 text-green-500 flex-shrink-0" />
+                                    <i className="fa fa-check-circle text-green-500 fa-lg" aria-hidden="true"></i>
                                     <span className="text-base text-foreground font-medium">{benefit}</span>
                                 </div>
                             ))}
@@ -204,7 +204,7 @@ export default function Home() {
           <div className="text-center mt-12">
             <Button asChild size="lg" variant="outline" className="shadow-lg transition-transform transform hover:scale-105 border-border hover:bg-secondary">
               <Link href="/reviews">
-                Read More Reviews <ArrowRight className="ml-2 h-5 w-5" />
+                Read More Reviews <i className="fa fa-arrow-right ml-2" aria-hidden="true"></i>
               </Link>
             </Button>
           </div>
@@ -218,7 +218,7 @@ export default function Home() {
                   <div className="grid md:grid-cols-[1fr_auto] items-center gap-8">
                       <div className="flex items-start gap-6">
                            <div className="hidden sm:block mt-1 p-3 bg-white/20 rounded-full">
-                                <Sparkles className="h-8 w-8 text-white" />
+                               <i className="fa fa-star fa-2x text-white" aria-hidden="true"></i>
                            </div>
                            <div className="text-white">
                                 <h2 className="font-headline text-3xl md:text-4xl font-bold">Ready to Transform Your Business?</h2>

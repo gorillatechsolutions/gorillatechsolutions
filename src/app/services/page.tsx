@@ -1,6 +1,5 @@
 
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
-import { Search, MousePointerClick, Share2, FileText, Mail, BarChart3, ArrowRight } from 'lucide-react';
 import type { Metadata } from 'next';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -12,42 +11,42 @@ export const metadata: Metadata = {
 
 const services = [
   {
-    icon: <Search className="h-14 w-14 text-accent-foreground" />,
+    icon: <i className="fa fa-search fa-3x text-accent-foreground" aria-hidden="true"></i>,
     title: 'Search Engine Optimization (SEO)',
     description: 'Boost your organic visibility and climb the search rankings. We use proven strategies to drive qualified traffic to your website.',
     contactHref: '/contact',
     detailsHref: '/case-study/tripled-organic-traffic-ecommerce',
   },
   {
-    icon: <MousePointerClick className="h-14 w-14 text-accent-foreground" />,
+    icon: <i className="fa fa-mouse-pointer fa-3x text-accent-foreground" aria-hidden="true"></i>,
     title: 'Pay-Per-Click (PPC) Advertising',
     description: 'Get immediate results with targeted ad campaigns on Google, Bing, and social platforms. Maximize your ROI with our expert management.',
     contactHref: '/contact',
     detailsHref: '/case-study/slashing-b2b-saas-cpa',
   },
   {
-    icon: <Share2 className="h-14 w-14 text-accent-foreground" />,
+    icon: <i className="fa fa-share-alt fa-3x text-accent-foreground" aria-hidden="true"></i>,
     title: 'Social Media Marketing',
     description: 'Engage your audience and build a loyal community. We create and manage social media campaigns that resonate with your customers.',
     contactHref: '/contact',
     detailsHref: '/case-study/building-community-with-social-media',
   },
   {
-    icon: <FileText className="h-14 w-14 text-accent-foreground" />,
+    icon: <i className="fa fa-file-text fa-3x text-accent-foreground" aria-hidden="true"></i>,
     title: 'Content Creation & Marketing',
     description: 'From compelling blog posts to captivating videos, we produce high-quality content that tells your story and drives engagement.',
     contactHref: '/contact',
     detailsHref: '/case-study/healthcare-content-strategy',
   },
   {
-    icon: <Mail className="h-14 w-14 text-accent-foreground" />,
+    icon: <i className="fa fa-envelope fa-3x text-accent-foreground" aria-hidden="true"></i>,
     title: 'Email Marketing & Automation',
     description: 'Nurture leads and retain customers with personalized email campaigns. We design, write, and manage emails that convert.',
     contactHref: '/contact',
     detailsHref: '/case-study/non-profit-email-marketing',
   },
   {
-    icon: <BarChart3 className="h-14 w-14 text-accent-foreground" />,
+    icon: <i className="fa fa-bar-chart fa-3x text-accent-foreground" aria-hidden="true"></i>,
     title: 'Analytics & Performance Reporting',
     description: 'Understand what\'s working and what\'s not. We provide clear, actionable reports to guide your marketing decisions.',
     contactHref: '/contact',
@@ -71,7 +70,7 @@ export default function ServicesPage() {
                     <Card key={service.title} className="bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 relative overflow-visible flex flex-col">
                         <div className="flex flex-col h-full p-6 pt-12 flex-1">
                              <div className="absolute -top-10 left-6">
-                                <div className="bg-accent p-4 rounded-full ring-8 ring-background">
+                                <div className="bg-accent p-4 rounded-full ring-8 ring-background flex items-center justify-center w-24 h-24">
                                    {service.icon}
                                 </div>
                             </div>
@@ -107,7 +106,7 @@ export default function ServicesPage() {
                 </p>
                 <Button asChild size="lg" className="mt-8 bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transition-transform transform hover:scale-105">
                     <Link href="/contact">
-                        Get a Free Consultation <ArrowRight className="ml-2 h-5 w-5" />
+                        Get a Free Consultation <i className="fa fa-arrow-right ml-2" aria-hidden="true"></i>
                     </Link>
                 </Button>
             </div>

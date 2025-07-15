@@ -6,7 +6,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Star, ChevronLeft, ChevronRight, Share2, Crown, Gem, KeyRound } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
@@ -120,11 +119,11 @@ export function AppsList({ allApps, searchTerm, filter }: AppsListProps) {
   const getBadgeContent = (badgeText: string) => {
       switch (badgeText) {
           case 'Premium':
-              return { icon: <Crown className="h-3 w-3 mr-1" />, text: 'Premium', className: 'bg-amber-500 text-white' };
+              return { icon: <i className="fa fa-crown mr-1" aria-hidden="true"></i>, text: 'Premium', className: 'bg-amber-500 text-white' };
           case 'Gold':
-              return { icon: <Gem className="h-3 w-3 mr-1" />, text: 'Gold', className: 'bg-yellow-400 text-black' };
+              return { icon: <i className="fa fa-gem mr-1" aria-hidden="true"></i>, text: 'Gold', className: 'bg-yellow-400 text-black' };
           case 'Login Required':
-              return { icon: <KeyRound className="h-3 w-3 mr-1" />, text: 'Login Required', className: 'bg-gray-500 text-white' };
+              return { icon: <i className="fa fa-key mr-1" aria-hidden="true"></i>, text: 'Login Required', className: 'bg-gray-500 text-white' };
           default:
               return null;
       }
@@ -147,7 +146,7 @@ export function AppsList({ allApps, searchTerm, filter }: AppsListProps) {
                                 </Badge>
                             )}
                             <Button variant="ghost" size="icon" className="absolute top-0 right-0 h-8 w-8 z-10" onClick={() => handleShare(app)}>
-                                <Share2 className="h-5 w-5 text-muted-foreground" />
+                                <i className="fa fa-share-alt h-5 w-5 text-muted-foreground" aria-hidden="true"></i>
                                 <span className="sr-only">Share {app.title}</span>
                             </Button>
                         </div>
@@ -166,7 +165,7 @@ export function AppsList({ allApps, searchTerm, filter }: AppsListProps) {
                                 <p className="text-sm text-muted-foreground">{app.category}</p>
                                 <div className="flex items-center gap-2 mt-1 text-sm text-muted-foreground">
                                     <span>{app.rating}</span>
-                                    <Star className="h-4 w-4 text-amber-400 fill-amber-400" />
+                                    <i className="fa fa-star text-amber-400" aria-hidden="true"></i>
                                     <span className="text-xs">({app.downloads})</span>
                                 </div>
                             </div>
@@ -236,7 +235,7 @@ export function AppsList({ allApps, searchTerm, filter }: AppsListProps) {
             disabled={currentPage === 1}
             aria-label="Go to previous page"
           >
-            <ChevronLeft className="h-4 w-4" />
+            <i className="fa fa-chevron-left h-4 w-4" aria-hidden="true"></i>
           </Button>
           <span className="text-sm font-medium">
             Page {currentPage} of {totalPages}
@@ -248,7 +247,7 @@ export function AppsList({ allApps, searchTerm, filter }: AppsListProps) {
             disabled={currentPage === totalPages}
             aria-label="Go to next page"
           >
-            <ChevronRight className="h-4 w-4" />
+            <i className="fa fa-chevron-right h-4 w-4" aria-hidden="true"></i>
           </Button>
         </div>
       )}

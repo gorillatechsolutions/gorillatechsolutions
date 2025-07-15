@@ -1,6 +1,5 @@
 
 import { ContactForm } from "@/components/contact-form";
-import { Mail, Phone, MapPin } from "lucide-react";
 import type { Metadata } from 'next';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import Link from "next/link";
@@ -13,19 +12,19 @@ export const metadata: Metadata = {
 
 const contactDetails = [
     {
-        icon: <Mail className="h-6 w-6 text-primary" />,
+        icon: <i className="fa fa-envelope h-6 w-6 text-primary" aria-hidden="true"></i>,
         title: "Email Us",
         value: "hello@gorillatech.solutions",
         href: "mailto:hello@gorillatech.solutions"
     },
     {
-        icon: <Phone className="h-6 w-6 text-primary" />,
+        icon: <i className="fa fa-phone h-6 w-6 text-primary" aria-hidden="true"></i>,
         title: "Call Us",
         value: "+1 (234) 567-890",
         href: "tel:+1234567890"
     },
     {
-        icon: <MapPin className="h-6 w-6 text-primary" />,
+        icon: <i className="fa fa-map-marker h-6 w-6 text-primary" aria-hidden="true"></i>,
         title: "Our Office",
         value: "123 Marketing Lane, New York, NY 10001",
     }
@@ -77,7 +76,7 @@ export default function ContactPage() {
                                 <CardContent className="space-y-6">
                                     {contactDetails.map((detail) => (
                                         <div key={detail.title} className="flex items-start gap-4">
-                                            <div className="p-2 bg-primary/10 rounded-full mt-1">
+                                            <div className="p-2 bg-primary/10 rounded-full mt-1 flex items-center justify-center w-10 h-10">
                                                 {detail.icon}
                                             </div>
                                             <div>

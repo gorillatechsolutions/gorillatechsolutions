@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
@@ -8,7 +7,6 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { ArrowRight, CalendarDays, UserCircle, Search, ChevronLeft, ChevronRight, Eye } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { CaseStudy } from '@/types/case-study';
@@ -74,7 +72,7 @@ export function CaseStudyList({ allCaseStudies, initialSearchTerm = '', initialP
           <div className="max-w-xl mx-auto">
             <form action="/case-study" method="GET">
                 <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <i className="fa fa-search absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" aria-hidden="true"></i>
                 <Input
                     type="search"
                     name="search"
@@ -113,15 +111,15 @@ export function CaseStudyList({ allCaseStudies, initialSearchTerm = '', initialP
                   </CardHeader>
                   <div className="p-4 border-b border-border flex flex-wrap items-center justify-between text-xs text-muted-foreground gap-x-4 gap-y-2">
                       <div className="flex items-center gap-2">
-                          <UserCircle className="h-4 w-4" />
+                          <i className="fa fa-user-circle-o" aria-hidden="true"></i>
                           <span>{post.author}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                          <CalendarDays className="h-4 w-4" />
+                          <i className="fa fa-calendar" aria-hidden="true"></i>
                           <span>{new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
                       </div>
                       <div className="flex items-center gap-1.5">
-                        <Eye className="h-4 w-4" />
+                        <i className="fa fa-eye" aria-hidden="true"></i>
                         <span>{formatViews(post.views)} views</span>
                       </div>
                   </div>
@@ -143,7 +141,7 @@ export function CaseStudyList({ allCaseStudies, initialSearchTerm = '', initialP
                   <CardFooter className="p-6 pt-0">
                       <Button asChild>
                           <Link href={`/case-study/${post.slug}`}>
-                              Read More <ArrowRight className="ml-2 h-4 w-4" />
+                              Read More <i className="fa fa-arrow-right ml-2" aria-hidden="true"></i>
                           </Link>
                       </Button>
                   </CardFooter>
@@ -166,7 +164,7 @@ export function CaseStudyList({ allCaseStudies, initialSearchTerm = '', initialP
                 disabled={currentPage === 1}
                 aria-label="Go to previous page"
               >
-                <ChevronLeft className="h-4 w-4" />
+                <i className="fa fa-chevron-left h-4 w-4" aria-hidden="true"></i>
               </Button>
               <span className="text-sm font-medium">
                 Page {currentPage} of {totalPages}
@@ -178,7 +176,7 @@ export function CaseStudyList({ allCaseStudies, initialSearchTerm = '', initialP
                 disabled={currentPage === totalPages}
                 aria-label="Go to next page"
               >
-                <ChevronRight className="h-4 w-4" />
+                <i className="fa fa-chevron-right h-4 w-4" aria-hidden="true"></i>
               </Button>
             </div>
           )}

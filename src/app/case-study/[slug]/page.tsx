@@ -4,7 +4,6 @@ import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ArrowLeft, CalendarDays, UserCircle, Eye } from 'lucide-react';
 import type { Metadata } from 'next';
 import type { CaseStudy } from '@/types/case-study';
 import parse from 'html-react-parser';
@@ -59,15 +58,15 @@ export default function CaseStudyDetailPage({ params }: { params: { slug: string
                         <h1 className="font-headline text-3xl md:text-4xl lg:text-5xl font-bold text-primary">{caseStudy.title}</h1>
                         <div className="mt-6 flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
                             <div className="flex items-center gap-2">
-                                <UserCircle className="h-5 w-5" />
+                                <i className="fa fa-user-circle-o" aria-hidden="true"></i>
                                 <span>By {caseStudy.author}</span>
                             </div>
                             <div className="flex items-center gap-2">
-                                <CalendarDays className="h-5 w-5" />
+                                <i className="fa fa-calendar" aria-hidden="true"></i>
                                 <span>{new Date(caseStudy.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
                             </div>
                             <div className="flex items-center gap-2">
-                                <Eye className="h-5 w-5" />
+                                <i className="fa fa-eye" aria-hidden="true"></i>
                                 <span>{formatViews(caseStudy.views)} views</span>
                             </div>
                         </div>
@@ -106,7 +105,7 @@ export default function CaseStudyDetailPage({ params }: { params: { slug: string
                     </p>
                     <Button asChild size="lg" className="mt-8">
                         <Link href="/case-study">
-                            <ArrowLeft className="mr-2 h-5 w-5" />
+                            <i className="fa fa-arrow-left mr-2" aria-hidden="true"></i>
                             Back to Case Studies
                         </Link>
                     </Button>

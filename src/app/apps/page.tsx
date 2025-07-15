@@ -1,6 +1,5 @@
 
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Search, Smartphone, Globe, HardDriveDownload } from 'lucide-react';
 import { AppsList } from '@/components/apps-list';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
@@ -26,7 +25,7 @@ export default function AppsPage({
           <div className="mt-8 max-w-xl mx-auto">
              <form action="/apps" method="GET">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <i className="fa fa-search absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" aria-hidden="true"></i>
                 <Input
                   type="search"
                   name="search"
@@ -43,19 +42,19 @@ export default function AppsPage({
                 </Button>
                 <Button asChild variant={filter === 'mobile' ? 'default' : 'outline'}>
                     <Link href={`/apps?filter=mobile&search=${searchTerm}`}>
-                        <Smartphone className="mr-2 h-4 w-4"/>
+                        <i className="fa fa-mobile mr-2" aria-hidden="true"></i>
                         Mobile Apps
                     </Link>
                 </Button>
                 <Button asChild variant={filter === 'web' ? 'default' : 'outline'}>
                     <Link href={`/apps?filter=web&search=${searchTerm}`}>
-                        <Globe className="mr-2 h-4 w-4"/>
+                        <i className="fa fa-globe mr-2" aria-hidden="true"></i>
                         Web Apps
                     </Link>
                 </Button>
                 <Button asChild variant={filter === 'desktop' ? 'default' : 'outline'}>
                     <Link href={`/apps?filter=desktop&search=${searchTerm}`}>
-                        <HardDriveDownload className="mr-2 h-4 w-4"/>
+                        <i className="fa fa-desktop mr-2" aria-hidden="true"></i>
                         Desktop Apps
                     </Link>
                 </Button>
@@ -78,7 +77,7 @@ export default function AppsPage({
               </p>
               <Button asChild size="lg" className="mt-8 bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transition-transform transform hover:scale-105">
                   <Link href="/contact">
-                      Get a Free Consultation <ArrowRight className="ml-2 h-5 w-5" />
+                      Get a Free Consultation <i className="fa fa-arrow-right ml-2" aria-hidden="true"></i>
                   </Link>
               </Button>
           </div>

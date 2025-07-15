@@ -2,10 +2,8 @@
 import type { Metadata } from 'next';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Star, Pin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { reviews } from '@/lib/reviews-data';
 
@@ -17,10 +15,11 @@ export const metadata: Metadata = {
 const StarRating = ({ rating }: { rating: number }) => (
   <div className="flex items-center gap-1">
     {[...Array(5)].map((_, i) => (
-      <Star
+      <i
         key={i}
-        className={`h-5 w-5 ${i < rating ? 'text-amber-400 fill-amber-400' : 'text-muted-foreground/30'}`}
-      />
+        className={`fa fa-star ${i < rating ? 'text-amber-400' : 'text-muted-foreground/30'}`}
+        aria-hidden="true"
+      ></i>
     ))}
   </div>
 );
@@ -51,8 +50,8 @@ export default function ReviewsPage() {
             {sortedReviews.map((review, index) => (
               <Card key={index} className={cn("flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 relative", review.pinned && "border-primary/50 ring-2 ring-primary/20")}>
                 {review.pinned && (
-                    <div className="absolute top-3 right-3 bg-primary text-primary-foreground p-1.5 rounded-full z-10">
-                        <Pin className="h-5 w-5" />
+                    <div className="absolute top-3 right-3 bg-primary text-primary-foreground p-1.5 rounded-full z-10 h-8 w-8 flex items-center justify-center">
+                        <i className="fa fa-thumb-tack" aria-hidden="true"></i>
                     </div>
                 )}
                 <CardHeader className="p-6">
@@ -88,7 +87,7 @@ export default function ReviewsPage() {
               </p>
               <Button asChild size="lg" className="mt-8 bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transition-transform transform hover:scale-105">
                   <Link href="/contact">
-                      Get Your Free Consultation <ArrowRight className="ml-2 h-5 w-5" />
+                      Get Your Free Consultation <i className="fa fa-arrow-right ml-2" aria-hidden="true"></i>
                   </Link>
               </Button>
           </div>
