@@ -254,8 +254,13 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="relative w-9/10 mx-auto">
             <div className="absolute -top-20 left-0 w-48 h-48 bg-yellow-300 rounded-full z-0"></div>
-            <div className="z-10 flex flex-col items-center justify-center text-center gap-6 bg-blue-600 text-white p-8 md:p-12 rounded-lg rounded-tl-lg shadow-lg">
-              <div>
+            <div className="z-10 flex flex-row items-center justify-between gap-6 bg-blue-600 text-white p-8 md:p-12 rounded-lg rounded-tl-lg shadow-lg">
+              <Button asChild size="lg" className="bg-green-500 hover:bg-green-600 text-white shadow-lg transition-transform transform hover:scale-105 flex-shrink-0">
+                <Link href="/contact">
+                  Get Started Now
+                </Link>
+              </Button>
+              <div className="text-left">
                 <h2 className="font-headline text-2xl md:text-3xl font-bold">
                   Ready to Transform Your Business?
                 </h2>
@@ -263,11 +268,6 @@ export default function Home() {
                   Get started with our cutting-edge digital solutions and take your business to the next level.
                 </p>
               </div>
-              <Button asChild size="lg" className="bg-green-500 hover:bg-green-600 text-white shadow-lg transition-transform transform hover:scale-105 flex-shrink-0">
-                <Link href="/contact">
-                  Get Started Now
-                </Link>
-              </Button>
             </div>
           </div>
         </div>
