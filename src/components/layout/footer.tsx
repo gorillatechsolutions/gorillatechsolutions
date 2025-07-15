@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMeta } from '@fortawesome/free-brands-svg-icons';
+import { faAws, faMeta } from '@fortawesome/free-brands-svg-icons';
 
 const footerLinks = {
     company: [
@@ -105,7 +105,7 @@ export function Footer() {
             </div>
             <div className="flex items-center gap-3">
               <i className="fa fa-phone w-5 shrink-0" style={{ color: '#383838' }} aria-hidden="true"></i>
-              <a href="tel:03813599517" className="hover:text-primary" style={{ color: '#383838' }}>0381 359 9517</a>
+              <a href="tel:03813599517" className="hover:text-primary" style={{ color: '#383838', textAlign: 'justify' }}>0381 359 9517</a>
             </div>
             <div className="flex items-center gap-3">
               <i className="fa fa-envelope w-5 shrink-0" style={{ color: '#383838' }} aria-hidden="true"></i>
@@ -146,7 +146,7 @@ export function Footer() {
                 </div>
             </div>
             <div className="flex items-center gap-2 px-3 py-2 rounded-md text-black" style={{ backgroundColor: '#f0f4f6' }}>
-                <Image src="https://placehold.co/24x24.png" alt="AWS Startup" width={24} height={24} data-ai-hint="logo" loading="lazy" />
+                <FontAwesomeIcon icon={faAws} className="h-6 w-6" style={{color: "#f78d38"}} />
                 <div className="flex flex-col items-start">
                     <div className="text-sm">
                         <span style={{ color: '#f78f39' }}>AWS </span>
