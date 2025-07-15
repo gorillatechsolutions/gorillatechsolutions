@@ -21,7 +21,7 @@ export default function PrivacyPolicyPage() {
         </div>
       </section>
 
-      <section className="py-12 md:py-16">
+      <section>
         <div className="container mx-auto px-4">
           <Card className="max-w-4xl mx-auto border-border/80">
             <CardContent className="p-8 md:p-10 prose prose-lg max-w-none mx-auto text-foreground prose-headings:text-primary prose-a:text-accent hover:prose-a:text-accent/80">
