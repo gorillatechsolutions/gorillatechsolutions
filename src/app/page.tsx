@@ -250,10 +250,10 @@ export default function Home() {
       </section>
       
       {/* CTA Section */}
-      <section className="w-full bg-background py-12 md:py-20">
+      <section className="w-full bg-background pt-12 md:pt-20 pb-24 md:pb-32">
           <div className="container mx-auto px-4">
-              <div className="relative rounded-lg p-8 md:p-12 flex items-center" style={{ backgroundColor: '#4A61DD' }}>
-                  <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/3 w-32 h-32 md:w-40 md:h-40 bg-yellow-400 rounded-full" />
+              <div className="relative overflow-hidden rounded-lg p-8 md:p-12 flex items-center" style={{ backgroundColor: '#4A61DD' }}>
+                  <div className="absolute left-4 -top-8 w-32 h-32 md:w-40 md:h-40 bg-yellow-400 rounded-full" />
                   <div className="relative z-10 flex-1 flex flex-col md:flex-row items-center justify-between gap-8 text-white">
                       <div className="md:pl-16 text-center md:text-left">
                            <h2 className="font-headline text-3xl md:text-4xl font-bold">Ready to Transform Your Business?</h2>
