@@ -107,7 +107,7 @@ export function Footer() {
             </div>
             <div className="flex items-center gap-3">
               <i className="fa fa-envelope h-5 w-5 shrink-0" style={{ color: '#383838' }} aria-hidden="true"></i>
-              <a href="mailto:hello@gorillatech.solutions" className="hover:text-primary" style={{ color: '#383838' }}>hello@gorillatech.solutions</a>
+              <a href="mailto:Business@GorillaTechSolution.com" className="hover:text-primary" style={{ color: '#383838' }}>Business@GorillaTechSolution.com</a>
             </div>
             <TooltipProvider>
               <Tooltip>

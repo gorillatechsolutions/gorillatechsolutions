@@ -14,8 +14,8 @@ const contactDetails = [
     {
         icon: <i className="fa fa-envelope h-6 w-6 text-primary" aria-hidden="true"></i>,
         title: "Email Us",
-        value: "hello@gorillatech.solutions",
-        href: "mailto:hello@gorillatech.solutions"
+        value: "Business@GorillaTechSolution.com",
+        href: "mailto:Business@GorillaTechSolution.com"
     },
     {
         icon: <i className="fa fa-phone h-6 w-6 text-primary" aria-hidden="true"></i>,
