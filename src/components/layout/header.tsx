@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 import { NAV_LINKS } from '@/lib/navigation';
 
@@ -18,31 +18,29 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 max-w-screen-2xl items-center justify-between px-4">
-        <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center gap-2">
-            <i className="fa fa-cogs fa-2x text-primary" aria-hidden="true"></i> 
-            <span className="text-xl font-bold font-headline text-primary hidden sm:inline">
-              Gorilla Tech Solutions
-            </span>
-          </Link>
-          
-          <nav className="hidden md:flex items-center gap-6">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className={cn(
-                  'text-sm font-medium transition-colors hover:text-primary',
-                  pathname === link.href ? 'text-primary' : 'text-[#383838]'
-                )}
-              >
-                {link.name}
-              </Link>
-            ))}
-          </nav>
-        </div>
+        <Link href="/" className="flex items-center gap-2 mr-auto">
+          <i className="fa fa-cogs fa-2x text-primary" aria-hidden="true"></i> 
+          <span className="text-xl font-bold font-headline text-primary hidden sm:inline">
+            Gorilla Tech Solutions
+          </span>
+        </Link>
 
         <div className="flex items-center gap-4">
+            <nav className="hidden md:flex items-center gap-6">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={cn(
+                    'text-sm font-medium transition-colors hover:text-primary',
+                    pathname === link.href ? 'text-primary' : 'text-[#383838]'
+                  )}
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </nav>
+
             <div className="hidden md:flex">
                <Button asChild>
                     <Link href="/contact">
