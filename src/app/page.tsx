@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { reviews as allReviews } from '@/app/reviews/page';
+import { reviews as allReviews } from '@/lib/reviews-data';
 import { cn } from '@/lib/utils';
 
 const processSteps = [
