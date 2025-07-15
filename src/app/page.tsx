@@ -75,7 +75,7 @@ export default function Home() {
             </p>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start">
               <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transition-transform transform hover:scale-105">
-                <Link href="/application">
+                <Link href="/contact">
                   Get Your Free Consultation <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
