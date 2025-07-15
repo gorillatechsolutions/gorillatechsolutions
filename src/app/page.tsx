@@ -250,7 +250,7 @@ export default function Home() {
       </section>
       
       {/* CTA Section */}
-      <section className="w-full bg-background py-20 md:py-24">
+      <section className="w-full bg-background pt-20 md:pt-24 pb-10 md:pb-12">
         <div className="container mx-auto px-4">
           <div className="relative w-9/10 mx-auto">
             <div className="absolute -top-10 left-0 w-32 h-32 bg-yellow-300 rounded-full z-0"></div>
