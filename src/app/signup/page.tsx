@@ -39,7 +39,9 @@ export default function SignupPage() {
 
   useEffect(() => {
     // Seed admin user if not exists
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const usersStr = localStorage.getItem('users');
+    const users = usersStr ? JSON.parse(usersStr) : [];
+    
     const adminExists = users.some((user: any) => user.email === 'admin@example.com');
     if (!adminExists) {
       users.push({
