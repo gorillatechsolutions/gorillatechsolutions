@@ -28,7 +28,7 @@ const footerLinks = {
 export function Footer() {
   return (
     <footer className="w-full border-t text-card-foreground">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 sm:px-6 lg:px-8 py-12" style={{ backgroundColor: '#dedede' }}>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-2 py-12" style={{ backgroundColor: '#dedede' }}>
         <div className="flex flex-col gap-4 items-start">
           <Link href="/" className="flex items-center">
             <i className="fa fa-cogs fa-2x sm:fa-3x text-primary" aria-hidden="true"></i>
@@ -128,7 +128,7 @@ export function Footer() {
         </div>
       </div>
       <div className="py-4" style={{ backgroundColor: '#243878' }}>
-        <div className="w-full flex flex-col sm:flex-row justify-between items-center text-sm text-white/80 gap-4 px-4 sm:px-6 lg:px-8">
+        <div className="w-full flex flex-col sm:flex-row justify-between items-center text-sm text-white/80 gap-4 px-2">
           <p className="text-center sm:text-left">&copy; {new Date().getFullYear()} Gorilla Tech Solutions. All rights reserved.</p>
           <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2">
             <div className="flex items-center gap-2 px-3 py-2 rounded-md" style={{ backgroundColor: '#f2f5f7', color: 'black' }}>
