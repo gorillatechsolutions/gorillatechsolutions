@@ -250,20 +250,25 @@ export default function Home() {
       </section>
       
       {/* CTA Section */}
-      <section className="w-full bg-secondary/30 py-20 md:py-24">
+      <section className="w-full bg-background py-20 md:py-24">
         <div className="container mx-auto px-4">
-          <div className="max-w-2xl mx-auto text-center">
-            <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">
-              Ready to Transform Your Business?
-            </h2>
-            <p className="mt-4 text-lg text-muted-foreground">
-              Get started with our cutting-edge digital solutions and take your business to the next level. Let's build something amazing together.
-            </p>
-            <Button asChild size="lg" className="mt-8 bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transition-transform transform hover:scale-105">
-              <Link href="/contact">
-                Get Started Now
-              </Link>
-            </Button>
+          <div className="relative max-w-4xl mx-auto">
+            <div className="absolute -top-10 left-0 w-32 h-32 bg-yellow-300 rounded-full z-0"></div>
+            <div className="relative z-10 flex items-center justify-between bg-blue-600 text-white p-8 md:p-12 rounded-lg shadow-lg">
+              <div className="flex-1 pr-8">
+                <h2 className="font-headline text-2xl md:text-3xl font-bold">
+                  Ready to Transform Your Business?
+                </h2>
+                <p className="mt-2 text-white/80">
+                  Get started with our cutting-edge digital solutions and take your business to the next level.
+                </p>
+              </div>
+              <Button asChild size="lg" className="bg-green-500 hover:bg-green-600 text-white shadow-lg transition-transform transform hover:scale-105 flex-shrink-0">
+                <Link href="/contact">
+                  Get Started Now
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
       </section>
