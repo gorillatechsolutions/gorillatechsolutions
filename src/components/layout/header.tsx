@@ -21,10 +21,8 @@ export function Header() {
 
   useEffect(() => {
     setIsClient(true);
-    if (typeof window !== 'undefined') {
-      const user = localStorage.getItem('user');
-      setIsLoggedIn(!!user);
-    }
+    const user = localStorage.getItem('user');
+    setIsLoggedIn(!!user);
   }, [pathname]);
 
   const handleLogout = () => {
