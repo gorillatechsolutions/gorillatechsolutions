@@ -7,10 +7,18 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
-import { NAV_LINKS } from '@/lib/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCogs, faBars } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/navigation';
+
+const NAV_LINKS = [
+  { name: 'Home', href: '/' },
+  { name: 'About Us', href: '/about' },
+  { name: 'Our Services', href: '/services' },
+  { name: 'Case Studies', href: '/case-study' },
+  { name: 'Our Apps', href: '/apps' },
+  { name: 'Contact', href: '/contact' },
+];
 
 export function Header() {
   const pathname = usePathname();
