@@ -16,9 +16,11 @@ export function Header() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isClient, setIsClient] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
+    setIsClient(true);
     if (typeof window !== 'undefined') {
       const user = localStorage.getItem('user');
       setIsLoggedIn(!!user);
@@ -60,9 +62,9 @@ export function Header() {
           </nav>
 
           <div className="hidden md:flex items-center gap-2">
-            {isLoggedIn ? (
+            {isClient && isLoggedIn ? (
               <Button onClick={handleLogout} variant="outline">Logout</Button>
-            ) : (
+            ) : isClient ? (
               <>
                 <Button asChild variant="ghost">
                   <Link href="/login">Login</Link>
@@ -71,7 +73,7 @@ export function Header() {
                   <Link href="/signup">Sign Up</Link>
                 </Button>
               </>
-            )}
+            ) : null}
           </div>
 
           <div className="md:hidden">
@@ -106,11 +108,11 @@ export function Header() {
                   ))}
                 </nav>
                 <div className="p-4 border-t space-y-2">
-                   {isLoggedIn ? (
+                   {isClient && isLoggedIn ? (
                      <Button onClick={() => { handleLogout(); setMobileMenuOpen(false); }} className="w-full">
                        Logout
                      </Button>
-                   ) : (
+                   ) : isClient ? (
                      <>
                        <Button asChild className="w-full" variant="ghost">
                          <Link href="/login" onClick={() => setMobileMenuOpen(false)}>Login</Link>
@@ -119,7 +121,7 @@ export function Header() {
                          <Link href="/signup" onClick={() => setMobileMenuOpen(false)}>Sign Up</Link>
                        </Button>
                      </>
-                   )}
+                   ) : null}
                 </div>
               </SheetContent>
             </Sheet>
