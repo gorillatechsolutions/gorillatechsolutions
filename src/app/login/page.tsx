@@ -51,7 +51,11 @@ export default function LoginPage() {
         title: "Login Successful!",
         description: "Welcome back!",
       });
-      router.push('/');
+      if (user.role === 'admin') {
+        router.push('/admin');
+      } else {
+        router.push('/');
+      }
     } else {
       toast({
         variant: "destructive",

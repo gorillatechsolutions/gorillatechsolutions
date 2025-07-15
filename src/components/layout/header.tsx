@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCogs, faBars } from '@fortawesome/free-solid-svg-icons';
+import { faCogs, faBars, faTachometerAlt } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/navigation';
 
 const NAV_LINKS = [
@@ -24,18 +24,29 @@ export function Header() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     setIsClient(true);
-    const user = localStorage.getItem('user');
-    setIsLoggedIn(!!user);
+    const userStr = localStorage.getItem('user');
+    if (userStr) {
+      setIsLoggedIn(true);
+      const user = JSON.parse(userStr);
+      if (user.role === 'admin') {
+        setIsAdmin(true);
+      }
+    } else {
+        setIsLoggedIn(false);
+        setIsAdmin(false);
+    }
   }, [pathname]);
 
   const handleLogout = () => {
     localStorage.removeItem('user');
     setIsLoggedIn(false);
+    setIsAdmin(false);
     router.push('/');
   };
 
@@ -53,6 +64,12 @@ export function Header() {
 
         <div className="flex items-center gap-4">
           <nav className="hidden md:flex items-center gap-6">
+            {isAdmin && (
+               <Link href="/admin" className={cn('text-sm font-medium transition-colors hover:text-primary/80 flex items-center gap-1', pathname.startsWith('/admin') ? 'text-primary' : 'text-foreground/60')}>
+                 <FontAwesomeIcon icon={faTachometerAlt} className="h-4 w-4" />
+                 Dashboard
+               </Link>
+            )}
             {navLinks.map((link) => (
               <Link
                 key={link.name}
@@ -71,11 +88,9 @@ export function Header() {
             {isClient && isLoggedIn ? (
               <Button onClick={handleLogout} variant="outline">Logout</Button>
             ) : isClient ? (
-              <>
-                <Button asChild>
-                  <Link href="/login">Login</Link>
-                </Button>
-              </>
+              <Button asChild>
+                <Link href="/login">Login</Link>
+              </Button>
             ) : null}
           </div>
 
@@ -96,6 +111,12 @@ export function Header() {
                   </Link>
                 </div>
                 <nav className="flex flex-col gap-4 p-4 flex-1">
+                  {isAdmin && (
+                    <Link href="/admin" onClick={() => setMobileMenuOpen(false)} className={cn('text-lg font-medium flex items-center gap-2', pathname.startsWith('/admin') ? 'text-primary' : 'text-foreground/80')}>
+                      <FontAwesomeIcon icon={faTachometerAlt} className="h-5 w-5" />
+                      Dashboard
+                    </Link>
+                  )}
                   {navLinks.map((link) => (
                     <Link
                       key={link.name}
@@ -116,11 +137,9 @@ export function Header() {
                        Logout
                      </Button>
                    ) : isClient ? (
-                     <>
-                       <Button asChild className="w-full">
-                         <Link href="/login" onClick={() => setMobileMenuOpen(false)}>Login</Link>
-                       </Button>
-                     </>
+                     <Button asChild className="w-full">
+                       <Link href="/login" onClick={() => setMobileMenuOpen(false)}>Login</Link>
+                     </Button>
                    ) : null}
                 </div>
               </SheetContent>
