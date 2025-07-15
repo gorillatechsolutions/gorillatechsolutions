@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 import { NAV_LINKS } from '@/lib/navigation';
 
@@ -58,6 +58,7 @@ export function Header() {
                     </Button>
                   </SheetTrigger>
                   <SheetContent side="right" className="w-[240px] p-0 flex flex-col">
+                    <SheetTitle className="sr-only">Menu</SheetTitle>
                     <div className="p-4 border-b">
                         <Link href="/" className="flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
                             <i className="fa fa-cogs h-6 w-6 text-primary" aria-hidden="true"></i>
