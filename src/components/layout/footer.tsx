@@ -96,9 +96,9 @@ export function Footer() {
           </ul>
         </div>
 
-        <div className="flex flex-col items-center text-center">
-          <h3 className="font-headline font-semibold mb-4" style={{ color: '#383838' }}>Connect With Us</h3>
-          <div className="space-y-2 text-sm flex flex-col items-center" style={{ textAlign: 'justify' }}>
+        <div className="flex flex-col items-start text-left">
+          <h3 className="font-headline font-semibold mb-4 text-center w-full" style={{ color: '#383838' }}>Connect With Us</h3>
+          <div className="space-y-2 text-sm w-full">
             <div className="flex items-start gap-3">
               <i className="fa fa-map-marker h-5 w-5 mt-0.5 shrink-0" style={{ color: '#383838' }} aria-hidden="true"></i>
               <p style={{ color: '#383838', textAlign: 'justify' }}>Agartala, Tripura (W) India<br/>Pin: 799006</p>
@@ -111,21 +111,23 @@ export function Footer() {
               <i className="fa fa-envelope h-5 w-5 shrink-0" style={{ color: '#383838' }} aria-hidden="true"></i>
               <a href="mailto:Business@GorillaTechSolution.com" className="hover:text-primary" style={{ color: '#383838' }}>Business@GorillaTechSolution.com</a>
             </div>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button asChild variant="outline" className="mt-4">
-                    <Link href="https://github.com" target="_blank">
-                      <i className="fa fa-github mr-2 h-4 w-4" aria-hidden="true"></i>
-                      Download Source Code
-                    </Link>
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent className="max-w-xs bg-[#3F4550] text-white border-0">
-                  <p>Important Note: Content and code to be Used for Educational Purposes Only; Restrictions on Use.</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <div className="flex justify-center mt-4">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button asChild variant="outline" className="mt-4">
+                      <Link href="https://github.com" target="_blank">
+                        <i className="fa fa-github mr-2 h-4 w-4" aria-hidden="true"></i>
+                        Download Source Code
+                      </Link>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs bg-[#3F4550] text-white border-0">
+                    <p>Important Note: Content and code to be Used for Educational Purposes Only; Restrictions on Use.</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
           </div>
         </div>
       </div>
