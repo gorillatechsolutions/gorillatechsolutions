@@ -18,12 +18,6 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
 import Image from "next/image";
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-    title: 'Forgot Password',
-    description: 'Reset your password for Gorilla Tech Solutions.',
-};
 
 const formSchema = z.object({
   email: z.string().email({

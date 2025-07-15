@@ -102,8 +102,8 @@ export default function LoginPage() {
                             <FormItem>
                                 <div className="flex justify-between items-center">
                                     <FormLabel>Password</FormLabel>
-                                    <Link href="/forgot-password" passHref legacyBehavior>
-                                        <a className="text-sm text-primary hover:underline">Forgot Password?</a>
+                                    <Link href="/forgot-password" className="text-sm text-primary hover:underline">
+                                        Forgot Password?
                                     </Link>
                                 </div>
                             <FormControl>
