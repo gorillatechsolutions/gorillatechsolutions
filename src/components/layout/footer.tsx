@@ -26,7 +26,7 @@ const footerLinks = {
         { name: 'Reviews', href: '/reviews' },
         { name: 'Site Map', href: '/'},
         { name: 'About Us', href: '/about' },
-        { name: 'Privacy Policy', href: '/contact' },
+        { name: 'Privacy Policy', href: '/privacy-policy' },
     ],
     legal: [
         { name: 'Refund Policy', href: '/contact' },
