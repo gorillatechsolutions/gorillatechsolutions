@@ -1,11 +1,19 @@
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAws, faGithub, faMeta } from '@fortawesome/free-brands-svg-icons';
+import {
+  faAws,
+  faFacebook,
+  faGithub,
+  faGoogle,
+  faInstagram,
+  faLinkedin,
+  faMeta,
+  faWikipediaW,
+  faWhatsapp,
+} from '@fortawesome/free-brands-svg-icons';
 import { faCheckCircle, faPhone, faMapMarkerAlt, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
 const footerLinks = {
@@ -41,22 +49,22 @@ export function Footer() {
           </p>
           <div className="flex gap-3 mt-2">
             <Link href="https://facebook.com" target="_blank" aria-label="Facebook" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-facebook text-white">
-                <Image src="https://placehold.co/24x24.png" alt="Facebook" width={20} height={20} data-ai-hint="facebook logo" />
+                <FontAwesomeIcon icon={faFacebook} className="h-5 w-5" />
             </Link>
             <Link href="https://instagram.com" target="_blank" aria-label="Instagram" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-instagram text-white">
-                <Image src="https://placehold.co/24x24.png" alt="Instagram" width={20} height={20} data-ai-hint="instagram logo" />
+                <FontAwesomeIcon icon={faInstagram} className="h-5 w-5" />
             </Link>
             <Link href="https://linkedin.com" target="_blank" aria-label="LinkedIn" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-linkedin text-white">
-                 <Image src="https://placehold.co/24x24.png" alt="LinkedIn" width={20} height={20} data-ai-hint="linkedin logo" />
+                 <FontAwesomeIcon icon={faLinkedin} className="h-5 w-5" />
             </Link>
             <Link href="https://wa.me/1234567890" target="_blank" aria-label="WhatsApp" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-whatsapp text-white">
-                 <Image src="https://placehold.co/24x24.png" alt="WhatsApp" width={20} height={20} data-ai-hint="whatsapp logo" />
+                 <FontAwesomeIcon icon={faWhatsapp} className="h-5 w-5" />
             </Link>
             <Link href="https://google.com" target="_blank" aria-label="Google Business" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-google text-white">
-                <Image src="https://placehold.co/24x24.png" alt="Google" width={20} height={20} data-ai-hint="google logo" />
+                <FontAwesomeIcon icon={faGoogle} className="h-5 w-5" />
             </Link>
             <Link href="https://wikipedia.org" target="_blank" aria-label="Wikipedia" className="h-8 w-8 flex items-center justify-center rounded-full bg-black text-white">
-                <Image src="https://placehold.co/24x24.png" alt="Wikipedia" width={20} height={20} data-ai-hint="wikipedia logo" />
+                <FontAwesomeIcon icon={faWikipediaW} className="h-5 w-5" />
             </Link>
           </div>
         </div>
@@ -100,7 +108,7 @@ export function Footer() {
         <div className="flex flex-col items-start text-left">
           <h3 className="font-headline font-semibold mb-4 text-center w-full" style={{ color: '#383838' }}>Connect With Us</h3>
           <div className="space-y-2 text-sm w-full" style={{textAlign: 'center'}}>
-            <div className="flex items-start gap-3 justify-center">
+            <div className="flex items-center gap-3 justify-center">
               <FontAwesomeIcon icon={faMapMarkerAlt} className="w-4 shrink-0 mt-0.5" style={{ color: '#454545' }}/>
               <p style={{ color: '#383838' }}>Agartala, Tripura (W) India<br/>Pin: 799006</p>
             </div>
@@ -160,7 +168,7 @@ export function Footer() {
                 </div>
             </div>
             <div className="flex items-center gap-2 px-3 py-2 rounded-md text-black" style={{ backgroundColor: '#f0f4f6' }}>
-                <Image src="https://placehold.co/24x24.png" alt="ISO 9001:2015" width={24} height={24} data-ai-hint="certificate" loading="lazy" />
+                <FontAwesomeIcon icon={faCheckCircle} className="h-6 w-6" style={{color: 'limegreen'}} />
                 <div className="flex flex-col items-start text-left">
                     <span className="text-sm">ISO 9001:2015</span>
                     <div className="flex items-center gap-1">
@@ -175,3 +183,5 @@ export function Footer() {
     </footer>
   );
 }
+
+    
