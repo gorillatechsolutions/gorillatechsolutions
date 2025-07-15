@@ -37,23 +37,6 @@ export default function SignupPage() {
   const { toast } = useToast();
   const router = useRouter();
 
-  useEffect(() => {
-    // Seed admin user if not exists
-    const usersStr = localStorage.getItem('users');
-    const users = usersStr ? JSON.parse(usersStr) : [];
-    
-    const adminExists = users.some((user: any) => user.email === 'admin@example.com');
-    if (!adminExists) {
-      users.push({
-        name: 'Admin User',
-        email: 'admin@example.com',
-        password: 'adminpassword',
-        role: 'admin',
-      });
-      localStorage.setItem('users', JSON.stringify(users));
-    }
-  }, []);
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

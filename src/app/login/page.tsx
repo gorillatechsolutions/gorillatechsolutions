@@ -19,6 +19,7 @@ import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -32,6 +33,23 @@ const formSchema = z.object({
 export default function LoginPage() {
   const { toast } = useToast();
   const router = useRouter();
+
+  useEffect(() => {
+    // Seed admin user if not exists
+    const usersStr = localStorage.getItem('users');
+    const users = usersStr ? JSON.parse(usersStr) : [];
+    
+    const adminExists = users.some((user: any) => user.email === 'admin@example.com');
+    if (!adminExists) {
+      users.push({
+        name: 'Admin User',
+        email: 'admin@example.com',
+        password: 'adminpassword',
+        role: 'admin',
+      });
+      localStorage.setItem('users', JSON.stringify(users));
+    }
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
