@@ -8,6 +8,8 @@ export const metadata: Metadata = {
     description: 'Explore insights, tips, and case studies on digital marketing, SEO, PPC, and more from the experts at Gorilla Tech Solutions.',
 };
 
+export const dynamic = 'force-static';
+
 export default function CaseStudyPage({
   searchParams,
 }: {

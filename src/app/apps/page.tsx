@@ -6,6 +6,8 @@ import { Input } from '@/components/ui/input';
 import { apps } from '@/lib/apps-data';
 import type { AppFilter } from '@/app/apps/page';
 
+export const dynamic = 'force-static';
+
 export default function AppsPage({
   searchParams,
 }: {
