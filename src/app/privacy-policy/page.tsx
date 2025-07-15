@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function PrivacyPolicyPage() {
   return (
     <div className="w-full text-foreground" style={{ backgroundColor: '#f2f3f5' }}>
-      <section className="bg-secondary/30 py-8 md:py-12">
+      <section className="bg-secondary/30 pt-8 pb-0 md:pt-12">
         <div className="container mx-auto px-4 text-center">
           <h1 className="font-headline text-4xl md:text-5xl font-bold text-primary">Privacy Policy</h1>
           <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
