@@ -103,7 +103,7 @@ export function Footer() {
             </div>
             <div className="flex items-center gap-3">
               <i className="fa fa-phone h-5 w-5 shrink-0" style={{ color: '#383838' }} aria-hidden="true"></i>
-              <a href="tel:+1234567890" className="hover:text-primary" style={{ color: '#383838' }}>+1 (234) 567-890</a>
+              <a href="tel:03813599517" className="hover:text-primary" style={{ color: '#383838' }}>0381 359 9517</a>
             </div>
             <div className="flex items-center gap-3">
               <i className="fa fa-envelope h-5 w-5 shrink-0" style={{ color: '#383838' }} aria-hidden="true"></i>

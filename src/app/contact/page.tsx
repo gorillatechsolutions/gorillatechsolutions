@@ -20,8 +20,8 @@ const contactDetails = [
     {
         icon: <i className="fa fa-phone h-6 w-6 text-primary" aria-hidden="true"></i>,
         title: "Call Us",
-        value: "+1 (234) 567-890",
-        href: "tel:+1234567890"
+        value: "0381 359 9517",
+        href: "tel:03813599517"
     },
     {
         icon: <i className="fa fa-map-marker h-6 w-6 text-primary" aria-hidden="true"></i>,
