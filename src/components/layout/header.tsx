@@ -8,6 +8,8 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 import { NAV_LINKS } from '@/lib/navigation';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCogs, faBars } from '@fortawesome/free-solid-svg-icons';
 
 export function Header() {
   const pathname = usePathname();
@@ -19,7 +21,7 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full shadow-sm" style={{ backgroundColor: '#f2f5f7' }}>
       <div className="container flex h-16 max-w-screen-2xl items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2 mr-6">
-          <i className="fa fa-cogs fa-2x text-primary" aria-hidden="true"></i>
+          <FontAwesomeIcon icon={faCogs} className="h-8 w-8 text-primary" />
           <span className="text-xl font-bold font-headline text-primary hidden sm:inline">
             Gorilla Tech Solutions
           </span>
@@ -53,7 +55,7 @@ export function Header() {
             <Sheet open={isMobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Button variant="outline" size="icon">
-                  <i className="fa fa-bars h-6 w-6" aria-hidden="true"></i>
+                  <FontAwesomeIcon icon={faBars} className="h-6 w-6" />
                   <span className="sr-only">Open menu</span>
                 </Button>
               </SheetTrigger>
@@ -61,7 +63,7 @@ export function Header() {
                 <SheetTitle className="sr-only">Menu</SheetTitle>
                 <div className="p-4 border-b">
                   <Link href="/" className="flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
-                    <i className="fa fa-cogs h-6 w-6 text-primary" aria-hidden="true"></i>
+                    <FontAwesomeIcon icon={faCogs} className="h-6 w-6 text-primary" />
                     <span className="text-lg font-bold font-headline text-primary">Gorilla Tech</span>
                   </Link>
                 </div>

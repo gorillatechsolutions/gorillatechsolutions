@@ -14,7 +14,7 @@ import {
   faWikipediaW,
   faWhatsapp,
 } from '@fortawesome/free-brands-svg-icons';
-import { faCheckCircle, faPhone, faMapMarkerAlt, faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faPhone, faMapMarkerAlt, faEnvelope, faCogs } from '@fortawesome/free-solid-svg-icons';
 
 const footerLinks = {
     company: [
@@ -42,7 +42,7 @@ export function Footer() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-2% py-12" style={{ backgroundColor: '#dedede' }}>
         <div className="flex flex-col gap-4 items-start">
           <Link href="/" className="flex items-center">
-            <i className="fa fa-cogs fa-2x sm:fa-3x text-primary" aria-hidden="true"></i>
+             <FontAwesomeIcon icon={faCogs} className="h-8 w-8 text-primary" />
           </Link>
           <p className="text-sm" style={{ color: '#383838' }}>
             Driving growth with data-driven digital marketing strategies that deliver results.
@@ -158,7 +158,7 @@ export function Footer() {
                 <FontAwesomeIcon icon={faAws} className="h-6 w-6" style={{color: "#f78d38"}} />
                 <div className="flex flex-col items-start">
                     <div className="text-sm">
-                        <span style={{ color: '#f78f39' }}>AWS </span>
+                        <span style={{ color: '#f78f39' }}>AWS </span> 
                         <span style={{ color: '#383838' }}>Startup</span>
                     </div>
                     <div className="flex items-center gap-1">
@@ -183,5 +183,3 @@ export function Footer() {
     </footer>
   );
 }
-
-    
