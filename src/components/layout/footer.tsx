@@ -98,14 +98,14 @@ export function Footer() {
 
         <div className="flex flex-col items-start text-left">
           <h3 className="font-headline font-semibold mb-4 text-center w-full" style={{ color: '#383838' }}>Connect With Us</h3>
-          <div className="space-y-2 text-sm w-full">
+          <div className="space-y-2 text-sm w-full" style={{textAlign: 'justify'}}>
             <div className="flex items-start gap-3">
               <i className="fa fa-map-marker w-5 mt-0.5 shrink-0" style={{ color: '#383838' }} aria-hidden="true"></i>
-              <p style={{ color: '#383838', textAlign: 'justify' }}>Agartala, Tripura (W) India<br/>Pin: 799006</p>
+              <p style={{ color: '#383838' }}>Agartala, Tripura (W) India<br/>Pin: 799006</p>
             </div>
             <div className="flex items-center gap-3">
               <i className="fa fa-phone w-5 shrink-0" style={{ color: '#383838' }} aria-hidden="true"></i>
-              <a href="tel:03813599517" className="hover:text-primary" style={{ color: '#383838', textAlign: 'justify' }}>0381 359 9517</a>
+              <a href="tel:03813599517" className="hover:text-primary" style={{ color: '#383838' }}>0381 359 9517</a>
             </div>
             <div className="flex items-center gap-3">
               <i className="fa fa-envelope w-5 shrink-0" style={{ color: '#383838' }} aria-hidden="true"></i>
@@ -140,7 +140,7 @@ export function Footer() {
                 <div className="flex flex-col items-start">
                     <span className="text-sm" style={{ color: '#0081FB' }}>Meta Business</span>
                     <div className="flex items-center gap-1">
-                        <i className="fa fa-check-circle text-green-600" aria-hidden="true"></i>
+                        <i className="fa fa-check-circle text-green-600 mr-1" aria-hidden="true"></i>
                         <span className="text-xs text-green-600">Verified Partner</span>
                     </div>
                 </div>
@@ -153,7 +153,7 @@ export function Footer() {
                         <span style={{ color: '#383838' }}>Startup</span>
                     </div>
                     <div className="flex items-center gap-1">
-                        <i className="fa fa-check-circle text-green-600" aria-hidden="true"></i>
+                        <i className="fa fa-check-circle text-green-600 mr-1" aria-hidden="true"></i>
                         <span className="text-xs text-green-600">Verified Partner</span>
                     </div>
                 </div>
@@ -163,7 +163,7 @@ export function Footer() {
                 <div className="flex flex-col items-start text-left">
                     <span className="text-sm">ISO 9001:2015</span>
                     <div className="flex items-center gap-1">
-                        <i className="fa fa-check-circle text-green-600" aria-hidden="true"></i>
+                        <i className="fa fa-check-circle text-green-600 mr-1" aria-hidden="true"></i>
                         <span className="text-xs text-green-600">Trusted</span>
                     </div>
                 </div>
