@@ -47,7 +47,7 @@ export function Footer() {
           <p className="text-sm" style={{ color: '#383838' }}>
             Driving growth with data-driven digital marketing strategies that deliver results.
           </p>
-          <div className="flex gap-3 mt-2">
+          <div className="flex gap-3 mt-2 pl-1">
             <Link href="https://facebook.com" target="_blank" aria-label="Facebook" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-facebook text-white">
                 <FontAwesomeIcon icon={faFacebook} className="h-5 w-5" />
             </Link>
