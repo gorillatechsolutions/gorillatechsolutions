@@ -253,7 +253,7 @@ export default function Home() {
       <section className="w-full bg-background pt-20 md:pt-24 pb-10 md:pb-12">
         <div className="container mx-auto px-4">
           <div className="relative w-9/10 mx-auto">
-            <div className="absolute -top-10 left-0 w-32 h-32 bg-yellow-300 rounded-full z-0"></div>
+            <div className="absolute -top-8 left-0 w-20 h-20 bg-yellow-300 rounded-full z-0"></div>
             <div className="z-10 flex flex-col items-center justify-center text-center gap-6 bg-blue-600 text-white p-8 md:p-12 rounded-lg shadow-lg">
               <div>
                 <h2 className="font-headline text-2xl md:text-3xl font-bold">
