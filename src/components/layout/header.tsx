@@ -20,7 +20,7 @@ export function Header() {
       <div className="flex h-16 items-center justify-between px-2">
         <Link href="/" className="flex items-center gap-2 mr-auto">
           <i className="fa fa-cogs fa-2x text-primary" aria-hidden="true"></i> 
-          <span className="text-xl font-bold font-headline text-primary">
+          <span className="text-xl font-bold font-headline text-primary hidden sm:inline">
             Gorilla Tech Solutions
           </span>
         </Link>
