@@ -1,17 +1,14 @@
 
-'use client';
-
 import { notFound } from 'next/navigation';
-import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ArrowLeft, CalendarDays, UserCircle, Eye } from 'lucide-react';
+import type { Metadata } from 'next';
 import type { CaseStudy } from '@/types/case-study';
 import parse from 'html-react-parser';
 import { demoCaseStudies } from '@/lib/demo-data';
-
 
 const allCaseStudies = demoCaseStudies;
 
@@ -19,7 +16,20 @@ const allCaseStudies = demoCaseStudies;
 export async function generateStaticParams() {
     return allCaseStudies.map((study) => ({
       slug: study.slug,
-    }))
+    }));
+}
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const caseStudy = allCaseStudies.find(a => a.slug === params.slug);
+  if (!caseStudy) {
+    return {
+      title: 'Case Study Not Found',
+    };
+  }
+  return {
+    title: caseStudy.title,
+    description: caseStudy.excerpt,
+  };
 }
 
 const formatViews = (views: number) => {
@@ -29,28 +39,11 @@ const formatViews = (views: number) => {
     return views;
 };
 
-
 export default function CaseStudyDetailPage({ params }: { params: { slug: string } }) {
-    const [caseStudy, setCaseStudy] = useState<CaseStudy | null>(null);
-
-    useEffect(() => {
-        const foundArticle = allCaseStudies.find(a => a.slug === params.slug);
-        if(foundArticle) {
-            setCaseStudy(foundArticle);
-        } else {
-            notFound();
-        }
-    }, [params.slug]);
+    const caseStudy = allCaseStudies.find(a => a.slug === params.slug);
 
     if (!caseStudy) {
-        return (
-            <div className="w-full bg-background text-foreground text-center py-20">
-                <div className="flex justify-center items-center">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-                    <p className="ml-4">Loading article...</p>
-                </div>
-            </div>
-        );
+        notFound();
     }
 
     return (

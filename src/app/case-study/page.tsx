@@ -1,20 +1,20 @@
 
-'use client';
-
 import type { Metadata } from 'next';
 import { CaseStudyList } from '@/components/case-study-list';
-import type { CaseStudy } from '@/types/case-study';
 import { demoCaseStudies } from '@/lib/demo-data';
 
-// Note: Metadata is commented out because it can't be used in a client component.
-// We are fetching data client-side from localStorage, which requires 'use client'.
-// export const metadata: Metadata = {
-//     title: 'Case Studies | Gorilla Tech Solutions',
-//     description: 'Explore insights, tips, and case studies on digital marketing, SEO, PPC, and more from the experts at Gorilla Tech Solutions.',
-// };
+export const metadata: Metadata = {
+    title: 'Case Studies | Gorilla Tech Solutions',
+    description: 'Explore insights, tips, and case studies on digital marketing, SEO, PPC, and more from the experts at Gorilla Tech Solutions.',
+};
 
-export default function CaseStudyPage() {
-  const allCaseStudies: CaseStudy[] = demoCaseStudies;
+export default function CaseStudyPage({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
+  const searchTerm = typeof searchParams?.search === 'string' ? searchParams.search : '';
+  const page = typeof searchParams?.page === 'string' ? Number(searchParams.page) : 1;
 
   return (
     <div className="w-full bg-background text-foreground">
@@ -28,7 +28,11 @@ export default function CaseStudyPage() {
         </div>
       </section>
       
-      <CaseStudyList allCaseStudies={allCaseStudies} />
+      <CaseStudyList 
+        allCaseStudies={demoCaseStudies} 
+        initialSearchTerm={searchTerm}
+        initialPage={page}
+      />
     </div>
   );
 }

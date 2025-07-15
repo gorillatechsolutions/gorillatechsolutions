@@ -1,7 +1,8 @@
 
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,12 +11,23 @@ import { ArrowRight, CalendarDays, UserCircle, Search, ChevronLeft, ChevronRight
 import Image from 'next/image';
 import Link from 'next/link';
 import type { CaseStudy } from '@/types/case-study';
+import { useDebouncedCallback } from 'use-debounce';
 
 const ITEMS_PER_PAGE = 9;
 
-export function CaseStudyList({ allCaseStudies }: { allCaseStudies: CaseStudy[] }) {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
+type CaseStudyListProps = {
+  allCaseStudies: CaseStudy[];
+  initialSearchTerm?: string;
+  initialPage?: number;
+};
+
+export function CaseStudyList({ allCaseStudies, initialSearchTerm = '', initialPage = 1 }: CaseStudyListProps) {
+  const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
+  const [currentPage, setCurrentPage] = useState(initialPage);
+  
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const filteredCaseStudies = useMemo(() => {
     return allCaseStudies.filter(study =>
@@ -28,11 +40,31 @@ export function CaseStudyList({ allCaseStudies }: { allCaseStudies: CaseStudy[] 
   const totalPages = Math.ceil(filteredCaseStudies.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const paginatedCaseStudies = filteredCaseStudies.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  
+  const handleSearch = useDebouncedCallback((term: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (term) {
+      params.set('search', term);
+    } else {
+      params.delete('search');
+    }
+    params.set('page', '1');
+    router.replace(`${pathname}?${params.toString()}`);
+  }, 300);
+
+  useEffect(() => {
+    setSearchTerm(initialSearchTerm);
+  }, [initialSearchTerm]);
+
+  useEffect(() => {
+    setCurrentPage(initialPage);
+  }, [initialPage]);
 
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
-      setCurrentPage(newPage);
-      window.scrollTo(0, 0);
+      const params = new URLSearchParams(searchParams);
+      params.set('page', newPage.toString());
+      router.push(`${pathname}?${params.toString()}`, { scroll: false });
     }
   };
   
@@ -55,8 +87,10 @@ export function CaseStudyList({ allCaseStudies }: { allCaseStudies: CaseStudy[] 
                 type="text"
                 placeholder="Search case studies..."
                 className="pl-10 text-base"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                defaultValue={initialSearchTerm}
+                onChange={(e) => {
+                    handleSearch(e.target.value);
+                }}
               />
             </div>
           </div>
