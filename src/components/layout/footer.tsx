@@ -6,7 +6,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAws, faGithub, faMeta } from '@fortawesome/free-brands-svg-icons';
-import { faCheckCircle, faPhone } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faPhone, faMapMarkerAlt, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
 const footerLinks = {
     company: [
@@ -101,7 +101,7 @@ export function Footer() {
           <h3 className="font-headline font-semibold mb-4 text-center w-full" style={{ color: '#383838' }}>Connect With Us</h3>
           <div className="space-y-2 text-sm w-full" style={{textAlign: 'center'}}>
             <div className="flex items-start gap-3 justify-center">
-              <i className="fa fa-map-marker w-5 mt-0.5 shrink-0" style={{ color: '#454545' }} aria-hidden="true"></i>
+              <FontAwesomeIcon icon={faMapMarkerAlt} className="w-5 shrink-0 mt-0.5" style={{ color: '#454545' }}/>
               <p style={{ color: '#383838' }}>Agartala, Tripura (W) India<br/>Pin: 799006</p>
             </div>
             <a href="tel:03813599517" className="flex items-center gap-3 justify-center hover:text-primary" style={{ color: '#383838' }}>
@@ -109,7 +109,7 @@ export function Footer() {
                 <span>0381 359 9517</span>
             </a>
             <div className="flex items-center gap-3 justify-center">
-              <i className="fa fa-envelope w-5 shrink-0" style={{ color: '#454545' }} aria-hidden="true"></i>
+              <FontAwesomeIcon icon={faEnvelope} className="w-5 shrink-0" style={{ color: '#454545' }}/>
               <a href="mailto:Business@GorillaTechSolution.com" className="hover:text-primary" style={{ color: '#383838' }}>Business@GorillaTechSolution.com</a>
             </div>
             <div className="flex justify-center mt-4">
@@ -141,7 +141,7 @@ export function Footer() {
                 <div className="flex flex-col items-start">
                     <span className="text-sm" style={{ color: '#0081FB' }}>Meta Business</span>
                     <div className="flex items-center gap-1">
-                        <FontAwesomeIcon icon={faCheckCircle} className="mr-1" style={{color: 'limegreen'}} />
+                        <FontAwesomeIcon icon={faCheckCircle} className="mr-1 h-3 w-3" style={{color: 'limegreen'}} />
                         <span className="text-xs" style={{ color: 'limegreen' }}>Verified Partner</span>
                     </div>
                 </div>
@@ -154,7 +154,7 @@ export function Footer() {
                         <span style={{ color: '#383838' }}>Startup</span>
                     </div>
                     <div className="flex items-center gap-1">
-                        <FontAwesomeIcon icon={faCheckCircle} className="mr-1" style={{color: 'limegreen'}} />
+                        <FontAwesomeIcon icon={faCheckCircle} className="mr-1 h-3 w-3" style={{color: 'limegreen'}} />
                         <span className="text-xs" style={{ color: 'limegreen' }}>Verified Partner</span>
                     </div>
                 </div>
@@ -164,7 +164,7 @@ export function Footer() {
                 <div className="flex flex-col items-start text-left">
                     <span className="text-sm">ISO 9001:2015</span>
                     <div className="flex items-center gap-1">
-                        <FontAwesomeIcon icon={faCheckCircle} className="mr-1" style={{color: 'limegreen'}} />
+                        <FontAwesomeIcon icon={faCheckCircle} className="mr-1 h-3 w-3" style={{color: 'limegreen'}} />
                         <span className="text-xs" style={{ color: 'limegreen' }}>Trusted</span>
                     </div>
                 </div>
