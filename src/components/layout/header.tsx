@@ -32,11 +32,10 @@ export function Header() {
                 key={link.name}
                 href={link.href}
                 className={cn(
-                  'text-sm font-medium transition-colors hover:text-primary flex items-center gap-2',
+                  'text-sm font-medium transition-colors hover:text-primary',
                   pathname === link.href ? 'text-primary' : 'text-[#383838]'
                 )}
               >
-                <i className={`fa ${link.icon} h-4 w-4`} aria-hidden="true"></i>
                 {link.name}
               </Link>
             ))}
@@ -69,11 +68,10 @@ export function Header() {
                         href={link.href}
                         onClick={() => setMobileMenuOpen(false)}
                         className={cn(
-                          'text-lg font-medium flex items-center gap-3',
+                          'text-lg font-medium',
                            pathname === link.href ? 'text-primary' : 'text-[#383838]'
                         )}
                       >
-                        <i className={`fa ${link.icon} h-5 w-5`} aria-hidden="true"></i>
                         {link.name}
                       </Link>
                     ))}
