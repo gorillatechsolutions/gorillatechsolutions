@@ -99,11 +99,11 @@ export function Footer() {
           <div className="space-y-2 text-sm flex flex-col items-center" style={{ textAlign: 'justify' }}>
             <div className="flex items-start gap-3">
               <i className="fa fa-map-marker h-5 w-5 mt-0.5 shrink-0" style={{ color: '#383838' }} aria-hidden="true"></i>
-              <p style={{ color: '#383838', textAlign: 'justify' }}>Agartala, Tripura (W) India<br/>Pin: 799006</p>
+              <p style={{ color: '#383838' }}>Agartala, Tripura (W) India<br/>Pin: 799006</p>
             </div>
             <div className="flex items-center gap-3">
               <i className="fa fa-phone h-5 w-5 shrink-0" style={{ color: '#383838' }} aria-hidden="true"></i>
-              <a href="tel:03813599517" className="hover:text-primary" style={{ color: '#383838', textAlign: 'justify' }}>0381 359 9517</a>
+              <a href="tel:03813599517" className="hover:text-primary" style={{ color: '#383838' }}>0381 359 9517</a>
             </div>
             <div className="flex items-center gap-3">
               <i className="fa fa-envelope h-5 w-5 shrink-0" style={{ color: '#383838' }} aria-hidden="true"></i>
