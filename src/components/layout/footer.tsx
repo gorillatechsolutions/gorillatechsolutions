@@ -6,6 +6,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAws, faGithub, faMeta } from '@fortawesome/free-brands-svg-icons';
+import { faCheckCircle, faPhone } from '@fortawesome/free-solid-svg-icons';
 
 const footerLinks = {
     company: [
@@ -104,7 +105,7 @@ export function Footer() {
               <p style={{ color: '#383838' }}>Agartala, Tripura (W) India<br/>Pin: 799006</p>
             </div>
             <a href="tel:03813599517" className="flex items-center gap-3 justify-center hover:text-primary" style={{ color: '#383838' }}>
-                <i className="fa fa-phone w-5 shrink-0" style={{ color: '#454545' }} aria-hidden="true"></i>
+                <FontAwesomeIcon icon={faPhone} className="w-5 shrink-0" style={{color: '#454545'}}/>
                 <span>0381 359 9517</span>
             </a>
             <div className="flex items-center gap-3 justify-center">
@@ -140,8 +141,8 @@ export function Footer() {
                 <div className="flex flex-col items-start">
                     <span className="text-sm" style={{ color: '#0081FB' }}>Meta Business</span>
                     <div className="flex items-center gap-1">
-                        <i className="fa fa-check-circle text-green-600 mr-1" aria-hidden="true"></i>
-                        <span className="text-xs text-green-600">Verified Partner</span>
+                        <FontAwesomeIcon icon={faCheckCircle} className="mr-1" style={{color: 'limegreen'}} />
+                        <span className="text-xs" style={{ color: 'limegreen' }}>Verified Partner</span>
                     </div>
                 </div>
             </div>
@@ -153,8 +154,8 @@ export function Footer() {
                         <span style={{ color: '#383838' }}>Startup</span>
                     </div>
                     <div className="flex items-center gap-1">
-                        <i className="fa fa-check-circle text-green-600 mr-1" aria-hidden="true"></i>
-                        <span className="text-xs text-green-600">Verified Partner</span>
+                        <FontAwesomeIcon icon={faCheckCircle} className="mr-1" style={{color: 'limegreen'}} />
+                        <span className="text-xs" style={{ color: 'limegreen' }}>Verified Partner</span>
                     </div>
                 </div>
             </div>
@@ -163,8 +164,8 @@ export function Footer() {
                 <div className="flex flex-col items-start text-left">
                     <span className="text-sm">ISO 9001:2015</span>
                     <div className="flex items-center gap-1">
-                        <i className="fa fa-check-circle text-green-600 mr-1" aria-hidden="true"></i>
-                        <span className="text-xs text-green-600">Trusted</span>
+                        <FontAwesomeIcon icon={faCheckCircle} className="mr-1" style={{color: 'limegreen'}} />
+                        <span className="text-xs" style={{ color: 'limegreen' }}>Trusted</span>
                     </div>
                 </div>
             </div>
