@@ -72,11 +72,8 @@ export function Header() {
               <Button onClick={handleLogout} variant="outline">Logout</Button>
             ) : isClient ? (
               <>
-                <Button asChild variant="ghost">
-                  <Link href="/login">Login</Link>
-                </Button>
                 <Button asChild>
-                  <Link href="/signup">Sign Up</Link>
+                  <Link href="/login">Login</Link>
                 </Button>
               </>
             ) : null}
@@ -120,11 +117,8 @@ export function Header() {
                      </Button>
                    ) : isClient ? (
                      <>
-                       <Button asChild className="w-full" variant="ghost">
-                         <Link href="/login" onClick={() => setMobileMenuOpen(false)}>Login</Link>
-                       </Button>
                        <Button asChild className="w-full">
-                         <Link href="/signup" onClick={() => setMobileMenuOpen(false)}>Sign Up</Link>
+                         <Link href="/login" onClick={() => setMobileMenuOpen(false)}>Login</Link>
                        </Button>
                      </>
                    ) : null}
