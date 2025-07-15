@@ -138,8 +138,8 @@ export function Footer() {
                 <div className="flex flex-col items-start">
                     <span className="text-sm" style={{ color: '#0081FB' }}>Meta Business</span>
                     <div className="flex items-center gap-1">
-                        <i className="fa fa-check-circle h-3 w-3 text-green-500" aria-hidden="true"></i>
-                        <span className="text-xs" style={{ color: 'limegreen' }}>Verified Partner</span>
+                        <i className="fa fa-check-circle h-3 w-3 text-green-600" aria-hidden="true"></i>
+                        <span className="text-xs text-green-600">Verified Partner</span>
                     </div>
                 </div>
             </div>
@@ -151,8 +151,8 @@ export function Footer() {
                         <span style={{ color: '#383838' }}>Startup</span>
                     </div>
                     <div className="flex items-center gap-1">
-                        <i className="fa fa-check-circle h-3 w-3 text-green-500" aria-hidden="true"></i>
-                        <span className="text-xs" style={{ color: 'limegreen' }}>Verified Partner</span>
+                        <i className="fa fa-check-circle h-3 w-3 text-green-600" aria-hidden="true"></i>
+                        <span className="text-xs text-green-600">Verified Partner</span>
                     </div>
                 </div>
             </div>
@@ -161,8 +161,8 @@ export function Footer() {
                 <div className="flex flex-col items-start text-left">
                     <span className="text-sm">ISO 9001:2015</span>
                     <div className="flex items-center gap-1">
-                        <i className="fa fa-check-circle h-3 w-3 text-green-500" aria-hidden="true"></i>
-                        <span className="text-xs" style={{ color: 'limegreen' }}>Trusted</span>
+                        <i className="fa fa-check-circle h-3 w-3 text-green-600" aria-hidden="true"></i>
+                        <span className="text-xs text-green-600">Trusted</span>
                     </div>
                 </div>
             </div>
