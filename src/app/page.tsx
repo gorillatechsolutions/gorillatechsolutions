@@ -264,7 +264,7 @@ export default function Home() {
                 <h2 className="font-headline text-xl sm:text-2xl md:text-3xl font-bold">
                   Ready to Transform Your Business?
                 </h2>
-                <p className="mt-2 text-white/80">
+                <p className="mt-2 text-sm text-white/80 md:text-base">
                   Get started with our cutting-edge digital solutions and take your business to the next level.
                 </p>
               </div>
@@ -275,3 +275,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
