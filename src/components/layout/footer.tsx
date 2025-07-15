@@ -30,7 +30,7 @@ const footerLinks = {
     ],
     legal: [
         { name: 'Refund Policy', href: '/contact' },
-        { name: 'Terms & Conditions', href: '/contact' },
+        { name: 'Terms & Conditions', href: '/terms-and-conditions' },
         { name: 'Disclaimer', href: '/contact' },
     ]
 }
