@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { SidebarProvider, Sidebar, SidebarTrigger, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarFooter, SidebarInset } from '@/components/ui/sidebar';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTachometerAlt, faUsers, faCog, faBoxOpen, faChartLine, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTachometerAlt, faUsers, faCog, faBoxOpen, faChartLine, faSignOutAlt, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { usePathname } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 const navItems = [
   { href: '/admin', icon: faTachometerAlt, label: 'Dashboard' },
   { href: '/admin/users', icon: faUsers, label: 'Users' },
+  { href: '/admin/posts', icon: faPenToSquare, label: 'Posts' },
   { href: '/admin/products', icon: faBoxOpen, label: 'Products' },
   { href: '/admin/analytics', icon: faChartLine, label: 'Analytics' },
   { href: '/admin/settings', icon: faCog, label: 'Settings' },
