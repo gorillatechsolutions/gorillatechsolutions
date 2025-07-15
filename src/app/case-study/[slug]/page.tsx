@@ -1,35 +1,15 @@
 
-import { notFound } from 'next/navigation';
+'use client';
+
+import { notFound, useParams } from 'next/navigation';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import type { Metadata } from 'next';
 import type { CaseStudy } from '@/types/case-study';
 import parse from 'html-react-parser';
+import { useEffect, useState } from 'react';
 import { demoCaseStudies } from '@/lib/demo-data';
-
-const allCaseStudies = demoCaseStudies;
-
-// This can be used to generate static pages at build time.
-export async function generateStaticParams() {
-    return allCaseStudies.map((study) => ({
-      slug: study.slug,
-    }));
-}
-
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const caseStudy = allCaseStudies.find(a => a.slug === params.slug);
-  if (!caseStudy) {
-    return {
-      title: 'Case Study Not Found',
-    };
-  }
-  return {
-    title: caseStudy.title,
-    description: caseStudy.excerpt,
-  };
-}
 
 const formatViews = (views: number) => {
     if (views >= 1000) {
@@ -38,9 +18,24 @@ const formatViews = (views: number) => {
     return views;
 };
 
-export default function CaseStudyDetailPage({ params }: { params: { slug: string } }) {
-    const caseStudy = allCaseStudies.find(a => a.slug === params.slug);
+export default function CaseStudyDetailPage() {
+    const params = useParams();
+    const slug = params.slug as string;
+    const [caseStudy, setCaseStudy] = useState<CaseStudy | null | undefined>(undefined);
 
+    useEffect(() => {
+        if (slug) {
+            const storedPosts = localStorage.getItem('caseStudies');
+            const allCaseStudies = storedPosts ? JSON.parse(storedPosts) : demoCaseStudies;
+            const study = allCaseStudies.find((a: CaseStudy) => a.slug === slug);
+            setCaseStudy(study || null);
+        }
+    }, [slug]);
+
+    if (caseStudy === undefined) {
+        return <div className="container py-12">Loading...</div>; // Or a skeleton loader
+    }
+    
     if (!caseStudy) {
         notFound();
     }

@@ -35,9 +35,12 @@ export function CaseStudyList({ allCaseStudies, initialSearchTerm = '', initialP
   }, [initialSearchTerm, allCaseStudies]);
 
   useEffect(() => {
-    setCurrentPage(1);
-  }, [initialSearchTerm]);
-
+    // Reset page to 1 when search term changes, but not on initial load
+    if (initialSearchTerm !== (searchParams.get('search') || '')) {
+      setCurrentPage(1);
+    }
+  }, [initialSearchTerm, searchParams]);
+  
   useEffect(() => {
     setCurrentPage(initialPage);
   }, [initialPage]);
@@ -50,13 +53,25 @@ export function CaseStudyList({ allCaseStudies, initialSearchTerm = '', initialP
 
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
-      const params = new URLSearchParams(searchParams);
+      const params = new URLSearchParams(searchParams.toString());
       params.set('page', newPage.toString());
       router.push(`${pathname}?${params.toString()}`, { scroll: false });
       setCurrentPage(newPage);
+      window.scrollTo(0, 0); // Scroll to top on page change
     }
   };
   
+  const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const searchTerm = formData.get('search') as string;
+    
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('search', searchTerm);
+    params.delete('page'); // Reset to first page on new search
+    router.push(`${pathname}?${params.toString()}`);
+  }
+
   const formatViews = (views: number) => {
     if (views >= 1000) {
       return `${(views / 1000).toFixed(1)}k`;
@@ -70,7 +85,7 @@ export function CaseStudyList({ allCaseStudies, initialSearchTerm = '', initialP
       <section className="py-8 md:py-12">
         <div className="container mx-auto px-4">
           <div className="max-w-xl mx-auto">
-            <form action="/case-study" method="GET">
+            <form onSubmit={handleSearchSubmit}>
                 <div className="relative">
                 <i className="fa fa-search absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" aria-hidden="true"></i>
                 <Input

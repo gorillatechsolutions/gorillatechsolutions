@@ -1,22 +1,26 @@
 
-import type { Metadata } from 'next';
+'use client';
+
+import { useSearchParams } from 'next/navigation';
 import { CaseStudyList } from '@/components/case-study-list';
 import { demoCaseStudies } from '@/lib/demo-data';
+import { useEffect, useState } from 'react';
+import type { CaseStudy } from '@/types/case-study';
 
-export const metadata: Metadata = {
-    title: 'Case Studies | Gorilla Tech Solutions',
-    description: 'Explore insights, tips, and case studies on digital marketing, SEO, PPC, and more from the experts at Gorilla Tech Solutions.',
-};
+export default function CaseStudyPage() {
+  const searchParams = useSearchParams();
+  const searchTerm = searchParams.get('search') || '';
+  const page = Number(searchParams.get('page')) || 1;
+  const [allCaseStudies, setAllCaseStudies] = useState<CaseStudy[]>(demoCaseStudies);
 
-export const dynamic = 'force-static';
-
-export default function CaseStudyPage({
-  searchParams,
-}: {
-  searchParams?: { [key: string]: string | string[] | undefined };
-}) {
-  const searchTerm = typeof searchParams?.search === 'string' ? searchParams.search : '';
-  const page = typeof searchParams?.page === 'string' ? Number(searchParams.page) : 1;
+  useEffect(() => {
+    const storedPosts = localStorage.getItem('caseStudies');
+    if (storedPosts) {
+      setAllCaseStudies(JSON.parse(storedPosts));
+    } else {
+        localStorage.setItem('caseStudies', JSON.stringify(demoCaseStudies));
+    }
+  }, []);
 
   return (
     <div className="w-full bg-background text-foreground">
@@ -31,7 +35,7 @@ export default function CaseStudyPage({
       </section>
       
       <CaseStudyList 
-        allCaseStudies={demoCaseStudies} 
+        allCaseStudies={allCaseStudies} 
         initialSearchTerm={searchTerm}
         initialPage={page}
       />
