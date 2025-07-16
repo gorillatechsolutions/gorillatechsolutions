@@ -101,9 +101,9 @@ const Countdown = ({ discount }: { discount: number }) => {
     }, []);
 
     return (
-        <span className="text-sm font-semibold text-accent mt-1 text-right">
-             Save {discount}%! Offer ends in: <span className="font-mono tracking-wider">{timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s</span>
-        </span>
+        <p className="text-right text-sm text-accent font-medium">
+            Offer ends in: <span className="font-mono font-bold tracking-wider">{String(timeLeft.days).padStart(2, '0')}d {String(timeLeft.hours).padStart(2, '0')}h {String(timeLeft.minutes).padStart(2, '0')}m {String(timeLeft.seconds).padStart(2, '0')}s</span> | Save {discount}%!
+        </p>
     );
 };
 
@@ -141,9 +141,7 @@ export default function ServicesPage() {
                                                 ${(service.price * (1 - service.discount / 100)).toFixed(2)}
                                             </p>
                                         </div>
-                                        <p className="text-right">
-                                            <Countdown discount={service.discount} />
-                                        </p>
+                                        <Countdown discount={service.discount} />
                                     </div>
                                 )}
                             </CardContent>
@@ -181,4 +179,5 @@ export default function ServicesPage() {
     </div>
   );
 }
+
 
