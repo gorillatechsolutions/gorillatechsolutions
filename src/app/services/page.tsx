@@ -95,8 +95,8 @@ const Countdown = ({ discount }: { discount: number }) => {
     }, []);
 
     return (
-        <div className="text-right text-xs text-accent font-medium mt-1">
-            Offer ends in: <span className="font-mono font-bold tracking-wider">{String(timeLeft.days).padStart(2, '0')}d {String(timeLeft.hours).padStart(2, '0')}h {String(timeLeft.minutes).padStart(2, '0')}m {String(timeLeft.seconds).padStart(2, '0')}s</span> | Save {discount}%!
+        <div className="text-right text-xs text-muted-foreground mt-1">
+            Offer ends in: <span className="font-mono tracking-wider text-foreground/80 font-bold">{String(timeLeft.days).padStart(2, '0')}d {String(timeLeft.hours).padStart(2, '0')}h {String(timeLeft.minutes).padStart(2, '0')}m {String(timeLeft.seconds).padStart(2, '0')}s</span> | <span className="text-accent font-bold">Save {discount}%!</span>
         </div>
     );
 };
