@@ -1,13 +1,17 @@
 
+'use client';
+
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import type { Metadata } from 'next';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
-export const metadata: Metadata = {
-    title: 'Our Digital Marketing Services',
-    description: 'We offer a full suite of digital marketing services, including SEO, PPC, social media marketing, content creation, and email marketing to grow your business.',
-};
+// Note: Metadata is not used in client components but kept for reference
+// export const metadata: Metadata = {
+//     title: 'Our Digital Marketing Services',
+//     description: 'We offer a full suite of digital marketing services, including SEO, PPC, social media marketing, content creation, and email marketing to grow your business.',
+// };
 
 const services = [
   {
@@ -66,6 +70,45 @@ const services = [
   }
 ];
 
+const Countdown = () => {
+    const [timeLeft, setTimeLeft] = useState({
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+    });
+    
+    useEffect(() => {
+        const offerEndDate = new Date();
+        offerEndDate.setDate(offerEndDate.getDate() + 3);
+
+        const timer = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = offerEndDate.getTime() - now;
+
+            if (distance < 0) {
+                clearInterval(timer);
+                setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+            } else {
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                setTimeLeft({ days, hours, minutes, seconds });
+            }
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, []);
+
+    return (
+        <span className="font-mono text-xs">
+            {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s
+        </span>
+    );
+};
+
+
 export default function ServicesPage() {
   return (
     <div className="bg-background">
@@ -100,7 +143,7 @@ export default function ServicesPage() {
                                             </p>
                                         </div>
                                         <p className="text-sm font-semibold text-accent mt-1 text-right">
-                                            Limited time offer: 3 days to go! {service.discount}%
+                                            Limited offer ends in <Countdown /> | Save {service.discount}%
                                         </p>
                                     </div>
                                 )}
