@@ -1,7 +1,7 @@
 
 'use server';
 /**
- * @fileOverview An AI flow for generating article content and a title.
+ * @fileOverview An AI flow for generating article content, a title, and an excerpt.
  *
  * - generateArticle - A function that handles the article generation process.
  * - GenerateArticleInput - The input type for the generateArticle function.
@@ -18,6 +18,7 @@ export type GenerateArticleInput = z.infer<typeof GenerateArticleInputSchema>;
 
 const GenerateArticleOutputSchema = z.object({
   title: z.string().describe('A compelling and SEO-friendly title for the article.'),
+  excerpt: z.string().describe('A concise, engaging summary of the article, around 20-40 words.'),
   articleContent: z.string().describe('The generated article content, formatted in HTML.'),
 });
 export type GenerateArticleOutput = z.infer<typeof GenerateArticleOutputSchema>;
@@ -34,7 +35,8 @@ const prompt = ai.definePrompt({
   prompt: `You are an expert content writer and SEO specialist. Your task is to write a high-quality, engaging, and well-structured article based on the provided topic.
 
 First, create a compelling and SEO-friendly title based on the user's topic.
-Then, write the article content. The article should be formatted using simple HTML tags. Do not include <!DOCTYPE html>, <html>, <head>, or <body> tags.
+Second, write a short, engaging excerpt (20-40 words) that summarizes the article.
+Then, write the main article content. The article should be formatted using simple HTML tags. Do not include <!DOCTYPE html>, <html>, <head>, or <body> tags.
 
 - Use <h2> for main section headings.
 - Use <h3> for subheadings.
@@ -45,7 +47,7 @@ Then, write the article content. The article should be formatted using simple HT
 Write an article about the following topic:
 "{{{topic}}}"
 
-Generate the complete article title and content now.`,
+Generate the complete title, excerpt, and article content now.`,
 });
 
 const generateArticleFlow = ai.defineFlow(

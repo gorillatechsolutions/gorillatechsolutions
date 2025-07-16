@@ -85,8 +85,9 @@ export function PostForm({ postToEdit }: PostFormProps) {
     setIsGenerating(true);
     try {
         const result = await generateArticle({ topic: aiTopic });
-        if (result && result.articleContent) {
+        if (result && result.title && result.articleContent && result.excerpt) {
             form.setValue('title', result.title, { shouldValidate: true });
+            form.setValue('excerpt', result.excerpt, { shouldValidate: true });
             form.setValue('content', result.articleContent, { shouldValidate: true });
             toast({
                 title: 'Article Generated!',
@@ -268,7 +269,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
                         AI Content Generator
                     </CardTitle>
                     <CardDescription>
-                        Enter a topic and let the AI write a draft for you. It will populate the title and content fields.
+                        Enter a topic and let the AI write a draft for you. It will populate the title, excerpt, and content fields.
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
