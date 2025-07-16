@@ -214,22 +214,20 @@ export function PostForm({ postToEdit }: PostFormProps) {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
+              <Controller
                 name="content"
+                control={form.control}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Post Content</FormLabel>
-                    <FormControl>
-                      <ReactQuill 
-                        theme="snow" 
-                        value={field.value} 
+                      <ReactQuill
+                        theme="snow"
+                        value={field.value}
                         onChange={field.onChange}
                         modules={quillModules}
                         className="bg-white"
                       />
-                    </FormControl>
-                    <FormMessage />
+                    <FormMessage className="pt-2" />
                   </FormItem>
                 )}
               />
