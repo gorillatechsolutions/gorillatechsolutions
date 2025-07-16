@@ -42,10 +42,7 @@ const QuillEditor = ({ value, onChange }: QuillEditorProps) => {
 
   React.useEffect(() => {
     const quill = quillInstance.current;
-    // Check if the editor is initialized and if the form value is different from the editor's current content
     if (quill && value !== quill.root.innerHTML) {
-      // Create a delta from the HTML string and set the editor's contents
-      // This is the correct way to programmatically update Quill
       const delta = quill.clipboard.convert(value as any);
       quill.setContents(delta, 'silent');
     }
