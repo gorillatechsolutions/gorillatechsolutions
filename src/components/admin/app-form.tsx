@@ -275,15 +275,17 @@ export function AppForm({ appToEdit }: AppFormProps) {
                     
                     <Card>
                         <CardHeader>
-                            <CardTitle>Application Links</CardTitle>
-                            <CardDescription>Provide direct links for the application. All fields are optional.</CardDescription>
+                            <CardTitle>Platform & Links</CardTitle>
+                            <CardDescription>
+                                Provide direct links for the application. The public site uses these links to automatically categorize the app as <strong>Mobile</strong>, <strong>Web</strong>, or <strong>Desktop</strong>. An app can belong to multiple categories.
+                            </CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <FormField control={form.control} name="links.web" render={({ field }) => (<FormItem><FormLabel>Website URL</FormLabel><FormControl><Input placeholder="https://example.com" {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                <FormField control={form.control} name="links.playStore" render={({ field }) => (<FormItem><FormLabel>Google Play Store URL</FormLabel><FormControl><Input placeholder="https://play.google.com/..." {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                <FormField control={form.control} name="links.appStore" render={({ field }) => (<FormItem><FormLabel>Apple App Store URL</FormLabel><FormControl><Input placeholder="https://apps.apple.com/..." {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                <FormField control={form.control} name="links.download" render={({ field }) => (<FormItem><FormLabel>Direct Download URL</FormLabel><FormControl><Input placeholder="https://example.com/download" {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                <FormField control={form.control} name="links.web" render={({ field }) => (<FormItem><FormLabel>Website URL (Web App)</FormLabel><FormControl><Input placeholder="https://example.com" {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                <FormField control={form.control} name="links.download" render={({ field }) => (<FormItem><FormLabel>Direct Download URL (Desktop App)</FormLabel><FormControl><Input placeholder="https://example.com/download" {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                <FormField control={form.control} name="links.playStore" render={({ field }) => (<FormItem><FormLabel>Google Play Store URL (Mobile App)</FormLabel><FormControl><Input placeholder="https://play.google.com/..." {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                <FormField control={form.control} name="links.appStore" render={({ field }) => (<FormItem><FormLabel>Apple App Store URL (Mobile App)</FormLabel><FormControl><Input placeholder="https://apps.apple.com/..." {...field} /></FormControl><FormMessage /></FormItem>)} />
                                 <FormField control={form.control} name="links.buy" render={({ field }) => (<FormItem><FormLabel>Purchase/Buy URL</FormLabel><FormControl><Input placeholder="https://example.com/buy" {...field} /></FormControl><FormMessage /></FormItem>)} />
                             </div>
                         </CardContent>
