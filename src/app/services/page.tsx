@@ -14,6 +14,8 @@ const services = [
     icon: <i className="fa fa-search fa-3x text-accent-foreground" aria-hidden="true"></i>,
     title: 'Search Engine Optimization (SEO)',
     description: 'Boost your organic visibility and climb the search rankings. We use proven strategies to drive qualified traffic to your website.',
+    price: 500,
+    discount: 15,
     contactHref: '/contact',
     detailsHref: '/case-study/tripled-organic-traffic-ecommerce',
   },
@@ -21,6 +23,8 @@ const services = [
     icon: <i className="fa fa-mouse-pointer fa-3x text-accent-foreground" aria-hidden="true"></i>,
     title: 'Pay-Per-Click (PPC) Advertising',
     description: 'Get immediate results with targeted ad campaigns on Google, Bing, and social platforms. Maximize your ROI with our expert management.',
+    price: 600,
+    discount: 10,
     contactHref: '/contact',
     detailsHref: '/case-study/slashing-b2b-saas-cpa',
   },
@@ -28,6 +32,8 @@ const services = [
     icon: <i className="fa fa-share-alt fa-3x text-accent-foreground" aria-hidden="true"></i>,
     title: 'Social Media Marketing',
     description: 'Engage your audience and build a loyal community. We create and manage social media campaigns that resonate with your customers.',
+    price: 400,
+    discount: 20,
     contactHref: '/contact',
     detailsHref: '/case-study/building-community-with-social-media',
   },
@@ -35,6 +41,8 @@ const services = [
     icon: <i className="fa fa-file-text fa-3x text-accent-foreground" aria-hidden="true"></i>,
     title: 'Content Creation & Marketing',
     description: 'From compelling blog posts to captivating videos, we produce high-quality content that tells your story and drives engagement.',
+    price: 450,
+    discount: 10,
     contactHref: '/contact',
     detailsHref: '/case-study/healthcare-content-strategy',
   },
@@ -42,6 +50,8 @@ const services = [
     icon: <i className="fa fa-envelope fa-3x text-accent-foreground" aria-hidden="true"></i>,
     title: 'Email Marketing & Automation',
     description: 'Nurture leads and retain customers with personalized email campaigns. We design, write, and manage emails that convert.',
+    price: 350,
+    discount: 15,
     contactHref: '/contact',
     detailsHref: '/case-study/non-profit-email-marketing',
   },
@@ -49,6 +59,8 @@ const services = [
     icon: <i className="fa fa-bar-chart fa-3x text-accent-foreground" aria-hidden="true"></i>,
     title: 'Analytics & Performance Reporting',
     description: 'Understand what\'s working and what\'s not. We provide clear, actionable reports to guide your marketing decisions.',
+    price: 300,
+    discount: 5,
     contactHref: '/contact',
     detailsHref: '/case-study',
   }
@@ -79,6 +91,21 @@ export default function ServicesPage() {
                             </CardHeader>
                             <CardContent className="p-0 flex-1">
                                 <CardDescription className="leading-relaxed">{service.description}</CardDescription>
+                                {service.price && service.discount && (
+                                    <div className="mt-4 pt-4 border-t">
+                                        <div className="flex items-baseline gap-2">
+                                            <p className="text-3xl font-bold text-primary">
+                                                ${(service.price * (1 - service.discount / 100)).toFixed(2)}
+                                            </p>
+                                            <p className="text-sm text-muted-foreground line-through">
+                                                ${service.price.toFixed(2)}
+                                            </p>
+                                        </div>
+                                        <p className="text-sm font-semibold text-accent mt-1">
+                                            You save {service.discount}%!
+                                        </p>
+                                    </div>
+                                )}
                             </CardContent>
                         </div>
                         {(service.contactHref || service.detailsHref) && (
