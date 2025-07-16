@@ -5,6 +5,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import type { Metadata } from 'next';
 
 // Note: Metadata is not used in client components but kept for reference
 // export const metadata: Metadata = {
