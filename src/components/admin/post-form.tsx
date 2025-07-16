@@ -23,8 +23,14 @@ import 'react-quill/dist/quill.snow.css'; // import styles
 import type { CaseStudy } from '@/types/case-study';
 import dynamic from 'next/dynamic';
 import { useCaseStudy } from '@/contexts/case-study-context';
+import { Skeleton } from '../ui/skeleton';
 
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+// Dynamically import the editor component with SSR disabled
+const QuillEditor = dynamic(() => import('./quill-editor'), {
+  ssr: false,
+  loading: () => <Skeleton className="h-40 w-full" />,
+});
+
 
 const formSchema = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters.'),
@@ -43,12 +49,7 @@ type PostFormProps = {
 export function PostForm({ postToEdit }: PostFormProps) {
   const { toast } = useToast();
   const router = useRouter();
-  const [isClient, setIsClient] = useState(false);
   const { addCaseStudy, updateCaseStudy, slugExists } = useCaseStudy();
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -98,24 +99,10 @@ export function PostForm({ postToEdit }: PostFormProps) {
     router.push('/admin/posts');
   }
 
-  const quillModules = {
-    toolbar: [
-      [{ 'header': [1, 2, 3, false] }],
-      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-      [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
-      ['link', 'image', 'video'],
-      ['clean']
-    ],
-  };
-  
   const generateSlug = () => {
       const title = form.getValues('title');
       const slug = title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
       form.setValue('slug', slug, { shouldValidate: true });
-  }
-
-  if (!isClient) {
-    return null; // Or a loading spinner
   }
 
   return (
@@ -216,13 +203,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
                   <FormItem>
                     <FormLabel>Post Content</FormLabel>
                     <FormControl>
-                      <ReactQuill
-                        theme="snow"
-                        value={field.value}
-                        onChange={field.onChange}
-                        modules={quillModules}
-                        className="bg-white"
-                      />
+                       <QuillEditor {...field} />
                     </FormControl>
                     <FormMessage className="pt-2" />
                   </FormItem>
