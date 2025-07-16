@@ -5,68 +5,74 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import type { Metadata } from 'next';
-
-// Note: Metadata is not used in client components but kept for reference
-// export const metadata: Metadata = {
-//     title: 'Our Digital Marketing Services',
-//     description: 'We offer a full suite of digital marketing services, including SEO, PPC, social media marketing, content creation, and email marketing to grow your business.',
-// };
+import Image from 'next/image';
 
 const services = [
   {
-    icon: <i className="fa fa-search fa-3x text-accent-foreground" aria-hidden="true"></i>,
+    icon: <i className="fa fa-search fa-3x text-primary" aria-hidden="true"></i>,
     title: 'Search Engine Optimization (SEO)',
     description: 'Boost your organic visibility and climb the search rankings. We use proven strategies to drive qualified traffic to your website.',
     price: 500,
     discount: 15,
     contactHref: '/contact',
     detailsHref: '/case-study/tripled-organic-traffic-ecommerce',
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'seo chart growth'
   },
   {
-    icon: <i className="fa fa-mouse-pointer fa-3x text-accent-foreground" aria-hidden="true"></i>,
+    icon: <i className="fa fa-mouse-pointer fa-3x text-primary" aria-hidden="true"></i>,
     title: 'Pay-Per-Click (PPC) Advertising',
     description: 'Get immediate results with targeted ad campaigns on Google, Bing, and social platforms. Maximize your ROI with our expert management.',
     price: 600,
     discount: 10,
     contactHref: '/contact',
     detailsHref: '/case-study/slashing-b2b-saas-cpa',
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'ppc ads dashboard'
   },
   {
-    icon: <i className="fa fa-share-alt fa-3x text-accent-foreground" aria-hidden="true"></i>,
+    icon: <i className="fa fa-share-alt fa-3x text-primary" aria-hidden="true"></i>,
     title: 'Social Media Marketing',
     description: 'Engage your audience and build a loyal community. We create and manage social media campaigns that resonate with your customers.',
     price: 400,
     discount: 20,
     contactHref: '/contact',
     detailsHref: '/case-study/building-community-with-social-media',
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'social media feed'
   },
   {
-    icon: <i className="fa fa-file-text fa-3x text-accent-foreground" aria-hidden="true"></i>,
+    icon: <i className="fa fa-file-text fa-3x text-primary" aria-hidden="true"></i>,
     title: 'Content Creation & Marketing',
     description: 'From compelling blog posts to captivating videos, we produce high-quality content that tells your story and drives engagement.',
     price: 450,
     discount: 10,
     contactHref: '/contact',
     detailsHref: '/case-study/healthcare-content-strategy',
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'content writing article'
   },
   {
-    icon: <i className="fa fa-envelope fa-3x text-accent-foreground" aria-hidden="true"></i>,
+    icon: <i className="fa fa-envelope fa-3x text-primary" aria-hidden="true"></i>,
     title: 'Email Marketing & Automation',
     description: 'Nurture leads and retain customers with personalized email campaigns. We design, write, and manage emails that convert.',
     price: 350,
     discount: 15,
     contactHref: '/contact',
     detailsHref: '/case-study/non-profit-email-marketing',
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'email marketing inbox'
   },
   {
-    icon: <i className="fa fa-bar-chart fa-3x text-accent-foreground" aria-hidden="true"></i>,
+    icon: <i className="fa fa-bar-chart fa-3x text-primary" aria-hidden="true"></i>,
     title: 'Analytics & Performance Reporting',
     description: 'Understand what\'s working and what\'s not. We provide clear, actionable reports to guide your marketing decisions.',
     price: 300,
     discount: 5,
     contactHref: '/contact',
     detailsHref: '/case-study',
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'analytics dashboard report'
   }
 ];
 
@@ -120,22 +126,21 @@ export default function ServicesPage() {
                 </p>
             </header>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-10">
-                {services.map((service) => (
-                    <Card key={service.title} className="bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 relative overflow-visible flex flex-col">
-                        <div className="flex flex-col h-full p-6 pt-12 flex-1">
-                             <div className="absolute -top-10 left-6">
-                                <div className="bg-accent p-4 rounded-full ring-8 ring-background flex items-center justify-center w-24 h-24">
-                                   {service.icon}
+            <div className="space-y-12">
+                {services.map((service, index) => (
+                    <Card key={service.title} className="bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden w-full">
+                       <div className="grid grid-cols-1 md:grid-cols-2">
+                           <div className={`flex flex-col p-8 md:p-12 justify-center ${index % 2 === 1 ? 'md:order-last' : ''}`}>
+                                <div className="flex items-center gap-4 mb-4">
+                                    <div className="p-3 bg-accent/10 rounded-lg">
+                                        {service.icon}
+                                    </div>
+                                    <CardTitle className="font-headline text-2xl text-primary">{service.title}</CardTitle>
                                 </div>
-                            </div>
-                            <CardHeader className="p-0 mb-2">
-                                <CardTitle className="font-headline text-xl">{service.title}</CardTitle>
-                            </CardHeader>
-                            <CardContent className="p-0 flex-1">
-                                <CardDescription className="leading-relaxed">{service.description}</CardDescription>
+                                <CardDescription className="leading-relaxed mb-6">{service.description}</CardDescription>
+                                
                                 {service.price && service.discount && (
-                                    <div className="mt-4 pt-4 border-t">
+                                    <div className="mt-auto pt-4 border-t">
                                         <div className="flex flex-wrap items-baseline justify-between gap-2">
                                             <p className="text-base font-semibold animated-gradient-text animate-gradient">Starting at</p>
                                             <p className="text-3xl font-bold text-primary">
@@ -145,22 +150,31 @@ export default function ServicesPage() {
                                         <Countdown discount={service.discount} />
                                     </div>
                                 )}
-                            </CardContent>
-                        </div>
-                        {(service.contactHref || service.detailsHref) && (
-                            <CardFooter className="p-6 pt-4 flex gap-4">
-                                {service.contactHref && (
-                                    <Button asChild size="sm" className="flex-1">
-                                        <Link href={service.contactHref}>Contact Us</Link>
-                                    </Button>
-                                )}
-                                {service.detailsHref && (
-                                    <Button asChild variant="outline" size="sm" className="flex-1">
-                                        <Link href={service.detailsHref}>Read Details</Link>
-                                    </Button>
-                                )}
-                            </CardFooter>
-                        )}
+
+                                <div className="mt-6 flex gap-4">
+                                    {service.contactHref && (
+                                        <Button asChild className="flex-1">
+                                            <Link href={service.contactHref}>Contact Us</Link>
+                                        </Button>
+                                    )}
+                                    {service.detailsHref && (
+                                        <Button asChild variant="outline" className="flex-1">
+                                            <Link href={service.detailsHref}>Read Details</Link>
+                                        </Button>
+                                    )}
+                                </div>
+                           </div>
+                           <div className="relative h-64 md:h-auto min-h-[300px]">
+                                <Image 
+                                    src={service.image} 
+                                    alt={service.title} 
+                                    layout="fill" 
+                                    objectFit="cover" 
+                                    className="w-full h-full"
+                                    data-ai-hint={service.dataAiHint}
+                                />
+                           </div>
+                       </div>
                     </Card>
                 ))}
             </div>
