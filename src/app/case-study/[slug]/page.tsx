@@ -1,7 +1,7 @@
 
 'use client';
 
-import { notFound, useParams } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -18,9 +18,8 @@ const formatViews = (views: number) => {
     return views;
 };
 
-export default function CaseStudyDetailPage() {
-    const params = useParams();
-    const slug = params.slug as string;
+export default function CaseStudyDetailPage({ params }: { params: { slug: string } }) {
+    const { slug } = params;
     const { getCaseStudyBySlug, loading, caseStudies } = useCaseStudy();
     const [caseStudy, setCaseStudy] = useState<CaseStudy | null | undefined>(undefined);
 
