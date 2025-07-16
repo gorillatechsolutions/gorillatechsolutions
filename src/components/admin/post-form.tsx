@@ -53,7 +53,10 @@ export function PostForm({ postToEdit }: PostFormProps) {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
+    defaultValues: postToEdit ? {
+        ...postToEdit,
+        tags: postToEdit.tags.join(', ')
+    } : {
       title: '',
       slug: '',
       excerpt: '',
