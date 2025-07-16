@@ -34,6 +34,7 @@ const formSchema = z.object({
   tags: z.string().min(1, 'Please enter at least one tag.'),
   author: z.string().min(2, 'Author name is required.'),
   content: z.string().min(100, 'Content must be at least 100 characters.'),
+  views: z.coerce.number().int().min(0, 'Views must be a non-negative number.'),
 });
 
 type PostFormProps = {
@@ -63,6 +64,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
       tags: '',
       author: '',
       content: '',
+      views: 0,
     },
   });
 
@@ -71,7 +73,6 @@ export function PostForm({ postToEdit }: PostFormProps) {
       ...values,
       tags: values.tags.split(',').map(tag => tag.trim()),
       date: postToEdit ? postToEdit.date : new Date().toISOString(),
-      views: postToEdit ? postToEdit.views : Math.floor(Math.random() * 5000),
       dataAiHint: 'custom article content',
     };
 
@@ -169,32 +170,47 @@ export function PostForm({ postToEdit }: PostFormProps) {
                         </FormItem>
                     )}
                     />
-                    <FormField
-                    control={form.control}
-                    name="tags"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel>Tags (comma-separated)</FormLabel>
-                        <FormControl>
-                            <Input placeholder="SEO, eCommerce, Growth" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                    />
-                    <FormField
-                    control={form.control}
-                    name="author"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel>Author Name</FormLabel>
-                        <FormControl>
-                            <Input placeholder="Jane Doe" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                    />
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <FormField
+                        control={form.control}
+                        name="tags"
+                        render={({ field }) => (
+                            <FormItem className="md:col-span-2">
+                            <FormLabel>Tags (comma-separated)</FormLabel>
+                            <FormControl>
+                                <Input placeholder="SEO, eCommerce, Growth" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                            </FormItem>
+                        )}
+                        />
+                         <FormField
+                        control={form.control}
+                        name="author"
+                        render={({ field }) => (
+                            <FormItem>
+                            <FormLabel>Author Name</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Jane Doe" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                            </FormItem>
+                        )}
+                        />
+                    </div>
+                     <FormField
+                        control={form.control}
+                        name="views"
+                        render={({ field }) => (
+                            <FormItem>
+                            <FormLabel>Post Views</FormLabel>
+                            <FormControl>
+                                <Input type="number" placeholder="0" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                            </FormItem>
+                        )}
+                        />
 
                     <FormField
                     control={form.control}
