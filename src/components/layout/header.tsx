@@ -9,7 +9,7 @@ import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/s
 import { cn } from '@/lib/utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCogs, faBars, faTachometerAlt } from '@fortawesome/free-solid-svg-icons';
-import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/auth-context';
 
 const NAV_LINKS = [
   { name: 'Home', href: '/' },
@@ -23,34 +23,8 @@ const NAV_LINKS = [
 export function Header() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isClient, setIsClient] = useState(false);
-  const router = useRouter();
-
-  useEffect(() => {
-    setIsClient(true);
-    const userStr = localStorage.getItem('user');
-    if (userStr) {
-      setIsLoggedIn(true);
-      const user = JSON.parse(userStr);
-      if (user.role === 'admin') {
-        setIsAdmin(true);
-      }
-    } else {
-        setIsLoggedIn(false);
-        setIsAdmin(false);
-    }
-  }, [pathname]);
-
-  const handleLogout = () => {
-    localStorage.removeItem('user');
-    setIsLoggedIn(false);
-    setIsAdmin(false);
-    router.push('/');
-  };
-
-  const navLinks = NAV_LINKS;
+  const { user, logout } = useAuth();
+  const isAdmin = user?.role === 'admin';
 
   return (
     <header className="sticky top-0 z-50 w-full shadow-sm" style={{ backgroundColor: '#f2f5f7' }}>
@@ -70,7 +44,7 @@ export function Header() {
                  Dashboard
                </Link>
             )}
-            {navLinks.map((link) => (
+            {NAV_LINKS.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
@@ -85,13 +59,13 @@ export function Header() {
           </nav>
 
           <div className="hidden md:flex items-center gap-2">
-            {isClient && isLoggedIn ? (
-              <Button onClick={handleLogout} variant="outline">Logout</Button>
-            ) : isClient ? (
+            {user ? (
+              <Button onClick={logout} variant="outline">Logout</Button>
+            ) : (
               <Button asChild>
                 <Link href="/login">Login</Link>
               </Button>
-            ) : null}
+            )}
           </div>
 
           <div className="md:hidden">
@@ -117,7 +91,7 @@ export function Header() {
                       Dashboard
                     </Link>
                   )}
-                  {navLinks.map((link) => (
+                  {NAV_LINKS.map((link) => (
                     <Link
                       key={link.name}
                       href={link.href}
@@ -132,15 +106,15 @@ export function Header() {
                   ))}
                 </nav>
                 <div className="p-4 border-t space-y-2">
-                   {isClient && isLoggedIn ? (
-                     <Button onClick={() => { handleLogout(); setMobileMenuOpen(false); }} className="w-full">
+                   {user ? (
+                     <Button onClick={() => { logout(); setMobileMenuOpen(false); }} className="w-full">
                        Logout
                      </Button>
-                   ) : isClient ? (
+                   ) : (
                      <Button asChild className="w-full">
                        <Link href="/login" onClick={() => setMobileMenuOpen(false)}>Login</Link>
                      </Button>
-                   ) : null}
+                   )}
                 </div>
               </SheetContent>
             </Sheet>

@@ -2,29 +2,25 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, notFound } from 'next/navigation';
 import { PostForm } from '@/components/admin/post-form';
 import type { CaseStudy } from '@/types/case-study';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useCaseStudy } from '@/contexts/case-study-context';
 
 export default function EditPostPage() {
   const { slug } = useParams();
+  const { getCaseStudyBySlug, loading } = useCaseStudy();
   const [post, setPost] = useState<CaseStudy | null>(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (slug) {
-      const storedPosts = localStorage.getItem('caseStudies');
-      if (storedPosts) {
-        const posts: CaseStudy[] = JSON.parse(storedPosts);
-        const postToEdit = posts.find(p => p.slug === slug);
-        if (postToEdit) {
-            setPost(postToEdit);
-        }
+      const postToEdit = getCaseStudyBySlug(slug as string);
+      if (postToEdit) {
+        setPost(postToEdit);
       }
     }
-    setLoading(false);
-  }, [slug]);
+  }, [slug, getCaseStudyBySlug]);
 
   if (loading) {
     return (
@@ -43,7 +39,12 @@ export default function EditPostPage() {
   }
 
   if (!post) {
-    return <div>Post not found.</div>;
+    // Let's show "Not Found" if the post isn't found after loading.
+    // This could happen with a bad URL.
+    if (!loading) {
+        notFound();
+    }
+    return null; // Or return a "Post not found" message
   }
 
   return <PostForm postToEdit={post} />;

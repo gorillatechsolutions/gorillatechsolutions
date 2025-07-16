@@ -8,8 +8,8 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import type { CaseStudy } from '@/types/case-study';
 import parse from 'html-react-parser';
+import { useCaseStudy } from '@/contexts/case-study-context';
 import { useEffect, useState } from 'react';
-import { demoCaseStudies } from '@/lib/demo-data';
 
 const formatViews = (views: number) => {
     if (views >= 1000) {
@@ -21,18 +21,17 @@ const formatViews = (views: number) => {
 export default function CaseStudyDetailPage() {
     const params = useParams();
     const slug = params.slug as string;
+    const { getCaseStudyBySlug, loading } = useCaseStudy();
     const [caseStudy, setCaseStudy] = useState<CaseStudy | null | undefined>(undefined);
 
     useEffect(() => {
         if (slug) {
-            const storedPosts = localStorage.getItem('caseStudies');
-            const allCaseStudies = storedPosts ? JSON.parse(storedPosts) : demoCaseStudies;
-            const study = allCaseStudies.find((a: CaseStudy) => a.slug === slug);
-            setCaseStudy(study || null);
+            const study = getCaseStudyBySlug(slug);
+            setCaseStudy(study);
         }
-    }, [slug]);
+    }, [slug, getCaseStudyBySlug]);
 
-    if (caseStudy === undefined) {
+    if (loading || caseStudy === undefined) {
         return <div className="container py-12">Loading...</div>; // Or a skeleton loader
     }
     

@@ -19,7 +19,7 @@ import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useAuth } from "@/contexts/auth-context";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -36,6 +36,7 @@ const formSchema = z.object({
 export default function SignupPage() {
   const { toast } = useToast();
   const router = useRouter();
+  const { signup, userExists } = useAuth();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -47,25 +48,14 @@ export default function SignupPage() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    const userExists = users.some((user: any) => user.email === values.email);
-
-    if (userExists) {
+    if (userExists(values.email)) {
       toast({
         variant: "destructive",
         title: "Registration Failed",
         description: "An account with this email already exists.",
       });
     } else {
-      const newUser = {
-        name: values.name,
-        email: values.email,
-        password: values.password, // In a real app, hash this password!
-        role: 'user', // Assign default user role
-      };
-      users.push(newUser);
-      localStorage.setItem('users', JSON.stringify(users));
-      
+      signup(values.name, values.email, values.password);
       toast({
         title: "Account Created!",
         description: "You have successfully signed up. Please log in.",

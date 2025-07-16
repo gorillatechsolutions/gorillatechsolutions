@@ -19,7 +19,7 @@ import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useAuth } from "@/contexts/auth-context";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -33,23 +33,7 @@ const formSchema = z.object({
 export default function LoginPage() {
   const { toast } = useToast();
   const router = useRouter();
-
-  useEffect(() => {
-    // Seed admin user if not exists
-    const usersStr = localStorage.getItem('users');
-    const users = usersStr ? JSON.parse(usersStr) : [];
-    
-    const adminExists = users.some((user: any) => user.email === 'admin@example.com');
-    if (!adminExists) {
-      users.push({
-        name: 'Admin User',
-        email: 'admin@example.com',
-        password: 'adminpassword',
-        role: 'admin',
-      });
-      localStorage.setItem('users', JSON.stringify(users));
-    }
-  }, []);
+  const { login } = useAuth();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -60,11 +44,9 @@ export default function LoginPage() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    const user = users.find((u: any) => u.email === values.email && u.password === values.password);
+    const user = login(values.email, values.password);
 
     if (user) {
-      localStorage.setItem('user', JSON.stringify(user));
       toast({
         title: "Login Successful!",
         description: "Welcome back!",

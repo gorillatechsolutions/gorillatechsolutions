@@ -6,20 +6,10 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-
-type User = {
-    name: string;
-    email: string;
-    role: 'admin' | 'user';
-};
+import { useAuth, User } from '@/contexts/auth-context';
 
 export default function AdminUsersPage() {
-    const [users, setUsers] = useState<User[]>([]);
-
-    useEffect(() => {
-        const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
-        setUsers(storedUsers);
-    }, []);
+    const { users } = useAuth();
 
     return (
         <Card>

@@ -10,6 +10,7 @@ import { faTachometerAlt, faUsers, faCog, faBoxOpen, faChartLine, faSignOutAlt, 
 import { usePathname } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/contexts/auth-context';
 
 const navItems = [
   { href: '/admin', icon: faTachometerAlt, label: 'Dashboard' },
@@ -27,30 +28,20 @@ export default function AdminLayout({
 }) {
   const router = useRouter();
   const pathname = usePathname();
-  const [user, setUser] = useState<{ name: string; email: string, role: string } | null>(null);
-  const [isClient, setIsClient] = useState(false);
-
+  const { user, logout, loading } = useAuth();
+  
   useEffect(() => {
-    setIsClient(true);
-    const userStr = localStorage.getItem('user');
-    if (userStr) {
-      const userData = JSON.parse(userStr);
-      if (userData.role !== 'admin') {
+    if (!loading) {
+      if (!user) {
+        router.push('/login');
+      } else if (user.role !== 'admin') {
         router.push('/');
-      } else {
-        setUser(userData);
       }
-    } else {
-      router.push('/login');
     }
-  }, [router]);
+  }, [user, loading, router]);
 
-  const handleLogout = () => {
-    localStorage.removeItem('user');
-    router.push('/login');
-  };
 
-  if (!isClient || !user) {
+  if (loading || !user || user.role !== 'admin') {
     return (
         <div className="flex h-screen items-center justify-center">
             <div className="text-lg font-semibold">Loading Admin Dashboard...</div>
@@ -88,7 +79,7 @@ export default function AdminLayout({
           </SidebarMenu>
         </SidebarContent>
         <SidebarFooter>
-            <Button variant="ghost" className="justify-start gap-2" onClick={handleLogout}>
+            <Button variant="ghost" className="justify-start gap-2" onClick={logout}>
                 <FontAwesomeIcon icon={faSignOutAlt} className="h-4 w-4" />
                 <span>Logout</span>
             </Button>

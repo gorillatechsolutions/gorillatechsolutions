@@ -22,6 +22,7 @@ import { useRouter } from 'next/navigation';
 import 'react-quill/dist/quill.snow.css'; // import styles
 import type { CaseStudy } from '@/types/case-study';
 import dynamic from 'next/dynamic';
+import { useCaseStudy } from '@/contexts/case-study-context';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
@@ -43,6 +44,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
   const { toast } = useToast();
   const router = useRouter();
   const [isClient, setIsClient] = useState(false);
+  const { addCaseStudy, updateCaseStudy, slugExists } = useCaseStudy();
 
   useEffect(() => {
     setIsClient(true);
@@ -65,10 +67,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const storedPosts = localStorage.getItem('caseStudies');
-    const posts: CaseStudy[] = storedPosts ? JSON.parse(storedPosts) : [];
-    
-    const newPost: CaseStudy = {
+    const postData = {
       ...values,
       tags: values.tags.split(',').map(tag => tag.trim()),
       date: postToEdit ? postToEdit.date : new Date().toISOString(),
@@ -78,28 +77,24 @@ export function PostForm({ postToEdit }: PostFormProps) {
 
     if (postToEdit) {
       // Update existing post
-      const postIndex = posts.findIndex(p => p.slug === postToEdit.slug);
-      if (postIndex > -1) {
-        posts[postIndex] = { ...newPost, views: postToEdit.views }; // Preserve original view count
-      }
+      updateCaseStudy(postToEdit.slug, postData);
       toast({
         title: 'Post Updated!',
         description: 'Your case study has been successfully updated.',
       });
     } else {
       // Create new post
-      if (posts.some(p => p.slug === newPost.slug)) {
+      if (slugExists(postData.slug)) {
           form.setError('slug', { type: 'manual', message: 'This slug is already taken.' });
           return;
       }
-      posts.unshift(newPost);
+      addCaseStudy(postData);
       toast({
         title: 'Post Created!',
         description: 'Your new case study has been successfully created.',
       });
     }
 
-    localStorage.setItem('caseStudies', JSON.stringify(posts));
     router.push('/admin/posts');
   }
 
@@ -156,7 +151,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
                         <Button type="button" variant="link" size="sm" className="p-0 h-auto" onClick={generateSlug}>Generate from title</Button>
                     </div>
                     <FormControl>
-                      <Input placeholder="how-we-tripled-traffic" {...field} />
+                      <Input placeholder="how-we-tripled-traffic" {...field} disabled={!!postToEdit} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

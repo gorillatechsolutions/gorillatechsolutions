@@ -3,24 +3,17 @@
 
 import { useSearchParams } from 'next/navigation';
 import { CaseStudyList } from '@/components/case-study-list';
-import { demoCaseStudies } from '@/lib/demo-data';
-import { useEffect, useState } from 'react';
-import type { CaseStudy } from '@/types/case-study';
+import { useCaseStudy } from '@/contexts/case-study-context';
 
 export default function CaseStudyPage() {
   const searchParams = useSearchParams();
   const searchTerm = searchParams.get('search') || '';
   const page = Number(searchParams.get('page')) || 1;
-  const [allCaseStudies, setAllCaseStudies] = useState<CaseStudy[]>(demoCaseStudies);
+  const { caseStudies, loading } = useCaseStudy();
 
-  useEffect(() => {
-    const storedPosts = localStorage.getItem('caseStudies');
-    if (storedPosts) {
-      setAllCaseStudies(JSON.parse(storedPosts));
-    } else {
-        localStorage.setItem('caseStudies', JSON.stringify(demoCaseStudies));
-    }
-  }, []);
+  if (loading) {
+      return <div className="container py-12">Loading case studies...</div>
+  }
 
   return (
     <div className="w-full bg-background text-foreground">
@@ -35,7 +28,7 @@ export default function CaseStudyPage() {
       </section>
       
       <CaseStudyList 
-        allCaseStudies={allCaseStudies} 
+        allCaseStudies={caseStudies} 
         initialSearchTerm={searchTerm}
         initialPage={page}
       />
