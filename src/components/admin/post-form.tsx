@@ -22,10 +22,6 @@ import type { CaseStudy } from '@/types/case-study';
 import { useCaseStudy } from '@/contexts/case-study-context';
 import { useEffect, useState }from 'react';
 import dynamic from 'next/dynamic';
-import { generateArticle } from '@/ai/flows/generate-article-flow';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagic, faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { Label } from '@/components/ui/label';
 
 const QuillEditor = dynamic(() => import('@/components/admin/quill-editor'), { ssr: false });
 
@@ -49,9 +45,6 @@ export function PostForm({ postToEdit }: PostFormProps) {
   const router = useRouter();
   const { addCaseStudy, updateCaseStudy, slugExists } = useCaseStudy();
   const [isClient, setIsClient] = useState(false);
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [aiTopic, setAiTopic] = useState('');
-
 
   useEffect(() => {
     setIsClient(true);
@@ -73,38 +66,6 @@ export function PostForm({ postToEdit }: PostFormProps) {
     },
   });
 
-  const handleGenerateArticle = async () => {
-    if (!aiTopic) {
-        toast({
-            variant: 'destructive',
-            title: 'Topic is required',
-            description: 'Please enter a topic for the AI to write about.',
-        });
-        return;
-    }
-    setIsGenerating(true);
-    try {
-        const result = await generateArticle({ topic: aiTopic });
-        if (result && result.title && result.articleContent && result.excerpt) {
-            form.setValue('title', result.title, { shouldValidate: true });
-            form.setValue('excerpt', result.excerpt, { shouldValidate: true });
-            form.setValue('content', result.articleContent, { shouldValidate: true });
-            toast({
-                title: 'Article Generated!',
-                description: 'The AI has finished writing the article.',
-            });
-        }
-    } catch (error) {
-        console.error('AI generation failed', error);
-        toast({
-            variant: 'destructive',
-            title: 'AI Generation Failed',
-            description: 'An error occurred while generating the article. Please try again.',
-        });
-    } finally {
-        setIsGenerating(false);
-    }
-  };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     const postData = {
@@ -149,8 +110,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
           <CardDescription>Fill out the details below to {postToEdit ? 'update the' : 'create a new'} case study.</CardDescription>
         </CardHeader>
       
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
+        <div>
             <Card>
                 <CardContent className="pt-6">
                 {isClient && (
@@ -261,40 +221,6 @@ export function PostForm({ postToEdit }: PostFormProps) {
                 </CardContent>
             </Card>
         </div>
-        <div className="lg:col-span-1">
-            <Card>
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <FontAwesomeIcon icon={faMagic} />
-                        AI Content Generator
-                    </CardTitle>
-                    <CardDescription>
-                        Enter a topic and let the AI write a draft for you. It will populate the title, excerpt, and content fields.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                     <div className="space-y-2">
-                        <Label htmlFor="ai-topic">Article Topic</Label>
-                        <Textarea 
-                            id="ai-topic"
-                            placeholder="e.g., 'The Future of SEO in a Voice-First World'"
-                            value={aiTopic}
-                            onChange={(e) => setAiTopic(e.target.value)}
-                            disabled={isGenerating}
-                        />
-                    </div>
-                    <Button onClick={handleGenerateArticle} disabled={isGenerating} className="w-full">
-                        {isGenerating ? (
-                            <FontAwesomeIcon icon={faSpinner} className="animate-spin mr-2" />
-                        ) : (
-                            <FontAwesomeIcon icon={faMagic} className="mr-2" />
-                        )}
-                        {isGenerating ? 'Generating...' : 'Write Article'}
-                    </Button>
-                </CardContent>
-            </Card>
-        </div>
-      </div>
     </div>
   );
 }
