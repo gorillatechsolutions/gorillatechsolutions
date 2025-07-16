@@ -12,17 +12,23 @@ export default function EditPostPage() {
   const { slug } = useParams();
   const { getCaseStudyBySlug, loading } = useCaseStudy();
   const [post, setPost] = useState<CaseStudy | null>(null);
+  const [initialLoading, setInitialLoading] = useState(true);
 
   useEffect(() => {
+    if (loading) {
+      // Still loading data from context, wait.
+      return;
+    }
+    
     if (slug) {
       const postToEdit = getCaseStudyBySlug(slug as string);
-      if (postToEdit) {
-        setPost(postToEdit);
-      }
+      setPost(postToEdit);
     }
-  }, [slug, getCaseStudyBySlug]);
+    setInitialLoading(false);
 
-  if (loading) {
+  }, [slug, getCaseStudyBySlug, loading]);
+
+  if (initialLoading) {
     return (
         <div className="space-y-6">
             <Skeleton className="h-10 w-1/3" />
@@ -39,12 +45,9 @@ export default function EditPostPage() {
   }
 
   if (!post) {
-    // Let's show "Not Found" if the post isn't found after loading.
-    // This could happen with a bad URL.
-    if (!loading) {
-        notFound();
-    }
-    return null; // Or return a "Post not found" message
+    // If we've finished loading and there's still no post, it's a 404.
+    notFound();
+    return null; 
   }
 
   return <PostForm postToEdit={post} />;
