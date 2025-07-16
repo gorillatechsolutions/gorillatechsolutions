@@ -93,13 +93,13 @@ export default function ServicesPage() {
                                 <CardDescription className="leading-relaxed">{service.description}</CardDescription>
                                 {service.price && service.discount && (
                                     <div className="mt-4 pt-4 border-t">
-                                        <div className="flex flex-wrap items-baseline gap-2">
+                                        <div className="flex flex-wrap items-baseline justify-between gap-2">
                                             <p className="text-lg font-bold animated-gradient-text animate-gradient">Starting at</p>
                                             <p className="text-3xl font-bold text-primary">
                                                 ${(service.price * (1 - service.discount / 100)).toFixed(2)}
                                             </p>
                                         </div>
-                                        <p className="text-sm font-semibold text-accent mt-1">
+                                        <p className="text-sm font-semibold text-accent mt-1 text-right">
                                             You save {service.discount}%!
                                         </p>
                                     </div>
