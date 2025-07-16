@@ -20,6 +20,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { useRouter } from 'next/navigation';
 import type { CaseStudy } from '@/types/case-study';
 import { useCaseStudy } from '@/contexts/case-study-context';
+import { useEffect, useState }from 'react';
+import dynamic from 'next/dynamic';
+
+const QuillEditor = dynamic(() => import('@/components/admin/quill-editor'), { ssr: false });
 
 const formSchema = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters.'),
@@ -39,6 +43,11 @@ export function PostForm({ postToEdit }: PostFormProps) {
   const { toast } = useToast();
   const router = useRouter();
   const { addCaseStudy, updateCaseStudy, slugExists } = useCaseStudy();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -66,14 +75,12 @@ export function PostForm({ postToEdit }: PostFormProps) {
     };
 
     if (postToEdit) {
-      // Update existing post
       updateCaseStudy(postToEdit.slug, postData);
       toast({
         title: 'Post Updated!',
         description: 'Your case study has been successfully updated.',
       });
     } else {
-      // Create new post
       if (slugExists(postData.slug)) {
           form.setError('slug', { type: 'manual', message: 'This slug is already taken.' });
           return;
@@ -102,108 +109,110 @@ export function PostForm({ postToEdit }: PostFormProps) {
           <CardDescription>Fill out the details below to {postToEdit ? 'update the' : 'create a new'} case study.</CardDescription>
         </CardHeader>
         <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <FormField
-                control={form.control}
-                name="title"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Post Title</FormLabel>
-                    <FormControl>
-                      <Input placeholder="How We Tripled Organic Traffic..." {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="slug"
-                render={({ field }) => (
-                  <FormItem>
-                    <div className="flex justify-between items-end">
-                        <FormLabel>URL Slug</FormLabel>
-                        <Button type="button" variant="link" size="sm" className="p-0 h-auto" onClick={generateSlug}>Generate from title</Button>
-                    </div>
-                    <FormControl>
-                      <Input placeholder="how-we-tripled-traffic" {...field} disabled={!!postToEdit} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="excerpt"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Excerpt</FormLabel>
-                    <FormControl>
-                      <Textarea placeholder="A short summary of the case study..." {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="image"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Header Image URL</FormLabel>
-                    <FormControl>
-                      <Input placeholder="https://placehold.co/1200x600.png" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-               <FormField
-                control={form.control}
-                name="tags"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Tags (comma-separated)</FormLabel>
-                    <FormControl>
-                      <Input placeholder="SEO, eCommerce, Growth" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-               <FormField
-                control={form.control}
-                name="author"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Author Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Jane Doe" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="content"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Post Content</FormLabel>
-                    <FormControl>
-                       <Textarea className="min-h-40" placeholder="Enter the full content of the post here..." {...field} />
-                    </FormControl>
-                    <FormMessage className="pt-2" />
-                  </FormItem>
-                )}
-              />
-              <div className="flex gap-4">
-                <Button type="submit">{postToEdit ? 'Update Post' : 'Publish Post'}</Button>
-                <Button type="button" variant="outline" onClick={() => router.back()}>Cancel</Button>
-              </div>
-            </form>
-          </Form>
+          {isClient && (
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                <FormField
+                  control={form.control}
+                  name="title"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Post Title</FormLabel>
+                      <FormControl>
+                        <Input placeholder="How We Tripled Organic Traffic..." {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="slug"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="flex justify-between items-end">
+                          <FormLabel>URL Slug</FormLabel>
+                          <Button type="button" variant="link" size="sm" className="p-0 h-auto" onClick={generateSlug}>Generate from title</Button>
+                      </div>
+                      <FormControl>
+                        <Input placeholder="how-we-tripled-traffic" {...field} disabled={!!postToEdit} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="excerpt"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Excerpt</FormLabel>
+                      <FormControl>
+                        <Textarea placeholder="A short summary of the case study..." {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="image"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Header Image URL</FormLabel>
+                      <FormControl>
+                        <Input placeholder="https://placehold.co/1200x600.png" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                 <FormField
+                  control={form.control}
+                  name="tags"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Tags (comma-separated)</FormLabel>
+                      <FormControl>
+                        <Input placeholder="SEO, eCommerce, Growth" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                 <FormField
+                  control={form.control}
+                  name="author"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Author Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Jane Doe" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="content"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Post Content</FormLabel>
+                      <FormControl>
+                         <QuillEditor value={field.value} onChange={field.onChange} />
+                      </FormControl>
+                      <FormMessage className="pt-2" />
+                    </FormItem>
+                  )}
+                />
+                <div className="flex gap-4">
+                  <Button type="submit">{postToEdit ? 'Update Post' : 'Publish Post'}</Button>
+                  <Button type="button" variant="outline" onClick={() => router.back()}>Cancel</Button>
+                </div>
+              </form>
+            </Form>
+          )}
         </CardContent>
       </Card>
     </div>
