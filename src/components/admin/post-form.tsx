@@ -22,6 +22,8 @@ import type { CaseStudy } from '@/types/case-study';
 import { useCaseStudy } from '@/contexts/case-study-context';
 import { useEffect, useState }from 'react';
 import dynamic from 'next/dynamic';
+import { generateArticle } from '@/ai/flows/generate-article-flow';
+import { Label } from '@/components/ui/label';
 
 const QuillEditor = dynamic(() => import('@/components/admin/quill-editor'), { ssr: false });
 
@@ -45,6 +47,8 @@ export function PostForm({ postToEdit }: PostFormProps) {
   const router = useRouter();
   const { addCaseStudy, updateCaseStudy, slugExists } = useCaseStudy();
   const [isClient, setIsClient] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [aiTopic, setAiTopic] = useState('');
 
   useEffect(() => {
     setIsClient(true);
@@ -65,6 +69,38 @@ export function PostForm({ postToEdit }: PostFormProps) {
       content: '',
     },
   });
+
+  const handleGenerateArticle = async () => {
+    if (!aiTopic.trim()) {
+      toast({
+        variant: 'destructive',
+        title: 'Topic is required',
+        description: 'Please enter a topic for the AI to write about.',
+      });
+      return;
+    }
+    setIsGenerating(true);
+    try {
+      const result = await generateArticle({ topic: aiTopic });
+      form.setValue('title', result.title, { shouldValidate: true });
+      form.setValue('excerpt', result.excerpt, { shouldValidate: true });
+      form.setValue('content', result.articleContent, { shouldValidate: true });
+      generateSlug(result.title);
+      toast({
+        title: 'Article Generated!',
+        description: 'The AI has drafted the article for you.',
+      });
+    } catch (error) {
+      console.error('AI generation failed:', error);
+      toast({
+        variant: 'destructive',
+        title: 'AI Generation Failed',
+        description: 'An error occurred while generating the article. Please try again.',
+      });
+    } finally {
+      setIsGenerating(false);
+    }
+  };
 
 
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -97,8 +133,8 @@ export function PostForm({ postToEdit }: PostFormProps) {
     router.push('/admin/posts');
   }
 
-  const generateSlug = () => {
-      const title = form.getValues('title');
+  const generateSlug = (titleToUse?: string) => {
+      const title = titleToUse || form.getValues('title');
       const slug = title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
       form.setValue('slug', slug, { shouldValidate: true });
   }
@@ -110,116 +146,142 @@ export function PostForm({ postToEdit }: PostFormProps) {
           <CardDescription>Fill out the details below to {postToEdit ? 'update the' : 'create a new'} case study.</CardDescription>
         </CardHeader>
       
-        <div>
-            <Card>
-                <CardContent className="pt-6">
-                {isClient && (
-                    <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                        <FormField
-                        control={form.control}
-                        name="title"
-                        render={({ field }) => (
-                            <FormItem>
-                            <FormLabel>Post Title</FormLabel>
-                            <FormControl>
-                                <Input placeholder="How We Tripled Organic Traffic..." {...field} />
-                            </FormControl>
-                            <FormMessage />
-                            </FormItem>
-                        )}
-                        />
-                        <FormField
-                        control={form.control}
-                        name="slug"
-                        render={({ field }) => (
-                            <FormItem>
-                            <div className="flex justify-between items-end">
-                                <FormLabel>URL Slug</FormLabel>
-                                <Button type="button" variant="link" size="sm" className="p-0 h-auto" onClick={generateSlug}>Generate from title</Button>
-                            </div>
-                            <FormControl>
-                                <Input placeholder="how-we-tripled-traffic" {...field} disabled={!!postToEdit} />
-                            </FormControl>
-                            <FormMessage />
-                            </FormItem>
-                        )}
-                        />
-                        <FormField
-                        control={form.control}
-                        name="excerpt"
-                        render={({ field }) => (
-                            <FormItem>
-                            <FormLabel>Excerpt</FormLabel>
-                            <FormControl>
-                                <Textarea placeholder="A short summary of the case study..." {...field} />
-                            </FormControl>
-                            <FormMessage />
-                            </FormItem>
-                        )}
-                        />
-                        <FormField
-                        control={form.control}
-                        name="image"
-                        render={({ field }) => (
-                            <FormItem>
-                            <FormLabel>Header Image URL</FormLabel>
-                            <FormControl>
-                                <Input placeholder="https://placehold.co/1200x600.png" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                            </FormItem>
-                        )}
-                        />
-                        <FormField
-                        control={form.control}
-                        name="tags"
-                        render={({ field }) => (
-                            <FormItem>
-                            <FormLabel>Tags (comma-separated)</FormLabel>
-                            <FormControl>
-                                <Input placeholder="SEO, eCommerce, Growth" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                            </FormItem>
-                        )}
-                        />
-                        <FormField
-                        control={form.control}
-                        name="author"
-                        render={({ field }) => (
-                            <FormItem>
-                            <FormLabel>Author Name</FormLabel>
-                            <FormControl>
-                                <Input placeholder="Jane Doe" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                            </FormItem>
-                        )}
-                        />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            <div className="lg:col-span-2">
+                <Card>
+                    <CardContent className="pt-6">
+                    {isClient && (
+                        <Form {...form}>
+                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                            <FormField
+                            control={form.control}
+                            name="title"
+                            render={({ field }) => (
+                                <FormItem>
+                                <FormLabel>Post Title</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="How We Tripled Organic Traffic..." {...field} />
+                                </FormControl>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                            />
+                            <FormField
+                            control={form.control}
+                            name="slug"
+                            render={({ field }) => (
+                                <FormItem>
+                                <div className="flex justify-between items-end">
+                                    <FormLabel>URL Slug</FormLabel>
+                                    <Button type="button" variant="link" size="sm" className="p-0 h-auto" onClick={() => generateSlug()}>Generate from title</Button>
+                                </div>
+                                <FormControl>
+                                    <Input placeholder="how-we-tripled-traffic" {...field} disabled={!!postToEdit} />
+                                </FormControl>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                            />
+                            <FormField
+                            control={form.control}
+                            name="excerpt"
+                            render={({ field }) => (
+                                <FormItem>
+                                <FormLabel>Excerpt</FormLabel>
+                                <FormControl>
+                                    <Textarea placeholder="A short summary of the case study..." {...field} />
+                                </FormControl>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                            />
+                            <FormField
+                            control={form.control}
+                            name="image"
+                            render={({ field }) => (
+                                <FormItem>
+                                <FormLabel>Header Image URL</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="https://placehold.co/1200x600.png" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                            />
+                            <FormField
+                            control={form.control}
+                            name="tags"
+                            render={({ field }) => (
+                                <FormItem>
+                                <FormLabel>Tags (comma-separated)</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="SEO, eCommerce, Growth" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                            />
+                            <FormField
+                            control={form.control}
+                            name="author"
+                            render={({ field }) => (
+                                <FormItem>
+                                <FormLabel>Author Name</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="Jane Doe" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                            />
 
-                        <FormField
-                        control={form.control}
-                        name="content"
-                        render={({ field }) => (
-                            <FormItem>
-                            <FormLabel>Post Content</FormLabel>
-                            <FormControl>
-                                <QuillEditor value={field.value} onChange={field.onChange} />
-                            </FormControl>
-                            <FormMessage className="pt-2" />
-                            </FormItem>
-                        )}
-                        />
-                        <div className="flex gap-4">
-                        <Button type="submit">{postToEdit ? 'Update Post' : 'Publish Post'}</Button>
-                        <Button type="button" variant="outline" onClick={() => router.back()}>Cancel</Button>
-                        </div>
-                    </form>
-                    </Form>
-                )}
-                </CardContent>
-            </Card>
+                            <FormField
+                            control={form.control}
+                            name="content"
+                            render={({ field }) => (
+                                <FormItem>
+                                <FormLabel>Post Content</FormLabel>
+                                <FormControl>
+                                    <QuillEditor value={field.value} onChange={field.onChange} />
+                                </FormControl>
+                                <FormMessage className="pt-2" />
+                                </FormItem>
+                            )}
+                            />
+                            <div className="flex gap-4">
+                            <Button type="submit">{postToEdit ? 'Update Post' : 'Publish Post'}</Button>
+                            <Button type="button" variant="outline" onClick={() => router.back()}>Cancel</Button>
+                            </div>
+                        </form>
+                        </Form>
+                    )}
+                    </CardContent>
+                </Card>
+            </div>
+            <div className="lg:col-span-1">
+                <Card className="bg-secondary/50">
+                    <CardHeader>
+                        <CardTitle>AI Content Generator</CardTitle>
+                        <CardDescription>Enter a topic or a title, and the AI will write a draft of the article for you.</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                         <div className="space-y-2">
+                            <Label htmlFor="ai-topic">Article Topic</Label>
+                            <Textarea 
+                                id="ai-topic"
+                                placeholder="e.g., 'The Future of SEO in a Voice-First World'"
+                                value={aiTopic}
+                                onChange={(e) => setAiTopic(e.target.value)}
+                                className="bg-background"
+                                disabled={isGenerating}
+                            />
+                         </div>
+                         <Button onClick={handleGenerateArticle} disabled={isGenerating} className="w-full">
+                            {isGenerating ? 'Generating...' : 'Write Article'}
+                         </Button>
+                    </CardContent>
+                </Card>
+            </div>
         </div>
     </div>
   );
