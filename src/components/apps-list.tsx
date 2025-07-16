@@ -9,28 +9,10 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import type { AppFilter } from '@/app/apps/page';
+import type { App } from '@/types/app';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-type AppLinks = {
-  web?: string;
-  playStore?: string;
-  appStore?: string;
-  download?: string;
-  buy?: string;
-};
-
-type App = {
-  title: string;
-  category: string;
-  rating: number;
-  downloads: string;
-  description: string;
-  icon: string;
-  dataAiHint: string;
-  links: AppLinks;
-  badge?: string;
-};
+export type AppFilter = 'all' | 'mobile' | 'web' | 'desktop';
 
 type AppsListProps = {
   allApps: App[];
@@ -81,7 +63,7 @@ export function AppsList({ allApps, searchTerm, filter }: AppsListProps) {
 
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
-      const params = new URLSearchParams(searchParams);
+      const params = new URLSearchParams(searchParams.toString());
       params.set('page', newPage.toString());
       router.push(`${pathname}?${params.toString()}`, { scroll: false });
       setCurrentPage(newPage);
@@ -136,7 +118,7 @@ export function AppsList({ allApps, searchTerm, filter }: AppsListProps) {
           {paginatedApps.map((app) => {
             const badgeContent = app.badge ? getBadgeContent(app.badge) : null;
             return (
-                <Card key={app.title} className="flex flex-col overflow-hidden group border-border/80 hover:border-primary/50 hover:shadow-lg transition-all duration-300">
+                <Card key={app.slug} className="flex flex-col overflow-hidden group border-border/80 hover:border-primary/50 hover:shadow-lg transition-all duration-300">
                     <CardHeader className="flex flex-col p-4 pb-2">
                         <div className="relative h-8 mb-2">
                             {badgeContent && (

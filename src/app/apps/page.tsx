@@ -1,21 +1,24 @@
 
+'use client';
+
+import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { AppsList } from '@/components/apps-list';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
-import { apps } from '@/lib/apps-data';
+import { useApp } from '@/contexts/app-context';
 import type { AppFilter } from '@/app/apps/page';
 
-export const dynamic = 'force-static';
-
-export default function AppsPage({
-  searchParams,
-}: {
-  searchParams?: { [key: string]: string | string[] | undefined };
-}) {
-  const searchTerm = typeof searchParams?.search === 'string' ? searchParams.search : '';
-  const filter = (typeof searchParams?.filter === 'string' ? searchParams.filter : 'all') as AppFilter;
+export default function AppsPage() {
+  const searchParams = useSearchParams();
+  const searchTerm = searchParams.get('search') || '';
+  const filter = (searchParams.get('filter') || 'all') as AppFilter;
+  const { apps, loading } = useApp();
   
+  if (loading) {
+    return <div className="container py-12">Loading apps...</div>
+  }
+
   return (
     <div className="w-full bg-background text-foreground">
       <section className="bg-secondary/30 py-12 md:py-16">
@@ -25,7 +28,13 @@ export default function AppsPage({
             Discover powerful, intuitive, and beautifully designed applications to enhance your productivity, streamline workflows, and drive business growth.
           </p>
           <div className="mt-8 max-w-xl mx-auto">
-             <form action="/apps" method="GET">
+             <form action="/apps" method="GET" onSubmit={(e) => {
+                 e.preventDefault();
+                 const formData = new FormData(e.currentTarget);
+                 const newSearch = formData.get('search') as string;
+                 const currentFilter = searchParams.get('filter') || 'all';
+                 window.location.href = `/apps?filter=${currentFilter}&search=${encodeURIComponent(newSearch)}`;
+             }}>
               <div className="relative">
                 <i className="fa fa-search absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" aria-hidden="true"></i>
                 <Input

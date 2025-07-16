@@ -1,6 +1,9 @@
 
-export const apps = [
+import type { App } from '@/types/app';
+
+export const apps: App[] = [
   {
+    slug: 'analytics-hub',
     title: 'Analytics Hub',
     category: 'Business',
     rating: 4.8,
@@ -12,6 +15,7 @@ export const apps = [
     badge: 'Premium',
   },
   {
+    slug: 'social-scheduler',
     title: 'Social Scheduler',
     category: 'Productivity',
     rating: 4.7,
@@ -22,6 +26,7 @@ export const apps = [
     links: { playStore: '#', appStore: '#' },
   },
   {
+    slug: 'seo-keyword-finder',
     title: 'SEO Keyword Finder',
     category: 'Marketing',
     rating: 4.9,
@@ -33,6 +38,7 @@ export const apps = [
     badge: 'Gold',
   },
   {
+    slug: 'project-pilot',
     title: 'Project Pilot',
     category: 'Productivity',
     rating: 4.6,
@@ -43,6 +49,7 @@ export const apps = [
     links: { playStore: '#', appStore: '#', web: '#' },
   },
   {
+    slug: 'content-crafter-ai',
     title: 'Content Crafter AI',
     category: 'AI Tools',
     rating: 4.8,
@@ -54,6 +61,7 @@ export const apps = [
     badge: 'Login Required',
   },
   {
+    slug: 'lead-gen-bot',
     title: 'Lead Gen Bot',
     category: 'Marketing',
     rating: 4.5,
@@ -64,6 +72,7 @@ export const apps = [
     links: { download: '#' },
   },
   {
+    slug: 'e-com-insights',
     title: 'E-com Insights',
     category: 'Business',
     rating: 4.7,
@@ -75,6 +84,7 @@ export const apps = [
     badge: 'Premium',
   },
   {
+    slug: 'team-sync',
     title: 'Team Sync',
     category: 'Communication',
     rating: 4.6,
@@ -85,6 +95,7 @@ export const apps = [
     links: { playStore: '#', appStore: '#', web: '#' },
   },
   {
+    slug: 'invoice-master',
     title: 'Invoice Master',
     category: 'Finance',
     rating: 4.9,
@@ -96,6 +107,7 @@ export const apps = [
     badge: 'Gold',
   },
     {
+    slug: 'ad-optimizer',
     title: 'Ad Optimizer',
     category: 'Marketing',
     rating: 4.8,
@@ -106,6 +118,7 @@ export const apps = [
     links: { web: '#' }
   },
   {
+    slug: 'code-snippets',
     title: 'Code Snippets',
     category: 'Developer Tools',
     rating: 4.9,
@@ -117,6 +130,7 @@ export const apps = [
     badge: 'Login Required',
   },
   {
+    slug: 'fit-tracker',
     title: 'Fit Tracker',
     category: 'Health & Fitness',
     rating: 4.7,
@@ -127,6 +141,7 @@ export const apps = [
     links: { playStore: '#', appStore: '#' }
   },
   {
+    slug: 'mindful-moments',
     title: 'Mindful Moments',
     category: 'Health & Fitness',
     rating: 4.8,
@@ -138,6 +153,7 @@ export const apps = [
     badge: 'Premium',
   },
   {
+    slug: 'expense-tracker',
     title: 'Expense Tracker',
     category: 'Finance',
     rating: 4.6,
@@ -148,6 +164,7 @@ export const apps = [
     links: { playStore: '#', appStore: '#' }
   },
   {
+    slug: 'event-planner-pro',
     title: 'Event Planner Pro',
     category: 'Productivity',
     rating: 4.7,
@@ -158,6 +175,7 @@ export const apps = [
     links: { web: '#', buy: '#' }
   },
   {
+    slug: 'language-leap',
     title: 'Language Leap',
     category: 'Education',
     rating: 4.8,
@@ -168,6 +186,7 @@ export const apps = [
     links: { playStore: '#', appStore: '#' }
   },
   {
+    slug: 'secure-vault',
     title: 'Secure Vault',
     category: 'Security',
     rating: 4.9,
@@ -179,6 +198,7 @@ export const apps = [
     badge: 'Gold'
   },
   {
+    slug: 'creative-canvas',
     title: 'Creative Canvas',
     category: 'Art & Design',
     rating: 4.7,
