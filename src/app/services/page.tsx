@@ -100,7 +100,7 @@ export default function ServicesPage() {
                                             </p>
                                         </div>
                                         <p className="text-sm font-semibold text-accent mt-1 text-right">
-                                            You save {service.discount}%!
+                                            Limited time offer: 3 days to go! {service.discount}%
                                         </p>
                                     </div>
                                 )}
