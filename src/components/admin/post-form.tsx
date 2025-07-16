@@ -2,7 +2,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import {
@@ -17,20 +17,9 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Textarea } from '@/components/ui/textarea';
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import 'react-quill/dist/quill.snow.css'; // import styles
 import type { CaseStudy } from '@/types/case-study';
-import dynamic from 'next/dynamic';
 import { useCaseStudy } from '@/contexts/case-study-context';
-import { Skeleton } from '../ui/skeleton';
-
-// Dynamically import the editor component with SSR disabled
-const QuillEditor = dynamic(() => import('./quill-editor'), {
-  ssr: false,
-  loading: () => <Skeleton className="h-40 w-full" />,
-});
-
 
 const formSchema = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters.'),
@@ -203,7 +192,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
                   <FormItem>
                     <FormLabel>Post Content</FormLabel>
                     <FormControl>
-                       <QuillEditor {...field} />
+                       <Textarea className="min-h-40" placeholder="Enter the full content of the post here..." {...field} />
                     </FormControl>
                     <FormMessage className="pt-2" />
                   </FormItem>
