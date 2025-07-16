@@ -1,7 +1,7 @@
 
 'use server';
 /**
- * @fileOverview An AI flow for generating article content.
+ * @fileOverview An AI flow for generating article content and a title.
  *
  * - generateArticle - A function that handles the article generation process.
  * - GenerateArticleInput - The input type for the generateArticle function.
@@ -12,11 +12,12 @@ import {ai} from '@/ai/genkit';
 import {z} from 'zod';
 
 const GenerateArticleInputSchema = z.object({
-  topic: z.string().describe('The topic or title for the article.'),
+  topic: z.string().describe('The topic or a suggested title for the article.'),
 });
 export type GenerateArticleInput = z.infer<typeof GenerateArticleInputSchema>;
 
 const GenerateArticleOutputSchema = z.object({
+  title: z.string().describe('A compelling and SEO-friendly title for the article.'),
   articleContent: z.string().describe('The generated article content, formatted in HTML.'),
 });
 export type GenerateArticleOutput = z.infer<typeof GenerateArticleOutputSchema>;
@@ -32,7 +33,8 @@ const prompt = ai.definePrompt({
   output: {schema: GenerateArticleOutputSchema},
   prompt: `You are an expert content writer and SEO specialist. Your task is to write a high-quality, engaging, and well-structured article based on the provided topic.
 
-The article should be formatted using simple HTML tags. Do not include <!DOCTYPE html>, <html>, <head>, or <body> tags.
+First, create a compelling and SEO-friendly title based on the user's topic.
+Then, write the article content. The article should be formatted using simple HTML tags. Do not include <!DOCTYPE html>, <html>, <head>, or <body> tags.
 
 - Use <h2> for main section headings.
 - Use <h3> for subheadings.
@@ -43,7 +45,7 @@ The article should be formatted using simple HTML tags. Do not include <!DOCTYPE
 Write an article about the following topic:
 "{{{topic}}}"
 
-Generate the complete article content now.`,
+Generate the complete article title and content now.`,
 });
 
 const generateArticleFlow = ai.defineFlow(
