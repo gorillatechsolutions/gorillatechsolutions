@@ -209,9 +209,9 @@ export function PostForm({ postToEdit }: PostFormProps) {
                   </FormItem>
                 )}
               />
-              <Controller
-                name="content"
+              <FormField
                 control={form.control}
+                name="content"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Post Content</FormLabel>
