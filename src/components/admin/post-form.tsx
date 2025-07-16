@@ -25,6 +25,7 @@ import dynamic from 'next/dynamic';
 
 const QuillEditor = dynamic(() => import('@/components/admin/quill-editor'), { ssr: false });
 
+
 const formSchema = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters.'),
   slug: z.string().min(5, 'Slug must be at least 5 characters.').regex(/^[a-z0-9-]+$/, 'Slug can only contain lowercase letters, numbers, and hyphens.'),

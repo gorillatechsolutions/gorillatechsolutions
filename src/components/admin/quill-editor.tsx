@@ -1,7 +1,7 @@
 'use client';
 
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import { useQuill } from 'react-quilljs';
+import 'quill/dist/quill.snow.css';
 
 interface QuillEditorProps {
   value: string;
@@ -9,14 +9,26 @@ interface QuillEditorProps {
 }
 
 const QuillEditor = ({ value, onChange }: QuillEditorProps) => {
+  const { quill, quillRef } = useQuill();
+
+  React.useEffect(() => {
+    if (quill) {
+      quill.on('text-change', () => {
+        onChange(quill.root.innerHTML);
+      });
+    }
+  }, [quill, onChange]);
+  
+  React.useEffect(() => {
+    if (quill && value !== quill.root.innerHTML) {
+        const delta = quill.clipboard.convert(value);
+        quill.setContents(delta, 'silent');
+    }
+  }, [quill, value])
+
   return (
-    <div className="bg-background">
-        <ReactQuill
-          theme="snow"
-          value={value}
-          onChange={onChange}
-          className="bg-white"
-        />
+    <div className="bg-white">
+      <div ref={quillRef} />
     </div>
   );
 };
