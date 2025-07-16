@@ -49,8 +49,6 @@ export function PostForm({ postToEdit }: PostFormProps) {
   const router = useRouter();
   const { addCaseStudy, updateCaseStudy, slugExists } = useCaseStudy();
   const [isClient, setIsClient] = useState(false);
-  const [aiTopic, setAiTopic] = useState('');
-  const [isGenerating, setIsGenerating] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -71,38 +69,6 @@ export function PostForm({ postToEdit }: PostFormProps) {
       content: '',
     },
   });
-
-  const handleAiGenerate = async () => {
-    if (!aiTopic) {
-        toast({
-            variant: 'destructive',
-            title: 'Topic is required',
-            description: 'Please enter a topic for the AI to write about.',
-        });
-        return;
-    }
-    setIsGenerating(true);
-    try {
-        const result = await generateArticle({ topic: aiTopic });
-        if (result.articleContent) {
-            form.setValue('content', result.articleContent, { shouldValidate: true, shouldDirty: true });
-            toast({
-                title: 'Article Generated!',
-                description: 'The AI has finished writing the article.',
-            });
-        }
-    } catch (error) {
-        console.error('Error generating article:', error);
-        toast({
-            variant: 'destructive',
-            title: 'Generation Failed',
-            description: 'There was an error generating the article.',
-        });
-    } finally {
-        setIsGenerating(false);
-    }
-  };
-
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     const postData = {
@@ -232,35 +198,6 @@ export function PostForm({ postToEdit }: PostFormProps) {
                     </FormItem>
                   )}
                 />
-
-                <Card className="bg-secondary/50">
-                  <CardHeader>
-                      <CardTitle className="text-lg flex items-center gap-2">
-                        <FontAwesomeIcon icon={faMagic} className="text-accent"/>
-                        AI Content Generator
-                      </CardTitle>
-                      <CardDescription>
-                        Enter a topic or a title, and the AI will write a draft of the article for you.
-                      </CardDescription>
-                  </CardHeader>
-                  <CardContent className="flex flex-col sm:flex-row gap-4">
-                      <Input 
-                          placeholder="e.g., 'The Future of SEO in a Cookieless World'" 
-                          value={aiTopic}
-                          onChange={(e) => setAiTopic(e.target.value)}
-                          disabled={isGenerating}
-                          className="flex-grow"
-                      />
-                      <Button type="button" onClick={handleAiGenerate} disabled={isGenerating}>
-                          {isGenerating ? (
-                              <FontAwesomeIcon icon={faSpinner} className="mr-2 h-4 w-4 animate-spin" />
-                          ) : (
-                              <FontAwesomeIcon icon={faMagic} className="mr-2 h-4 w-4" />
-                          )}
-                          {isGenerating ? 'Generating...' : 'Write Article'}
-                      </Button>
-                  </CardContent>
-                </Card>
 
                 <FormField
                   control={form.control}
