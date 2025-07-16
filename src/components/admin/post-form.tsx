@@ -53,10 +53,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: postToEdit ? {
-        ...postToEdit,
-        tags: postToEdit.tags.join(', ')
-    } : {
+    defaultValues: {
       title: '',
       slug: '',
       excerpt: '',
@@ -67,6 +64,15 @@ export function PostForm({ postToEdit }: PostFormProps) {
       views: 0,
     },
   });
+
+  useEffect(() => {
+    if (postToEdit) {
+      form.reset({
+        ...postToEdit,
+        tags: postToEdit.tags.join(', ')
+      });
+    }
+  }, [postToEdit, form]);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     const postData = {
