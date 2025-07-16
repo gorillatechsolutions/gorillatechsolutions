@@ -25,7 +25,7 @@ import dynamic from 'next/dynamic';
 import { generateArticle } from '@/ai/flows/generate-article-flow';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagic, faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { Separator } from '@/components/ui/separator';
+import { Label } from '@/components/ui/label';
 
 const QuillEditor = dynamic(() => import('@/components/admin/quill-editor'), { ssr: false });
 
