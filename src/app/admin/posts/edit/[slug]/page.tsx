@@ -2,17 +2,17 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useParams, notFound } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { PostForm } from '@/components/admin/post-form';
 import type { CaseStudy } from '@/types/case-study';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useCaseStudy } from '@/contexts/case-study-context';
 
-export default function EditPostPage() {
-  const { slug } = useParams();
+export default function EditPostPage({ params }: { params: { slug: string } }) {
+  const { slug } = params;
   const { getCaseStudyBySlug, loading } = useCaseStudy();
   const [post, setPost] = useState<CaseStudy | null | undefined>(undefined);
-  
+
   useEffect(() => {
     if (!loading && slug) {
       const postToEdit = getCaseStudyBySlug(slug as string);
@@ -22,25 +22,24 @@ export default function EditPostPage() {
 
   if (loading || post === undefined) {
     return (
-        <div className="space-y-6">
-            <Skeleton className="h-10 w-1/3" />
-            <div className="space-y-4 rounded-lg border bg-card p-6">
-                <Skeleton className="h-8 w-1/4" />
-                <Skeleton className="h-10 w-full" />
-                <Skeleton className="h-8 w-1/4" />
-                <Skeleton className="h-10 w-full" />
-                <Skeleton className="h-8 w-1/4" />
-                <Skeleton className="h-40 w-full" />
-                 <Skeleton className="h-10 w-32" />
-            </div>
+      <div className="space-y-6">
+        <Skeleton className="h-10 w-1/3" />
+        <div className="space-y-4 rounded-lg border bg-card p-6">
+          <Skeleton className="h-8 w-1/4" />
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-8 w-1/4" />
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-8 w-1/4" />
+          <Skeleton className="h-40 w-full" />
+          <Skeleton className="h-10 w-32" />
         </div>
+      </div>
     );
   }
 
   if (post === null) {
-    // We've finished loading and there's still no post, it's a 404.
     notFound();
-    return null; 
+    return null;
   }
 
   return <PostForm postToEdit={post} />;
