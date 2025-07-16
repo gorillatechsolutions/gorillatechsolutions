@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { useQuill } from 'react-quilljs';
+import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 
 interface QuillEditorProps {
@@ -10,26 +10,45 @@ interface QuillEditorProps {
 }
 
 const QuillEditor = ({ value, onChange }: QuillEditorProps) => {
-  const { quill, quillRef } = useQuill();
+  const editorRef = React.useRef<HTMLDivElement>(null);
+  const quillInstance = React.useRef<Quill | null>(null);
 
   React.useEffect(() => {
-    if (quill) {
-      quill.on('text-change', () => {
-        onChange(quill.root.innerHTML);
+    if (editorRef.current && !quillInstance.current) {
+      quillInstance.current = new Quill(editorRef.current, {
+        theme: 'snow',
+        modules: {
+          toolbar: [
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+            ['bold', 'italic', 'underline', 'strike'],
+            [{'list': 'ordered'}, {'list': 'bullet'}],
+            ['link', 'image', 'video'],
+            ['clean']
+          ],
+        },
+      });
+
+      const quill = quillInstance.current;
+      
+      quill.on('text-change', (delta, oldDelta, source) => {
+        if (source === 'user') {
+          onChange(quill.root.innerHTML);
+        }
       });
     }
-  }, [quill, onChange]);
-  
+  }, [onChange]);
+
   React.useEffect(() => {
+    const quill = quillInstance.current;
     if (quill && value !== quill.root.innerHTML) {
-        const delta = quill.clipboard.convert(value);
-        quill.setContents(delta, 'silent');
+      const delta = quill.clipboard.convert(value as any);
+      quill.setContents(delta, 'silent');
     }
-  }, [quill, value])
+  }, [value]);
 
   return (
     <div className="bg-white">
-      <div ref={quillRef} />
+      <div ref={editorRef} />
     </div>
   );
 };
