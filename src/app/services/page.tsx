@@ -98,9 +98,6 @@ export default function ServicesPage() {
                                             <p className="text-3xl font-bold text-primary">
                                                 ${(service.price * (1 - service.discount / 100)).toFixed(2)}
                                             </p>
-                                            <p className="text-sm text-muted-foreground line-through">
-                                                ${service.price.toFixed(2)}
-                                            </p>
                                         </div>
                                         <p className="text-sm font-semibold text-accent mt-1">
                                             You save {service.discount}%!
