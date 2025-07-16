@@ -101,9 +101,9 @@ const Countdown = ({ discount }: { discount: number }) => {
     }, []);
 
     return (
-        <p className="text-right text-sm text-accent font-medium">
+        <div className="text-right text-xs text-accent font-medium mt-1">
             Offer ends in: <span className="font-mono font-bold tracking-wider">{String(timeLeft.days).padStart(2, '0')}d {String(timeLeft.hours).padStart(2, '0')}h {String(timeLeft.minutes).padStart(2, '0')}m {String(timeLeft.seconds).padStart(2, '0')}s</span> | Save {discount}%!
-        </p>
+        </div>
     );
 };
 
@@ -136,7 +136,7 @@ export default function ServicesPage() {
                                 {service.price && service.discount && (
                                     <div className="mt-4 pt-4 border-t">
                                         <div className="flex flex-wrap items-baseline justify-between gap-2">
-                                            <p className="text-lg font-bold animated-gradient-text animate-gradient">Starting at</p>
+                                            <p className="text-base font-semibold animated-gradient-text animate-gradient">Starting at</p>
                                             <p className="text-3xl font-bold text-primary">
                                                 ${(service.price * (1 - service.discount / 100)).toFixed(2)}
                                             </p>
@@ -179,5 +179,3 @@ export default function ServicesPage() {
     </div>
   );
 }
-
-
