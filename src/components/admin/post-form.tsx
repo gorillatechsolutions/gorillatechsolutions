@@ -72,7 +72,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
       ...values,
       tags: values.tags.split(',').map(tag => tag.trim()),
       date: postToEdit ? postToEdit.date : new Date().toISOString(),
-      views: postToEdit ? postToEdit.views : 0,
+      views: postToEdit ? postToEdit.views : Math.floor(Math.random() * 5000),
       dataAiHint: 'custom article content',
     };
 
@@ -80,7 +80,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
       // Update existing post
       const postIndex = posts.findIndex(p => p.slug === postToEdit.slug);
       if (postIndex > -1) {
-        posts[postIndex] = newPost;
+        posts[postIndex] = { ...newPost, views: postToEdit.views }; // Preserve original view count
       }
       toast({
         title: 'Post Updated!',
