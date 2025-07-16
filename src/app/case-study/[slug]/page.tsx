@@ -21,15 +21,15 @@ const formatViews = (views: number) => {
 export default function CaseStudyDetailPage() {
     const params = useParams();
     const slug = params.slug as string;
-    const { getCaseStudyBySlug, loading } = useCaseStudy();
+    const { getCaseStudyBySlug, loading, caseStudies } = useCaseStudy();
     const [caseStudy, setCaseStudy] = useState<CaseStudy | null | undefined>(undefined);
 
     useEffect(() => {
-        if (slug) {
+        if (slug && !loading) {
             const study = getCaseStudyBySlug(slug);
             setCaseStudy(study);
         }
-    }, [slug, getCaseStudyBySlug]);
+    }, [slug, loading, getCaseStudyBySlug, caseStudies]);
 
     if (loading || caseStudy === undefined) {
         return <div className="container py-12">Loading...</div>; // Or a skeleton loader
