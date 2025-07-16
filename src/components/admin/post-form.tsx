@@ -70,6 +70,8 @@ export function PostForm({ postToEdit }: PostFormProps) {
 
   useEffect(() => {
     if (postToEdit) {
+      // Reset the form with the post data when it becomes available
+      // This is crucial for correctly populating the form for editing
       form.reset({
         ...postToEdit,
         tags: postToEdit.tags.join(', ')

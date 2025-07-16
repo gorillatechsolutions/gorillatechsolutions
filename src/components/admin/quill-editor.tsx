@@ -34,7 +34,11 @@ const QuillEditor = ({ value, onChange }: QuillEditorProps) => {
       
       quill.on('text-change', (delta, oldDelta, source) => {
         if (source === 'user') {
-          onChange(quill.root.innerHTML);
+          let html = quill.root.innerHTML;
+          if (html === '<p><br></p>') {
+            html = '';
+          }
+          onChange(html);
         }
       });
     }
@@ -43,13 +47,12 @@ const QuillEditor = ({ value, onChange }: QuillEditorProps) => {
   React.useEffect(() => {
     const quill = quillInstance.current;
     if (quill && value !== quill.root.innerHTML) {
-      const delta = quill.clipboard.convert(value as any);
-      quill.setContents(delta, 'silent');
+      quill.clipboard.dangerouslyPasteHTML(value, 'silent');
     }
   }, [value]);
 
   return (
-    <div className="bg-white">
+    <div className="bg-white prose">
       <div ref={editorRef} />
     </div>
   );
