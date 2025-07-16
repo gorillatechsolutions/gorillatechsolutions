@@ -2,7 +2,6 @@
 'use client';
 
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
-import type { Metadata } from 'next';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
@@ -70,7 +69,7 @@ const services = [
   }
 ];
 
-const Countdown = () => {
+const Countdown = ({ discount }: { discount: number }) => {
     const [timeLeft, setTimeLeft] = useState({
         days: 0,
         hours: 0,
@@ -102,8 +101,8 @@ const Countdown = () => {
     }, []);
 
     return (
-        <span className="font-mono text-xs">
-            {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s
+        <span className="text-sm font-semibold text-accent mt-1 text-right">
+             Save {discount}%! Offer ends in: <span className="font-mono tracking-wider">{timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s</span>
         </span>
     );
 };
@@ -142,8 +141,8 @@ export default function ServicesPage() {
                                                 ${(service.price * (1 - service.discount / 100)).toFixed(2)}
                                             </p>
                                         </div>
-                                        <p className="text-sm font-semibold text-accent mt-1 text-right">
-                                            Limited offer ends in <Countdown /> | Save {service.discount}%
+                                        <p className="text-right">
+                                            <Countdown discount={service.discount} />
                                         </p>
                                     </div>
                                 )}
@@ -182,3 +181,4 @@ export default function ServicesPage() {
     </div>
   );
 }
+
