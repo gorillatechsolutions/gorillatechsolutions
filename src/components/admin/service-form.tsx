@@ -23,12 +23,22 @@ import type { Service } from '@/types/service';
 import { useService } from '@/contexts/service-context';
 import { useEffect, useState }from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import * as solidIcons from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { type IconDefinition } from '@fortawesome/fontawesome-svg-core';
+
+const iconList: { name: string; icon: IconDefinition }[] = Object.keys(solidIcons)
+  .filter(key => key !== 'fas' && key !== 'prefix' && (solidIcons as any)[key].iconName)
+  .map(key => ({ name: key, icon: (solidIcons as any)[key] }))
+  .sort((a, b) => a.name.localeCompare(b.name));
+
 
 const formSchema = z.object({
   title: z.string().min(2, 'Title must be at least 2 characters.'),
   slug: z.string().min(2, 'Slug must be at least 2 characters.').regex(/^[a-z0-9-]+$/, 'Slug can only contain lowercase letters, numbers, and hyphens.'),
   description: z.string().min(20, 'Description must be at least 20 characters.'),
-  icon: z.string().min(2, 'FontAwesome icon name is required (e.g., faMagnifyingGlassChart).'),
+  icon: z.string().min(2, 'An icon is required.'),
   price: z.string().regex(/^\d+(\.\d{2})?$/, 'Price must be a valid number (e.g., 450.00).'),
   originalPrice: z.string().regex(/^\d+(\.\d{2})?$/, 'Original price must be a valid number (e.g., 500.00).'),
   popular: z.boolean(),
@@ -159,17 +169,31 @@ export function ServiceForm({ serviceToEdit }: ServiceFormProps) {
                     />
 
                     <FormField
-                        control={form.control}
-                        name="icon"
-                        render={({ field }) => (
-                            <FormItem>
-                            <FormLabel>FontAwesome Icon Name</FormLabel>
+                      control={form.control}
+                      name="icon"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Icon</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
-                                <Input placeholder="faMagnifyingGlassChart" {...field} />
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select an icon" />
+                              </SelectTrigger>
                             </FormControl>
-                            <FormMessage />
-                            </FormItem>
-                        )}
+                            <SelectContent>
+                              {iconList.map(({ name, icon }) => (
+                                <SelectItem key={name} value={name}>
+                                  <div className="flex items-center gap-2">
+                                    <FontAwesomeIcon icon={icon} className="w-4 h-4" />
+                                    <span>{name}</span>
+                                  </div>
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
