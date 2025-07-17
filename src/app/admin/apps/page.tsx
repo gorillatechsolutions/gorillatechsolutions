@@ -98,13 +98,13 @@ export default function AdminAppsListPage() {
                       {app.badge && <Badge variant="secondary">{app.badge}</Badge>}
                     </TableCell>
                     <TableCell className="text-right space-x-2">
-                      <Button variant="outline" size="xs" onClick={() => router.push(`/admin/apps/edit/${app.slug}`)}>
+                      <Button variant="outline" size="xs" onClick={() => router.push(`/admin/apps/edit/${app.slug}`)} className="py-1">
                         <FontAwesomeIcon icon={faEdit} className="mr-1 h-3 w-3" />
                         Edit
                       </Button>
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
-                          <Button variant="destructive" size="xs">
+                          <Button variant="destructive" size="xs" className="py-1">
                             <FontAwesomeIcon icon={faTrash} className="mr-1 h-3 w-3" />
                             Delete
                           </Button>
