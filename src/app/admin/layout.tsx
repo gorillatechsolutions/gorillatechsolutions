@@ -70,10 +70,10 @@ export default function AdminLayout({
               <SidebarMenuItem key={item.href}>
                 <Link href={item.href}>
                   <SidebarMenuButton asChild data-active={item.exact ? pathname === item.href : pathname.startsWith(item.href)}>
-                    <a>
+                    <>
                       <FontAwesomeIcon icon={item.icon} className="h-4 w-4" />
                       <span>{item.label}</span>
-                    </a>
+                    </>
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>
