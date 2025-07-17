@@ -2,7 +2,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { SidebarProvider, Sidebar, SidebarTrigger, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarFooter, SidebarInset } from '@/components/ui/sidebar';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -28,17 +28,18 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const router = useRouter();
   const { user, logout, loading } = useAuth();
   
   useEffect(() => {
     if (!loading) {
       if (!user) {
-        window.location.href = '/login';
+        router.push('/login');
       } else if (user.role !== 'admin') {
-        window.location.href = '/';
+        router.push('/');
       }
     }
-  }, [user, loading]);
+  }, [user, loading, router]);
 
 
   if (loading || !user || user.role !== 'admin') {
