@@ -22,12 +22,13 @@ export default function AdminPostsListPage() {
   const { caseStudies, deleteCaseStudy, loading } = useCaseStudy();
   const [selectedPosts, setSelectedPosts] = useState<string[]>([]);
 
-  const handleDelete = (slug: string) => {
-    deleteCaseStudy(slug);
+  const handleDelete = (slugs: string[]) => {
+    slugs.forEach(slug => deleteCaseStudy(slug));
     toast({
-      title: 'Post Deleted',
-      description: 'The case study has been successfully deleted.',
+      title: 'Posts Deleted',
+      description: `${slugs.length} case study/studies have been successfully deleted.`,
     });
+    setSelectedPosts([]);
   };
 
   const handleSelectAll = (checked: boolean | 'indeterminate') => {
@@ -44,15 +45,6 @@ export default function AdminPostsListPage() {
     } else {
       setSelectedPosts(prev => prev.filter(id => id !== slug));
     }
-  };
-
-  const handleDeleteSelected = () => {
-    selectedPosts.forEach(slug => deleteCaseStudy(slug));
-    toast({
-      title: 'Posts Deleted',
-      description: `${selectedPosts.length} case studies have been deleted.`,
-    });
-    setSelectedPosts([]);
   };
 
   const formatViews = (views: number) => {
@@ -87,7 +79,7 @@ export default function AdminPostsListPage() {
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction onClick={handleDeleteSelected}>
+                      <AlertDialogAction onClick={() => handleDelete(selectedPosts)}>
                         Continue
                       </AlertDialogAction>
                     </AlertDialogFooter>
@@ -180,34 +172,10 @@ export default function AdminPostsListPage() {
                       </div>
                     </TableCell>
                     <TableCell className="text-right">
-                      <div className="flex flex-col items-end gap-1">
                         <Button variant="outline" size="xs" onClick={() => router.push(`/admin/posts/edit/${post.slug}`)}>
                           <FontAwesomeIcon icon={faEdit} className="mr-1 h-3 w-3" />
                           Edit
                         </Button>
-                        <AlertDialog>
-                          <AlertDialogTrigger asChild>
-                            <Button variant="destructive" size="xs">
-                              <FontAwesomeIcon icon={faTrash} className="mr-1 h-3 w-3" />
-                              Delete
-                            </Button>
-                          </AlertDialogTrigger>
-                          <AlertDialogContent>
-                            <AlertDialogHeader>
-                              <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                              <AlertDialogDescription>
-                                This action cannot be undone. This will permanently delete the post.
-                              </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
-                              <AlertDialogAction onClick={() => handleDelete(post.slug)}>
-                                Continue
-                              </AlertDialogAction>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
-                      </div>
                     </TableCell>
                   </TableRow>
                 ))}
