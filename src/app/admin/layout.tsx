@@ -70,11 +70,9 @@ export default function AdminLayout({
             {navItems.map((item) => (
               <SidebarMenuItem key={item.href}>
                 <Link href={item.href}>
-                  <SidebarMenuButton asChild data-active={item.exact ? pathname === item.href : pathname.startsWith(item.href)}>
-                    <>
-                      <FontAwesomeIcon icon={item.icon} className="h-4 w-4" />
-                      <span>{item.label}</span>
-                    </>
+                  <SidebarMenuButton data-active={item.exact ? pathname === item.href : pathname.startsWith(item.href)}>
+                    <FontAwesomeIcon icon={item.icon} className="h-4 w-4" />
+                    <span>{item.label}</span>
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>
