@@ -1,19 +1,18 @@
 
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 import { SidebarProvider, Sidebar, SidebarTrigger, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarFooter, SidebarInset } from '@/components/ui/sidebar';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTachometerAlt, faUsers, faCog, faBoxOpen, faChartLine, faSignOutAlt, faPenToSquare, faMobileAlt } from '@fortawesome/free-solid-svg-icons';
-import { usePathname } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/auth-context';
 
 const navItems = [
-  { href: '/admin', icon: faTachometerAlt, label: 'Dashboard' },
+  { href: '/admin', icon: faTachometerAlt, label: 'Dashboard', exact: true },
   { href: '/admin/users', icon: faUsers, label: 'Users' },
   { href: '/admin/posts', icon: faPenToSquare, label: 'Posts' },
   { href: '/admin/apps', icon: faMobileAlt, label: 'Apps' },
@@ -69,10 +68,12 @@ export default function AdminLayout({
           <SidebarMenu>
             {navItems.map((item) => (
               <SidebarMenuItem key={item.href}>
-                <Link href={item.href}>
-                  <SidebarMenuButton isActive={pathname.startsWith(item.href) && (item.href !== '/admin' || pathname === '/admin')}>
-                    <FontAwesomeIcon icon={item.icon} className="h-4 w-4" />
-                    <span>{item.label}</span>
+                <Link href={item.href} passHref legacyBehavior>
+                  <SidebarMenuButton asChild isActive={item.exact ? pathname === item.href : pathname.startsWith(item.href)}>
+                    <a>
+                      <FontAwesomeIcon icon={item.icon} className="h-4 w-4" />
+                      <span>{item.label}</span>
+                    </a>
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>
