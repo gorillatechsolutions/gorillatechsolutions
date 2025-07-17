@@ -27,10 +27,12 @@ export function CaseStudyList({ allCaseStudies, initialSearchTerm = '', initialP
   const searchParams = useSearchParams();
 
   const filteredCaseStudies = useMemo(() => {
-    return allCaseStudies.filter(study =>
-      study.title.toLowerCase().includes(initialSearchTerm.toLowerCase()) ||
-      study.excerpt.toLowerCase().includes(initialSearchTerm.toLowerCase()) ||
-      study.tags.some(tag => tag.toLowerCase().includes(initialSearchTerm.toLowerCase()))
+    return allCaseStudies
+      .filter(Boolean) // Safely remove any null or undefined entries
+      .filter(study =>
+        study.title.toLowerCase().includes(initialSearchTerm.toLowerCase()) ||
+        study.excerpt.toLowerCase().includes(initialSearchTerm.toLowerCase()) ||
+        study.tags.some(tag => tag.toLowerCase().includes(initialSearchTerm.toLowerCase()))
     );
   }, [initialSearchTerm, allCaseStudies]);
 
