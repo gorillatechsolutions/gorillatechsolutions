@@ -14,7 +14,6 @@ import {
   faEnvelopeOpenText,
   faArrowRight,
 } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
 
 const services = [
     {
@@ -61,56 +60,6 @@ const services = [
     }
 ];
 
-const Countdown = ({ discount }: { discount: number }) => {
-    const [timeLeft, setTimeLeft] = useState({
-        days: '00',
-        hours: '00',
-        minutes: '00',
-        seconds: '00',
-    });
-
-    useEffect(() => {
-        const calculateTimeLeft = () => {
-            const offerEndDate = new Date();
-            offerEndDate.setDate(offerEndDate.getDate() + 3); // Offer ends 3 days from now
-            offerEndDate.setHours(0, 0, 0, 0);
-
-            const now = new Date();
-            const difference = offerEndDate.getTime() - now.getTime();
-
-            if (difference > 0) {
-                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
-                const minutes = Math.floor((difference / 1000 / 60) % 60);
-                const seconds = Math.floor((difference / 1000) % 60);
-
-                return {
-                    days: String(days).padStart(2, '0'),
-                    hours: String(hours).padStart(2, '0'),
-                    minutes: String(minutes).padStart(2, '0'),
-                    seconds: String(seconds).padStart(2, '0'),
-                };
-            }
-            return { days: '00', hours: '00', minutes: '00', seconds: '00' };
-        };
-
-        const timer = setInterval(() => {
-            setTimeLeft(calculateTimeLeft());
-        }, 1000);
-
-        return () => clearInterval(timer);
-    }, []);
-
-    return (
-        <div className="text-center mt-2">
-            <p className="text-sm text-muted-foreground font-sans">
-                Offer ends in: <span className="font-mono font-bold text-foreground">{timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s</span> | <span className="font-semibold text-accent">Save {discount}%!</span>
-            </p>
-        </div>
-    );
-};
-
-
 export default function ServicesPage() {
   return (
     <div className="w-full bg-background text-foreground">
@@ -142,7 +91,11 @@ export default function ServicesPage() {
                                 <div className="bg-secondary/40 rounded-lg p-4 mt-auto">
                                     <p className="text-sm text-muted-foreground">Starting at</p>
                                     <p className="text-4xl font-bold font-headline text-foreground">${service.price}</p>
-                                    <Countdown discount={10} />
+                                    <div className="text-center mt-2">
+                                        <p className="text-sm text-muted-foreground font-sans">
+                                            Limited Offer | <span className="font-semibold text-accent">Save 10%!</span>
+                                        </p>
+                                    </div>
                                 </div>
                                 <div className="mt-6 flex flex-col sm:flex-row gap-2">
                                      <Button asChild className="flex-1">
