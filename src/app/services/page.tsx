@@ -85,10 +85,10 @@ export default function ServicesPage() {
                             <CardHeader>
                                 <CardTitle className="font-headline text-2xl text-primary">{service.title}</CardTitle>
                             </CardHeader>
-                            <CardContent className="px-6 pb-6 flex-grow flex flex-col">
-                                <p className="text-muted-foreground flex-grow mb-6">{service.description}</p>
+                            <CardContent className="px-6 pb-6 flex flex-col flex-1">
+                                <p className="text-muted-foreground mb-6 flex-1">{service.description}</p>
                                 
-                                <div className="bg-secondary/40 rounded-lg p-4 mt-auto">
+                                <div className="bg-secondary/40 rounded-lg p-4">
                                     <p className="text-sm text-muted-foreground">Starting at</p>
                                     <p className="text-4xl font-bold font-headline text-foreground">${service.price}</p>
                                     <div className="text-center mt-2">
@@ -97,6 +97,7 @@ export default function ServicesPage() {
                                         </p>
                                     </div>
                                 </div>
+
                                 <div className="mt-6 flex flex-col sm:flex-row gap-2">
                                      <Button asChild className="flex-1">
                                         <Link href="/contact">Contact Us</Link>
