@@ -14,6 +14,8 @@ import {
   faEnvelopeOpenText,
   faArrowRight,
 } from '@fortawesome/free-solid-svg-icons';
+import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
 
 const services = [
     {
@@ -21,14 +23,16 @@ const services = [
         title: "SEO Optimization",
         slug: "seo-optimization",
         description: "Boost your visibility on search engines and drive organic traffic with our data-driven SEO strategies.",
-        price: "450.00"
+        price: "450.00",
+        popular: true,
     },
     {
         icon: <FontAwesomeIcon icon={faBullseye} className="h-10 w-10 text-primary" />,
         title: "PPC Management",
         slug: "ppc-management",
         description: "Maximize your ROI with targeted pay-per-click campaigns on Google, Meta, and other platforms.",
-        price: "650.00"
+        price: "650.00",
+        popular: true,
     },
     {
         icon: <FontAwesomeIcon icon={faShareNodes} className="h-10 w-10 text-primary" />,
@@ -49,7 +53,8 @@ const services = [
         title: "Web Development",
         slug: "web-development",
         description: "We build fast, responsive, and user-friendly websites that provide an exceptional user experience.",
-        price: "1,200.00"
+        price: "1,200.00",
+        popular: true,
     },
     {
         icon: <FontAwesomeIcon icon={faEnvelopeOpenText} className="h-10 w-10 text-primary" />,
@@ -76,7 +81,12 @@ export default function ServicesPage() {
             <div className="container mx-auto px-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-20">
                     {services.map((service) => (
-                         <Card key={service.title} className="relative text-center shadow-lg hover:shadow-2xl transition-shadow duration-300 rounded-xl pt-16 border-border/80 flex flex-col">
+                         <Card key={service.title} className={cn("relative text-center shadow-lg hover:shadow-2xl transition-shadow duration-300 rounded-xl pt-16 border-border/80 flex flex-col", service.popular && "ring-2 ring-primary/50")}>
+                            {service.popular && (
+                                <Badge className="absolute top-4 right-4 bg-primary text-primary-foreground">
+                                    Popular
+                                </Badge>
+                            )}
                             <div className="absolute -top-12 left-1/2 -translate-x-1/2">
                                 <div className="bg-card w-24 h-24 rounded-full flex items-center justify-center ring-8 ring-background border-4 border-primary/50">
                                     {service.icon}
