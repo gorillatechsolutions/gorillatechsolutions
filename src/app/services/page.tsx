@@ -89,7 +89,7 @@ export default function ServicesPage() {
                                 <p className="text-muted-foreground mb-6 flex-1">{service.description}</p>
                                 
                                 <div className="bg-secondary/40 rounded-lg p-4">
-                                    <p className="text-sm text-muted-foreground">Starting at</p>
+                                    <p className="text-base italic text-foreground/80">Starting at</p>
                                     <p className="text-4xl font-bold font-headline text-foreground">${service.price}</p>
                                     <div className="text-center mt-2">
                                         <p className="text-sm text-muted-foreground font-sans">
