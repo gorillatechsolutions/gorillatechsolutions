@@ -81,22 +81,19 @@ export default function ServicesPage() {
             <div className="container mx-auto px-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-20">
                     {services.map((service) => (
-                         <Card key={service.title} className={cn("relative text-center shadow-lg hover:shadow-2xl transition-shadow duration-300 rounded-xl pt-16 border-border/80 flex flex-col", service.popular && "ring-2 ring-primary/50")}>
-                            
+                         <Card key={service.title} className={cn("relative overflow-hidden text-center shadow-lg hover:shadow-2xl transition-shadow duration-300 rounded-xl pt-16 border-border/80 flex flex-col", service.popular && "ring-2 ring-accent/80")}>
+                            {service.popular && (
+                                <div className="ribbon-wrapper">
+                                    <div className="ribbon">Popular</div>
+                                </div>
+                            )}
                             <div className="absolute -top-12 left-1/2 -translate-x-1/2">
                                 <div className="bg-card w-24 h-24 rounded-full flex items-center justify-center ring-8 ring-background border-4 border-primary/50">
                                     {service.icon}
                                 </div>
                             </div>
                             <CardHeader>
-                                <div className="flex justify-center items-center gap-2">
-                                    <CardTitle className="font-headline text-2xl text-primary">{service.title}</CardTitle>
-                                    {service.popular && (
-                                        <Badge variant="secondary" className="text-sm py-1">
-                                            Popular
-                                        </Badge>
-                                    )}
-                                </div>
+                                <CardTitle className="font-headline text-2xl text-primary">{service.title}</CardTitle>
                             </CardHeader>
                             <CardContent className="px-6 pb-6 flex flex-col flex-1">
                                 <p className="text-muted-foreground mb-6 flex-1">{service.description}</p>

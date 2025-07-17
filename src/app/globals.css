@@ -148,6 +148,18 @@
   }
 }
 
+@layer components {
+    .ribbon-wrapper {
+        @apply w-40 h-40 absolute -top-2 -right-2 overflow-hidden;
+    }
+    .ribbon {
+        @apply text-center shadow-md py-1 absolute w-60;
+        @apply bg-accent text-accent-foreground;
+        @apply text-sm font-bold tracking-wide;
+        @apply right-[-60px] top-[40px] rotate-45;
+    }
+}
+
 @layer utilities {
   .animated-gradient-text {
     @apply bg-clip-text text-transparent;
