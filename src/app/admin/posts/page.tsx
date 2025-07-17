@@ -1,6 +1,7 @@
 
 'use client';
 
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -11,6 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useCaseStudy } from '@/contexts/case-study-context';
 import Image from 'next/image';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Checkbox } from '@/components/ui/checkbox';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faEye, faCalendar, faTags, faEdit, faTrash, faUser } from '@fortawesome/free-solid-svg-icons';
 
@@ -18,6 +20,7 @@ export default function AdminPostsListPage() {
   const router = useRouter();
   const { toast } = useToast();
   const { caseStudies, deleteCaseStudy, loading } = useCaseStudy();
+  const [selectedPosts, setSelectedPosts] = useState<string[]>([]);
 
   const handleDelete = (slug: string) => {
     deleteCaseStudy(slug);
@@ -25,6 +28,31 @@ export default function AdminPostsListPage() {
       title: 'Post Deleted',
       description: 'The case study has been successfully deleted.',
     });
+  };
+
+  const handleSelectAll = (checked: boolean | 'indeterminate') => {
+    if (checked === true) {
+      setSelectedPosts(caseStudies.map(p => p.slug));
+    } else {
+      setSelectedPosts([]);
+    }
+  };
+
+  const handleSelectPost = (slug: string, checked: boolean) => {
+    if (checked) {
+      setSelectedPosts(prev => [...prev, slug]);
+    } else {
+      setSelectedPosts(prev => prev.filter(id => id !== slug));
+    }
+  };
+
+  const handleDeleteSelected = () => {
+    selectedPosts.forEach(slug => deleteCaseStudy(slug));
+    toast({
+      title: 'Posts Deleted',
+      description: `${selectedPosts.length} case studies have been deleted.`,
+    });
+    setSelectedPosts([]);
   };
 
   const formatViews = (views: number) => {
@@ -41,10 +69,36 @@ export default function AdminPostsListPage() {
           <h1 className="text-2xl font-bold text-foreground">Manage Posts</h1>
           <p className="text-muted-foreground">View, create, edit, and delete your case studies.</p>
         </div>
-        <Button onClick={() => router.push('/admin/posts/new')}>
-          <FontAwesomeIcon icon={faPlus} className="mr-2 h-4 w-4" />
-          Create Post
-        </Button>
+        <div className="flex items-center gap-2">
+            {selectedPosts.length > 0 && (
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="destructive">
+                      <FontAwesomeIcon icon={faTrash} className="mr-2 h-4 w-4" />
+                      Delete Selected ({selectedPosts.length})
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This will permanently delete {selectedPosts.length} posts. This action cannot be undone.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction onClick={handleDeleteSelected}>
+                        Continue
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+            )}
+            <Button onClick={() => router.push('/admin/posts/new')}>
+              <FontAwesomeIcon icon={faPlus} className="mr-2 h-4 w-4" />
+              Create Post
+            </Button>
+        </div>
       </div>
 
       <Card>
@@ -64,6 +118,13 @@ export default function AdminPostsListPage() {
             <Table>
               <TableHeader>
                 <TableRow>
+                  <TableHead className="w-[50px]">
+                     <Checkbox
+                        checked={selectedPosts.length > 0 && selectedPosts.length === caseStudies.length ? true : (selectedPosts.length > 0 ? 'indeterminate' : false)}
+                        onCheckedChange={handleSelectAll}
+                        aria-label="Select all posts"
+                     />
+                  </TableHead>
                   <TableHead>Post</TableHead>
                   <TableHead>Author</TableHead>
                   <TableHead>Date</TableHead>
@@ -74,7 +135,14 @@ export default function AdminPostsListPage() {
               </TableHeader>
               <TableBody>
                 {caseStudies.map((post) => (
-                  <TableRow key={post.slug}>
+                  <TableRow key={post.slug} data-state={selectedPosts.includes(post.slug) ? 'selected' : undefined}>
+                    <TableCell>
+                        <Checkbox
+                            checked={selectedPosts.includes(post.slug)}
+                            onCheckedChange={(checked) => handleSelectPost(post.slug, !!checked)}
+                            aria-label={`Select post ${post.title}`}
+                        />
+                    </TableCell>
                     <TableCell className="font-medium">
                       <div className="flex items-center gap-3">
                         <Image 
