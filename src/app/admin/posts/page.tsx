@@ -65,8 +65,8 @@ export default function AdminPostsListPage() {
             {selectedPosts.length > 0 && (
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button variant="destructive" size="sm">
-                      <FontAwesomeIcon icon={faTrash} className="mr-2 h-4 w-4" />
+                    <Button variant="destructive" size="xs">
+                      <FontAwesomeIcon icon={faTrash} className="mr-2 h-3 w-3" />
                       Delete Selected ({selectedPosts.length})
                     </Button>
                   </AlertDialogTrigger>
@@ -86,7 +86,7 @@ export default function AdminPostsListPage() {
                   </AlertDialogContent>
                 </AlertDialog>
             )}
-            <Button onClick={() => router.push('/admin/posts/new')}>
+            <Button onClick={() => router.push('/admin/posts/new')} size="sm">
               <FontAwesomeIcon icon={faPlus} className="mr-2 h-4 w-4" />
               Create Post
             </Button>
