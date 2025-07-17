@@ -135,7 +135,7 @@ export function CaseStudyList({ allCaseStudies, initialSearchTerm = '', initialP
                       </div>
                       <div className="flex items-center gap-1.5">
                         <i className="fa fa-eye" aria-hidden="true"></i>
-                        <span>{formatViews(post.views)} views</span>
+                        <span>{formatViews(post.views)}</span>
                       </div>
                   </div>
                   <CardContent className="p-6 flex-1 flex flex-col">
