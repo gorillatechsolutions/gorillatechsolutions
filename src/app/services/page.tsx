@@ -88,10 +88,12 @@ export default function ServicesPage() {
                             <CardContent className="px-6 pb-6 flex flex-col flex-1">
                                 <p className="text-muted-foreground mb-6 flex-1">{service.description}</p>
                                 
-                                <div className="bg-secondary/40 rounded-lg p-4 text-left">
-                                    <p className="text-lg italic text-foreground/80">Starting at</p>
-                                    <p className="text-4xl font-bold font-headline text-foreground">${service.price}</p>
-                                    <div className="mt-2">
+                                <div className="bg-secondary/40 rounded-lg p-4 text-left space-y-2">
+                                    <div className="flex justify-between items-start">
+                                        <p className="text-lg italic text-foreground/80">Starting at</p>
+                                        <p className="text-4xl font-bold font-headline text-foreground">${service.price}</p>
+                                    </div>
+                                    <div>
                                         <p className="text-sm text-muted-foreground font-sans">
                                             Limited Offer | <span className="font-semibold text-accent">Save 10%!</span>
                                         </p>
