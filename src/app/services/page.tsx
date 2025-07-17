@@ -82,20 +82,23 @@ export default function ServicesPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-20">
                     {services.map((service) => (
                          <Card key={service.title} className={cn("relative text-center shadow-lg hover:shadow-2xl transition-shadow duration-300 rounded-xl pt-16 border-border/80 flex flex-col", service.popular && "ring-2 ring-primary/50")}>
-                            {service.popular && (
-                                <Badge className="absolute top-4 right-4 bg-primary text-primary-foreground">
-                                    Popular
-                                </Badge>
-                            )}
+                            
                             <div className="absolute -top-12 left-1/2 -translate-x-1/2">
                                 <div className="bg-card w-24 h-24 rounded-full flex items-center justify-center ring-8 ring-background border-4 border-primary/50">
                                     {service.icon}
                                 </div>
                             </div>
                             <CardHeader>
-                                <CardTitle className="font-headline text-2xl text-primary">{service.title}</CardTitle>
+                                <div className="flex justify-center items-center gap-2">
+                                    <CardTitle className="font-headline text-2xl text-primary">{service.title}</CardTitle>
+                                    {service.popular && (
+                                        <Badge variant="secondary" className="text-sm py-1">
+                                            Popular
+                                        </Badge>
+                                    )}
+                                </div>
                             </CardHeader>
-                            <CardContent className="px-6 pb-6 flex-1 flex flex-col">
+                            <CardContent className="px-6 pb-6 flex flex-col flex-1">
                                 <p className="text-muted-foreground mb-6 flex-1">{service.description}</p>
                                 
                                 <div className="bg-secondary/40 rounded-lg p-4 space-y-2">
