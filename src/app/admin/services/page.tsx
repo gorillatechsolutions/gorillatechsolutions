@@ -70,14 +70,14 @@ export default function AdminServicesListPage() {
                         {service.popular && <Badge>Popular</Badge>}
                     </TableCell>
                     <TableCell className="text-right space-x-2">
-                        <Button variant="outline" size="sm" onClick={() => router.push(`/admin/services/edit/${service.slug}`)}>
-                            <FontAwesomeIcon icon={faEdit} className="mr-2 h-3.5 w-3.5" />
+                        <Button variant="outline" size="xs" onClick={() => router.push(`/admin/services/edit/${service.slug}`)}>
+                            <FontAwesomeIcon icon={faEdit} className="mr-1 h-3 w-3" />
                             Edit
                         </Button>
                         <AlertDialog>
                             <AlertDialogTrigger asChild>
-                                <Button variant="destructive" size="sm">
-                                    <FontAwesomeIcon icon={faTrash} className="mr-2 h-3.5 w-3.5" />
+                                <Button variant="destructive" size="xs">
+                                    <FontAwesomeIcon icon={faTrash} className="mr-1 h-3 w-3" />
                                     Delete
                                 </Button>
                             </AlertDialogTrigger>
