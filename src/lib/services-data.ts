@@ -3,7 +3,7 @@ import type { Service } from '@/types/service';
 
 export const initialServices: Service[] = [
     {
-        icon: 'faMagnifyingGlassChart',
+        icon: 'https://placehold.co/128x128.png',
         title: "SEO Optimization",
         slug: "seo-optimization",
         description: "Boost your visibility on search engines and drive organic traffic with our data-driven SEO strategies.",
@@ -12,7 +12,7 @@ export const initialServices: Service[] = [
         popular: true,
     },
     {
-        icon: 'faBullseye',
+        icon: 'https://placehold.co/128x128.png',
         title: "PPC Management",
         slug: "ppc-management",
         description: "Maximize your ROI with targeted pay-per-click campaigns on Google, Meta, and other platforms.",
@@ -21,7 +21,7 @@ export const initialServices: Service[] = [
         popular: true,
     },
     {
-        icon: 'faShareNodes',
+        icon: 'https://placehold.co/128x128.png',
         title: "Social Media Marketing",
         slug: "social-media-marketing",
         description: "Engage your audience and build a loyal community. We create and manage social media campaigns that resonate.",
@@ -30,7 +30,7 @@ export const initialServices: Service[] = [
         popular: false,
     },
     {
-        icon: 'faPenRuler',
+        icon: 'https://placehold.co/128x128.png',
         title: "Content Creation",
         slug: "content-creation",
         description: "From blog posts to video scripts, our creative team produces high-quality content that captivates your audience.",
@@ -39,7 +39,7 @@ export const initialServices: Service[] = [
         popular: false,
     },
     {
-        icon: 'faCode',
+        icon: 'https://placehold.co/128x128.png',
         title: "Web Development",
         slug: "web-development",
         description: "We build fast, responsive, and user-friendly websites that provide an exceptional user experience.",
@@ -48,7 +48,7 @@ export const initialServices: Service[] = [
         popular: true,
     },
     {
-        icon: 'faEnvelopeOpenText',
+        icon: 'https://placehold.co/128x128.png',
         title: "Email Marketing",
         slug: "email-marketing",
         description: "Nurture leads and drive conversions with automated email campaigns and personalized newsletters.",

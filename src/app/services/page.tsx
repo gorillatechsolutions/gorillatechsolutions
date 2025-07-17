@@ -6,34 +6,13 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faMagnifyingGlassChart,
-  faBullseye,
-  faShareNodes,
-  faPenRuler,
-  faCode,
-  faEnvelopeOpenText,
   faArrowRight,
   faAward,
-  type IconDefinition
 } from '@fortawesome/free-solid-svg-icons';
-import * as solidIcons from '@fortawesome/free-solid-svg-icons';
 import { Badge } from '@/components/ui/badge';
 import { useService } from '@/contexts/service-context';
 import { Skeleton } from '@/components/ui/skeleton';
-
-const iconMap: { [key: string]: IconDefinition } = {
-    faMagnifyingGlassChart,
-    faBullseye,
-    faShareNodes,
-    faPenRuler,
-    faCode,
-    faEnvelopeOpenText
-};
-
-const getIcon = (iconName: string): IconDefinition => {
-    return (solidIcons as any)[iconName] || solidIcons.faQuestionCircle;
-};
-
+import Image from 'next/image';
 
 export default function ServicesPage() {
     const { services, loading } = useService();
@@ -87,8 +66,8 @@ export default function ServicesPage() {
                     {services.map((service) => (
                          <Card key={service.slug} className="relative shadow-lg hover:shadow-2xl transition-shadow duration-300 rounded-xl pt-16 border-border/80 flex flex-col">
                             <div className="absolute -top-12 left-6">
-                                <div className="bg-card w-24 h-24 rounded-full flex items-center justify-center ring-8 ring-background border-4 border-primary/20">
-                                    <FontAwesomeIcon icon={getIcon(service.icon)} className="h-10 w-10 text-primary" />
+                                <div className="bg-card w-24 h-24 rounded-full flex items-center justify-center ring-8 ring-background border-4 border-primary/20 p-2">
+                                    <Image src={service.icon} alt={`${service.title} icon`} width={80} height={80} className="rounded-full object-contain" />
                                 </div>
                             </div>
                             
