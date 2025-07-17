@@ -66,26 +66,33 @@ export function ServiceForm({ serviceToEdit }: ServiceFormProps) {
     }
   }, [serviceToEdit, form]);
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    if (serviceToEdit) {
-      updateService(serviceToEdit.slug, values);
-      toast({
-        title: 'Service Updated!',
-        description: 'The service has been successfully updated.',
-      });
-    } else {
-      if (slugExists(values.slug)) {
-          form.setError('slug', { type: 'manual', message: 'This slug is already taken.' });
-          return;
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      if (serviceToEdit) {
+        await updateService(serviceToEdit.slug, values);
+        toast({
+          title: 'Service Updated!',
+          description: 'The service has been successfully updated.',
+        });
+      } else {
+        if (slugExists(values.slug)) {
+            form.setError('slug', { type: 'manual', message: 'This slug is already taken.' });
+            return;
+        }
+        await addService(values);
+        toast({
+          title: 'Service Created!',
+          description: 'The new service has been successfully created.',
+        });
       }
-      addService(values);
-      toast({
-        title: 'Service Created!',
-        description: 'The new service has been successfully created.',
+      router.push('/admin/services');
+    } catch (error) {
+       toast({
+        variant: "destructive",
+        title: 'An Error Occurred',
+        description: 'Could not save the service. Please try again.',
       });
     }
-
-    router.push('/admin/services');
   }
 
   const generateSlug = () => {
