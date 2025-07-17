@@ -102,7 +102,7 @@ const Countdown = ({ discount }: { discount: number }) => {
     }, []);
 
     return (
-        <div className="text-center mt-4">
+        <div className="text-center mt-2">
             <p className="text-sm text-muted-foreground font-sans">
                 Offer ends in: <span className="font-mono font-bold text-foreground">{timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s</span> | <span className="font-semibold text-accent">Save {discount}%!</span>
             </p>
@@ -139,7 +139,7 @@ export default function ServicesPage() {
                             <CardContent className="px-6 pb-6 flex-grow flex flex-col">
                                 <p className="text-muted-foreground flex-grow mb-6">{service.description}</p>
                                 
-                                <div className="border-t pt-4 mt-auto">
+                                <div className="bg-secondary/40 rounded-lg p-4 mt-auto">
                                     <p className="text-sm text-muted-foreground">Starting at</p>
                                     <p className="text-4xl font-bold font-headline text-foreground">${service.price}</p>
                                     <Countdown discount={10} />
