@@ -31,7 +31,7 @@ export function AppsList({ allApps, searchTerm, filter }: AppsListProps) {
   const searchParams = useSearchParams();
   
   const filteredApps = useMemo(() => {
-    let apps = allApps;
+    let apps = allApps.filter(Boolean); // Safeguard against null/undefined entries
 
     if (filter === 'mobile') {
         apps = apps.filter(app => app.links.playStore || app.links.appStore);
