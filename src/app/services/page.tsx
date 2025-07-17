@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faArrowRight,
   faAward,
+  faImage,
 } from '@fortawesome/free-solid-svg-icons';
 import { Badge } from '@/components/ui/badge';
 import { useService } from '@/contexts/service-context';
@@ -16,6 +17,15 @@ import Image from 'next/image';
 
 export default function ServicesPage() {
     const { services, loading } = useService();
+
+    const isValidUrl = (url: string) => {
+        try {
+            new URL(url);
+            return true;
+        } catch (_) {
+            return false;
+        }
+    }
 
     if (loading) {
         return (
@@ -67,7 +77,11 @@ export default function ServicesPage() {
                          <Card key={service.slug} className="relative shadow-lg hover:shadow-2xl transition-shadow duration-300 rounded-xl pt-16 border-border/80 flex flex-col">
                             <div className="absolute -top-12 left-6">
                                 <div className="bg-card w-24 h-24 rounded-full flex items-center justify-center ring-8 ring-background border-4 border-primary/20 p-2">
-                                    <Image src={service.icon} alt={`${service.title} icon`} width={80} height={80} className="rounded-full object-contain" />
+                                    {isValidUrl(service.icon) ? (
+                                        <Image src={service.icon} alt={`${service.title} icon`} width={80} height={80} className="rounded-full object-contain" />
+                                    ) : (
+                                        <FontAwesomeIcon icon={faImage} className="h-10 w-10 text-muted-foreground" />
+                                    )}
                                 </div>
                             </div>
                             
