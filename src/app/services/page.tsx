@@ -111,7 +111,7 @@ export default function ServicesPage() {
                                     <div className="flex justify-between items-start">
                                         <p className="text-lg text-muted-foreground">Starting at</p>
                                         <div className="text-right">
-                                            <p className="text-4xl font-bold font-headline text-foreground">${service.price}</p>
+                                            <p className="text-4xl font-bold font-headline text-amber-700">${service.price}</p>
                                             <p className="text-sm text-muted-foreground line-through">${service.originalPrice}</p>
                                         </div>
                                     </div>
