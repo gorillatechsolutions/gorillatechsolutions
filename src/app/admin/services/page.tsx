@@ -69,14 +69,15 @@ export default function AdminServicesListPage() {
                     <TableCell>
                         {service.popular && <Badge>Popular</Badge>}
                     </TableCell>
-                    <TableCell className="text-right space-x-2">
-                        <Button variant="outline" size="xs" onClick={() => router.push(`/admin/services/edit/${service.slug}`)} className="py-1">
+                    <TableCell className="text-right">
+                      <div className="flex flex-col items-end gap-1">
+                        <Button variant="outline" size="xs" onClick={() => router.push(`/admin/services/edit/${service.slug}`)}>
                             <FontAwesomeIcon icon={faEdit} className="mr-1 h-3 w-3" />
                             Edit
                         </Button>
                         <AlertDialog>
                             <AlertDialogTrigger asChild>
-                                <Button variant="destructive" size="xs" className="py-1">
+                                <Button variant="destructive" size="xs">
                                     <FontAwesomeIcon icon={faTrash} className="mr-1 h-3 w-3" />
                                     Delete
                                 </Button>
@@ -96,6 +97,7 @@ export default function AdminServicesListPage() {
                                 </AlertDialogFooter>
                             </AlertDialogContent>
                         </AlertDialog>
+                      </div>
                     </TableCell>
                     </TableRow>
                 ))}
