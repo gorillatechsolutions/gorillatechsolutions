@@ -1,7 +1,6 @@
 
 'use client';
 
-import type { Metadata } from 'next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -21,36 +20,42 @@ const services = [
     {
         icon: <FontAwesomeIcon icon={faMagnifyingGlassChart} className="h-10 w-10 text-primary" />,
         title: "SEO Optimization",
+        slug: "seo-optimization",
         description: "Boost your visibility on search engines and drive organic traffic with our data-driven SEO strategies.",
         price: "450.00"
     },
     {
         icon: <FontAwesomeIcon icon={faBullseye} className="h-10 w-10 text-primary" />,
         title: "PPC Management",
+        slug: "ppc-management",
         description: "Maximize your ROI with targeted pay-per-click campaigns on Google, Meta, and other platforms.",
         price: "650.00"
     },
     {
         icon: <FontAwesomeIcon icon={faShareNodes} className="h-10 w-10 text-primary" />,
         title: "Social Media Marketing",
+        slug: "social-media-marketing",
         description: "Engage your audience and build a loyal community. We create and manage social media campaigns that resonate.",
         price: "320.00"
     },
     {
         icon: <FontAwesomeIcon icon={faPenRuler} className="h-10 w-10 text-primary" />,
         title: "Content Creation",
+        slug: "content-creation",
         description: "From blog posts to video scripts, our creative team produces high-quality content that captivates your audience.",
         price: "280.00"
     },
     {
         icon: <FontAwesomeIcon icon={faCode} className="h-10 w-10 text-primary" />,
         title: "Web Development",
+        slug: "web-development",
         description: "We build fast, responsive, and user-friendly websites that provide an exceptional user experience.",
         price: "1,200.00"
     },
     {
         icon: <FontAwesomeIcon icon={faEnvelopeOpenText} className="h-10 w-10 text-primary" />,
         title: "Email Marketing",
+        slug: "email-marketing",
         description: "Nurture leads and drive conversions with automated email campaigns and personalized newsletters.",
         price: "250.00"
     }
@@ -134,10 +139,18 @@ export default function ServicesPage() {
                             <CardContent className="px-6 pb-6 flex-grow flex flex-col">
                                 <p className="text-muted-foreground flex-grow mb-6">{service.description}</p>
                                 
-                                <div className="border-t pt-4">
+                                <div className="border-t pt-4 mt-auto">
                                     <p className="text-sm text-muted-foreground">Starting at</p>
                                     <p className="text-4xl font-bold font-headline text-foreground">${service.price}</p>
                                     <Countdown discount={10} />
+                                </div>
+                                <div className="mt-6 flex flex-col sm:flex-row gap-2">
+                                     <Button asChild className="flex-1">
+                                        <Link href="/contact">Contact Us</Link>
+                                    </Button>
+                                    <Button asChild variant="outline" className="flex-1">
+                                        <Link href={`/services/${service.slug}`}>Read More</Link>
+                                    </Button>
                                 </div>
                             </CardContent>
                         </Card>
