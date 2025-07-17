@@ -65,7 +65,7 @@ export default function AdminPostsListPage() {
             {selectedPosts.length > 0 && (
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button variant="destructive">
+                    <Button variant="destructive" size="sm">
                       <FontAwesomeIcon icon={faTrash} className="mr-2 h-4 w-4" />
                       Delete Selected ({selectedPosts.length})
                     </Button>
