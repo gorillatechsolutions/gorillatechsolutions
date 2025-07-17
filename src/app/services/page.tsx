@@ -14,65 +14,62 @@ import {
   faEnvelopeOpenText,
   faArrowRight,
   faAward,
+  type IconDefinition
 } from '@fortawesome/free-solid-svg-icons';
+import * as solidIcons from '@fortawesome/free-solid-svg-icons';
 import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
+import { useService } from '@/contexts/service-context';
+import { Skeleton } from '@/components/ui/skeleton';
 
-const services = [
-    {
-        icon: <FontAwesomeIcon icon={faMagnifyingGlassChart} className="h-10 w-10 text-primary" />,
-        title: "SEO Optimization",
-        slug: "seo-optimization",
-        description: "Boost your visibility on search engines and drive organic traffic with our data-driven SEO strategies.",
-        price: "450.00",
-        originalPrice: "500.00",
-        popular: true,
-    },
-    {
-        icon: <FontAwesomeIcon icon={faBullseye} className="h-10 w-10 text-primary" />,
-        title: "PPC Management",
-        slug: "ppc-management",
-        description: "Maximize your ROI with targeted pay-per-click campaigns on Google, Meta, and other platforms.",
-        price: "650.00",
-        originalPrice: "725.00",
-        popular: true,
-    },
-    {
-        icon: <FontAwesomeIcon icon={faShareNodes} className="h-10 w-10 text-primary" />,
-        title: "Social Media Marketing",
-        slug: "social-media-marketing",
-        description: "Engage your audience and build a loyal community. We create and manage social media campaigns that resonate.",
-        price: "320.00",
-        originalPrice: "355.00",
-    },
-    {
-        icon: <FontAwesomeIcon icon={faPenRuler} className="h-10 w-10 text-primary" />,
-        title: "Content Creation",
-        slug: "content-creation",
-        description: "From blog posts to video scripts, our creative team produces high-quality content that captivates your audience.",
-        price: "280.00",
-        originalPrice: "310.00",
-    },
-    {
-        icon: <FontAwesomeIcon icon={faCode} className="h-10 w-10 text-primary" />,
-        title: "Web Development",
-        slug: "web-development",
-        description: "We build fast, responsive, and user-friendly websites that provide an exceptional user experience.",
-        price: "1,200.00",
-        originalPrice: "1,350.00",
-        popular: true,
-    },
-    {
-        icon: <FontAwesomeIcon icon={faEnvelopeOpenText} className="h-10 w-10 text-primary" />,
-        title: "Email Marketing",
-        slug: "email-marketing",
-        description: "Nurture leads and drive conversions with automated email campaigns and personalized newsletters.",
-        price: "250.00",
-        originalPrice: "275.00",
-    }
-];
+const iconMap: { [key: string]: IconDefinition } = {
+    faMagnifyingGlassChart,
+    faBullseye,
+    faShareNodes,
+    faPenRuler,
+    faCode,
+    faEnvelopeOpenText
+};
+
+const getIcon = (iconName: string): IconDefinition => {
+    return (solidIcons as any)[iconName] || solidIcons.faQuestionCircle;
+};
+
 
 export default function ServicesPage() {
+    const { services, loading } = useService();
+
+    if (loading) {
+        return (
+            <div className="w-full bg-background text-foreground">
+                <section className="bg-secondary/30 pt-16 pb-12 md:pt-24 md:pb-20">
+                    <div className="container mx-auto px-4 text-center">
+                        <Skeleton className="h-12 w-2/3 mx-auto" />
+                        <Skeleton className="h-6 w-1/2 mx-auto mt-4" />
+                    </div>
+                </section>
+                <section className="py-16 md:py-24">
+                    <div className="container mx-auto px-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-20">
+                            {Array.from({ length: 6 }).map((_, i) => (
+                                <Card key={i} className="relative pt-16">
+                                    <Skeleton className="absolute -top-12 left-6 w-24 h-24 rounded-full" />
+                                    <CardHeader>
+                                        <Skeleton className="h-8 w-3/4" />
+                                    </CardHeader>
+                                    <CardContent>
+                                        <Skeleton className="h-4 w-full mb-2" />
+                                        <Skeleton className="h-4 w-full mb-6" />
+                                        <Skeleton className="h-10 w-1/2" />
+                                    </CardContent>
+                                </Card>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            </div>
+        )
+    }
+
   return (
     <div className="w-full bg-background text-foreground">
         <section className="bg-secondary/30 pt-16 pb-12 md:pt-24 md:pb-20">
@@ -88,10 +85,10 @@ export default function ServicesPage() {
             <div className="container mx-auto px-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-20">
                     {services.map((service) => (
-                         <Card key={service.title} className="relative shadow-lg hover:shadow-2xl transition-shadow duration-300 rounded-xl pt-16 border-border/80 flex flex-col">
+                         <Card key={service.slug} className="relative shadow-lg hover:shadow-2xl transition-shadow duration-300 rounded-xl pt-16 border-border/80 flex flex-col">
                             <div className="absolute -top-12 left-6">
                                 <div className="bg-card w-24 h-24 rounded-full flex items-center justify-center ring-8 ring-background border-4 border-primary/20">
-                                    {service.icon}
+                                    <FontAwesomeIcon icon={getIcon(service.icon)} className="h-10 w-10 text-primary" />
                                 </div>
                             </div>
                             

@@ -8,6 +8,7 @@ import { Footer } from '@/components/layout/footer';
 import { AuthProvider } from '@/contexts/auth-context';
 import { CaseStudyProvider } from '@/contexts/case-study-context';
 import { AppProvider } from '@/contexts/app-context';
+import { ServiceProvider } from '@/contexts/service-context';
 
 export const metadata: Metadata = {
   title: {
@@ -31,12 +32,14 @@ export default function RootLayout({
         <AuthProvider>
           <CaseStudyProvider>
             <AppProvider>
-              <div className="relative flex min-h-dvh flex-col">
-                  <Header />
-                  <main className="flex-1">{children}</main>
-                  <Footer />
-              </div>
-              <Toaster />
+              <ServiceProvider>
+                <div className="relative flex min-h-dvh flex-col">
+                    <Header />
+                    <main className="flex-1">{children}</main>
+                    <Footer />
+                </div>
+                <Toaster />
+              </ServiceProvider>
             </AppProvider>
           </CaseStudyProvider>
         </AuthProvider>
