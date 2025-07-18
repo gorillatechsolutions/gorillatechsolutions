@@ -19,6 +19,7 @@ interface AuthContextType {
   logout: () => void;
   signup: (name: string, email: string, password: string) => void;
   userExists: (email: string) => boolean;
+  deleteUsers: (emails: string[]) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -115,8 +116,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return users.some(u => u.email === email);
   }
 
+  const deleteUsers = (emails: string[]) => {
+    const updatedUsers = users.filter(u => !emails.includes(u.email));
+    setUsers(updatedUsers);
+    localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(updatedUsers));
+  }
+
   return (
-    <AuthContext.Provider value={{ user, users, loading, login, logout, signup, userExists }}>
+    <AuthContext.Provider value={{ user, users, loading, login, logout, signup, userExists, deleteUsers }}>
       {children}
     </AuthContext.Provider>
   );
