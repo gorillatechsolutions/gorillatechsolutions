@@ -22,6 +22,9 @@ import type { CaseStudy } from '@/types/case-study';
 import { useCaseStudy } from '@/contexts/case-study-context';
 import { useEffect, useState }from 'react';
 import dynamic from 'next/dynamic';
+import { generateArticle } from '@/ai/flows/generate-article-flow';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagic, faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 const QuillEditor = dynamic(() => import('@/components/admin/quill-editor'), { ssr: false });
 
@@ -46,6 +49,9 @@ export function PostForm({ postToEdit }: PostFormProps) {
   const router = useRouter();
   const { addCaseStudy, updateCaseStudy, slugExists } = useCaseStudy();
   const [isClient, setIsClient] = useState(false);
+  const [aiTopic, setAiTopic] = useState('');
+  const [isGenerating, setIsGenerating] = useState(false);
+
 
   useEffect(() => {
     setIsClient(true);
@@ -78,6 +84,38 @@ export function PostForm({ postToEdit }: PostFormProps) {
       });
     }
   }, [postToEdit, form]);
+  
+  const handleGenerateArticle = async () => {
+    if (!aiTopic) {
+        toast({
+            variant: "destructive",
+            title: 'Topic is required',
+            description: 'Please enter a topic to generate an article.',
+        });
+        return;
+    }
+    
+    setIsGenerating(true);
+    try {
+        const result = await generateArticle({ topic: aiTopic });
+        form.setValue('title', result.title, { shouldValidate: true });
+        form.setValue('excerpt', result.excerpt, { shouldValidate: true });
+        form.setValue('content', result.articleContent, { shouldValidate: true });
+        toast({
+            title: 'Article Generated!',
+            description: 'The AI-generated content has been added to the form.',
+        });
+    } catch (error) {
+        console.error('Error generating article:', error);
+        toast({
+            variant: "destructive",
+            title: 'Generation Failed',
+            description: 'An error occurred while generating the article. Please try again.',
+        });
+    } finally {
+        setIsGenerating(false);
+    }
+  };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     const postData = {
@@ -120,6 +158,42 @@ export function PostForm({ postToEdit }: PostFormProps) {
           <CardTitle>{postToEdit ? 'Edit Post' : 'Create New Post'}</CardTitle>
           <CardDescription>Fill out the details below to {postToEdit ? 'update the' : 'create a new'} case study.</CardDescription>
         </CardHeader>
+        
+      {!postToEdit && (
+        <Card>
+            <CardHeader>
+                <CardTitle>AI Content Generation</CardTitle>
+                <CardDescription>
+                    Provide a topic, and our AI will generate a title, excerpt, and full article content for you.
+                </CardDescription>
+            </CardHeader>
+            <CardContent>
+                <div className="flex flex-col sm:flex-row gap-4">
+                    <Input
+                        placeholder="e.g., 'How to improve SEO for a small business'"
+                        value={aiTopic}
+                        onChange={(e) => setAiTopic(e.target.value)}
+                        className="flex-grow"
+                        disabled={isGenerating}
+                    />
+                    <Button type="button" onClick={handleGenerateArticle} disabled={isGenerating}>
+                        {isGenerating ? (
+                            <>
+                                <FontAwesomeIcon icon={faSpinner} className="mr-2 h-4 w-4 animate-spin" />
+                                Generating...
+                            </>
+                        ) : (
+                            <>
+                                <FontAwesomeIcon icon={faMagic} className="mr-2 h-4 w-4" />
+                                Generate Article
+                            </>
+                        )}
+                    </Button>
+                </div>
+            </CardContent>
+        </Card>
+      )}
+
       
         <Card>
             <CardContent className="pt-6">
