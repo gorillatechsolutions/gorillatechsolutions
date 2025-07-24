@@ -10,4 +10,5 @@ export type CaseStudy = {
   date: string;
   views: number;
   content: string; // HTML content from Tiptap
+  ogImage?: string;
 };
