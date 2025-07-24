@@ -44,10 +44,39 @@ export default function AdminSettingsPage() {
                     <Card>
                         <CardHeader>
                             <CardTitle>Core Settings</CardTitle>
-                            <CardDescription>Manage core application configurations.</CardDescription>
+                            <CardDescription>Manage core application configurations like database connections.</CardDescription>
                         </CardHeader>
-                        <CardContent className="space-y-4">
-                            <p>This section is under development.</p>
+                        <CardContent className="space-y-8">
+                            <div>
+                                <h3 className="text-lg font-medium text-foreground mb-4">Local Database Configuration</h3>
+                                <div className="space-y-4">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                            <Label htmlFor="dbHost">Database Host</Label>
+                                            <Input id="dbHost" placeholder="localhost" defaultValue="localhost" />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label htmlFor="dbPort">Database Port</Label>
+                                            <Input id="dbPort" placeholder="3306" defaultValue="3306" />
+                                        </div>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="dbName">Database Name</Label>
+                                        <Input id="dbName" placeholder="your_database_name" />
+                                    </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                            <Label htmlFor="dbUser">Username</Label>
+                                            <Input id="dbUser" placeholder="your_db_user" />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label htmlFor="dbPassword">Password</Label>
+                                            <Input id="dbPassword" type="password" placeholder="••••••••" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <Button>Save Database Configuration</Button>
                         </CardContent>
                     </Card>
                 </TabsContent>
