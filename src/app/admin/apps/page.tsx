@@ -1,6 +1,7 @@
 
 'use client';
 
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -13,18 +14,37 @@ import Image from 'next/image';
 import { Skeleton } from '@/components/ui/skeleton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faEdit, faTrash, faStar, faDownload } from '@fortawesome/free-solid-svg-icons';
+import { Checkbox } from '@/components/ui/checkbox';
 
 export default function AdminAppsListPage() {
   const router = useRouter();
   const { toast } = useToast();
   const { apps, deleteApp, loading } = useApp();
+  const [selectedApps, setSelectedApps] = useState<string[]>([]);
 
-  const handleDelete = (slug: string) => {
-    deleteApp(slug);
+  const handleDelete = (slugs: string[]) => {
+    slugs.forEach(slug => deleteApp(slug));
     toast({
-      title: 'App Deleted',
-      description: 'The application has been successfully deleted.',
+      title: 'Apps Deleted',
+      description: `${slugs.length} application(s) have been successfully deleted.`,
     });
+    setSelectedApps([]);
+  };
+
+  const handleSelectAll = (checked: boolean | 'indeterminate') => {
+    if (checked === true) {
+      setSelectedApps(apps.map(app => app.slug));
+    } else {
+      setSelectedApps([]);
+    }
+  };
+
+  const handleSelectApp = (slug: string, checked: boolean) => {
+    if (checked) {
+      setSelectedApps(prev => [...prev, slug]);
+    } else {
+      setSelectedApps(prev => prev.filter(id => id !== slug));
+    }
   };
 
   return (
@@ -34,10 +54,36 @@ export default function AdminAppsListPage() {
           <h1 className="text-2xl font-bold text-foreground">Manage Apps</h1>
           <p className="text-muted-foreground">View, create, edit, and delete your applications.</p>
         </div>
-        <Button onClick={() => router.push('/admin/apps/new')}>
-          <FontAwesomeIcon icon={faPlus} className="mr-2 h-4 w-4" />
-          Create App
-        </Button>
+        <div className="flex items-center gap-2">
+           {selectedApps.length > 0 && (
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="destructive" size="xs">
+                    <FontAwesomeIcon icon={faTrash} className="mr-2 h-3 w-3" />
+                    Delete Selected ({selectedApps.length})
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This will permanently delete {selectedApps.length} applications. This action cannot be undone.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={() => handleDelete(selectedApps)}>
+                      Continue
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+          )}
+          <Button onClick={() => router.push('/admin/apps/new')}>
+            <FontAwesomeIcon icon={faPlus} className="mr-2 h-4 w-4" />
+            Create App
+          </Button>
+        </div>
       </div>
 
       <Card>
@@ -57,6 +103,13 @@ export default function AdminAppsListPage() {
             <Table>
               <TableHeader>
                 <TableRow>
+                   <TableHead className="w-[50px]">
+                     <Checkbox
+                        checked={selectedApps.length > 0 && selectedApps.length === apps.length ? true : (selectedApps.length > 0 ? 'indeterminate' : false)}
+                        onCheckedChange={handleSelectAll}
+                        aria-label="Select all apps"
+                     />
+                  </TableHead>
                   <TableHead>App</TableHead>
                   <TableHead>Category</TableHead>
                   <TableHead>Rating</TableHead>
@@ -67,7 +120,14 @@ export default function AdminAppsListPage() {
               </TableHeader>
               <TableBody>
                 {apps.map((app) => (
-                  <TableRow key={app.slug}>
+                  <TableRow key={app.slug} data-state={selectedApps.includes(app.slug) ? 'selected' : undefined}>
+                    <TableCell>
+                        <Checkbox
+                            checked={selectedApps.includes(app.slug)}
+                            onCheckedChange={(checked) => handleSelectApp(app.slug, !!checked)}
+                            aria-label={`Select app ${app.title}`}
+                        />
+                    </TableCell>
                     <TableCell className="font-medium">
                       <div className="flex items-center gap-3">
                         <Image 
@@ -98,34 +158,10 @@ export default function AdminAppsListPage() {
                       {app.badge && <Badge variant="secondary">{app.badge}</Badge>}
                     </TableCell>
                     <TableCell className="text-right">
-                      <div className="flex flex-col items-end gap-1">
-                        <Button variant="outline" size="xs" onClick={() => router.push(`/admin/apps/edit/${app.slug}`)}>
-                          <FontAwesomeIcon icon={faEdit} className="mr-1 h-3 w-3" />
-                          Edit
-                        </Button>
-                        <AlertDialog>
-                          <AlertDialogTrigger asChild>
-                            <Button variant="destructive" size="xs">
-                              <FontAwesomeIcon icon={faTrash} className="mr-1 h-3 w-3" />
-                              Delete
-                            </Button>
-                          </AlertDialogTrigger>
-                          <AlertDialogContent>
-                            <AlertDialogHeader>
-                              <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                              <AlertDialogDescription>
-                                This action cannot be undone. This will permanently delete the application.
-                              </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
-                              <AlertDialogAction onClick={() => handleDelete(app.slug)}>
-                                Continue
-                              </AlertDialogAction>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
-                      </div>
+                      <Button variant="outline" size="xs" onClick={() => router.push(`/admin/apps/edit/${app.slug}`)}>
+                        <FontAwesomeIcon icon={faEdit} className="mr-1 h-3 w-3" />
+                        Edit
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}
