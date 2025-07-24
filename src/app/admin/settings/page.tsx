@@ -59,13 +59,27 @@ export default function AdminSettingsPage() {
                             <CardDescription>Manage API keys for third-party integrations.</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-6">
-                            <div className="space-y-2">
-                                <Label htmlFor="googleApiKey">Google Maps API Key</Label>
-                                <Input id="googleApiKey" type="password" placeholder="••••••••••••••••••••" />
-                            </div>
-                             <div className="space-y-2">
-                                <Label htmlFor="genkitApiKey">Genkit API Key</Label>
-                                <Input id="genkitApiKey" type="password" placeholder="••••••••••••••••••••" />
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <Label htmlFor="googleApiKey">Google Maps API Key</Label>
+                                    <Input id="googleApiKey" type="password" placeholder="••••••••••••••••••••" />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="geminiApiKey">Gemini AI API Key</Label>
+                                    <Input id="geminiApiKey" type="password" placeholder="••••••••••••••••••••" />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="chatGptApiKey">ChatGPT API Key</Label>
+                                    <Input id="chatGptApiKey" type="password" placeholder="••••••••••••••••••••" />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="grokApiKey">Grok API Key</Label>
+                                    <Input id="grokApiKey" type="password" placeholder="••••••••••••••••••••" />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="deepseekApiKey">Deepseek API Key</Label>
+                                    <Input id="deepseekApiKey" type="password" placeholder="••••••••••••••••••••" />
+                                </div>
                             </div>
                             <Button>Save API Keys</Button>
                         </CardContent>
