@@ -10,19 +10,11 @@ export default function AdminSettingsPage() {
             <h1 className="text-2xl font-bold text-foreground">Settings</h1>
             <Card>
                 <CardHeader>
-                    <CardTitle>General Settings</CardTitle>
-                    <CardDescription>Manage your application settings here.</CardDescription>
+                    <CardTitle>Coming Soon</CardTitle>
+                    <CardDescription>More settings will be available here in the future.</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                    <div className="space-y-2">
-                        <Label htmlFor="siteName">Site Name</Label>
-                        <Input id="siteName" defaultValue="Gorilla Tech Solutions" />
-                    </div>
-                     <div className="space-y-2">
-                        <Label htmlFor="adminEmail">Admin Email</Label>
-                        <Input id="adminEmail" type="email" defaultValue="admin@example.com" />
-                    </div>
-                    <Button>Save Changes</Button>
+                <CardContent>
+                    <p>This section is under development.</p>
                 </CardContent>
             </Card>
         </div>
