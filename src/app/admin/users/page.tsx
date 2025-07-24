@@ -143,7 +143,9 @@ export default function AdminUsersPage() {
                                         aria-label={`Select user ${user.name}`}
                                     />
                                 </TableCell>
-                                <TableCell className="font-medium">{user.name}</TableCell>
+                                <TableCell className="font-medium">
+                                    {user.name} {currentUser?.email === user.email && <span className="text-muted-foreground font-normal">(You)</span>}
+                                </TableCell>
                                 <TableCell>{user.email}</TableCell>
                                 <TableCell>
                                     <Badge 
