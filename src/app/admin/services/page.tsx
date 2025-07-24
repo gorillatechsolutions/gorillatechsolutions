@@ -1,6 +1,7 @@
 
 'use client';
 
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -11,20 +12,40 @@ import { useToast } from '@/hooks/use-toast';
 import { useService } from '@/contexts/service-context';
 import { Skeleton } from '@/components/ui/skeleton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faEdit, faTrash, faConciergeBell } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { Checkbox } from '@/components/ui/checkbox';
 
 export default function AdminServicesListPage() {
   const router = useRouter();
   const { toast } = useToast();
   const { services, deleteService, loading } = useService();
+  const [selectedServices, setSelectedServices] = useState<string[]>([]);
 
-  const handleDelete = (slug: string) => {
-    deleteService(slug);
+  const handleDelete = (slugs: string[]) => {
+    slugs.forEach(slug => deleteService(slug));
     toast({
-      title: 'Service Deleted',
-      description: 'The service has been successfully deleted.',
+      title: 'Services Deleted',
+      description: `${slugs.length} service(s) have been successfully deleted.`,
     });
+    setSelectedServices([]);
   };
+  
+  const handleSelectAll = (checked: boolean | 'indeterminate') => {
+    if (checked === true) {
+      setSelectedServices(services.map(s => s.slug));
+    } else {
+      setSelectedServices([]);
+    }
+  };
+
+  const handleSelectService = (slug: string, checked: boolean) => {
+    if (checked) {
+      setSelectedServices(prev => [...prev, slug]);
+    } else {
+      setSelectedServices(prev => prev.filter(id => id !== slug));
+    }
+  };
+
 
   return (
     <div className="space-y-6">
@@ -33,10 +54,36 @@ export default function AdminServicesListPage() {
           <h1 className="text-2xl font-bold text-foreground">Manage Services</h1>
           <p className="text-muted-foreground">View, create, edit, and delete your service offerings.</p>
         </div>
-        <Button onClick={() => router.push('/admin/services/new')}>
-          <FontAwesomeIcon icon={faPlus} className="mr-2 h-4 w-4" />
-          Create Service
-        </Button>
+        <div className="flex items-center gap-2">
+            {selectedServices.length > 0 && (
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="destructive" size="xs">
+                    <FontAwesomeIcon icon={faTrash} className="mr-2 h-3 w-3" />
+                    Delete Selected ({selectedServices.length})
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This will permanently delete {selectedServices.length} services. This action cannot be undone.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={() => handleDelete(selectedServices)}>
+                      Continue
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            )}
+            <Button onClick={() => router.push('/admin/services/new')}>
+              <FontAwesomeIcon icon={faPlus} className="mr-2 h-4 w-4" />
+              Create Service
+            </Button>
+        </div>
       </div>
 
       <Card>
@@ -55,6 +102,13 @@ export default function AdminServicesListPage() {
             <Table>
                 <TableHeader>
                 <TableRow>
+                    <TableHead className="w-[50px]">
+                      <Checkbox
+                        checked={selectedServices.length > 0 && selectedServices.length === services.length ? true : (selectedServices.length > 0 ? 'indeterminate' : false)}
+                        onCheckedChange={handleSelectAll}
+                        aria-label="Select all services"
+                      />
+                    </TableHead>
                     <TableHead>Title</TableHead>
                     <TableHead>Price</TableHead>
                     <TableHead>Popular</TableHead>
@@ -63,41 +117,24 @@ export default function AdminServicesListPage() {
                 </TableHeader>
                 <TableBody>
                 {services.map((service) => (
-                    <TableRow key={service.slug}>
+                    <TableRow key={service.slug} data-state={selectedServices.includes(service.slug) ? 'selected' : undefined}>
+                    <TableCell>
+                      <Checkbox
+                          checked={selectedServices.includes(service.slug)}
+                          onCheckedChange={(checked) => handleSelectService(service.slug, !!checked)}
+                          aria-label={`Select service ${service.title}`}
+                      />
+                    </TableCell>
                     <TableCell className="font-medium">{service.title}</TableCell>
                     <TableCell>${service.price}</TableCell>
                     <TableCell>
                         {service.popular && <Badge>Popular</Badge>}
                     </TableCell>
                     <TableCell className="text-right">
-                      <div className="flex flex-col items-end gap-1">
                         <Button variant="outline" size="xs" onClick={() => router.push(`/admin/services/edit/${service.slug}`)}>
                             <FontAwesomeIcon icon={faEdit} className="mr-1 h-3 w-3" />
                             Edit
                         </Button>
-                        <AlertDialog>
-                            <AlertDialogTrigger asChild>
-                                <Button variant="destructive" size="xs">
-                                    <FontAwesomeIcon icon={faTrash} className="mr-1 h-3 w-3" />
-                                    Delete
-                                </Button>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                                <AlertDialogHeader>
-                                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                                <AlertDialogDescription>
-                                    This action cannot be undone. This will permanently delete the service.
-                                </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction onClick={() => handleDelete(service.slug)}>
-                                    Continue
-                                </AlertDialogAction>
-                                </AlertDialogFooter>
-                            </AlertDialogContent>
-                        </AlertDialog>
-                      </div>
                     </TableCell>
                     </TableRow>
                 ))}
