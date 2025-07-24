@@ -61,10 +61,6 @@ export default function AdminSettingsPage() {
                         <CardContent className="space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
-                                    <Label htmlFor="googleApiKey">Google Maps API Key</Label>
-                                    <Input id="googleApiKey" type="password" placeholder="••••••••••••••••••••" />
-                                </div>
-                                <div className="space-y-2">
                                     <Label htmlFor="geminiApiKey">Gemini AI API Key</Label>
                                     <Input id="geminiApiKey" type="password" placeholder="••••••••••••••••••••" />
                                 </div>
