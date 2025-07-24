@@ -1,44 +1,55 @@
 
+'use client';
+
 import { ContactForm } from "@/components/contact-form";
 import type { Metadata } from 'next';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import Link from "next/link";
 import Image from "next/image";
+import { useContactSettings } from "@/contexts/contact-settings-context";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFacebook, faTwitter, faInstagram, faLinkedin, faGithub, faGoogle, faWhatsapp, faTelegram } from "@fortawesome/free-brands-svg-icons";
 
-export const metadata: Metadata = {
-    title: 'Contact Us | Gorilla Tech Solutions',
-    description: 'Get in touch with Gorilla Tech Solutions. We are here to answer your questions and help you with your digital marketing needs. Reach out for a free consultation.',
+const socialIconMap: { [key: string]: any } = {
+    facebook: faFacebook,
+    twitter: faTwitter,
+    instagram: faInstagram,
+    linkedin: faLinkedin,
+    github: faGithub,
+    googleMyBusiness: faGoogle,
+    whatsapp: faWhatsapp,
+    telegram: faTelegram,
 };
 
-const contactDetails = [
-    {
-        icon: <i className="fa fa-envelope h-6 w-6 text-primary" aria-hidden="true"></i>,
-        title: "Email Us",
-        value: "Business@GorillaTechSolution.com",
-        href: "mailto:Business@GorillaTechSolution.com"
-    },
-    {
-        icon: <i className="fa fa-phone h-6 w-6 text-primary" aria-hidden="true"></i>,
-        title: "Call Us",
-        value: "0381 359 9517",
-        href: "tel:03813599517"
-    },
-    {
-        icon: <i className="fa fa-map-marker h-6 w-6 text-primary" aria-hidden="true"></i>,
-        title: "Our Office",
-        value: "Agartala, Tripura (W) India, Pin: 799006",
-    }
-];
-
-const socialLinks = [
-    { name: 'Facebook', icon: 'https://placehold.co/32x32.png', dataAiHint: "facebook logo", href: '#' },
-    { name: 'Twitter', icon: 'https://placehold.co/32x32.png', dataAiHint: "twitter logo", href: '#' },
-    { name: 'Instagram', icon: 'https://placehold.co/32x32.png', dataAiHint: "instagram logo", href: '#' },
-    { name: 'LinkedIn', icon: 'https://placehold.co/32x32.png', dataAiHint: "linkedin logo", href: '#' },
-];
-
-
 export default function ContactPage() {
+    const { settings, loading } = useContactSettings();
+    
+    const { phone, email, address, zip, socialLinks } = settings;
+
+    const contactDetails = [
+        {
+            icon: <i className="fa fa-envelope h-6 w-6 text-primary" aria-hidden="true"></i>,
+            title: "Email Us",
+            value: email,
+            href: `mailto:${email}`
+        },
+        {
+            icon: <i className="fa fa-phone h-6 w-6 text-primary" aria-hidden="true"></i>,
+            title: "Call Us",
+            value: phone,
+            href: `tel:${phone}`
+        },
+        {
+            icon: <i className="fa fa-map-marker h-6 w-6 text-primary" aria-hidden="true"></i>,
+            title: "Our Office",
+            value: `${address}, Pin: ${zip}`,
+        }
+    ];
+
+    if (loading) {
+        return <div>Loading...</div>
+    }
+
     return (
         <div className="w-full bg-background text-foreground">
             {/* Hero Section */}
@@ -100,25 +111,23 @@ export default function ContactPage() {
                                     <CardDescription>Stay connected with us on social media.</CardDescription>
                                 </CardHeader>
                                 <CardContent>
-                                     <div className="flex gap-4">
-                                        {socialLinks.map((social) => (
+                                     <div className="flex flex-wrap gap-4">
+                                        {Object.entries(socialLinks).map(([name, href]) => {
+                                          if (!href) return null;
+                                          const icon = socialIconMap[name];
+                                          return (
                                             <Link 
-                                                key={social.name} 
-                                                href={social.href} 
+                                                key={name} 
+                                                href={href} 
                                                 target="_blank" 
                                                 rel="noopener noreferrer" 
-                                                aria-label={social.name} 
+                                                aria-label={name} 
                                                 className="h-12 w-12 flex items-center justify-center rounded-full bg-secondary hover:bg-accent/20 transition-colors"
                                             >
-                                                <Image 
-                                                    src={social.icon} 
-                                                    alt={`${social.name} logo`}
-                                                    width={24} 
-                                                    height={24} 
-                                                    data-ai-hint={social.dataAiHint}
-                                                />
+                                               <FontAwesomeIcon icon={icon} className="h-6 w-6 text-foreground" />
                                             </Link>
-                                        ))}
+                                          )
+                                        })}
                                     </div>
                                 </CardContent>
                             </Card>

@@ -1,4 +1,6 @@
 
+'use client';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -11,10 +13,12 @@ import {
   faInstagram,
   faLinkedin,
   faMeta,
+  faTelegram,
   faWikipediaW,
   faWhatsapp,
 } from '@fortawesome/free-brands-svg-icons';
 import { faCheckCircle, faPhone, faMapMarkerAlt, faEnvelope, faCogs } from '@fortawesome/free-solid-svg-icons';
+import { useContactSettings } from '@/contexts/contact-settings-context';
 
 const footerLinks = {
     company: [
@@ -37,6 +41,14 @@ const footerLinks = {
 
 
 export function Footer() {
+  const { settings, loading } = useContactSettings();
+
+  const { phone, email, address, zip, socialLinks } = settings;
+
+  if (loading) {
+      return null;
+  }
+
   return (
     <footer className="w-full border-t text-card-foreground">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-2% py-12" style={{ backgroundColor: '#dedede' }}>
@@ -48,24 +60,13 @@ export function Footer() {
             Driving growth with data-driven digital marketing strategies that deliver results.
           </p>
           <div className="flex gap-3 mt-2 pl-1">
-            <Link href="https://facebook.com" target="_blank" aria-label="Facebook" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-facebook text-white">
-                <FontAwesomeIcon icon={faFacebook} className="h-5 w-5" />
-            </Link>
-            <Link href="https://instagram.com" target="_blank" aria-label="Instagram" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-instagram text-white">
-                <FontAwesomeIcon icon={faInstagram} className="h-5 w-5" />
-            </Link>
-            <Link href="https://linkedin.com" target="_blank" aria-label="LinkedIn" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-linkedin text-white">
-                 <FontAwesomeIcon icon={faLinkedin} className="h-5 w-5" />
-            </Link>
-            <Link href="https://wa.me/1234567890" target="_blank" aria-label="WhatsApp" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-whatsapp text-white">
-                 <FontAwesomeIcon icon={faWhatsapp} className="h-5 w-5" />
-            </Link>
-            <Link href="https://google.com" target="_blank" aria-label="Google Business" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-google text-white">
-                <FontAwesomeIcon icon={faGoogle} className="h-5 w-5" />
-            </Link>
-            <Link href="https://wikipedia.org" target="_blank" aria-label="Wikipedia" className="h-8 w-8 flex items-center justify-center rounded-full bg-black text-white">
-                <FontAwesomeIcon icon={faWikipediaW} className="h-5 w-5" />
-            </Link>
+            {socialLinks.facebook && <Link href={socialLinks.facebook} target="_blank" aria-label="Facebook" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-facebook text-white"><FontAwesomeIcon icon={faFacebook} className="h-5 w-5" /></Link>}
+            {socialLinks.instagram && <Link href={socialLinks.instagram} target="_blank" aria-label="Instagram" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-instagram text-white"><FontAwesomeIcon icon={faInstagram} className="h-5 w-5" /></Link>}
+            {socialLinks.linkedin && <Link href={socialLinks.linkedin} target="_blank" aria-label="LinkedIn" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-linkedin text-white"><FontAwesomeIcon icon={faLinkedin} className="h-5 w-5" /></Link>}
+            {socialLinks.whatsapp && <Link href={socialLinks.whatsapp} target="_blank" aria-label="WhatsApp" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-whatsapp text-white"><FontAwesomeIcon icon={faWhatsapp} className="h-5 w-5" /></Link>}
+            {socialLinks.telegram && <Link href={socialLinks.telegram} target="_blank" aria-label="Telegram" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-google text-white"><FontAwesomeIcon icon={faTelegram} className="h-5 w-5" /></Link>}
+            {socialLinks.googleMyBusiness && <Link href={socialLinks.googleMyBusiness} target="_blank" aria-label="Google Business" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-google text-white"><FontAwesomeIcon icon={faGoogle} className="h-5 w-5" /></Link>}
+            {socialLinks.github && <Link href={socialLinks.github} target="_blank" aria-label="Github" className="h-8 w-8 flex items-center justify-center rounded-full bg-black text-white"><FontAwesomeIcon icon={faGithub} className="h-5 w-5" /></Link>}
           </div>
         </div>
 
@@ -110,15 +111,15 @@ export function Footer() {
           <div className="space-y-2 text-sm w-full" style={{textAlign: 'center'}}>
             <div className="flex items-center gap-3 justify-center">
               <FontAwesomeIcon icon={faMapMarkerAlt} className="w-4 shrink-0 mt-0.5" style={{ color: '#454545' }}/>
-              <p style={{ color: '#383838' }}>Agartala, Tripura (W) India<br/>Pin: 799006</p>
+              <p style={{ color: '#383838' }}>{address}<br/>Pin: {zip}</p>
             </div>
-            <a href="tel:03813599517" className="flex items-center gap-3 justify-center hover:text-primary" style={{ color: '#383838' }}>
+            <a href={`tel:${phone}`} className="flex items-center gap-3 justify-center hover:text-primary" style={{ color: '#383838' }}>
                 <FontAwesomeIcon icon={faPhone} className="w-4 shrink-0" style={{color: '#454545'}}/>
-                <span>0381 359 9517</span>
+                <span>{phone}</span>
             </a>
             <div className="flex items-center gap-3 justify-center">
               <FontAwesomeIcon icon={faEnvelope} className="w-4 shrink-0" style={{ color: '#454545' }}/>
-              <a href="mailto:Business@GorillaTechSolution.com" className="hover:text-primary" style={{ color: '#383838' }}>Business@GorillaTechSolution.com</a>
+              <a href={`mailto:${email}`} className="hover:text-primary" style={{ color: '#383838' }}>{email}</a>
             </div>
             <div className="flex justify-center mt-4">
               <TooltipProvider>
