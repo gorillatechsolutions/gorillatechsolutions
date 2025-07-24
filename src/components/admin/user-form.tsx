@@ -23,6 +23,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 
 const formSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters.'),
+  username: z.string().min(3, 'Username must be at least 3 characters.').regex(/^[a-z0-9_.]+$/, 'Invalid username format.'),
   email: z.string().email('Please enter a valid email address.'),
   phone: z.string().optional(),
   password: z.string().min(8, 'Password must be at least 8 characters.').optional().or(z.literal('')),
@@ -38,7 +39,7 @@ const userRoles: UserRole[] = ['admin', 'user', 'premium', 'gold', 'platinum'];
 export function UserForm({ userToEdit }: UserFormProps) {
   const { toast } = useToast();
   const router = useRouter();
-  const { addUser, updateUser, userExists } = useAuth();
+  const { addUser, updateUser, emailExists, usernameExists } = useAuth();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -49,6 +50,7 @@ export function UserForm({ userToEdit }: UserFormProps) {
     resolver: zodResolver(formSchema),
     defaultValues: userToEdit || {
       name: '',
+      username: '',
       email: '',
       phone: '',
       password: '',
@@ -67,14 +69,22 @@ export function UserForm({ userToEdit }: UserFormProps) {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (userToEdit) {
+        if (values.username !== userToEdit.username && usernameExists(values.username)) {
+            form.setError('username', { type: 'manual', message: 'This username is already taken.' });
+            return;
+        }
       updateUser(userToEdit.email, values);
       toast({
         title: 'User Updated!',
         description: 'The user has been successfully updated.',
       });
     } else {
-      if (userExists(values.email)) {
+      if (emailExists(values.email)) {
           form.setError('email', { type: 'manual', message: 'This email is already taken.' });
+          return;
+      }
+       if (usernameExists(values.username)) {
+          form.setError('username', { type: 'manual', message: 'This username is already taken.' });
           return;
       }
       if (!values.password) {
@@ -118,6 +128,21 @@ export function UserForm({ userToEdit }: UserFormProps) {
                         />
                          <FormField
                             control={form.control}
+                            name="username"
+                            render={({ field }) => (
+                                <FormItem>
+                                <FormLabel>Username</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="john.doe" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                         <FormField
+                            control={form.control}
                             name="email"
                             render={({ field }) => (
                                 <FormItem>
@@ -129,9 +154,6 @@ export function UserForm({ userToEdit }: UserFormProps) {
                                 </FormItem>
                             )}
                         />
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                          <FormField
                             control={form.control}
                             name="phone"
@@ -145,12 +167,15 @@ export function UserForm({ userToEdit }: UserFormProps) {
                                 </FormItem>
                             )}
                         />
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <FormField
                             control={form.control}
                             name="password"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel>Password</FormLabel>
+                                <FormLabel>Password {userToEdit && '(Leave blank to keep current)'}</FormLabel>
                                 <FormControl>
                                     <Input type="password" placeholder="••••••••" {...field} />
                                 </FormControl>
@@ -158,30 +183,29 @@ export function UserForm({ userToEdit }: UserFormProps) {
                                 </FormItem>
                             )}
                         />
+                        <FormField
+                            control={form.control}
+                            name="role"
+                            render={({ field }) => (
+                                <FormItem>
+                                <FormLabel>Role</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select a role" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {userRoles.map(role => (
+                                            <SelectItem key={role} value={role} className="capitalize">{role}</SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                     </div>
-                    
-                    <FormField
-                        control={form.control}
-                        name="role"
-                        render={({ field }) => (
-                            <FormItem>
-                            <FormLabel>Role</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select a role" />
-                                    </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                    {userRoles.map(role => (
-                                        <SelectItem key={role} value={role} className="capitalize">{role}</SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                            <FormMessage />
-                            </FormItem>
-                        )}
-                    />
 
                     <div className="flex gap-4">
                         <Button type="submit">{userToEdit ? 'Update User' : 'Create User'}</Button>

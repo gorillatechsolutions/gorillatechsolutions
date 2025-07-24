@@ -22,8 +22,8 @@ import Image from "next/image";
 import { useAuth } from "@/contexts/auth-context";
 
 const formSchema = z.object({
-  email: z.string().email({
-    message: "Please enter a valid email address.",
+  identifier: z.string().min(1, {
+    message: "Email or username is required.",
   }),
   password: z.string().min(1, {
     message: "Password is required.",
@@ -38,13 +38,13 @@ export default function LoginPage() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
+      identifier: "",
       password: "",
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const user = login(values.email, values.password);
+    const user = login(values.identifier, values.password);
 
     if (user) {
       toast({
@@ -60,7 +60,7 @@ export default function LoginPage() {
       toast({
         variant: "destructive",
         title: "Login Failed",
-        description: "Invalid email or password. Please try again.",
+        description: "Invalid credentials. Please try again.",
       });
     }
   }
@@ -88,12 +88,12 @@ export default function LoginPage() {
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                         <FormField
                         control={form.control}
-                        name="email"
+                        name="identifier"
                         render={({ field }) => (
                             <FormItem>
-                            <FormLabel>Email Address</FormLabel>
+                            <FormLabel>Email or Username</FormLabel>
                             <FormControl>
-                                <Input type="email" placeholder="you@example.com" {...field} />
+                                <Input placeholder="you@example.com or your_username" {...field} />
                             </FormControl>
                             <FormMessage />
                             </FormItem>

@@ -88,7 +88,7 @@ export default function AdminUsersPage() {
                         {selectedUsers.length > 0 && (
                             <AlertDialog>
                               <AlertDialogTrigger asChild>
-                                <Button variant="destructive" size="xs">
+                                <Button variant="destructive" size="sm">
                                   <FontAwesomeIcon icon={faTrash} className="mr-2 h-3 w-3" />
                                   Delete Selected ({selectedUsers.length})
                                 </Button>
@@ -128,6 +128,7 @@ export default function AdminUsersPage() {
                                />
                             </TableHead>
                             <TableHead>Name</TableHead>
+                            <TableHead>Username</TableHead>
                             <TableHead>Email</TableHead>
                             <TableHead>Role</TableHead>
                             <TableHead className="text-right">Actions</TableHead>
@@ -146,6 +147,7 @@ export default function AdminUsersPage() {
                                 <TableCell className="font-medium">
                                     {user.name} {currentUser?.email === user.email && <span className="text-muted-foreground font-normal">(You)</span>}
                                 </TableCell>
+                                <TableCell>{user.username}</TableCell>
                                 <TableCell>{user.email}</TableCell>
                                 <TableCell>
                                     <Badge 

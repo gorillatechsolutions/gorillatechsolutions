@@ -8,6 +8,7 @@ export type UserRole = 'admin' | 'user' | 'premium' | 'gold' | 'platinum';
 
 export type User = {
   name: string;
+  username: string;
   email: string;
   password?: string;
   phone?: string;
@@ -18,12 +19,13 @@ interface AuthContextType {
   user: User | null;
   users: User[];
   loading: boolean;
-  login: (email: string, password: string) => User | null;
+  login: (identifier: string, password: string) => User | null;
   logout: () => void;
-  signup: (name: string, email: string, password: string) => void;
-  userExists: (email: string) => boolean;
+  signup: (name: string, username: string, email: string, password: string) => void;
+  emailExists: (email: string) => boolean;
+  usernameExists: (username: string) => boolean;
   deleteUsers: (emails: string[]) => void;
-  addUser: (user: Omit<User, 'role'> & { role: UserRole }) => void;
+  addUser: (user: User) => void;
   updateUser: (email: string, userData: Partial<User>) => void;
   getUserByEmail: (email: string) => User | null;
 }
@@ -48,6 +50,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (!adminExists) {
         allUsers.push({
           name: 'Admin User',
+          username: 'admin',
           email: 'admin@example.com',
           password: 'adminpassword',
           role: 'admin',
@@ -95,8 +98,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [syncUsers]);
 
 
-  const login = (email: string, password: string): User | null => {
-    const userToLogin = users.find((u) => u.email === email && u.password === password);
+  const login = (identifier: string, password: string): User | null => {
+    const userToLogin = users.find((u) => (u.email === identifier || u.username === identifier) && u.password === password);
     if (userToLogin) {
       const { password, ...userWithoutPassword } = userToLogin;
       setUser(userWithoutPassword);
@@ -112,15 +115,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     router.push('/login');
   };
 
-  const signup = (name: string, email: string, password: string) => {
-    const newUser: User = { name, email, password, role: 'user' };
+  const signup = (name: string, username: string, email: string, password: string) => {
+    const newUser: User = { name, username, email, password, role: 'user' };
     const updatedUsers = [...users, newUser];
     setUsers(updatedUsers);
     localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(updatedUsers));
   };
   
-  const userExists = (email: string): boolean => {
+  const emailExists = (email: string): boolean => {
       return users.some(u => u.email === email);
+  }
+
+  const usernameExists = (username: string): boolean => {
+      return users.some(u => u.username === username);
   }
 
   const deleteUsers = (emails: string[]) => {
@@ -129,7 +136,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(updatedUsers));
   }
 
-  const addUser = (newUser: Omit<User, 'role'> & { role: UserRole }) => {
+  const addUser = (newUser: User) => {
     const updatedUsers = [...users, newUser];
     setUsers(updatedUsers);
     localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(updatedUsers));
@@ -153,9 +160,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     // Also update current user if they are the one being edited
     if(user && user.email === email) {
-        const { password, ...userWithoutPassword } = updatedUsers.find(u => u.email === email)!;
-        setUser(userWithoutPassword);
-        localStorage.setItem(CURRENT_USER_STORAGE_KEY, JSON.stringify(userWithoutPassword));
+        const updatedCurrentUser = updatedUsers.find(u => u.email === email);
+        if (updatedCurrentUser) {
+            const { password, ...userWithoutPassword } = updatedCurrentUser;
+            setUser(userWithoutPassword);
+            localStorage.setItem(CURRENT_USER_STORAGE_KEY, JSON.stringify(userWithoutPassword));
+        }
     }
   };
 
@@ -165,7 +175,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 
   return (
-    <AuthContext.Provider value={{ user, users, loading, login, logout, signup, userExists, deleteUsers, addUser, updateUser, getUserByEmail }}>
+    <AuthContext.Provider value={{ user, users, loading, login, logout, signup, emailExists, usernameExists, deleteUsers, addUser, updateUser, getUserByEmail }}>
       {children}
     </AuthContext.Provider>
   );

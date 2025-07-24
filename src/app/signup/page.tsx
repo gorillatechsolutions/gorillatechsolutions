@@ -25,6 +25,11 @@ const formSchema = z.object({
   name: z.string().min(2, {
     message: "Name must be at least 2 characters.",
   }),
+  username: z.string().min(3, {
+    message: "Username must be at least 3 characters.",
+  }).regex(/^[a-z0-9_.]+$/, {
+    message: "Username can only contain lowercase letters, numbers, underscores, and periods.",
+  }),
   email: z.string().email({
     message: "Please enter a valid email address.",
   }),
@@ -36,32 +41,34 @@ const formSchema = z.object({
 export default function SignupPage() {
   const { toast } = useToast();
   const router = useRouter();
-  const { signup, userExists } = useAuth();
+  const { signup, emailExists, usernameExists } = useAuth();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
+      username: "",
       email: "",
       password: "",
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    if (userExists(values.email)) {
-      toast({
-        variant: "destructive",
-        title: "Registration Failed",
-        description: "An account with this email already exists.",
-      });
-    } else {
-      signup(values.name, values.email, values.password);
-      toast({
-        title: "Account Created!",
-        description: "You have successfully signed up. Please log in.",
-      });
-      router.push('/login');
+    if (emailExists(values.email)) {
+      form.setError("email", { type: "manual", message: "An account with this email already exists." });
+      return;
     }
+    if (usernameExists(values.username)) {
+      form.setError("username", { type: "manual", message: "This username is already taken." });
+      return;
+    }
+
+    signup(values.name, values.username, values.email, values.password);
+    toast({
+      title: "Account Created!",
+      description: "You have successfully signed up. Please log in.",
+    });
+    router.push('/login');
   }
 
   return (
@@ -83,6 +90,19 @@ export default function SignupPage() {
                             <FormLabel>Full Name</FormLabel>
                             <FormControl>
                                 <Input placeholder="John Doe" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                            </FormItem>
+                        )}
+                        />
+                        <FormField
+                        control={form.control}
+                        name="username"
+                        render={({ field }) => (
+                            <FormItem>
+                            <FormLabel>Username</FormLabel>
+                            <FormControl>
+                                <Input placeholder="john.doe" {...field} />
                             </FormControl>
                             <FormMessage />
                             </FormItem>
