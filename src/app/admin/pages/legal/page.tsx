@@ -13,13 +13,17 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { useLegalPage } from '@/contexts/legal-page-context';
 import { useEffect, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import dynamic from 'next/dynamic';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Input } from '@/components/ui/input';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagic, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { generateLegalPage } from '@/ai/flows/generate-legal-page-flow';
 
 const QuillEditor = dynamic(() => import('@/components/admin/quill-editor'), { ssr: false });
 
@@ -44,6 +48,10 @@ export default function LegalSettingsPage() {
     const { toast } = useToast();
     const [isClient, setIsClient] = useState(false);
     const [selectedPage, setSelectedPage] = useState<LegalPageKey>('privacyPolicy');
+    const [isGenerating, setIsGenerating] = useState(false);
+    const [companyName, setCompanyName] = useState('Gorilla Tech Solutions');
+    const [websiteUrl, setWebsiteUrl] = useState('https://gorillatechsolution.com');
+
 
     useEffect(() => {
         setIsClient(true);
@@ -59,6 +67,42 @@ export default function LegalSettingsPage() {
             form.reset(content);
         }
     }, [content, loading, form]);
+
+    const handleGenerate = async () => {
+        if (!companyName || !websiteUrl) {
+            toast({
+                variant: 'destructive',
+                title: 'Company details required',
+                description: 'Please enter a company name and website URL.',
+            });
+            return;
+        }
+
+        setIsGenerating(true);
+        try {
+            const pageType = pageOptions.find(p => p.value === selectedPage)?.label || '';
+            const result = await generateLegalPage({
+                pageType,
+                companyName,
+                websiteUrl,
+            });
+            form.setValue(selectedPage, result.content, { shouldValidate: true });
+            toast({
+                title: 'Content Generated!',
+                description: `Your ${pageType} has been generated and populated in the editor.`,
+            });
+        } catch (error) {
+            console.error('Error generating legal page:', error);
+            toast({
+                variant: "destructive",
+                title: 'Generation Failed',
+                description: 'An error occurred while generating the content. Please try again.',
+            });
+        } finally {
+            setIsGenerating(false);
+        }
+    };
+
 
     const onSubmit = (values: z.infer<typeof formSchema>) => {
         updateContent(values);
@@ -109,6 +153,51 @@ export default function LegalSettingsPage() {
                 <h1 className="text-2xl font-bold text-foreground">Edit Legal Pages</h1>
                 <p className="text-muted-foreground">Select a page from the dropdown to edit its content.</p>
             </div>
+            
+            <Card>
+                <CardHeader>
+                    <CardTitle>AI Content Generation</CardTitle>
+                    <CardDescription>
+                        Provide your company details, select a page, and our AI will generate the content for you.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <Label>Company Name</Label>
+                            <Input
+                                placeholder="e.g., Your Company LLC"
+                                value={companyName}
+                                onChange={(e) => setCompanyName(e.target.value)}
+                                disabled={isGenerating}
+                            />
+                        </div>
+                        <div>
+                            <Label>Website URL</Label>
+                            <Input
+                                placeholder="e.g., https://yourcompany.com"
+                                value={websiteUrl}
+                                onChange={(e) => setWebsiteUrl(e.target.value)}
+                                disabled={isGenerating}
+                            />
+                        </div>
+                    </div>
+                     <Button type="button" onClick={handleGenerate} disabled={isGenerating}>
+                        {isGenerating ? (
+                            <>
+                                <FontAwesomeIcon icon={faSpinner} className="mr-2 h-4 w-4 animate-spin" />
+                                Generating for {pageOptions.find(p => p.value === selectedPage)?.label}...
+                            </>
+                        ) : (
+                            <>
+                                <FontAwesomeIcon icon={faMagic} className="mr-2 h-4 w-4" />
+                                Generate with AI
+                            </>
+                        )}
+                    </Button>
+                </CardContent>
+            </Card>
+
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
 
