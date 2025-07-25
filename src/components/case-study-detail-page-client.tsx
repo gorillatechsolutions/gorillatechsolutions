@@ -20,15 +20,15 @@ const formatViews = (views: number) => {
 };
 
 export function CaseStudyDetailPageClient({ slug }: { slug: string }) {
-    const { getCaseStudyBySlug, loading, caseStudies } = useCaseStudy();
+    const { getCaseStudyBySlug, loading } = useCaseStudy();
     const [caseStudy, setCaseStudy] = useState<CaseStudy | null | undefined>(undefined);
 
     useEffect(() => {
-        if (slug && !loading) {
+        if (!loading) {
             const study = getCaseStudyBySlug(slug);
             setCaseStudy(study);
         }
-    }, [slug, loading, getCaseStudyBySlug, caseStudies]);
+    }, [slug, loading, getCaseStudyBySlug]);
 
     if (loading || caseStudy === undefined) {
         return (

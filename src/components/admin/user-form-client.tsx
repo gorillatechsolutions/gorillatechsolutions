@@ -27,7 +27,7 @@ export function EditUserPageClient({ email }: { email: string }) {
         <div className="space-y-4 rounded-lg border bg-card p-6">
           <Skeleton className="h-8 w-1/4" />
           <Skeleton className="h-10 w-full" />
-          <Skeleton className="h-8 w-1/4" />
+          <Skeleton className="h-8 w-1/f_our" />
           <Skeleton className="h-10 w-full" />
           <Skeleton className="h-10 w-32" />
         </div>
