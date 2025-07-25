@@ -4,14 +4,12 @@
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { type Metadata } from 'next';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useAboutPage } from '@/contexts/about-page-context';
 import { Skeleton } from '@/components/ui/skeleton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBolt, faBullseye, faUsers, faHandshake } from '@fortawesome/free-solid-svg-icons';
-import * as "lucide-react";
 import {createElement } from 'react';
 import { icons } from 'lucide-react';
 
@@ -23,17 +21,6 @@ const iconMap: { [key: string]: React.ElementType } = {
     Handshake: faHandshake,
     ...icons
 };
-
-export async function generateMetadata(): Promise<Metadata> {
-  // This is a placeholder. In a real app, you would fetch this from the context,
-  // but since this is a client component, we can't fetch it at build time.
-  // The actual metadata will be populated client-side.
-  return {
-    title: 'About Our Digital Marketing Agency',
-    description: 'Learn about our mission, values, and the expert team at our digital marketing agency.',
-  };
-}
-
 
 export default function AboutPage() {
     const { content, loading } = useAboutPage();
