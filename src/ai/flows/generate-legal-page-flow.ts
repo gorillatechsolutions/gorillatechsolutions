@@ -15,6 +15,8 @@ const GenerateLegalPageInputSchema = z.object({
   pageType: z.string().describe('The type of legal page to generate (e.g., Privacy Policy, Terms and Conditions).'),
   companyName: z.string().describe('The name of the company.'),
   websiteUrl: z.string().url().describe('The full URL of the company\'s website.'),
+  contactDetails: z.string().describe('Contact information for user inquiries (e.g., email address, contact page URL).'),
+  dataModification: z.string().describe('A brief explanation of how users can modify their personal data.'),
 });
 export type GenerateLegalPageInput = z.infer<typeof GenerateLegalPageInputSchema>;
 
@@ -43,8 +45,14 @@ The page content must be formatted using simple HTML tags. Do not include <!DOCT
 Generate a "{{pageType}}" for the following company:
 - Company Name: {{{companyName}}}
 - Website URL: {{{websiteUrl}}}
+- Contact Details for Inquiries: {{{contactDetails}}}
+- Process for Data Modification: {{{dataModification}}}
 
-Ensure the content is thorough, professional, and tailored to the specified page type. For a Privacy Policy, cover data collection, use, sharing, and user rights. For Terms and Conditions, cover user responsibilities, intellectual property, and limitations of liability. For a Disclaimer, include general information, external links, and professional advice disclaimers. For a Refund Policy, detail eligibility, process, and contact information.`,
+Ensure the content is thorough, professional, and tailored to the specified page type.
+- For a Privacy Policy, cover data collection, use, sharing, user rights, and explicitly include the provided contact and data modification details.
+- For Terms and Conditions, cover user responsibilities, intellectual property, and limitations of liability.
+- For a Disclaimer, include general information, external links, and professional advice disclaimers.
+- For a Refund Policy, detail eligibility, process, and contact information.`,
 });
 
 const generateLegalPageFlow = ai.defineFlow(

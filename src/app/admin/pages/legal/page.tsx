@@ -25,6 +25,7 @@ import { Label } from '@/components/ui/label';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagic, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { generateLegalPage } from '@/ai/flows/generate-legal-page-flow';
+import { Textarea } from '@/components/ui/textarea';
 
 const QuillEditor = dynamic(() => import('@/components/admin/quill-editor'), { ssr: false });
 
@@ -52,6 +53,8 @@ export default function LegalSettingsPage() {
     const [isGenerating, setIsGenerating] = useState(false);
     const [companyName, setCompanyName] = useState('Gorilla Tech Solutions');
     const [websiteUrl, setWebsiteUrl] = useState('https://gorillatechsolution.com');
+    const [contactDetails, setContactDetails] = useState('support@gorillatechsolution.com');
+    const [dataModification, setDataModification] = useState('Users can update their data in their account settings or by contacting us.');
 
 
     useEffect(() => {
@@ -70,11 +73,11 @@ export default function LegalSettingsPage() {
     }, [content, loading, form]);
 
     const handleGenerate = async () => {
-        if (!companyName || !websiteUrl) {
+        if (!companyName || !websiteUrl || !contactDetails || !dataModification) {
             toast({
                 variant: 'destructive',
-                title: 'Company details required',
-                description: 'Please enter a company name and website URL.',
+                title: 'All fields are required',
+                description: 'Please fill in all details for AI generation.',
             });
             return;
         }
@@ -86,6 +89,8 @@ export default function LegalSettingsPage() {
                 pageType,
                 companyName,
                 websiteUrl,
+                contactDetails,
+                dataModification,
             });
             form.setValue(selectedPage, result.content, { shouldValidate: true });
             toast({
@@ -182,6 +187,25 @@ export default function LegalSettingsPage() {
                                 disabled={isGenerating}
                             />
                         </div>
+                        <div>
+                            <Label>Contact Details</Label>
+                            <Input
+                                placeholder="e.g., support@yourcompany.com"
+                                value={contactDetails}
+                                onChange={(e) => setContactDetails(e.target.value)}
+                                disabled={isGenerating}
+                            />
+                        </div>
+                        <div className="md:col-span-2">
+                           <Label>Data Modification Process</Label>
+                           <Textarea
+                             placeholder="e.g., Users can update their data in their account settings or by contacting support."
+                             value={dataModification}
+                             onChange={(e) => setDataModification(e.target.value)}
+                             disabled={isGenerating}
+                             className="h-24"
+                           />
+                        </div>
                     </div>
                      <Button type="button" onClick={handleGenerate} disabled={isGenerating}>
                         {isGenerating ? (
@@ -203,8 +227,8 @@ export default function LegalSettingsPage() {
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
 
                     <div className="max-w-sm">
+                        <Label>Select Page to Edit</Label>
                         <Select onValueChange={(value: LegalPageKey) => setSelectedPage(value)} defaultValue={selectedPage}>
-                            <FormLabel>Select Page to Edit</FormLabel>
                             <SelectTrigger className="mt-2">
                                 <SelectValue placeholder="Select a page" />
                             </SelectTrigger>
