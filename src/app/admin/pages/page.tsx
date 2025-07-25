@@ -3,11 +3,17 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileLines, faAddressBook, faBalanceScale, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faFileLines, faAddressBook, faBalanceScale, faArrowRight, faHome } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 const pageLinks = [
+    {
+        href: '/admin/pages/home',
+        icon: faHome,
+        title: 'Home Page',
+        description: 'Edit the content of your public "Home" page, including the hero section and other key areas.'
+    },
     {
         href: '/admin/pages/about',
         icon: faFileLines,

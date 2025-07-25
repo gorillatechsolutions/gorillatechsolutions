@@ -1,4 +1,6 @@
 
+'use client';
+
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -9,6 +11,8 @@ import { cn } from '@/lib/utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAws, faMeta } from '@fortawesome/free-brands-svg-icons';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { useHomePage } from '@/contexts/home-page-context';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const processSteps = [
     {
@@ -62,6 +66,27 @@ const StarRating = ({ rating, className }: { rating: number, className?: string 
 
 
 export default function Home() {
+  const { content, loading } = useHomePage();
+  
+  if (loading) {
+    return (
+        <div className="w-full">
+            <section className="w-full py-12 md:py-24 lg:py-32 flex justify-center" style={{ backgroundColor: '#F1F4F7' }}>
+                <div className="w-[95%] grid items-center justify-center gap-8 lg:grid-cols-2 lg:gap-16">
+                    <div className="flex flex-col items-center justify-center space-y-6 text-center lg:items-start lg:text-left">
+                        <Skeleton className="h-12 w-2/3" />
+                        <Skeleton className="h-6 w-full" />
+                        <Skeleton className="h-6 w-4/5" />
+                    </div>
+                    <div className="flex items-center justify-center">
+                        <Skeleton className="w-96 h-96 rounded-full" />
+                    </div>
+                </div>
+            </section>
+        </div>
+    )
+  }
+
   return (
     <div className="w-full">
       <section className="w-full py-12 md:py-24 lg:py-32 flex justify-center" style={{ backgroundColor: '#F1F4F7' }}>
@@ -71,10 +96,10 @@ export default function Home() {
               "text-4xl font-extrabold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl font-headline",
               "animated-gradient-text animate-gradient"
             )}>
-              Elevate Your Digital Marketing
+              {content.heroTitle}
             </h1>
             <p className="mt-6 text-lg text-muted-foreground md:text-xl max-w-[600px]">
-              Gorilla Tech Solutions drives growth with data-driven digital marketing strategies that convert. Let's build your brand's future, together.
+              {content.heroSubtitle}
             </p>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start">
               <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transition-transform transform hover:scale-105">
@@ -275,5 +300,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
