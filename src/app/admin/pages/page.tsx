@@ -2,6 +2,7 @@
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileLines, faAddressBook, faBalanceScale, faArrowRight, faHome, faConciergeBell, faPenToSquare, faMobileScreenButton, faBriefcase, faHandshake } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
@@ -72,30 +73,39 @@ export default function AdminPagesOverview() {
         <p className="text-muted-foreground">Select a page below to edit its content and settings.</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {pageLinks.map(link => (
-            <Card key={link.href} className="flex flex-col">
-                <CardHeader>
-                    <div className="flex items-start justify-between">
-                        <div className="flex items-center gap-4">
-                           <div className="bg-secondary p-3 rounded-lg">
-                             <FontAwesomeIcon icon={link.icon} className="h-6 w-6 text-primary" />
-                           </div>
-                           <CardTitle>{link.title}</CardTitle>
-                        </div>
-                    </div>
-                    <CardDescription className="pt-4">{link.description}</CardDescription>
-                </CardHeader>
-                <CardContent className="mt-auto">
-                    <Button asChild variant="outline">
-                        <Link href={link.href}>
-                            Edit Page <FontAwesomeIcon icon={faArrowRight} className="ml-2 h-3 w-3" />
-                        </Link>
-                    </Button>
-                </CardContent>
-            </Card>
-        ))}
-      </div>
+      <Card>
+          <CardContent className="pt-6">
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead>Page</TableHead>
+                        <TableHead>Description</TableHead>
+                        <TableHead className="text-right">Actions</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {pageLinks.map(link => (
+                        <TableRow key={link.href}>
+                            <TableCell className="font-medium">
+                                <div className="flex items-center gap-3">
+                                    <FontAwesomeIcon icon={link.icon} className="h-5 w-5 text-muted-foreground" />
+                                    <span>{link.title}</span>
+                                </div>
+                            </TableCell>
+                            <TableCell className="text-muted-foreground max-w-md">{link.description}</TableCell>
+                            <TableCell className="text-right">
+                                <Button asChild variant="outline" size="sm">
+                                    <Link href={link.href}>
+                                        Edit Page <FontAwesomeIcon icon={faArrowRight} className="ml-2 h-3 w-3" />
+                                    </Link>
+                                </Button>
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+          </CardContent>
+      </Card>
     </div>
   );
 }
