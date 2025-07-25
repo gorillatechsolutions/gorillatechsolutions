@@ -21,6 +21,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import dynamic from 'next/dynamic';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagic, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { generateLegalPage } from '@/ai/flows/generate-legal-page-flow';
