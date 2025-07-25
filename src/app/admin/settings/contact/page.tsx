@@ -36,13 +36,29 @@ const formSchema = z.object({
   })
 });
 
+const defaultFormValues = {
+  phone: '',
+  email: '',
+  address: '',
+  zip: '',
+  socialLinks: {
+    facebook: '',
+    instagram: '',
+    linkedin: '',
+    whatsapp: '',
+    telegram: '',
+    googleMyBusiness: '',
+    github: '',
+  }
+};
+
 export default function ContactSettingsPage() {
     const { settings, updateSettings, loading } = useContactSettings();
     const { toast } = useToast();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaultValues: settings,
+        defaultValues: defaultFormValues,
     });
     
     useEffect(() => {
