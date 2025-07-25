@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { SidebarProvider, Sidebar, SidebarTrigger, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarFooter, SidebarInset } from '@/components/ui/sidebar';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTachometerAlt, faUsers, faCog, faSignOutAlt, faPenToSquare, faMobileScreenButton, faConciergeBell, faAddressBook, faFileLines, faBalanceScale } from '@fortawesome/free-solid-svg-icons';
+import { faTachometerAlt, faUsers, faCog, faSignOutAlt, faPenToSquare, faMobileScreenButton, faConciergeBell, faFileLines } from '@fortawesome/free-solid-svg-icons';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/auth-context';
@@ -17,9 +17,7 @@ const navItems = [
   { href: '/admin/posts', icon: faPenToSquare, label: 'Posts' },
   { href: '/admin/apps', icon: faMobileScreenButton, label: 'Apps' },
   { href: '/admin/services', icon: faConciergeBell, label: 'Services' },
-  { href: '/admin/settings/contact', icon: faAddressBook, label: 'Contact Info' },
-  { href: '/admin/settings/about', icon: faFileLines, label: 'About Page' },
-  { href: '/admin/settings/legal', icon: faBalanceScale, label: 'Legal Pages' },
+  { href: '/admin/pages', icon: faFileLines, label: 'Pages' },
   { href: '/admin/settings', icon: faCog, label: 'Settings' },
 ];
 
@@ -71,7 +69,7 @@ export default function AdminLayout({
             {navItems.map((item) => (
               <SidebarMenuItem key={item.href}>
                 <Link href={item.href}>
-                  <SidebarMenuButton data-active={item.exact ? pathname === item.href : pathname.startsWith(item.href) && (item.href === '/admin' ? pathname === item.href : !pathname.startsWith(item.href + '/'))}>
+                  <SidebarMenuButton data-active={pathname.startsWith(item.href) && (item.href === '/admin' ? pathname === item.href : true)}>
                     <FontAwesomeIcon icon={item.icon} className="h-4 w-4" />
                     <span>{item.label}</span>
                   </SidebarMenuButton>
