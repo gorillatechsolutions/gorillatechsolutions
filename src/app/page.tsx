@@ -42,9 +42,9 @@ const processSteps = [
 ];
 
 const stats = [
-    { icon: <i className="fa fa-calendar-check-o fa-2x text-accent-foreground" aria-hidden="true"></i>, value: 98, label: 'On-Time Delivery', description: 'of projects delivered on schedule' },
-    { icon: <i className="fa fa-smile-o fa-2x text-accent-foreground" aria-hidden="true"></i>, value: 99, label: 'Client Satisfaction', description: 'Based on 500+ completed projects' },
-    { icon: <i className="fa fa-trophy fa-2x text-accent-foreground" aria-hidden="true"></i>, value: 97, label: 'Goal Achievement', description: 'Projects meet or exceed expectations' }
+    { imageUrl: 'https://placehold.co/64x64.png', imageAiHint: 'calendar checkmark', value: 98, label: 'On-Time Delivery', description: 'of projects delivered on schedule' },
+    { imageUrl: 'https://placehold.co/64x64.png', imageAiHint: 'happy customer face', value: 99, label: 'Client Satisfaction', description: 'Based on 500+ completed projects' },
+    { imageUrl: 'https://placehold.co/64x64.png', imageAiHint: 'trophy award', value: 97, label: 'Goal Achievement', description: 'Projects meet or exceed expectations' }
 ];
 
 const benefits = [
@@ -198,19 +198,19 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-16">
             {processSteps.map((step) => (
               <Card key={step.title} className="bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 relative overflow-visible">
-                <div className="flex flex-col h-full p-6 pt-16">
-                    <div className="absolute -top-10 left-6">
-                        <div className="bg-accent p-1 rounded-full ring-8 ring-background flex items-center justify-center w-24 h-24">
-                           <Image 
-                             src={step.imageUrl} 
-                             alt={`${step.title} icon`} 
-                             width={96} 
-                             height={96} 
-                             className="rounded-full"
-                             data-ai-hint={step.imageAiHint}
-                           />
-                        </div>
+                <div className="absolute -top-10 left-6">
+                    <div className="bg-accent p-1 rounded-full ring-8 ring-background flex items-center justify-center w-24 h-24">
+                       <Image 
+                         src={step.imageUrl} 
+                         alt={`${step.title} icon`} 
+                         width={96} 
+                         height={96} 
+                         className="rounded-full"
+                         data-ai-hint={step.imageAiHint}
+                       />
                     </div>
+                </div>
+                <div className="flex flex-col h-full p-6 pt-16">
                     <CardHeader className="p-0 mb-2">
                       <CardTitle className="font-headline text-xl text-primary">{step.title}</CardTitle>
                     </CardHeader>
@@ -230,8 +230,15 @@ export default function Home() {
                             {stats.map(stat => (
                                 <Card key={stat.label} className="bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 relative overflow-visible text-center pt-8">
                                     <div className="absolute -top-6 right-6">
-                                        <div className="bg-accent p-3 rounded-full ring-8 ring-secondary/30 flex items-center justify-center w-14 h-14">
-                                           {stat.icon}
+                                        <div className="bg-accent p-1 rounded-full ring-8 ring-secondary/30 flex items-center justify-center w-14 h-14">
+                                           <Image
+                                             src={stat.imageUrl}
+                                             alt={`${stat.label} icon`}
+                                             width={56}
+                                             height={56}
+                                             className="rounded-full"
+                                             data-ai-hint={stat.imageAiHint}
+                                           />
                                         </div>
                                     </div>
                                     <CardContent className="p-4">
