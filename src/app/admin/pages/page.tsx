@@ -48,7 +48,7 @@ const pageLinks = [
         href: '/admin/pages/application',
         previewHref: '/application',
         icon: faBriefcase,
-        title: 'Collab with Us',
+        title: 'Collab With Us',
         description: 'Manage the content and SEO for the collaboration page.'
     },
     {
