@@ -13,8 +13,8 @@ export function EditServicePageClient({ slug }: { slug: string }) {
   const [service, setService] = useState<Service | null | undefined>(undefined);
 
   useEffect(() => {
-    if (!loading && slug) {
-      const serviceToEdit = getServiceBySlug(slug as string);
+    if (!loading) {
+      const serviceToEdit = getServiceBySlug(slug);
       setService(serviceToEdit);
     }
   }, [slug, getServiceBySlug, loading]);

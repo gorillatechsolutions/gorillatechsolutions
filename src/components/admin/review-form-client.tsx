@@ -13,8 +13,8 @@ export function EditReviewPageClient({ id }: { id: string }) {
   const [review, setReview] = useState<Review | null | undefined>(undefined);
 
   useEffect(() => {
-    if (!loading && id) {
-      const reviewToEdit = getReviewById(id as string);
+    if (!loading) {
+      const reviewToEdit = getReviewById(id);
       setReview(reviewToEdit);
     }
   }, [id, getReviewById, loading]);

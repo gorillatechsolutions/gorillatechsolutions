@@ -13,7 +13,7 @@ export function EditUserPageClient({ email }: { email: string }) {
   const [user, setUser] = useState<User | null | undefined>(undefined);
 
   useEffect(() => {
-    if (!loading && email) {
+    if (!loading) {
       const decodedEmail = decodeURIComponent(email);
       const userToEdit = getUserByEmail(decodedEmail);
       setUser(userToEdit);

@@ -13,8 +13,8 @@ export function EditPostPageClient({ slug }: { slug: string }) {
   const [post, setPost] = useState<CaseStudy | null | undefined>(undefined);
 
   useEffect(() => {
-    if (!loading && slug) {
-      const postToEdit = getCaseStudyBySlug(slug as string);
+    if (!loading) {
+      const postToEdit = getCaseStudyBySlug(slug);
       setPost(postToEdit);
     }
   }, [slug, getCaseStudyBySlug, loading]);

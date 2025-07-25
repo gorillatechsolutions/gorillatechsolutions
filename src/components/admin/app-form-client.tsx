@@ -13,8 +13,8 @@ export function EditAppPageClient({ slug }: { slug: string }) {
   const [app, setApp] = useState<App | null | undefined>(undefined);
 
   useEffect(() => {
-    if (!loading && slug) {
-      const appToEdit = getAppBySlug(slug as string);
+    if (!loading) {
+      const appToEdit = getAppBySlug(slug);
       setApp(appToEdit);
     }
   }, [slug, getAppBySlug, loading]);
