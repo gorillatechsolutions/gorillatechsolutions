@@ -9,6 +9,7 @@ import { useApp } from '@/contexts/app-context';
 import type { AppFilter } from '@/types/app-filter';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useAppsPage } from '@/contexts/apps-page-context';
 
 type AppsPageClientProps = {
   initialSearchTerm: string;
@@ -18,8 +19,11 @@ type AppsPageClientProps = {
 export function AppsPageClient({ initialSearchTerm, initialFilter }: AppsPageClientProps) {
   const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
   const [filter, setFilter] = useState<AppFilter>(initialFilter);
-  const { apps, loading } = useApp();
+  const { apps, loading: appsLoading } = useApp();
+  const { content, loading: pageContentLoading } = useAppsPage();
   const searchParams = useSearchParams();
+
+  const loading = appsLoading || pageContentLoading;
 
   useEffect(() => {
     setSearchTerm(initialSearchTerm);
@@ -37,9 +41,9 @@ export function AppsPageClient({ initialSearchTerm, initialFilter }: AppsPageCli
     <div className="w-full bg-background text-foreground">
       <section className="bg-secondary/30 py-12 md:py-16">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="font-headline text-4xl md:text-5xl lg:text-6xl font-bold text-primary">Our Suite of Applications</h1>
+          <h1 className="font-headline text-4xl md:text-5xl lg:text-6xl font-bold text-primary">{content.heroTitle}</h1>
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-            Discover powerful, intuitive, and beautifully designed applications to enhance your productivity, streamline workflows, and drive business growth.
+            {content.heroSubtitle}
           </p>
           <div className="mt-8 max-w-xl mx-auto">
              <form action="/apps" method="GET" onSubmit={(e) => {

@@ -3,7 +3,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileLines, faAddressBook, faBalanceScale, faArrowRight, faHome } from "@fortawesome/free-solid-svg-icons";
+import { faFileLines, faAddressBook, faBalanceScale, faArrowRight, faHome, faConciergeBell, faPenToSquare, faMobileScreenButton } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -21,10 +21,28 @@ const pageLinks = [
         description: 'Edit the content of your public "About Us" page, including the story, values, and team sections.'
     },
     {
+        href: '/admin/pages/services',
+        icon: faConciergeBell,
+        title: 'Services Page',
+        description: 'Manage the SEO metadata and hero section content for the "Our Services" page.'
+    },
+    {
+        href: '/admin/pages/casestudies',
+        icon: faPenToSquare,
+        title: 'Case Studies Page',
+        description: 'Update the SEO metadata and headline for the main "Case Studies" listing page.'
+    },
+    {
+        href: '/admin/pages/apps',
+        icon: faMobileScreenButton,
+        title: 'Apps Page',
+        description: 'Control the SEO metadata and hero section for the main "Our Apps" listing page.'
+    },
+    {
         href: '/admin/pages/contact',
         icon: faAddressBook,
         title: 'Contact Information',
-        description: 'Update the contact details displayed across your site, such as email, phone, address, and social media links.'
+        description: 'Update the contact details and SEO metadata for your contact page.'
     },
     {
         href: '/admin/pages/legal',

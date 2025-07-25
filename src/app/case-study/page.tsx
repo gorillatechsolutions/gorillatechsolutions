@@ -4,12 +4,16 @@
 import { useSearchParams } from 'next/navigation';
 import { CaseStudyList } from '@/components/case-study-list';
 import { useCaseStudy } from '@/contexts/case-study-context';
+import { useCaseStudiesPage } from '@/contexts/case-studies-page-context';
 
 export default function CaseStudyPage() {
   const searchParams = useSearchParams();
   const searchTerm = searchParams.get('search') || '';
   const page = Number(searchParams.get('page')) || 1;
-  const { caseStudies, loading } = useCaseStudy();
+  const { caseStudies, loading: caseStudiesLoading } = useCaseStudy();
+  const { content, loading: pageContentLoading } = useCaseStudiesPage();
+
+  const loading = caseStudiesLoading || pageContentLoading;
 
   if (loading) {
       return <div className="container py-12">Loading case studies...</div>
@@ -20,9 +24,9 @@ export default function CaseStudyPage() {
       {/* Hero Section */}
       <section className="bg-secondary/30 py-8 md:py-12">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="font-headline text-4xl md:text-5xl font-bold text-primary">Case Studies</h1>
+          <h1 className="font-headline text-4xl md:text-5xl font-bold text-primary">{content.heroTitle}</h1>
           <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
-            Explore our success stories and see the real-world results we've delivered.
+            {content.heroSubtitle}
           </p>
         </div>
       </section>

@@ -14,9 +14,13 @@ import { Badge } from '@/components/ui/badge';
 import { useService } from '@/contexts/service-context';
 import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
+import { useServicesPage } from '@/contexts/services-page-context';
 
 export default function ServicesPage() {
-    const { services, loading } = useService();
+    const { services, loading: servicesLoading } = useService();
+    const { content, loading: pageContentLoading } = useServicesPage();
+
+    const loading = servicesLoading || pageContentLoading;
 
     const isValidUrl = (url: string) => {
         try {
@@ -53,9 +57,9 @@ export default function ServicesPage() {
     <div className="w-full bg-background text-foreground">
         <section className="bg-secondary/30 pt-16 pb-12 md:pt-24 md:pb-20">
             <div className="container mx-auto px-4 text-center">
-                <h1 className="font-headline text-4xl md:text-5xl lg:text-6xl font-bold text-primary">Our Digital Marketing Services</h1>
+                <h1 className="font-headline text-4xl md:text-5xl lg:text-6xl font-bold text-primary">{content.heroTitle}</h1>
                 <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-                    A comprehensive suite of digital marketing services designed to elevate your brand and accelerate growth.
+                    {content.heroSubtitle}
                 </p>
             </div>
         </section>

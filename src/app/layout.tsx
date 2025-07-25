@@ -14,6 +14,9 @@ import { AboutPageProvider } from '@/contexts/about-page-context';
 import { LegalPageProvider } from '@/contexts/legal-page-context';
 import { HomePageProvider } from '@/contexts/home-page-context';
 import { ReviewProvider } from '@/contexts/review-context';
+import { ServicesPageProvider } from '@/contexts/services-page-context';
+import { CaseStudiesPageProvider } from '@/contexts/case-studies-page-context';
+import { AppsPageProvider } from '@/contexts/apps-page-context';
 
 export const metadata: Metadata = {
   title: {
@@ -43,12 +46,18 @@ export default function RootLayout({
                     <LegalPageProvider>
                       <HomePageProvider>
                         <ReviewProvider>
-                          <div className="relative flex min-h-dvh flex-col">
-                              <Header />
-                              <main className="flex-1">{children}</main>
-                              <Footer />
-                          </div>
-                          <Toaster />
+                          <ServicesPageProvider>
+                            <CaseStudiesPageProvider>
+                              <AppsPageProvider>
+                                <div className="relative flex min-h-dvh flex-col">
+                                    <Header />
+                                    <main className="flex-1">{children}</main>
+                                    <Footer />
+                                </div>
+                                <Toaster />
+                              </AppsPageProvider>
+                            </CaseStudiesPageProvider>
+                          </ServicesPageProvider>
                         </ReviewProvider>
                       </HomePageProvider>
                     </LegalPageProvider>
