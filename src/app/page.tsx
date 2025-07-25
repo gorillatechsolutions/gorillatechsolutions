@@ -210,7 +210,7 @@ export default function Home() {
                        />
                     </div>
                 </div>
-                <div className="flex flex-col h-full p-6 pt-16">
+                <div className="flex flex-col h-full p-6 pt-20">
                     <CardHeader className="p-0 mb-2">
                       <CardTitle className="font-headline text-xl text-primary">{step.title}</CardTitle>
                     </CardHeader>
@@ -315,7 +315,14 @@ export default function Home() {
       <section className="w-full bg-background pt-20 md:pt-24 pb-10 md:pb-12">
         <div className="container mx-auto px-4">
           <div className="relative w-9/10 mx-auto">
-            <div className="absolute -top-20 left-0 w-48 h-48 bg-yellow-300 rounded-full z-0"></div>
+             <Image
+                src="https://placehold.co/192x192.png"
+                alt="Decorative Circle"
+                width={192}
+                height={192}
+                className="absolute -top-20 left-0 rounded-full z-0"
+                data-ai-hint="abstract shape"
+              />
             <div className="z-10 flex flex-row items-center justify-between gap-6 bg-blue-600 text-white rounded-lg rounded-tl-lg shadow-lg">
               <Button asChild className="h-11 rounded-md pr-8 bg-green-500 hover:bg-green-600 text-white shadow-lg transition-transform transform hover:scale-105 flex-shrink-0">
                 <Link href="/contact">
