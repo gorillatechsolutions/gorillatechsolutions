@@ -153,6 +153,7 @@ export function ReviewForm({ reviewToEdit }: ReviewFormProps) {
                                 <FormControl>
                                     <Input placeholder="https://placehold.co/100x100.png" {...field} />
                                 </FormControl>
+                                <FormDescription>Recommended size: 100x100 pixels.</FormDescription>
                                 <FormMessage />
                                 </FormItem>
                             )}

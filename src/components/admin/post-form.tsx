@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -254,6 +255,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
                                 <FormControl>
                                     <Input placeholder="https://placehold.co/1200x600.png" {...field} />
                                 </FormControl>
+                                <FormDescription>Recommended size: 1200x600 pixels.</FormDescription>
                                 <FormMessage />
                                 </FormItem>
                             )}
@@ -267,6 +269,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
                                 <FormControl>
                                     <Input placeholder="https://placehold.co/1200x630.png" {...field} />
                                 </FormControl>
+                                <FormDescription>Recommended size: 1200x630 pixels.</FormDescription>
                                 <FormMessage />
                                 </FormItem>
                             )}

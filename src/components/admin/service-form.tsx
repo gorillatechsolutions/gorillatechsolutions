@@ -167,6 +167,7 @@ export function ServiceForm({ serviceToEdit }: ServiceFormProps) {
                             <FormControl>
                                 <Input placeholder="https://placehold.co/128x128.png" {...field} />
                             </FormControl>
+                          <FormDescription>Recommended size: 128x128 pixels.</FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}

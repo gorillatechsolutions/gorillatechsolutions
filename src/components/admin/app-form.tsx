@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -189,6 +190,7 @@ export function AppForm({ appToEdit }: AppFormProps) {
                                 <FormControl>
                                     <Input placeholder="https://placehold.co/128x128.png" {...field} />
                                 </FormControl>
+                                <FormDescription>Recommended size: 128x128 pixels.</FormDescription>
                                 <FormMessage />
                                 </FormItem>
                             )}
