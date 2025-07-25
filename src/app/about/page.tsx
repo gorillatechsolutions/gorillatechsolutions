@@ -72,18 +72,6 @@ export default function AboutPage() {
     } = content;
     
   return (
-    <>
-      <head>
-          <title>{metaTitle}</title>
-          <meta name="description" content={metaDescription} />
-          <meta property="og:title" content={metaTitle} />
-          <meta property="og:description" content={metaDescription} />
-          <meta property="og:image" content={metaOgImage} />
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" content={metaTitle} />
-          <meta name="twitter:description" content={metaDescription} />
-          <meta name="twitter:image" content={metaOgImage} />
-      </head>
       <div className="w-full bg-background text-foreground">
         {/* Hero Section */}
         <section className="relative bg-secondary/30 pt-20 pb-12 md:pt-32 md:pb-20">
@@ -160,6 +148,5 @@ export default function AboutPage() {
             </div>
         </section>
       </div>
-    </>
   );
 }
