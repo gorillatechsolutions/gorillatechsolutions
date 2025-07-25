@@ -2,7 +2,6 @@
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileLines, faAddressBook, faBalanceScale, faArrowRight, faHome, faConciergeBell, faPenToSquare, faMobileScreenButton, faBriefcase, faHandshake, faEye } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
@@ -82,45 +81,37 @@ export default function AdminPagesOverview() {
         <p className="text-muted-foreground">Select a page below to edit its content and settings.</p>
       </div>
 
-      <Card>
-          <CardContent className="pt-6">
-            <Table>
-                <TableHeader>
-                    <TableRow>
-                        <TableHead>Page</TableHead>
-                        <TableHead>Description</TableHead>
-                        <TableHead className="text-right">Actions</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {pageLinks.map(link => (
-                        <TableRow key={link.href}>
-                            <TableCell className="font-medium">
-                                <div className="flex items-center gap-3">
-                                    <FontAwesomeIcon icon={link.icon} className="h-5 w-5 text-muted-foreground" />
-                                    <span>{link.title}</span>
-                                </div>
-                            </TableCell>
-                            <TableCell className="text-muted-foreground max-w-md">{link.description}</TableCell>
-                            <TableCell className="text-right space-x-2">
-                                <Button asChild variant="outline" size="sm">
-                                    <Link href={link.previewHref} target="_blank">
-                                        <FontAwesomeIcon icon={faEye} className="mr-2 h-3 w-3" />
-                                        Preview
-                                    </Link>
-                                </Button>
-                                <Button asChild variant="outline" size="sm">
-                                    <Link href={link.href}>
-                                        Edit Page <FontAwesomeIcon icon={faArrowRight} className="ml-2 h-3 w-3" />
-                                    </Link>
-                                </Button>
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-          </CardContent>
-      </Card>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {pageLinks.map(link => (
+            <Card key={link.href} className="flex flex-col">
+              <CardHeader>
+                  <div className="flex items-start gap-4">
+                      <div className="bg-secondary p-3 rounded-lg">
+                          <FontAwesomeIcon icon={link.icon} className="h-6 w-6 text-muted-foreground" />
+                      </div>
+                      <div>
+                          <CardTitle>{link.title}</CardTitle>
+                          <CardDescription className="mt-1">{link.description}</CardDescription>
+                      </div>
+                  </div>
+              </CardHeader>
+              <CardContent className="flex-grow"></CardContent>
+              <CardContent className="flex justify-end gap-2">
+                <Button asChild variant="outline" size="sm">
+                    <Link href={link.previewHref} target="_blank">
+                        <FontAwesomeIcon icon={faEye} className="mr-2 h-3 w-3" />
+                        Preview
+                    </Link>
+                </Button>
+                <Button asChild size="sm">
+                    <Link href={link.href}>
+                        Edit Page <FontAwesomeIcon icon={faArrowRight} className="ml-2 h-3 w-3" />
+                    </Link>
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+      </div>
     </div>
   );
 }
