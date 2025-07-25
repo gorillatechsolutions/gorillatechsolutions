@@ -112,7 +112,7 @@ export default function ContactPage() {
                                 </CardHeader>
                                 <CardContent>
                                      <div className="flex flex-wrap gap-4">
-                                        {Object.entries(socialLinks).map(([name, href]) => {
+                                        {socialLinks && Object.entries(socialLinks).map(([name, href]) => {
                                           if (!href) return null;
                                           const icon = socialIconMap[name];
                                           return (
