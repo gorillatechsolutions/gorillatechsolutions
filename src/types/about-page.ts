@@ -8,6 +8,7 @@ export interface AboutPageValue {
 export interface AboutPageContent {
   metaTitle: string;
   metaDescription: string;
+  metaKeywords?: string;
   metaOgImage: string;
   heroTitle: string;
   heroSubtitle: string;

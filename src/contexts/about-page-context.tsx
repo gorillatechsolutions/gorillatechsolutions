@@ -7,6 +7,7 @@ import type { AboutPageContent } from '@/types/about-page';
 const defaultAboutPageContent: AboutPageContent = {
     metaTitle: "About Our Digital Marketing Agency",
     metaDescription: "Learn about the mission, values, and expert team at Gorilla Tech Solutions, dedicated to delivering exceptional digital marketing results.",
+    metaKeywords: "digital marketing agency, seo experts, ppc company, about us",
     metaOgImage: "https://placehold.co/1200x630.png",
     heroTitle: "About Gorilla Tech Solutions",
     heroSubtitle: "A passionate team of digital marketing experts dedicated to building powerful brands and driving measurable growth for businesses like yours.",
