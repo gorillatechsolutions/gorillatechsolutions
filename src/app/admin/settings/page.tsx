@@ -1,3 +1,4 @@
+
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -27,19 +28,21 @@ export default function AdminSettingsPage() {
                             <CardDescription>Manage your website's global settings and branding.</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-6">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div className="space-y-2">
-                                    <Label htmlFor="siteName">Site Name</Label>
-                                    <Input id="siteName" placeholder="Your Site Name" />
-                                </div>
-                                <div className="space-y-2">
-                                    <Label htmlFor="siteUrl">Site URL</Label>
-                                    <Input id="siteUrl" placeholder="https://example.com" />
-                                </div>
-                                <div className="space-y-2">
-                                    <Label htmlFor="gitUrl">Git Repository URL</Label>
-                                    <Input id="gitUrl" placeholder="https://github.com/user/repo" />
-                                </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="siteName">Site Name</Label>
+                                <Input id="siteName" placeholder="Your Site Name" />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="faviconUrl">Favicon URL</Label>
+                                <Input id="faviconUrl" placeholder="https://example.com/favicon.ico" />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="headerLogoUrl">Header Logo URL</Label>
+                                <Input id="headerLogoUrl" placeholder="https://example.com/header-logo.png" />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="footerLogoUrl">Footer Logo URL</Label>
+                                <Input id="footerLogoUrl" placeholder="https://example.com/footer-logo.png" />
                             </div>
                              
                              <div>
