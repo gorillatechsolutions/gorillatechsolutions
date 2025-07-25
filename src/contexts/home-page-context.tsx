@@ -7,6 +7,7 @@ import type { HomePageContent } from '@/types/home-page';
 const defaultHomePageContent: HomePageContent = {
     metaTitle: "Gorilla Tech Solutions | Data-Driven Digital Marketing",
     metaDescription: "Gorilla Tech Solutions is a leading digital marketing agency specializing in SEO, PPC, and content strategies to drive measurable growth for your business.",
+    metaKeywords: "digital marketing, seo, ppc, content strategy, data-driven",
     metaOgImage: "https://placehold.co/1200x630.png",
     heroTitle: "Elevate Your Digital Marketing",
     heroSubtitle: "Gorilla Tech Solutions drives growth with data-driven digital marketing strategies that convert. Let's build your brand's future, together.",
