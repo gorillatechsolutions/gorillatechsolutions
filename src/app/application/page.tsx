@@ -27,7 +27,8 @@ const applicationFormSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email address.' }),
   phone: z.string().optional(),
   position: z.string().min(1, { message: 'Please select a position.' }),
-  linkedinUrl: z.string().url({ message: 'Please enter a valid LinkedIn URL.' }).optional().or(z.literal('')),
+  facebookUrl: z.string().url({ message: 'Please enter a valid Facebook URL.' }).optional().or(z.literal('')),
+  youtubeUrl: z.string().url({ message: 'Please enter a valid YouTube URL.' }).optional().or(z.literal('')),
   portfolioUrl: z.string().url({ message: 'Please enter a valid portfolio URL.' }).optional().or(z.literal('')),
   coverLetter: z.string().min(20, { message: 'Cover letter must be at least 20 characters.' }),
 });
@@ -43,7 +44,8 @@ export default function ApplicationPage() {
             email: '',
             phone: '',
             position: '',
-            linkedinUrl: '',
+            facebookUrl: '',
+            youtubeUrl: '',
             portfolioUrl: '',
             coverLetter: '',
         },
@@ -118,9 +120,10 @@ export default function ApplicationPage() {
                                         )}
                                     />
                                     <div className="grid sm:grid-cols-2 gap-6">
-                                        <FormField control={form.control} name="linkedinUrl" render={({ field }) => (<FormItem><FormLabel>LinkedIn Profile</FormLabel><FormControl><Input placeholder="https://linkedin.com/in/..." {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                        <FormField control={form.control} name="portfolioUrl" render={({ field }) => (<FormItem><FormLabel>Portfolio URL</FormLabel><FormControl><Input placeholder="https://yourportfolio.com" {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                        <FormField control={form.control} name="facebookUrl" render={({ field }) => (<FormItem><FormLabel>Facebook Profile</FormLabel><FormControl><Input placeholder="https://facebook.com/..." {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                        <FormField control={form.control} name="youtubeUrl" render={({ field }) => (<FormItem><FormLabel>YouTube URL</FormLabel><FormControl><Input placeholder="https://youtube.com/channel/..." {...field} /></FormControl><FormMessage /></FormItem>)} />
                                     </div>
+                                    <FormField control={form.control} name="portfolioUrl" render={({ field }) => (<FormItem><FormLabel>Portfolio URL</FormLabel><FormControl><Input placeholder="https://yourportfolio.com" {...field} /></FormControl><FormMessage /></FormItem>)} />
                                     <FormField control={form.control} name="coverLetter" render={({ field }) => (<FormItem><FormLabel>Cover Letter / Message</FormLabel><FormControl><Textarea className="min-h-[120px]" placeholder="Tell us why you'd be a great fit for our team..." {...field} /></FormControl><FormMessage /></FormItem>)} />
 
                                     <Button type="submit" className="w-full bg-accent text-accent-foreground hover:bg-accent/90">Submit Application</Button>
