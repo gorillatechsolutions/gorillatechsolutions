@@ -75,7 +75,11 @@ export default function HomeSettingsPage() {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaultValues: content,
+        defaultValues: {
+            ...content,
+            benefits: content.benefits.join(', '),
+            metaKeywords: content.metaKeywords || '',
+        },
     });
 
     const { fields: processStepFields, append: appendProcessStep, remove: removeProcessStep } = useFieldArray({
@@ -93,6 +97,7 @@ export default function HomeSettingsPage() {
             form.reset({
                 ...content,
                 benefits: content.benefits.join(', '),
+                metaKeywords: content.metaKeywords || '',
             });
         }
     }, [content, loading, form]);
@@ -257,5 +262,3 @@ export default function HomeSettingsPage() {
         </div>
     );
 }
-
-    
