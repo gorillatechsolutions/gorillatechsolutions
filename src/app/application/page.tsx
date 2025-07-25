@@ -19,6 +19,8 @@ import { useToast } from '@/hooks/use-toast';
 import { Textarea } from '@/components/ui/textarea';
 import Image from 'next/image';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useApplicationPage } from '@/contexts/application-page-context';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const applicationFormSchema = z.object({
   fullName: z.string().min(2, { message: 'Full name must be at least 2 characters.' }),
@@ -32,6 +34,7 @@ const applicationFormSchema = z.object({
 
 export default function ApplicationPage() {
     const { toast } = useToast();
+    const { content, loading } = useApplicationPage();
 
     const form = useForm<z.infer<typeof applicationFormSchema>>({
         resolver: zodResolver(applicationFormSchema),
@@ -54,14 +57,27 @@ export default function ApplicationPage() {
         });
         form.reset();
     }
+    
+    if (loading) {
+        return (
+            <div className="w-full bg-background text-foreground space-y-12">
+                <section className="relative bg-secondary/30 pt-16 pb-10 md:pt-24 md:pb-16">
+                    <div className="container mx-auto px-4 text-center">
+                        <Skeleton className="h-12 w-2/3 mx-auto" />
+                        <Skeleton className="h-6 w-1/2 mx-auto mt-4" />
+                    </div>
+                </section>
+            </div>
+        )
+    }
 
     return (
         <div className="w-full bg-background text-foreground">
             <section className="bg-secondary/30 pt-16 pb-10 md:pt-24 md:pb-16">
                 <div className="container mx-auto px-4 text-center">
-                    <h1 className="font-headline text-4xl md:text-6xl font-bold text-primary">Work With Us</h1>
+                    <h1 className="font-headline text-4xl md:text-6xl font-bold text-primary">{content.heroTitle}</h1>
                     <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-                        Join our team of innovators and help us build the future of digital marketing. We're looking for passionate individuals to grow with us.
+                        {content.heroSubtitle}
                     </p>
                 </div>
             </section>

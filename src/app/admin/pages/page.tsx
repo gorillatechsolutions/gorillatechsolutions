@@ -3,7 +3,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileLines, faAddressBook, faBalanceScale, faArrowRight, faHome, faConciergeBell, faPenToSquare, faMobileScreenButton } from "@fortawesome/free-solid-svg-icons";
+import { faFileLines, faAddressBook, faBalanceScale, faArrowRight, faHome, faConciergeBell, faPenToSquare, faMobileScreenButton, faBriefcase, faHandshake } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -37,6 +37,18 @@ const pageLinks = [
         icon: faMobileScreenButton,
         title: 'Apps Page',
         description: 'Control the SEO metadata and hero section for the main "Our Apps" listing page.'
+    },
+    {
+        href: '/admin/pages/application',
+        icon: faBriefcase,
+        title: 'Work With Us',
+        description: 'Manage the content and SEO for the job application page.'
+    },
+    {
+        href: '/admin/pages/invest-with-us',
+        icon: faHandshake,
+        title: 'Invest With Us',
+        description: 'Update the content and SEO settings for the investor inquiry page.'
     },
     {
         href: '/admin/pages/contact',

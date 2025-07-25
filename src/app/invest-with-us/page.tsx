@@ -18,6 +18,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import { Textarea } from '@/components/ui/textarea';
 import Image from 'next/image';
+import { useInvestmentPage } from '@/contexts/investment-page-context';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const investmentFormSchema = z.object({
   fullName: z.string().min(2, { message: 'Full name must be at least 2 characters.' }),
@@ -28,6 +30,7 @@ const investmentFormSchema = z.object({
 
 export default function InvestWithUsPage() {
     const { toast } = useToast();
+    const { content, loading } = useInvestmentPage();
 
     const form = useForm<z.infer<typeof investmentFormSchema>>({
         resolver: zodResolver(investmentFormSchema),
@@ -47,14 +50,27 @@ export default function InvestWithUsPage() {
         });
         form.reset();
     }
+    
+    if (loading) {
+        return (
+            <div className="w-full bg-background text-foreground space-y-12">
+                <section className="relative bg-secondary/30 pt-16 pb-10 md:pt-24 md:pb-16">
+                    <div className="container mx-auto px-4 text-center">
+                        <Skeleton className="h-12 w-2/3 mx-auto" />
+                        <Skeleton className="h-6 w-1/2 mx-auto mt-4" />
+                    </div>
+                </section>
+            </div>
+        )
+    }
 
     return (
         <div className="w-full bg-background text-foreground">
             <section className="bg-secondary/30 pt-16 pb-10 md:pt-24 md:pb-16">
                 <div className="container mx-auto px-4 text-center">
-                    <h1 className="font-headline text-4xl md:text-6xl font-bold text-primary">Invest in the Future of Digital</h1>
+                    <h1 className="font-headline text-4xl md:text-6xl font-bold text-primary">{content.heroTitle}</h1>
                     <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-                        We are at the forefront of digital innovation, driving growth for businesses worldwide. Discover the opportunity to partner with a leader in the tech industry.
+                        {content.heroSubtitle}
                     </p>
                 </div>
             </section>
