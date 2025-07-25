@@ -27,6 +27,10 @@ const applicationFormSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email address.' }),
   phone: z.string().optional(),
   position: z.string().min(1, { message: 'Please select a position.' }),
+  country: z.string().min(2, { message: "Country is required." }),
+  state: z.string().min(2, { message: "State is required." }),
+  zipCode: z.string().min(3, { message: "ZIP Code is required." }),
+  whatsapp: z.string().optional(),
   facebookUrl: z.string().url({ message: 'Please enter a valid Facebook URL.' }).optional().or(z.literal('')),
   youtubeUrl: z.string().url({ message: 'Please enter a valid YouTube URL.' }).optional().or(z.literal('')),
   portfolioUrl: z.string().url({ message: 'Please enter a valid portfolio URL.' }).optional().or(z.literal('')),
@@ -44,6 +48,10 @@ export default function ApplicationPage() {
             email: '',
             phone: '',
             position: '',
+            country: '',
+            state: '',
+            zipCode: '',
+            whatsapp: '',
             facebookUrl: '',
             youtubeUrl: '',
             portfolioUrl: '',
@@ -99,6 +107,12 @@ export default function ApplicationPage() {
                                         <FormField control={form.control} name="email" render={({ field }) => (<FormItem><FormLabel>Email</FormLabel><FormControl><Input type="email" placeholder="you@example.com" {...field} /></FormControl><FormMessage /></FormItem>)} />
                                         <FormField control={form.control} name="phone" render={({ field }) => (<FormItem><FormLabel>Phone (Optional)</FormLabel><FormControl><Input type="tel" placeholder="+1 234 567 890" {...field} /></FormControl><FormMessage /></FormItem>)} />
                                     </div>
+                                    <div className="grid sm:grid-cols-3 gap-6">
+                                        <FormField control={form.control} name="country" render={({ field }) => (<FormItem><FormLabel>Country</FormLabel><FormControl><Input placeholder="United States" {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                        <FormField control={form.control} name="state" render={({ field }) => (<FormItem><FormLabel>State</FormLabel><FormControl><Input placeholder="California" {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                        <FormField control={form.control} name="zipCode" render={({ field }) => (<FormItem><FormLabel>Zip Code</FormLabel><FormControl><Input placeholder="90210" {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                    </div>
+                                    <FormField control={form.control} name="whatsapp" render={({ field }) => (<FormItem><FormLabel>WhatsApp Number (Optional)</FormLabel><FormControl><Input placeholder="+1 234 567 890" {...field} /></FormControl><FormMessage /></FormItem>)} />
                                     <FormField
                                         control={form.control}
                                         name="position"
