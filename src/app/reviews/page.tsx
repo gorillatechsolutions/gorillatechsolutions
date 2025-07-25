@@ -1,16 +1,14 @@
 
+'use client';
+
 import type { Metadata } from 'next';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { reviews } from '@/lib/reviews-data';
-
-export const metadata: Metadata = {
-  title: 'Client Reviews & Testimonials',
-  description: 'See what our clients have to say about Gorilla Tech Solutions. Read our reviews and learn how we help businesses achieve their goals.',
-};
+import { useReview } from '@/contexts/review-context';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const StarRating = ({ rating }: { rating: number }) => (
   <div className="flex items-center gap-1">
@@ -25,11 +23,35 @@ const StarRating = ({ rating }: { rating: number }) => (
 );
 
 export default function ReviewsPage() {
+    const { reviews, loading } = useReview();
+
     const sortedReviews = [...reviews].sort((a, b) => {
         if (a.pinned && !b.pinned) return -1;
         if (!a.pinned && b.pinned) return 1;
         return 0;
     });
+
+    if (loading) {
+        return (
+            <div className="w-full bg-background text-foreground">
+              <section className="bg-secondary/30 pt-12 pb-8 md:pt-16 md:pb-12">
+                <div className="container mx-auto px-4 text-center">
+                  <Skeleton className="h-12 w-2/3 mx-auto" />
+                  <Skeleton className="h-6 w-1/2 mx-auto mt-4" />
+                </div>
+              </section>
+              <section className="py-12 md:py-16">
+                <div className="container mx-auto px-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {Array.from({ length: 6 }).map((_, i) => (
+                      <Skeleton key={i} className="h-64 w-full rounded-lg" />
+                    ))}
+                  </div>
+                </div>
+              </section>
+            </div>
+        )
+    }
 
   return (
     <div className="w-full bg-background text-foreground">

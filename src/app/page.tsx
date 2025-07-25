@@ -6,12 +6,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { reviews as allReviews } from '@/lib/reviews-data';
 import { cn } from '@/lib/utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAws, faMeta } from '@fortawesome/free-brands-svg-icons';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { useHomePage } from '@/contexts/home-page-context';
+import { useReview } from '@/contexts/review-context';
 import { Skeleton } from '@/components/ui/skeleton';
 
 const processSteps = [
@@ -50,8 +50,6 @@ const benefits = [
     '24/7 Support'
 ];
 
-const pinnedReviews = allReviews.filter(review => review.pinned);
-
 const StarRating = ({ rating, className }: { rating: number, className?: string }) => (
   <div className="flex items-center gap-1">
     {[...Array(5)].map((_, i) => (
@@ -66,7 +64,12 @@ const StarRating = ({ rating, className }: { rating: number, className?: string 
 
 
 export default function Home() {
-  const { content, loading } = useHomePage();
+  const { content, loading: homeLoading } = useHomePage();
+  const { reviews, loading: reviewsLoading } = useReview();
+
+  const loading = homeLoading || reviewsLoading;
+
+  const pinnedReviews = reviews.filter(review => review.pinned);
   
   if (loading) {
     return (
@@ -259,7 +262,7 @@ export default function Home() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {pinnedReviews.slice(0, 4).map((review) => (
-              <Card key={review.name} className="flex flex-col bg-card shadow-lg hover:shadow-xl transition-shadow">
+              <Card key={review.id} className="flex flex-col bg-card shadow-lg hover:shadow-xl transition-shadow">
                  <CardContent className="p-6 flex-1 flex flex-col">
                   <StarRating rating={review.rating} />
                   <blockquote className="text-foreground/90 mt-4 flex-1">

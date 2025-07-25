@@ -13,6 +13,7 @@ import { ContactSettingsProvider } from '@/contexts/contact-settings-context';
 import { AboutPageProvider } from '@/contexts/about-page-context';
 import { LegalPageProvider } from '@/contexts/legal-page-context';
 import { HomePageProvider } from '@/contexts/home-page-context';
+import { ReviewProvider } from '@/contexts/review-context';
 
 export const metadata: Metadata = {
   title: {
@@ -41,12 +42,14 @@ export default function RootLayout({
                   <AboutPageProvider>
                     <LegalPageProvider>
                       <HomePageProvider>
-                        <div className="relative flex min-h-dvh flex-col">
-                            <Header />
-                            <main className="flex-1">{children}</main>
-                            <Footer />
-                        </div>
-                        <Toaster />
+                        <ReviewProvider>
+                          <div className="relative flex min-h-dvh flex-col">
+                              <Header />
+                              <main className="flex-1">{children}</main>
+                              <Footer />
+                          </div>
+                          <Toaster />
+                        </ReviewProvider>
                       </HomePageProvider>
                     </LegalPageProvider>
                   </AboutPageProvider>
