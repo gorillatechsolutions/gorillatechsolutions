@@ -10,6 +10,7 @@ import { CaseStudyProvider } from '@/contexts/case-study-context';
 import { AppProvider } from '@/contexts/app-context';
 import { ServiceProvider } from '@/contexts/service-context';
 import { ContactSettingsProvider } from '@/contexts/contact-settings-context';
+import { AboutPageProvider } from '@/contexts/about-page-context';
 
 export const metadata: Metadata = {
   title: {
@@ -35,12 +36,14 @@ export default function RootLayout({
             <AppProvider>
               <ServiceProvider>
                 <ContactSettingsProvider>
-                  <div className="relative flex min-h-dvh flex-col">
-                      <Header />
-                      <main className="flex-1">{children}</main>
-                      <Footer />
-                  </div>
-                  <Toaster />
+                  <AboutPageProvider>
+                    <div className="relative flex min-h-dvh flex-col">
+                        <Header />
+                        <main className="flex-1">{children}</main>
+                        <Footer />
+                    </div>
+                    <Toaster />
+                  </AboutPageProvider>
                 </ContactSettingsProvider>
               </ServiceProvider>
             </AppProvider>

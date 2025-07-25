@@ -68,7 +68,7 @@ export default function AdminLayout({
             {navItems.map((item) => (
               <SidebarMenuItem key={item.href}>
                 <Link href={item.href}>
-                  <SidebarMenuButton data-active={item.exact ? pathname === item.href : pathname.startsWith(item.href) && !pathname.startsWith(item.href + '/')}>
+                  <SidebarMenuButton data-active={item.exact ? pathname === item.href : pathname.startsWith(item.href) && (item.href === '/admin' || !pathname.startsWith(item.href + '/'))}>
                     <FontAwesomeIcon icon={item.icon} className="h-4 w-4" />
                     <span>{item.label}</span>
                   </SidebarMenuButton>
@@ -78,6 +78,11 @@ export default function AdminLayout({
                         <Link href="/admin/settings/contact">
                              <SidebarMenuButton size="sm" data-active={pathname === '/admin/settings/contact'}>
                                 Contact Info
+                             </SidebarMenuButton>
+                        </Link>
+                         <Link href="/admin/settings/about">
+                             <SidebarMenuButton size="sm" data-active={pathname === '/admin/settings/about'}>
+                                Edit About Page
                              </SidebarMenuButton>
                         </Link>
                     </div>

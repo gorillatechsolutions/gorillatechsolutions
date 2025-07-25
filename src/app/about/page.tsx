@@ -1,32 +1,83 @@
 
+'use client';
+
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import type { Metadata } from 'next';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { useAboutPage } from '@/contexts/about-page-context';
+import { Skeleton } from '@/components/ui/skeleton';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBolt, faBullseye, faUsers, faHandshake } from '@fortawesome/free-solid-svg-icons';
+import * as "lucide-react";
+import {createElement } from 'react';
+import { icons } from 'lucide-react';
 
-export const metadata: Metadata = {
-  title: 'About Our Digital Marketing Agency',
-  description: 'Learn about the mission, values, and expert team at Gorilla Tech Solutions, dedicated to delivering exceptional digital marketing results.',
+
+const iconMap: { [key: string]: React.ElementType } = {
+    Bolt: faBolt,
+    Bullseye: faBullseye,
+    Users: faUsers,
+    Handshake: faHandshake,
+    ...icons
 };
 
-const values = [
-    { icon: <i className="fa fa-bolt fa-2x text-primary" aria-hidden="true"></i>, title: "Innovation", description: "We constantly explore new technologies and strategies to keep you ahead of the curve, ensuring your business benefits from the latest digital marketing advancements." },
-    { icon: <i className="fa fa-bullseye fa-2x text-primary" aria-hidden="true"></i>, title: "Results-Driven", description: "Our focus is on delivering measurable results that translate to real business growth. We track key metrics to ensure our campaigns are effective and impactful." },
-    { icon: <i className="fa fa-users fa-2x text-primary" aria-hidden="true"></i>, title: "Client Partnership", description: "We work as an extension of your team, fostering open communication and true collaboration to achieve shared goals and build long-term relationships." },
-    { icon: <i className="fa fa-handshake-o fa-2x text-primary" aria-hidden="true"></i>, title: "Integrity", description: "We believe in transparency and honesty in all our interactions. You'll receive clear, straightforward reporting on all campaign activities and results." },
-];
-
 export default function AboutPage() {
+    const { content, loading } = useAboutPage();
+
+    if (loading) {
+        return (
+            <div className="w-full bg-background text-foreground space-y-12">
+                {/* Hero Skeleton */}
+                <section className="relative bg-secondary/30 pt-20 pb-12 md:pt-32 md:pb-20">
+                    <div className="container mx-auto px-4 text-center">
+                        <Skeleton className="h-12 w-2/3 mx-auto" />
+                        <Skeleton className="h-6 w-1/2 mx-auto mt-4" />
+                    </div>
+                </section>
+                {/* Story Skeleton */}
+                <section className="py-16 md:py-24">
+                    <div className="container mx-auto px-4">
+                        <div className="grid md:grid-cols-2 gap-12 items-center">
+                            <div>
+                                <Skeleton className="h-10 w-3/4 mb-4" />
+                                <Skeleton className="h-5 w-full mb-2" />
+                                <Skeleton className="h-5 w-full mb-2" />
+                                <Skeleton className="h-5 w-5/6" />
+                            </div>
+                            <Skeleton className="h-80 md:h-96 w-full rounded-lg" />
+                        </div>
+                    </div>
+                </section>
+            </div>
+        )
+    }
+
+    const {
+        heroTitle,
+        heroSubtitle,
+        storyTitle,
+        storyParagraph1,
+        storyParagraph2,
+        storyImage,
+        storyImageAiHint,
+        valuesTitle,
+        valuesSubtitle,
+        values,
+        ctaTitle,
+        ctaSubtitle
+    } = content;
+    
   return (
     <div className="w-full bg-background text-foreground">
       {/* Hero Section */}
       <section className="relative bg-secondary/30 pt-20 pb-12 md:pt-32 md:pb-20">
         <div className="container mx-auto px-4 text-center">
-            <h1 className="font-headline text-4xl md:text-6xl font-bold text-primary">About Gorilla Tech Solutions</h1>
+            <h1 className="font-headline text-4xl md:text-6xl font-bold text-primary">{heroTitle}</h1>
             <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-                A passionate team of digital marketing experts dedicated to building powerful brands and driving measurable growth for businesses like yours.
+                {heroSubtitle}
             </p>
         </div>
       </section>
@@ -36,16 +87,16 @@ export default function AboutPage() {
         <div className="container mx-auto px-4">
             <div className="grid md:grid-cols-2 gap-12 items-center">
                 <div>
-                    <h2 className="font-headline text-3xl font-bold mb-4 text-primary">From Vision to Victory: Our Story</h2>
+                    <h2 className="font-headline text-3xl font-bold mb-4 text-primary">{storyTitle}</h2>
                     <p className="text-muted-foreground mb-4 leading-relaxed">
-                        Founded on the principle that every business deserves a powerful digital presence, Gorilla Tech Solutions began with a singular mission: to empower companies with innovative and effective digital marketing strategies. We saw a gap between agencies and clients and decided to fill it by building true partnerships, not just managing campaigns.
+                        {storyParagraph1}
                     </p>
                     <p className="text-muted-foreground leading-relaxed">
-                        By combining data-driven insights with creative excellence, we deliver tangible results that foster sustainable growth and build lasting brand value in a crowded digital world. Our journey is defined by the success of our clients.
+                        {storyParagraph2}
                     </p>
                 </div>
                 <div className="relative h-80 md:h-96">
-                    <Image src="https://placehold.co/600x450.png" alt="Our team collaborating on a project" layout="fill" objectFit="cover" className="rounded-lg shadow-xl" data-ai-hint="team collaboration" loading="lazy" />
+                    <Image src={storyImage} alt="Our team collaborating on a project" layout="fill" objectFit="cover" className="rounded-lg shadow-xl" data-ai-hint={storyImageAiHint} loading="lazy" />
                 </div>
             </div>
         </div>
@@ -55,18 +106,20 @@ export default function AboutPage() {
       <section className="py-16 md:py-24 bg-secondary/30">
         <div className="container mx-auto px-4">
           <header className="text-center mb-16">
-            <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">The Principles That Guide Us</h2>
-            <p className="mt-3 text-lg text-muted-foreground max-w-2xl mx-auto">Our core values are the bedrock of our company culture and client relationships, ensuring we deliver excellence in every project.</p>
+            <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">{valuesTitle}</h2>
+            <p className="mt-3 text-lg text-muted-foreground max-w-2xl mx-auto">{valuesSubtitle}</p>
           </header>
           <div className="flex flex-col gap-16 max-w-4xl mx-auto">
-            {values.map((value, index) => (
+            {values.map((value, index) => {
+              const IconComponent = iconMap[value.icon] ? createElement(iconMap[value.icon], { className: 'h-8 w-8 text-primary' }) : null;
+              return (
               <div 
                 key={value.title} 
                 className={`flex flex-col md:flex-row items-center gap-8 md:gap-12 p-8 rounded-lg ${index % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}
                 >
                 <div className="flex-shrink-0">
                     <div className="p-6 bg-card rounded-lg shadow-md border flex items-center justify-center w-24 h-24">
-                        {value.icon}
+                        {IconComponent}
                     </div>
                 </div>
                 <div className={`text-center md:text-left ${index % 2 !== 0 ? 'md:text-right' : ''}`}>
@@ -74,7 +127,7 @@ export default function AboutPage() {
                     <p className="text-muted-foreground leading-relaxed">{value.description}</p>
                 </div>
               </div>
-            ))}
+            )})}
           </div>
         </div>
       </section>
@@ -82,9 +135,9 @@ export default function AboutPage() {
       {/* CTA Section */}
       <section className="py-12 md:py-16 bg-background">
           <div className="container mx-auto px-4 text-center">
-              <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">Ready to Elevate Your Brand?</h2>
+              <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">{ctaTitle}</h2>
               <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
-                  Let's discuss how our digital marketing expertise can help you achieve your business goals. Your journey to digital excellence starts here.
+                  {ctaSubtitle}
               </p>
               <Button asChild size="lg" className="mt-8 bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transition-transform transform hover:scale-105">
                   <Link href="/contact">
@@ -95,4 +148,14 @@ export default function AboutPage() {
       </section>
     </div>
   );
+}
+
+// Update metadata generation
+export async function generateMetadata() {
+  // In a real app, you'd fetch this data. Here we can't do that in a client component easily.
+  // We'll keep it static for now but ideally it would use the fetched content.
+  return {
+    title: 'About Our Digital Marketing Agency',
+    description: 'Learn about the mission, values, and expert team at Gorilla Tech Solutions, dedicated to delivering exceptional digital marketing results.',
+  };
 }
