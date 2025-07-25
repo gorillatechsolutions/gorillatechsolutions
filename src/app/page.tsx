@@ -16,22 +16,26 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 const processSteps = [
     {
-        icon: <i className="fa fa-search fa-3x text-accent-foreground" aria-hidden="true"></i>,
+        imageUrl: 'https://placehold.co/100x100.png',
+        imageAiHint: 'magnifying glass discovery',
         title: 'Discovery',
         description: 'We start by understanding your business, goals, and target audience to lay the groundwork for a successful strategy.'
     },
     {
-        icon: <i className="fa fa-list-check fa-3x text-accent-foreground" aria-hidden="true"></i>,
+        imageUrl: 'https://placehold.co/100x100.png',
+        imageAiHint: 'planning strategy checklist',
         title: 'Planning',
         description: 'Our team crafts a detailed, data-driven plan, outlining the key strategies and milestones for your project.'
     },
     {
-        icon: <i className="fa fa-rocket fa-3x text-accent-foreground" aria-hidden="true"></i>,
+        imageUrl: 'https://placehold.co/100x100.png',
+        imageAiHint: 'rocket launch execution',
         title: 'Execution',
         description: 'We launch your campaigns, continuously optimizing for performance and delivering measurable results.'
     },
     {
-        icon: <i className="fa fa-trophy fa-3x text-accent-foreground" aria-hidden="true"></i>,
+        imageUrl: 'https://placehold.co/100x100.png',
+        imageAiHint: 'trophy award launch',
         title: 'Review & Launch',
         description: 'We review the results, provide detailed reports, and successfully launch your project for the world to see.'
     }
@@ -196,8 +200,15 @@ export default function Home() {
               <Card key={step.title} className="bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 relative overflow-visible">
                 <div className="flex flex-col h-full p-6 pt-16">
                     <div className="absolute -top-10 left-6">
-                        <div className="bg-accent p-4 rounded-full ring-8 ring-background flex items-center justify-center w-24 h-24">
-                           {step.icon}
+                        <div className="bg-accent p-1 rounded-full ring-8 ring-background flex items-center justify-center w-24 h-24">
+                           <Image 
+                             src={step.imageUrl} 
+                             alt={`${step.title} icon`} 
+                             width={96} 
+                             height={96} 
+                             className="rounded-full"
+                             data-ai-hint={step.imageAiHint}
+                           />
                         </div>
                     </div>
                     <CardHeader className="p-0 mb-2">
