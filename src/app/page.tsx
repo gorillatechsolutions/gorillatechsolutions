@@ -77,6 +77,10 @@ export default function Home() {
                         <Skeleton className="h-12 w-2/3" />
                         <Skeleton className="h-6 w-full" />
                         <Skeleton className="h-6 w-4/5" />
+                         <div className="flex gap-4">
+                            <Skeleton className="h-12 w-48" />
+                            <Skeleton className="h-12 w-48" />
+                        </div>
                     </div>
                     <div className="flex items-center justify-center">
                         <Skeleton className="w-96 h-96 rounded-full" />
@@ -87,6 +91,18 @@ export default function Home() {
     )
   }
 
+  const { 
+      heroTitle, 
+      heroSubtitle, 
+      heroImage, 
+      heroImageAiHint, 
+      heroCtaButtonText, 
+      heroCtaButtonLink, 
+      heroSecondaryButtonText, 
+      heroSecondaryButtonLink 
+    } = content;
+
+
   return (
     <div className="w-full">
       <section className="w-full py-12 md:py-24 lg:py-32 flex justify-center" style={{ backgroundColor: '#F1F4F7' }}>
@@ -96,20 +112,20 @@ export default function Home() {
               "text-4xl font-extrabold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl font-headline",
               "animated-gradient-text animate-gradient"
             )}>
-              {content.heroTitle}
+              {heroTitle}
             </h1>
             <p className="mt-6 text-lg text-muted-foreground md:text-xl max-w-[600px]">
-              {content.heroSubtitle}
+              {heroSubtitle}
             </p>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start">
               <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transition-transform transform hover:scale-105">
-                <Link href="/contact">
-                  Get Your Free Consultation <i className="fa fa-arrow-right ml-2" aria-hidden="true"></i>
+                <Link href={heroCtaButtonLink}>
+                  {heroCtaButtonText} <i className="fa fa-arrow-right ml-2" aria-hidden="true"></i>
                 </Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="shadow-lg transition-transform transform hover:scale-105 border-border hover:bg-secondary">
-                <Link href="/services">
-                  Explore Our Services
+                <Link href={heroSecondaryButtonLink}>
+                  {heroSecondaryButtonText}
                 </Link>
               </Button>
             </div>
@@ -151,12 +167,12 @@ export default function Home() {
           </div>
           <div className="flex items-center justify-center">
             <Image
-              src="https://placehold.co/600x400.png"
+              src={heroImage}
               width={600}
               height={400}
               alt="Team discussing digital marketing strategy on a whiteboard"
               className="mx-auto aspect-square overflow-hidden rounded-full object-cover"
-              data-ai-hint="digital marketing"
+              data-ai-hint={heroImageAiHint}
               priority={true}
             />
           </div>

@@ -7,6 +7,12 @@ import type { HomePageContent } from '@/types/home-page';
 const defaultHomePageContent: HomePageContent = {
     heroTitle: "Elevate Your Digital Marketing",
     heroSubtitle: "Gorilla Tech Solutions drives growth with data-driven digital marketing strategies that convert. Let's build your brand's future, together.",
+    heroImage: "https://placehold.co/600x400.png",
+    heroImageAiHint: "digital marketing",
+    heroCtaButtonText: "Get Your Free Consultation",
+    heroCtaButtonLink: "/contact",
+    heroSecondaryButtonText: "Explore Our Services",
+    heroSecondaryButtonLink: "/services",
 };
 
 interface HomePageContextType {
