@@ -5,6 +5,10 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import type { ContactSettings } from '@/types/contact-settings';
 
 const defaultContactSettings: ContactSettings = {
+    metaTitle: "Contact Us | Gorilla Tech Solutions",
+    metaDescription: "Get in touch with Gorilla Tech Solutions. We're here to answer your questions about our digital marketing services and help you start your next project.",
+    metaKeywords: "contact digital marketing agency, get a quote, project inquiry",
+    metaOgImage: "https://placehold.co/1200x630.png",
     phone: '0381 359 9517',
     email: 'Business@GorillaTechSolution.com',
     address: 'Agartala, Tripura (W) India',
@@ -38,7 +42,9 @@ export const ContactSettingsProvider: React.FC<{ children: React.ReactNode }> = 
     try {
       const storedSettings = localStorage.getItem(CONTACT_SETTINGS_STORAGE_KEY);
       if (storedSettings) {
-        setSettings(JSON.parse(storedSettings));
+        const parsed = JSON.parse(storedSettings);
+        const withDefaults = { ...defaultContactSettings, ...parsed };
+        setSettings(withDefaults);
       } else {
         localStorage.setItem(CONTACT_SETTINGS_STORAGE_KEY, JSON.stringify(defaultContactSettings));
         setSettings(defaultContactSettings);

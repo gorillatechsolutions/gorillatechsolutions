@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -19,8 +20,13 @@ import { useToast } from '@/hooks/use-toast';
 import { useContactSettings } from '@/contexts/contact-settings-context';
 import { useEffect } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Textarea } from '@/components/ui/textarea';
 
 const formSchema = z.object({
+  metaTitle: z.string().min(1, 'Meta title is required.'),
+  metaDescription: z.string().min(1, 'Meta description is required.'),
+  metaKeywords: z.string().optional(),
+  metaOgImage: z.string().url('Please enter a valid URL.'),
   phone: z.string().min(1, 'Phone number is required.'),
   email: z.string().email('Please enter a valid email address.'),
   address: z.string().min(1, 'Address is required.'),
@@ -37,6 +43,10 @@ const formSchema = z.object({
 });
 
 const defaultFormValues = {
+  metaTitle: '',
+  metaDescription: '',
+  metaKeywords: '',
+  metaOgImage: '',
   phone: '',
   email: '',
   address: '',
@@ -63,7 +73,10 @@ export default function ContactSettingsPage() {
     
     useEffect(() => {
         if (!loading) {
-            form.reset(settings);
+            form.reset({
+              ...settings,
+              metaKeywords: settings.metaKeywords || '',
+            });
         }
     }, [settings, loading, form]);
 
@@ -87,10 +100,23 @@ export default function ContactSettingsPage() {
         <div className="space-y-6">
             <div>
                 <h1 className="text-2xl font-bold text-foreground">Contact Information</h1>
-                <p className="text-muted-foreground">Update the contact details displayed across your site.</p>
+                <p className="text-muted-foreground">Update the contact details and SEO metadata for your contact page.</p>
             </div>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                     <Card>
+                        <CardHeader>
+                            <CardTitle>SEO & Metadata</CardTitle>
+                             <CardDescription>Update the page's metadata for search engines and social media.</CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            <FormField control={form.control} name="metaTitle" render={({ field }) => (<FormItem><FormLabel>Meta Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                            <FormField control={form.control} name="metaDescription" render={({ field }) => (<FormItem><FormLabel>Meta Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} />
+                            <FormField control={form.control} name="metaKeywords" render={({ field }) => (<FormItem><FormLabel>Meta Keywords</FormLabel><FormControl><Textarea {...field} placeholder="e.g., contact us, get in touch" /></FormControl><FormDescription>Enter keywords separated by commas.</FormDescription><FormMessage /></FormItem>)} />
+                            <FormField control={form.control} name="metaOgImage" render={({ field }) => (<FormItem><FormLabel>Open Graph Image URL</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Recommended size: 1200x630 pixels.</FormDescription><FormMessage /></FormItem>)} />
+                        </CardContent>
+                    </Card>
+
                     <Card>
                         <CardHeader>
                             <CardTitle>Business Details</CardTitle>

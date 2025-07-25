@@ -10,6 +10,10 @@ export type SocialLinks = {
 };
 
 export type ContactSettings = {
+  metaTitle: string;
+  metaDescription: string;
+  metaKeywords: string;
+  metaOgImage: string;
   phone: string;
   email: string;
   address: string;
