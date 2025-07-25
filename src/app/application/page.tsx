@@ -108,14 +108,9 @@ export default function ApplicationPage() {
                                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                                                 <FormControl><SelectTrigger><SelectValue placeholder="Select a position" /></SelectTrigger></FormControl>
                                                 <SelectContent>
-                                                    <SelectItem value="digital-marketer">Digital Marketer</SelectItem>
-                                                    <SelectItem value="seo-specialist">SEO Specialist</SelectItem>
-                                                    <SelectItem value="ppc-analyst">PPC Analyst</SelectItem>
-                                                    <SelectItem value="web-developer">Web Developer</SelectItem>
                                                     <SelectItem value="pr">PR</SelectItem>
                                                     <SelectItem value="influencer">Influencer</SelectItem>
                                                     <SelectItem value="work-from-home">Work From Home</SelectItem>
-                                                    <SelectItem value="general">General Application</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                             <FormMessage />
