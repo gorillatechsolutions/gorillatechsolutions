@@ -33,9 +33,9 @@ const footerLinks = {
         { name: 'Privacy Policy', href: '/privacy-policy' },
     ],
     legal: [
-        { name: 'Refund Policy', href: '/contact' },
+        { name: 'Refund Policy', href: '/refund-policy' },
         { name: 'Terms & Conditions', href: '/terms-and-conditions' },
-        { name: 'Disclaimer', href: '/contact' },
+        { name: 'Disclaimer', href: '/disclaimer' },
     ]
 }
 

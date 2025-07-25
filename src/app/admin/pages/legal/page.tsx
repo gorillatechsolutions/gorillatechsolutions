@@ -25,6 +25,8 @@ const QuillEditor = dynamic(() => import('@/components/admin/quill-editor'), { s
 const formSchema = z.object({
   privacyPolicy: z.string().min(100, 'Privacy Policy content must be at least 100 characters.'),
   termsAndConditions: z.string().min(100, 'Terms and Conditions content must be at least 100 characters.'),
+  disclaimer: z.string().min(100, 'Disclaimer content must be at least 100 characters.'),
+  refundPolicy: z.string().min(100, 'Refund Policy content must be at least 100 characters.'),
 });
 
 export default function LegalSettingsPage() {
@@ -67,7 +69,7 @@ export default function LegalSettingsPage() {
         <div className="space-y-6">
             <div>
                 <h1 className="text-2xl font-bold text-foreground">Edit Legal Pages</h1>
-                <p className="text-muted-foreground">Update the content for your Privacy Policy and Terms & Conditions pages.</p>
+                <p className="text-muted-foreground">Update the content for your legal pages.</p>
             </div>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -99,6 +101,46 @@ export default function LegalSettingsPage() {
                              <FormField
                                 control={form.control}
                                 name="termsAndConditions"
+                                render={({ field }) => (
+                                    <FormItem>
+                                    <FormControl>
+                                        <QuillEditor value={field.value} onChange={field.onChange} />
+                                    </FormControl>
+                                    <FormMessage className="pt-2" />
+                                    </FormItem>
+                                )}
+                            />
+                        </CardContent>
+                    </Card>
+
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Disclaimer</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                             <FormField
+                                control={form.control}
+                                name="disclaimer"
+                                render={({ field }) => (
+                                    <FormItem>
+                                    <FormControl>
+                                        <QuillEditor value={field.value} onChange={field.onChange} />
+                                    </FormControl>
+                                    <FormMessage className="pt-2" />
+                                    </FormItem>
+                                )}
+                            />
+                        </CardContent>
+                    </Card>
+
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Refund Policy</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                             <FormField
+                                control={form.control}
+                                name="refundPolicy"
                                 render={({ field }) => (
                                     <FormItem>
                                     <FormControl>
