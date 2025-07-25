@@ -194,7 +194,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-16">
             {processSteps.map((step) => (
               <Card key={step.title} className="bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 relative overflow-visible">
-                <div className="flex flex-col h-full p-6 pt-12">
+                <div className="flex flex-col h-full p-6 pt-16">
                     <div className="absolute -top-10 left-6">
                         <div className="bg-accent p-4 rounded-full ring-8 ring-background flex items-center justify-center w-24 h-24">
                            {step.icon}
