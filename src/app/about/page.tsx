@@ -14,13 +14,14 @@ import {createElement } from 'react';
 import { icons } from 'lucide-react';
 
 
-const iconMap: { [key: string]: React.ElementType } = {
+const lucideIcons: { [key: string]: React.ElementType } = icons;
+const faIcons: { [key: string]: any } = {
     Bolt: faBolt,
     Bullseye: faBullseye,
     Users: faUsers,
     Handshake: faHandshake,
-    ...icons
 };
+
 
 export default function AboutPage() {
     const { content, loading } = useAboutPage();
@@ -112,7 +113,14 @@ export default function AboutPage() {
             </header>
             <div className="flex flex-col gap-16 max-w-4xl mx-auto">
               {values.map((value, index) => {
-                const IconComponent = iconMap[value.icon] ? createElement(iconMap[value.icon], { className: 'h-8 w-8 text-primary' }) : null;
+                let iconComponent = null;
+                const iconProps = { className: 'h-8 w-8 text-primary' };
+                if (faIcons[value.icon]) {
+                    iconComponent = <FontAwesomeIcon icon={faIcons[value.icon]} {...iconProps} />;
+                } else if (lucideIcons[value.icon]) {
+                    iconComponent = createElement(lucideIcons[value.icon], iconProps);
+                }
+
                 return (
                 <div 
                   key={value.title} 
@@ -120,7 +128,7 @@ export default function AboutPage() {
                   >
                   <div className="flex-shrink-0">
                       <div className="p-6 bg-card rounded-lg shadow-md border flex items-center justify-center w-24 h-24">
-                          {IconComponent}
+                          {iconComponent}
                       </div>
                   </div>
                   <div className={`text-center md:text-left ${index % 2 !== 0 ? 'md:text-right' : ''}`}>
