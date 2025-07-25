@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { SidebarProvider, Sidebar, SidebarTrigger, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarFooter, SidebarInset } from '@/components/ui/sidebar';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTachometerAlt, faUsers, faCog, faSignOutAlt, faPenToSquare, faMobileScreenButton, faConciergeBell, faAddressBook, faFileLines } from '@fortawesome/free-solid-svg-icons';
+import { faTachometerAlt, faUsers, faCog, faSignOutAlt, faPenToSquare, faMobileScreenButton, faConciergeBell, faAddressBook, faFileLines, faBalanceScale } from '@fortawesome/free-solid-svg-icons';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/auth-context';
@@ -19,6 +19,7 @@ const navItems = [
   { href: '/admin/services', icon: faConciergeBell, label: 'Services' },
   { href: '/admin/settings/contact', icon: faAddressBook, label: 'Contact Info' },
   { href: '/admin/settings/about', icon: faFileLines, label: 'About Page' },
+  { href: '/admin/settings/legal', icon: faBalanceScale, label: 'Legal Pages' },
   { href: '/admin/settings', icon: faCog, label: 'Settings' },
 ];
 
