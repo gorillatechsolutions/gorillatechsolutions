@@ -73,7 +73,7 @@ export default function LegalSettingsPage() {
         if (!selectedOption) return null;
 
         return (
-             <Card>
+             <Card key={selectedPage}>
                 <CardHeader>
                     <CardTitle>{selectedOption.label}</CardTitle>
                 </CardHeader>
