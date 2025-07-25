@@ -14,46 +14,6 @@ import { useHomePage } from '@/contexts/home-page-context';
 import { useReview } from '@/contexts/review-context';
 import { Skeleton } from '@/components/ui/skeleton';
 
-const processSteps = [
-    {
-        imageUrl: 'https://placehold.co/100x100.png',
-        imageAiHint: 'magnifying glass discovery',
-        title: 'Discovery',
-        description: 'We start by understanding your business, goals, and target audience to lay the groundwork for a successful strategy.'
-    },
-    {
-        imageUrl: 'https://placehold.co/100x100.png',
-        imageAiHint: 'planning strategy checklist',
-        title: 'Planning',
-        description: 'Our team crafts a detailed, data-driven plan, outlining the key strategies and milestones for your project.'
-    },
-    {
-        imageUrl: 'https://placehold.co/100x100.png',
-        imageAiHint: 'rocket launch execution',
-        title: 'Execution',
-        description: 'We launch your campaigns, continuously optimizing for performance and delivering measurable results.'
-    },
-    {
-        imageUrl: 'https://placehold.co/100x100.png',
-        imageAiHint: 'trophy award launch',
-        title: 'Review & Launch',
-        description: 'We review the results, provide detailed reports, and successfully launch your project for the world to see.'
-    }
-];
-
-const stats = [
-    { imageUrl: 'https://placehold.co/64x64.png', imageAiHint: 'calendar checkmark', value: 98, label: 'On-Time Delivery', description: 'of projects delivered on schedule' },
-    { imageUrl: 'https://placehold.co/64x64.png', imageAiHint: 'happy customer face', value: 99, label: 'Client Satisfaction', description: 'Based on 500+ completed projects' },
-    { imageUrl: 'https://placehold.co/64x64.png', imageAiHint: 'trophy award', value: 97, label: 'Goal Achievement', description: 'Projects meet or exceed expectations' }
-];
-
-const benefits = [
-    'Clear Communication',
-    'Regular Updates',
-    'Quality Assurance',
-    '24/7 Support'
-];
-
 const StarRating = ({ rating, className }: { rating: number, className?: string }) => (
   <div className="flex items-center gap-1">
     {[...Array(5)].map((_, i) => (
@@ -106,7 +66,21 @@ export default function Home() {
       heroCtaButtonText, 
       heroCtaButtonLink, 
       heroSecondaryButtonText, 
-      heroSecondaryButtonLink 
+      heroSecondaryButtonLink,
+      processTitle,
+      processSubtitle,
+      processDescription,
+      processSteps,
+      commitmentTitle,
+      stats,
+      benefitsTitle,
+      benefits,
+      ctaTitle,
+      ctaSubtitle,
+      ctaImage,
+      ctaImageAiHint,
+      ctaButtonText,
+      ctaButtonLink
     } = content;
 
 
@@ -190,9 +164,9 @@ export default function Home() {
       <section className="w-full py-12 bg-background">
         <div className="container mx-auto px-4">
           <header className="text-center mb-20">
-            <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">From Idea to Reality</h2>
-            <h3 className="font-headline text-3xl md:text-4xl font-bold text-primary/80 mt-2">in 4 Simple Steps</h3>
-            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">We follow a transparent, proven methodology that ensures your project succeeds. Every step is designed to deliver exceptional results while keeping you informed.</p>
+            <h2 className="font-headline text-3xl md:text-4xl font-bold text-primary">{processTitle}</h2>
+            <h3 className="font-headline text-3xl md:text-4xl font-bold text-primary/80 mt-2">{processSubtitle}</h3>
+            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">{processDescription}</p>
           </header>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-16">
@@ -225,7 +199,7 @@ export default function Home() {
           <div className="bg-secondary/30 p-8 md:p-12 rounded-lg">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     <div>
-                        <h3 className="font-headline text-2xl md:text-3xl font-bold text-primary mb-12 text-center lg:text-left">Why Our Process Works</h3>
+                        <h3 className="font-headline text-2xl md:text-3xl font-bold text-primary mb-12 text-center lg:text-left">{commitmentTitle}</h3>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                             {stats.map(stat => (
                                 <Card key={stat.label} className="bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 relative overflow-visible text-center pt-8">
@@ -253,7 +227,7 @@ export default function Home() {
                         </div>
                     </div>
                     <div className="lg:pl-12">
-                        <h3 className="font-headline text-2xl md:text-3xl font-bold text-primary mb-8 text-center lg:text-left">Our Commitment to You</h3>
+                        <h3 className="font-headline text-2xl md:text-3xl font-bold text-primary mb-8 text-center lg:text-left">{benefitsTitle}</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             {benefits.map((benefit) => (
                                 <div key={benefit} className="flex items-center gap-3">
@@ -316,25 +290,25 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="relative w-9/10 mx-auto">
              <Image
-                src="https://placehold.co/192x192.png"
+                src={ctaImage}
                 alt="Decorative Circle"
                 width={192}
                 height={192}
                 className="absolute -top-20 left-0 rounded-full z-0"
-                data-ai-hint="abstract shape"
+                data-ai-hint={ctaImageAiHint}
               />
             <div className="z-10 flex flex-row items-center justify-between gap-6 bg-blue-600 text-white rounded-lg rounded-tl-lg shadow-lg">
               <Button asChild className="h-11 rounded-md pr-8 bg-green-500 hover:bg-green-600 text-white shadow-lg transition-transform transform hover:scale-105 flex-shrink-0">
-                <Link href="/contact">
-                  Get Started Now
+                <Link href={ctaButtonLink}>
+                  {ctaButtonText}
                 </Link>
               </Button>
               <div className="text-left">
                 <h2 className="font-headline text-xl sm:text-2xl md:text-3xl font-bold">
-                  Ready to Transform Your Business?
+                  {ctaTitle}
                 </h2>
                 <p className="mt-2 text-sm text-white/80 md:text-base">
-                  Get started with our cutting-edge digital solutions and take your business to the next level.
+                  {ctaSubtitle}
                 </p>
               </div>
             </div>
