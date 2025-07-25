@@ -23,6 +23,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Textarea } from '@/components/ui/textarea';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const processStepSchema = z.object({
     imageUrl: z.string().url(),
@@ -119,121 +120,142 @@ export default function HomeSettingsPage() {
                 <p className="text-muted-foreground">Update the content displayed on your public home page.</p>
             </div>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                     <Card>
-                        <CardHeader>
-                            <CardTitle>SEO & Metadata</CardTitle>
-                             <CardDescription>Update the page's metadata for search engines and social media.</CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            <FormField control={form.control} name="metaTitle" render={({ field }) => (<FormItem><FormLabel>Meta Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                            <FormField control={form.control} name="metaDescription" render={({ field }) => (<FormItem><FormLabel>Meta Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} />
-                            <FormField control={form.control} name="metaKeywords" render={({ field }) => (<FormItem><FormLabel>Meta Keywords</FormLabel><FormControl><Textarea {...field} placeholder="e.g., digital marketing, seo, ppc" /></FormControl><FormDescription>Enter keywords separated by commas.</FormDescription><FormMessage /></FormItem>)} />
-                            <FormField control={form.control} name="metaOgImage" render={({ field }) => (<FormItem><FormLabel>Open Graph Image URL</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Recommended size: 1200x630 pixels.</FormDescription><FormMessage /></FormItem>)} />
-                        </CardContent>
-                    </Card>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                    <Accordion type="multiple" defaultValue={['item-1']} className="w-full">
+                        <AccordionItem value="item-1">
+                            <AccordionTrigger>
+                                <CardHeader className="p-0 text-left">
+                                    <CardTitle>SEO & Metadata</CardTitle>
+                                    <CardDescription>Update the page's metadata for search engines and social media.</CardDescription>
+                                </CardHeader>
+                            </AccordionTrigger>
+                            <AccordionContent>
+                                <CardContent className="space-y-4 pt-6">
+                                    <FormField control={form.control} name="metaTitle" render={({ field }) => (<FormItem><FormLabel>Meta Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                    <FormField control={form.control} name="metaDescription" render={({ field }) => (<FormItem><FormLabel>Meta Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                    <FormField control={form.control} name="metaKeywords" render={({ field }) => (<FormItem><FormLabel>Meta Keywords</FormLabel><FormControl><Textarea {...field} placeholder="e.g., digital marketing, seo, ppc" /></FormControl><FormDescription>Enter keywords separated by commas.</FormDescription><FormMessage /></FormItem>)} />
+                                    <FormField control={form.control} name="metaOgImage" render={({ field }) => (<FormItem><FormLabel>Open Graph Image URL</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Recommended size: 1200x630 pixels.</FormDescription><FormMessage /></FormItem>)} />
+                                </CardContent>
+                            </AccordionContent>
+                        </AccordionItem>
 
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Hero Section</CardTitle>
-                             <CardDescription>Update the main headline, sub-headline, image, and buttons for the hero section.</CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            <FormField control={form.control} name="heroTitle" render={({ field }) => (<FormItem><FormLabel>Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                            <FormField control={form.control} name="heroSubtitle" render={({ field }) => (<FormItem><FormLabel>Subtitle</FormLabel><FormControl><Textarea {...field} rows={4} /></FormControl><FormMessage /></FormItem>)} />
-                            
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <FormField control={form.control} name="heroImage" render={({ field }) => (<FormItem><FormLabel>Image URL</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Recommended size: 600x600 pixels (square).</FormDescription><FormMessage /></FormItem>)} />
-                                <FormField control={form.control} name="heroImageAiHint" render={({ field }) => (<FormItem><FormLabel>Image AI Hint</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                            </div>
+                        <AccordionItem value="item-2">
+                             <AccordionTrigger>
+                                <CardHeader className="p-0 text-left">
+                                    <CardTitle>Hero Section</CardTitle>
+                                    <CardDescription>Update the main headline, sub-headline, image, and buttons for the hero section.</CardDescription>
+                                </CardHeader>
+                            </AccordionTrigger>
+                            <AccordionContent>
+                                <CardContent className="space-y-4 pt-6">
+                                    <FormField control={form.control} name="heroTitle" render={({ field }) => (<FormItem><FormLabel>Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                    <FormField control={form.control} name="heroSubtitle" render={({ field }) => (<FormItem><FormLabel>Subtitle</FormLabel><FormControl><Textarea {...field} rows={4} /></FormControl><FormMessage /></FormItem>)} />
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <FormField control={form.control} name="heroImage" render={({ field }) => (<FormItem><FormLabel>Image URL</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Recommended size: 600x600 pixels (square).</FormDescription><FormMessage /></FormItem>)} />
+                                        <FormField control={form.control} name="heroImageAiHint" render={({ field }) => (<FormItem><FormLabel>Image AI Hint</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                    </div>
+                                    <h3 className="text-lg font-medium pt-4">Buttons</h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <FormField control={form.control} name="heroCtaButtonText" render={({ field }) => (<FormItem><FormLabel>Primary Button Text</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                        <FormField control={form.control} name="heroCtaButtonLink" render={({ field }) => (<FormItem><FormLabel>Primary Button Link</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                    </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <FormField control={form.control} name="heroSecondaryButtonText" render={({ field }) => (<FormItem><FormLabel>Secondary Button Text</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                        <FormField control={form.control} name="heroSecondaryButtonLink" render={({ field }) => (<FormItem><FormLabel>Secondary Button Link</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                    </div>
+                                </CardContent>
+                            </AccordionContent>
+                        </AccordionItem>
 
-                            <h3 className="text-lg font-medium pt-4">Buttons</h3>
-                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <FormField control={form.control} name="heroCtaButtonText" render={({ field }) => (<FormItem><FormLabel>Primary Button Text</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                <FormField control={form.control} name="heroCtaButtonLink" render={({ field }) => (<FormItem><FormLabel>Primary Button Link</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                            </div>
-                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <FormField control={form.control} name="heroSecondaryButtonText" render={({ field }) => (<FormItem><FormLabel>Secondary Button Text</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                <FormField control={form.control} name="heroSecondaryButtonLink" render={({ field }) => (<FormItem><FormLabel>Secondary Button Link</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                            </div>
-                        </CardContent>
-                    </Card>
+                        <AccordionItem value="item-3">
+                             <AccordionTrigger>
+                                <CardHeader className="p-0 text-left">
+                                    <CardTitle>Proven Process Section</CardTitle>
+                                    <CardDescription>Manage the content for the 4-step process section.</CardDescription>
+                                </CardHeader>
+                            </AccordionTrigger>
+                            <AccordionContent>
+                                <CardContent className="space-y-4 pt-6">
+                                    <FormField control={form.control} name="processTitle" render={({ field }) => (<FormItem><FormLabel>Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                    <FormField control={form.control} name="processSubtitle" render={({ field }) => (<FormItem><FormLabel>Subtitle</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                    <FormField control={form.control} name="processDescription" render={({ field }) => (<FormItem><FormLabel>Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                    <div className="space-y-4">
+                                        <FormLabel>Process Steps</FormLabel>
+                                        {processStepFields.map((field, index) => (
+                                            <Card key={field.id} className="p-4 bg-secondary/50">
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                    <FormField control={form.control} name={`processSteps.${index}.title`} render={({ field }) => (<FormItem><FormLabel>Step Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                                    <FormField control={form.control} name={`processSteps.${index}.imageUrl`} render={({ field }) => (<FormItem><FormLabel>Image URL</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Recommended size: 100x100 pixels.</FormDescription><FormMessage /></FormItem>)} />
+                                                    <FormField control={form.control} name={`processSteps.${index}.imageAiHint`} render={({ field }) => (<FormItem><FormLabel>Image AI Hint</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                                    <div className="md:col-span-2"><FormField control={form.control} name={`processSteps.${index}.description`} render={({ field }) => (<FormItem><FormLabel>Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} /></div>
+                                                </div>
+                                                <Button type="button" variant="destructive" size="sm" onClick={() => removeProcessStep(index)} className="mt-2"><FontAwesomeIcon icon={faTrash} className="mr-2 h-3 w-3" /> Remove Step</Button>
+                                            </Card>
+                                        ))}
+                                        <Button type="button" variant="outline" onClick={() => appendProcessStep({ imageUrl: 'https://placehold.co/100x100.png', imageAiHint: 'new step', title: 'New Step', description: 'Description for new step.' })}>Add New Step</Button>
+                                    </div>
+                                </CardContent>
+                            </AccordionContent>
+                        </AccordionItem>
+                        
+                        <AccordionItem value="item-4">
+                            <AccordionTrigger>
+                                <CardHeader className="p-0 text-left">
+                                    <CardTitle>Commitment & Stats Section</CardTitle>
+                                    <CardDescription>Manage the statistics and list of benefits.</CardDescription>
+                                </CardHeader>
+                            </AccordionTrigger>
+                            <AccordionContent>
+                                <CardContent className="space-y-4 pt-6">
+                                <FormField control={form.control} name="commitmentTitle" render={({ field }) => (<FormItem><FormLabel>Section Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                    <div className="space-y-4">
+                                        <FormLabel>Statistics</FormLabel>
+                                        {statFields.map((field, index) => (
+                                            <Card key={field.id} className="p-4 bg-secondary/50">
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                    <FormField control={form.control} name={`stats.${index}.label`} render={({ field }) => (<FormItem><FormLabel>Label</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                                    <FormField control={form.control} name={`stats.${index}.value`} render={({ field }) => (<FormItem><FormLabel>Value (%)</FormLabel><FormControl><Input type="number" {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                                    <FormField control={form.control} name={`stats.${index}.imageUrl`} render={({ field }) => (<FormItem><FormLabel>Image URL</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Recommended size: 64x64 pixels.</FormDescription><FormMessage /></FormItem>)} />
+                                                    <FormField control={form.control} name={`stats.${index}.imageAiHint`} render={({ field }) => (<FormItem><FormLabel>Image AI Hint</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                                    <div className="md:col-span-2"><FormField control={form.control} name={`stats.${index}.description`} render={({ field }) => (<FormItem><FormLabel>Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} /></div>
+                                                </div>
+                                                <Button type="button" variant="destructive" size="sm" onClick={() => removeStat(index)} className="mt-2"><FontAwesomeIcon icon={faTrash} className="mr-2 h-3 w-3" /> Remove Stat</Button>
+                                            </Card>
+                                        ))}
+                                        <Button type="button" variant="outline" onClick={() => appendStat({ imageUrl: 'https://placehold.co/64x64.png', imageAiHint: 'new stat', value: 100, label: 'New Stat', description: 'Description for new stat.' })}>Add New Stat</Button>
+                                    </div>
+                                    <FormField control={form.control} name="benefitsTitle" render={({ field }) => (<FormItem><FormLabel>Benefits Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                    <FormField control={form.control} name="benefits" render={({ field }) => (<FormItem><FormLabel>Benefits (comma-separated)</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                </CardContent>
+                            </AccordionContent>
+                        </AccordionItem>
 
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Proven Process Section</CardTitle>
-                            <CardDescription>Manage the content for the 4-step process section.</CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            <FormField control={form.control} name="processTitle" render={({ field }) => (<FormItem><FormLabel>Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                            <FormField control={form.control} name="processSubtitle" render={({ field }) => (<FormItem><FormLabel>Subtitle</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                            <FormField control={form.control} name="processDescription" render={({ field }) => (<FormItem><FormLabel>Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} />
-                             <div className="space-y-4">
-                                <FormLabel>Process Steps</FormLabel>
-                                {processStepFields.map((field, index) => (
-                                    <Card key={field.id} className="p-4 bg-secondary/50">
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            <FormField control={form.control} name={`processSteps.${index}.title`} render={({ field }) => (<FormItem><FormLabel>Step Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                            <FormField control={form.control} name={`processSteps.${index}.imageUrl`} render={({ field }) => (<FormItem><FormLabel>Image URL</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Recommended size: 100x100 pixels.</FormDescription><FormMessage /></FormItem>)} />
-                                            <FormField control={form.control} name={`processSteps.${index}.imageAiHint`} render={({ field }) => (<FormItem><FormLabel>Image AI Hint</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                            <div className="md:col-span-2"><FormField control={form.control} name={`processSteps.${index}.description`} render={({ field }) => (<FormItem><FormLabel>Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} /></div>
-                                        </div>
-                                        <Button type="button" variant="destructive" size="sm" onClick={() => removeProcessStep(index)} className="mt-2"><FontAwesomeIcon icon={faTrash} className="mr-2 h-3 w-3" /> Remove Step</Button>
-                                    </Card>
-                                ))}
-                                <Button type="button" variant="outline" onClick={() => appendProcessStep({ imageUrl: 'https://placehold.co/100x100.png', imageAiHint: 'new step', title: 'New Step', description: 'Description for new step.' })}>Add New Step</Button>
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Commitment & Stats Section</CardTitle>
-                            <CardDescription>Manage the statistics and list of benefits.</CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                           <FormField control={form.control} name="commitmentTitle" render={({ field }) => (<FormItem><FormLabel>Section Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                            <div className="space-y-4">
-                                <FormLabel>Statistics</FormLabel>
-                                {statFields.map((field, index) => (
-                                    <Card key={field.id} className="p-4 bg-secondary/50">
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            <FormField control={form.control} name={`stats.${index}.label`} render={({ field }) => (<FormItem><FormLabel>Label</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                            <FormField control={form.control} name={`stats.${index}.value`} render={({ field }) => (<FormItem><FormLabel>Value (%)</FormLabel><FormControl><Input type="number" {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                            <FormField control={form.control} name={`stats.${index}.imageUrl`} render={({ field }) => (<FormItem><FormLabel>Image URL</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Recommended size: 64x64 pixels.</FormDescription><FormMessage /></FormItem>)} />
-                                            <FormField control={form.control} name={`stats.${index}.imageAiHint`} render={({ field }) => (<FormItem><FormLabel>Image AI Hint</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                            <div className="md:col-span-2"><FormField control={form.control} name={`stats.${index}.description`} render={({ field }) => (<FormItem><FormLabel>Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} /></div>
-                                        </div>
-                                        <Button type="button" variant="destructive" size="sm" onClick={() => removeStat(index)} className="mt-2"><FontAwesomeIcon icon={faTrash} className="mr-2 h-3 w-3" /> Remove Stat</Button>
-                                    </Card>
-                                ))}
-                                <Button type="button" variant="outline" onClick={() => appendStat({ imageUrl: 'https://placehold.co/64x64.png', imageAiHint: 'new stat', value: 100, label: 'New Stat', description: 'Description for new stat.' })}>Add New Stat</Button>
-                            </div>
-                            <FormField control={form.control} name="benefitsTitle" render={({ field }) => (<FormItem><FormLabel>Benefits Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                            <FormField control={form.control} name="benefits" render={({ field }) => (<FormItem><FormLabel>Benefits (comma-separated)</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} />
-                        </CardContent>
-                    </Card>
-
-                     <Card>
-                        <CardHeader>
-                            <CardTitle>Call to Action (CTA) Section</CardTitle>
-                            <CardDescription>Manage the final call to action section.</CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                           <FormField control={form.control} name="ctaTitle" render={({ field }) => (<FormItem><FormLabel>Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                           <FormField control={form.control} name="ctaSubtitle" render={({ field }) => (<FormItem><FormLabel>Subtitle</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} />
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <FormField control={form.control} name="ctaImage" render={({ field }) => (<FormItem><FormLabel>Image URL</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Recommended size: 192x192 pixels.</FormDescription><FormMessage /></FormItem>)} />
-                                <FormField control={form.control} name="ctaImageAiHint" render={({ field }) => (<FormItem><FormLabel>Image AI Hint</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                <FormField control={form.control} name="ctaButtonText" render={({ field }) => (<FormItem><FormLabel>Button Text</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                <FormField control={form.control} name="ctaButtonLink" render={({ field }) => (<FormItem><FormLabel>Button Link</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                            </div>
-                        </CardContent>
-                    </Card>
-
+                        <AccordionItem value="item-5">
+                             <AccordionTrigger>
+                                <CardHeader className="p-0 text-left">
+                                    <CardTitle>Call to Action (CTA) Section</CardTitle>
+                                    <CardDescription>Manage the final call to action section.</CardDescription>
+                                </CardHeader>
+                            </AccordionTrigger>
+                            <AccordionContent>
+                                <CardContent className="space-y-4 pt-6">
+                                <FormField control={form.control} name="ctaTitle" render={({ field }) => (<FormItem><FormLabel>Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                <FormField control={form.control} name="ctaSubtitle" render={({ field }) => (<FormItem><FormLabel>Subtitle</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <FormField control={form.control} name="ctaImage" render={({ field }) => (<FormItem><FormLabel>Image URL</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Recommended size: 192x192 pixels.</FormDescription><FormMessage /></FormItem>)} />
+                                        <FormField control={form.control} name="ctaImageAiHint" render={({ field }) => (<FormItem><FormLabel>Image AI Hint</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                        <FormField control={form.control} name="ctaButtonText" render={({ field }) => (<FormItem><FormLabel>Button Text</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                        <FormField control={form.control} name="ctaButtonLink" render={({ field }) => (<FormItem><FormLabel>Button Link</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                    </div>
+                                </CardContent>
+                            </AccordionContent>
+                        </AccordionItem>
+                    </Accordion>
                     <Button type="submit">Save Changes</Button>
                 </form>
             </Form>
         </div>
     );
 }
+
+    
