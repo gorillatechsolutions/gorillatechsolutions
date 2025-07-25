@@ -5,6 +5,9 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import type { AboutPageContent } from '@/types/about-page';
 
 const defaultAboutPageContent: AboutPageContent = {
+    metaTitle: "About Our Digital Marketing Agency",
+    metaDescription: "Learn about the mission, values, and expert team at Gorilla Tech Solutions, dedicated to delivering exceptional digital marketing results.",
+    metaOgImage: "https://placehold.co/1200x630.png",
     heroTitle: "About Gorilla Tech Solutions",
     heroSubtitle: "A passionate team of digital marketing experts dedicated to building powerful brands and driving measurable growth for businesses like yours.",
     storyTitle: "From Vision to Victory: Our Story",
@@ -42,7 +45,10 @@ export const AboutPageProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     try {
       const storedContent = localStorage.getItem(ABOUT_PAGE_STORAGE_KEY);
       if (storedContent) {
-        setContent(JSON.parse(storedContent));
+        const parsed = JSON.parse(storedContent);
+        // Add new fields if they don't exist in stored data
+        const withDefaults = { ...defaultAboutPageContent, ...parsed };
+        setContent(withDefaults);
       } else {
         localStorage.setItem(ABOUT_PAGE_STORAGE_KEY, JSON.stringify(defaultAboutPageContent));
         setContent(defaultAboutPageContent);

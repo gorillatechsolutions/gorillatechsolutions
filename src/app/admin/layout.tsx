@@ -69,7 +69,7 @@ export default function AdminLayout({
             {navItems.map((item) => (
               <SidebarMenuItem key={item.href}>
                 <Link href={item.href}>
-                  <SidebarMenuButton data-active={pathname.startsWith(item.href) && (item.href === '/admin' ? pathname === item.href : true)}>
+                  <SidebarMenuButton data-active={pathname.startsWith(item.href) && (item.exact ? pathname === item.href : true)}>
                     <FontAwesomeIcon icon={item.icon} className="h-4 w-4" />
                     <span>{item.label}</span>
                   </SidebarMenuButton>
