@@ -15,6 +15,9 @@ export interface Stat {
 }
 
 export interface HomePageContent {
+  metaTitle: string;
+  metaDescription: string;
+  metaOgImage: string;
   heroTitle: string;
   heroSubtitle: string;
   heroImage: string;

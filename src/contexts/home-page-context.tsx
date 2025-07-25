@@ -5,6 +5,9 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import type { HomePageContent } from '@/types/home-page';
 
 const defaultHomePageContent: HomePageContent = {
+    metaTitle: "Gorilla Tech Solutions | Data-Driven Digital Marketing",
+    metaDescription: "Gorilla Tech Solutions is a leading digital marketing agency specializing in SEO, PPC, and content strategies to drive measurable growth for your business.",
+    metaOgImage: "https://placehold.co/1200x630.png",
     heroTitle: "Elevate Your Digital Marketing",
     heroSubtitle: "Gorilla Tech Solutions drives growth with data-driven digital marketing strategies that convert. Let's build your brand's future, together.",
     heroImage: "https://placehold.co/600x400.png",
