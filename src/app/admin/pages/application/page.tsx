@@ -55,8 +55,8 @@ export default function ApplicationSettingsPage() {
     const onSubmit = (values: z.infer<typeof formSchema>) => {
         updateContent(values);
         toast({
-            title: 'Application Page Saved!',
-            description: 'Your changes to the "Work with Us" page have been saved.',
+            title: 'Collaboration Page Saved!',
+            description: 'Your changes to the "Collab with Us" page have been saved.',
         });
     };
 
@@ -71,8 +71,8 @@ export default function ApplicationSettingsPage() {
     return (
         <div className="space-y-6">
             <div>
-                <h1 className="text-2xl font-bold text-foreground">Edit "Work with Us" Page</h1>
-                <p className="text-muted-foreground">Update the content displayed on your public application page.</p>
+                <h1 className="text-2xl font-bold text-foreground">Edit "Collab with Us" Page</h1>
+                <p className="text-muted-foreground">Update the content displayed on your public collaboration page.</p>
             </div>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

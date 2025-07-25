@@ -22,7 +22,7 @@ import { useContactSettings } from '@/contexts/contact-settings-context';
 
 const footerLinks = {
     company: [
-        { name: 'Work with Us', href: '/application' },
+        { name: 'Collab with Us', href: '/application' },
         { name: 'Invest with Us', href: '/invest-with-us' },
         { name: 'Website Roadmap', href: '/case-study' },
     ],

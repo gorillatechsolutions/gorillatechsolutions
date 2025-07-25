@@ -5,11 +5,11 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import type { ApplicationPageContent } from '@/types/application-page';
 
 const defaultApplicationPageContent: ApplicationPageContent = {
-    metaTitle: "Work With Us | Gorilla Tech Solutions",
+    metaTitle: "Collab With Us | Gorilla Tech Solutions",
     metaDescription: "Join our team of innovators and help us build the future of digital marketing. We're looking for passionate individuals to grow with us.",
     metaKeywords: "digital marketing jobs, seo careers, ppc jobs, web developer jobs",
     metaOgImage: "https://placehold.co/1200x630.png",
-    heroTitle: "Work With Us",
+    heroTitle: "Collab with Us",
     heroSubtitle: "Join our team of innovators and help us build the future of digital marketing. We're looking for passionate individuals to grow with us.",
 };
 
