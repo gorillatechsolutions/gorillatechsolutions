@@ -121,7 +121,7 @@ export function ServiceForm({ serviceToEdit }: ServiceFormProps) {
                             <FormItem>
                             <FormLabel>Service Title</FormLabel>
                             <FormControl>
-                                <Input placeholder="SEO Optimization" {...field} />
+                                <Input placeholder="Digital Marketing" {...field} />
                             </FormControl>
                             <FormMessage />
                             </FormItem>
@@ -137,7 +137,7 @@ export function ServiceForm({ serviceToEdit }: ServiceFormProps) {
                                 <Button type="button" variant="link" size="sm" className="p-0 h-auto" onClick={generateSlug}>Generate from title</Button>
                             </div>
                             <FormControl>
-                                <Input placeholder="seo-optimization" {...field} disabled={!!serviceToEdit} />
+                                <Input placeholder="digital-marketing" {...field} disabled={!!serviceToEdit} />
                             </FormControl>
                             <FormMessage />
                             </FormItem>
