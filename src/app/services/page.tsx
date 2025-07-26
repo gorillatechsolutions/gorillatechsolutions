@@ -66,51 +66,61 @@ export default function ServicesPage() {
 
         <section className="py-16 md:py-24">
             <div className="container mx-auto px-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {services.map((service) => (
-                         <Card key={service.slug} className="shadow-lg hover:shadow-2xl transition-all duration-300 rounded-xl border-border/80 flex flex-col overflow-hidden group relative">
-                            {service.popular && (
-                                <div className="absolute top-4 right-[-5px] z-10">
-                                    <div className="ribbon-wrapper">
-                                        <div className="ribbon">
-                                            <FontAwesomeIcon icon={faAward} className="mr-1.5" />
-                                            Popular
+                {services.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {services.map((service) => (
+                            <Card key={service.slug} className="shadow-lg hover:shadow-2xl transition-all duration-300 rounded-xl border-border/80 flex flex-col overflow-hidden group relative">
+                                {service.popular && (
+                                    <div className="absolute top-4 right-[-5px] z-10">
+                                        <div className="ribbon-wrapper">
+                                            <div className="ribbon">
+                                                <FontAwesomeIcon icon={faAward} className="mr-1.5" />
+                                                Popular
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            )}
-                             <CardHeader className="flex flex-row items-center gap-4 p-6 bg-secondary/30">
-                                <div className="flex-shrink-0">
-                                    <div className="bg-card w-20 h-20 rounded-full flex items-center justify-center ring-4 ring-background border-2 border-primary/10 p-1 transform group-hover:scale-110 transition-transform duration-300">
-                                        {isValidUrl(service.icon) ? (
-                                            <Image src={service.icon} alt={`${service.title} icon`} width={64} height={64} className="rounded-full object-contain" />
-                                        ) : (
-                                            <FontAwesomeIcon icon={faImage} className="h-10 w-10 text-muted-foreground/50" />
-                                        )}
+                                )}
+                                <CardHeader className="flex flex-row items-center gap-4 p-6 bg-secondary/30">
+                                    <div className="flex-shrink-0">
+                                        <div className="bg-card w-20 h-20 rounded-full flex items-center justify-center ring-4 ring-background border-2 border-primary/10 p-1 transform group-hover:scale-110 transition-transform duration-300">
+                                            {isValidUrl(service.icon) ? (
+                                                <Image src={service.icon} alt={`${service.title} icon`} width={64} height={64} className="rounded-full object-contain" />
+                                            ) : (
+                                                <FontAwesomeIcon icon={faImage} className="h-10 w-10 text-muted-foreground/50" />
+                                            )}
+                                        </div>
                                     </div>
-                                </div>
-                                <CardTitle className="font-headline text-xl text-primary group-hover:text-accent transition-colors duration-300">{service.title}</CardTitle>
-                            </CardHeader>
-                            <CardContent className="p-6 flex-1 flex flex-col">
-                                <p className="text-muted-foreground leading-relaxed mb-6 flex-1">{service.description}</p>
-                                
-                                <div className="text-center">
-                                    <p className="text-base text-muted-foreground line-through">${service.originalPrice}</p>
-                                    <p className="text-4xl font-bold font-headline text-primary">${service.price}</p>
-                                    <Badge variant="destructive" className="mt-1">Save 10%</Badge>
-                                </div>
-                            </CardContent>
-                             <CardFooter className="p-6 bg-secondary/20 mt-auto">
-                                <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transform hover:scale-105 transition-transform duration-300 w-full">
-                                    <Link href={`/services/${service.slug}`}>
-                                        Learn More
-                                        <FontAwesomeIcon icon={faArrowRight} className="ml-2 h-4 w-4" />
-                                    </Link>
-                                </Button>
-                            </CardFooter>
-                        </Card>
-                    ))}
-                </div>
+                                    <CardTitle className="font-headline text-xl text-primary group-hover:text-accent transition-colors duration-300">{service.title}</CardTitle>
+                                </CardHeader>
+                                <CardContent className="p-6 flex-1 flex flex-col">
+                                    <p className="text-muted-foreground leading-relaxed mb-6 flex-1">{service.description}</p>
+                                    
+                                    <div className="text-center">
+                                        <p className="text-base text-muted-foreground line-through">${service.originalPrice}</p>
+                                        <p className="text-4xl font-bold font-headline text-primary">${service.price}</p>
+                                        <Badge variant="destructive" className="mt-1">Save 10%</Badge>
+                                    </div>
+                                </CardContent>
+                                <CardFooter className="p-6 bg-secondary/20 mt-auto">
+                                    <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transform hover:scale-105 transition-transform duration-300 w-full">
+                                        <Link href={`/services/${service.slug}`}>
+                                            Learn More
+                                            <FontAwesomeIcon icon={faArrowRight} className="ml-2 h-4 w-4" />
+                                        </Link>
+                                    </Button>
+                                </CardFooter>
+                            </Card>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="text-center py-16">
+                        <h2 className="text-2xl font-bold font-headline">No Services Available</h2>
+                        <p className="mt-2 text-muted-foreground">Check back soon or add new services in the admin dashboard.</p>
+                        <Button asChild className="mt-6">
+                            <Link href="/admin/services">Go to Admin</Link>
+                        </Button>
+                    </div>
+                )}
             </div>
         </section>
 
