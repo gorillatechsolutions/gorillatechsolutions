@@ -13,9 +13,9 @@ export const initialServices: Service[] = [
     },
     {
         icon: 'https://placehold.co/128x128.png',
-        title: "PPC Management",
-        slug: "ppc-management",
-        description: "Maximize your ROI with targeted pay-per-click campaigns on Google, Meta, and other platforms.",
+        title: "PR Marketing",
+        slug: "pr-marketing",
+        description: "Enhance your brand's public image and build strong media relations with our strategic PR marketing services.",
         price: "650.00",
         originalPrice: "725.00",
         popular: true,
