@@ -4,8 +4,8 @@ import type { Service } from '@/types/service';
 export const initialServices: Service[] = [
     {
         icon: 'https://placehold.co/128x128.png',
-        title: "SEO Optimization",
-        slug: "seo-optimization",
+        title: "Digital Marketing",
+        slug: "digital-marketing",
         description: "Boost your visibility on search engines and drive organic traffic with our data-driven SEO strategies.",
         price: "450.00",
         originalPrice: "500.00",
