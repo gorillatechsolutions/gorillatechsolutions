@@ -1,12 +1,13 @@
 
 'use client';
 
+import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { CaseStudyList } from '@/components/case-study-list';
 import { useCaseStudy } from '@/contexts/case-study-context';
 import { useCaseStudiesPage } from '@/contexts/case-studies-page-context';
 
-export default function CaseStudyPage() {
+function CaseStudyPageComponent() {
   const searchParams = useSearchParams();
   const searchTerm = searchParams.get('search') || '';
   const page = Number(searchParams.get('page')) || 1;
@@ -38,4 +39,13 @@ export default function CaseStudyPage() {
       />
     </div>
   );
+}
+
+
+export default function CaseStudyPage() {
+  return (
+    <Suspense>
+      <CaseStudyPageComponent />
+    </Suspense>
+  )
 }
