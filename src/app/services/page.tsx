@@ -69,52 +69,40 @@ export default function ServicesPage() {
                 {services.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {services.map((service) => (
-                            <Card key={service.slug} className="shadow-lg hover:shadow-2xl transition-all duration-300 rounded-xl border-border/80 flex flex-col overflow-hidden group relative">
-                                {service.popular && (
-                                    <div className="absolute top-4 right-[-5px] z-10">
-                                        <div className="ribbon-wrapper">
-                                            <div className="ribbon">
-                                                <FontAwesomeIcon icon={faAward} className="mr-1.5" />
-                                                Popular
-                                            </div>
-                                        </div>
+                            <Card key={service.slug} className="shadow-lg hover:shadow-2xl transition-all duration-300 rounded-xl border-border/80 flex flex-col overflow-visible group relative">
+                                <div className="absolute -top-8 left-1/2 -translate-x-1/2 z-10">
+                                    <div className="bg-card w-20 h-20 rounded-full flex items-center justify-center ring-4 ring-background border-2 border-primary/10 shadow-md p-1 transform group-hover:scale-110 transition-transform duration-300">
+                                        {isValidUrl(service.icon) ? (
+                                            <Image src={service.icon} alt={`${service.title} icon`} width={64} height={64} className="rounded-full object-contain" />
+                                        ) : (
+                                            <FontAwesomeIcon icon={faImage} className="h-10 w-10 text-muted-foreground/50" />
+                                        )}
                                     </div>
-                                )}
-                                <CardHeader className="flex flex-row items-center gap-4 p-6 bg-secondary/30">
-                                    <div className="flex-shrink-0">
-                                        <div className="bg-card w-20 h-20 rounded-full flex items-center justify-center ring-4 ring-background border-2 border-primary/10 p-1 transform group-hover:scale-110 transition-transform duration-300">
-                                            {isValidUrl(service.icon) ? (
-                                                <Image src={service.icon} alt={`${service.title} icon`} width={64} height={64} className="rounded-full object-contain" />
-                                            ) : (
-                                                <FontAwesomeIcon icon={faImage} className="h-10 w-10 text-muted-foreground/50" />
-                                            )}
-                                        </div>
-                                    </div>
+                                </div>
+                                <CardHeader className="pt-16 text-center">
                                     <CardTitle className="font-headline text-xl text-primary group-hover:text-accent transition-colors duration-300">{service.title}</CardTitle>
                                 </CardHeader>
-                                <CardContent className="p-6 flex-1 flex flex-col">
+                                <CardContent className="p-6 pt-2 text-center flex-1 flex flex-col">
                                     <p className="text-muted-foreground leading-relaxed mb-6 flex-1">{service.description}</p>
                                     
                                     <div className="text-center">
-                                      {service.slug === 'web-development' ? (
-                                        <>
-                                          <p className="text-sm text-muted-foreground">Starting at</p>
-                                          <p className="text-4xl font-bold font-headline text-primary">${parseFloat(service.price).toFixed(0)}</p>
-                                        </>
-                                      ) : (
-                                        <>
-                                          <p className="text-base text-muted-foreground line-through">${service.originalPrice}</p>
-                                          <p className="text-4xl font-bold font-headline text-primary">${service.price}</p>
-                                          <Badge variant="destructive" className="mt-1">Save 10%</Badge>
-                                        </>
-                                      )}
+                                        <div className="flex items-end justify-center gap-2">
+                                            <p className="text-sm text-muted-foreground">Starting at</p>
+                                            <p className="text-4xl font-bold font-headline text-primary">${service.price}</p>
+                                        </div>
+                                        <p className="text-sm text-muted-foreground line-through">${service.originalPrice}</p>
+                                        <p className="text-orange-500 text-sm font-semibold mt-2">Limited Offer | Save 10%</p>
                                     </div>
                                 </CardContent>
-                                <CardFooter className="p-6 bg-secondary/20 mt-auto">
-                                    <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transform hover:scale-105 transition-transform duration-300 w-full">
+                                <CardFooter className="p-6 bg-secondary/20 mt-auto flex gap-2">
+                                    <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transform hover:scale-105 transition-transform duration-300 flex-1">
+                                        <Link href="/contact">
+                                            Contact
+                                        </Link>
+                                    </Button>
+                                    <Button asChild size="lg" variant="outline" className="shadow-lg transform hover:scale-105 transition-transform duration-300 flex-1">
                                         <Link href={`/services/${service.slug}`}>
-                                            Learn More
-                                            <FontAwesomeIcon icon={faArrowRight} className="ml-2 h-4 w-4" />
+                                            Read More
                                         </Link>
                                     </Button>
                                 </CardFooter>
