@@ -7,14 +7,13 @@ import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faArrowRight,
-  faAward,
   faImage,
 } from '@fortawesome/free-solid-svg-icons';
-import { Badge } from '@/components/ui/badge';
 import { useService } from '@/contexts/service-context';
 import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
 import { useServicesPage } from '@/contexts/services-page-context';
+import { cn } from '@/lib/utils';
 
 export default function ServicesPage() {
     const { services, loading: servicesLoading } = useService();
@@ -85,7 +84,7 @@ export default function ServicesPage() {
                                 <CardContent className="p-6 pt-2 text-center flex-1 flex flex-col">
                                     <p className="text-muted-foreground leading-relaxed mb-4 flex-1">{service.description}</p>
                                     
-                                    <p className="text-muted-foreground text-lg">Starting At</p>
+                                    <p className={cn("text-lg font-bold mb-2", "animated-gradient-text animate-gradient")}>Starting At</p>
                                     <div className="text-center">
                                         <div className="flex items-end justify-center gap-2">
                                             <p className="text-4xl font-bold font-headline text-primary">${service.price}</p>
