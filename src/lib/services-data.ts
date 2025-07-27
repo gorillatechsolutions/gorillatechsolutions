@@ -25,7 +25,7 @@ export const initialServices: Service[] = [
     description: 'We build fast, responsive, and user-friendly websites that provide an exceptional user experience and drive conversions.',
     icon: 'https://placehold.co/128x128.png',
     price: '99',
-    originalPrice: '0.00',
+    originalPrice: '99',
     popular: true,
   },
   {
