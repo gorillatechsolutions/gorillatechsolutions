@@ -26,6 +26,7 @@ import dynamic from 'next/dynamic';
 import { generateArticle } from '@/ai/flows/generate-article-flow';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagic, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const QuillEditor = dynamic(() => import('@/components/admin/quill-editor'), { ssr: false });
 
@@ -35,11 +36,14 @@ const formSchema = z.object({
   slug: z.string().min(5, 'Slug must be at least 5 characters.').regex(/^[a-z0-9-]+$/, 'Slug can only contain lowercase letters, numbers, and hyphens.'),
   excerpt: z.string().min(20, 'Excerpt must be at least 20 characters.').max(200, 'Excerpt must not exceed 200 characters.'),
   image: z.string().url('Please enter a valid image URL.'),
-  ogImage: z.string().url('Please enter a valid image URL.').optional().or(z.literal('')),
   tags: z.string().min(1, 'Please enter at least one tag.'),
   author: z.string().min(2, 'Author name is required.'),
   content: z.string().min(100, 'Content must be at least 100 characters.'),
   views: z.coerce.number().int().min(0, 'Views must be a non-negative number.'),
+  metaTitle: z.string().optional(),
+  metaDescription: z.string().optional(),
+  metaKeywords: z.string().optional(),
+  ogImage: z.string().url('Please enter a valid image URL.').optional().or(z.literal('')),
 });
 
 type PostFormProps = {
@@ -74,13 +78,14 @@ export function PostForm({ postToEdit }: PostFormProps) {
       author: '',
       content: '',
       views: 0,
+      metaTitle: '',
+      metaDescription: '',
+      metaKeywords: '',
     },
   });
 
   useEffect(() => {
     if (postToEdit) {
-      // Reset the form with the post data when it becomes available
-      // This is crucial for correctly populating the form for editing
       form.reset({
         ...postToEdit,
         tags: postToEdit.tags.join(', ')
@@ -104,6 +109,8 @@ export function PostForm({ postToEdit }: PostFormProps) {
         form.setValue('title', result.title, { shouldValidate: true });
         form.setValue('excerpt', result.excerpt, { shouldValidate: true });
         form.setValue('content', result.articleContent, { shouldValidate: true });
+        form.setValue('metaTitle', result.title, { shouldValidate: true });
+        form.setValue('metaDescription', result.excerpt, { shouldValidate: true });
         toast({
             title: 'Article Generated!',
             description: 'The AI-generated content has been added to the form.',
@@ -198,138 +205,151 @@ export function PostForm({ postToEdit }: PostFormProps) {
       )}
 
       
-        <Card>
-            <CardContent className="pt-6">
+        
+            
             {isClient && (
                 <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                    <FormField
-                    control={form.control}
-                    name="title"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel>Post Title</FormLabel>
-                        <FormControl>
-                            <Input placeholder="How We Tripled Organic Traffic..." {...field} />
-                        </FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                    />
-                    <FormField
-                    control={form.control}
-                    name="slug"
-                    render={({ field }) => (
-                        <FormItem>
-                        <div className="flex justify-between items-end">
-                            <FormLabel>URL Slug</FormLabel>
-                            <Button type="button" variant="link" size="sm" className="p-0 h-auto" onClick={generateSlug}>Generate from title</Button>
-                        </div>
-                        <FormControl>
-                            <Input placeholder="how-we-tripled-traffic" {...field} disabled={!!postToEdit} />
-                        </FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                    />
-                    <FormField
-                    control={form.control}
-                    name="excerpt"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel>Excerpt</FormLabel>
-                        <FormControl>
-                            <Textarea placeholder="A short summary of the case study..." {...field} />
-                        </FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                    />
-                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <FormField
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Post Details</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-8 pt-6">
+                            <FormField
                             control={form.control}
-                            name="image"
+                            name="title"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel>Header Image URL</FormLabel>
+                                <FormLabel>Post Title</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="https://placehold.co/1200x600.png" {...field} />
+                                    <Input placeholder="How We Tripled Organic Traffic..." {...field} />
                                 </FormControl>
-                                <FormDescription>Recommended size: 1200x600 pixels.</FormDescription>
                                 <FormMessage />
                                 </FormItem>
                             )}
-                        />
-                        <FormField
+                            />
+                            <FormField
                             control={form.control}
-                            name="ogImage"
+                            name="slug"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel>Social Media Image (OG Image)</FormLabel>
+                                <div className="flex justify-between items-end">
+                                    <FormLabel>URL Slug</FormLabel>
+                                    <Button type="button" variant="link" size="sm" className="p-0 h-auto" onClick={generateSlug}>Generate from title</Button>
+                                </div>
                                 <FormControl>
-                                    <Input placeholder="https://placehold.co/1200x630.png" {...field} />
+                                    <Input placeholder="how-we-tripled-traffic" {...field} disabled={!!postToEdit} />
                                 </FormControl>
-                                <FormDescription>Recommended size: 1200x630 pixels.</FormDescription>
                                 <FormMessage />
                                 </FormItem>
                             )}
-                        />
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <FormField
-                        control={form.control}
-                        name="tags"
-                        render={({ field }) => (
-                            <FormItem className="md:col-span-2">
-                            <FormLabel>Tags (comma-separated)</FormLabel>
-                            <FormControl>
-                                <Input placeholder="SEO, eCommerce, Growth" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                            </FormItem>
-                        )}
-                        />
-                         <FormField
-                        control={form.control}
-                        name="author"
-                        render={({ field }) => (
-                            <FormItem>
-                            <FormLabel>Author Name</FormLabel>
-                            <FormControl>
-                                <Input placeholder="Jane Doe" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                            </FormItem>
-                        )}
-                        />
-                    </div>
-                     <FormField
-                        control={form.control}
-                        name="views"
-                        render={({ field }) => (
-                            <FormItem>
-                            <FormLabel>Post Views</FormLabel>
-                            <FormControl>
-                                <Input type="number" placeholder="0" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                            </FormItem>
-                        )}
-                        />
+                            />
+                            <FormField
+                            control={form.control}
+                            name="excerpt"
+                            render={({ field }) => (
+                                <FormItem>
+                                <FormLabel>Excerpt</FormLabel>
+                                <FormControl>
+                                    <Textarea placeholder="A short summary of the case study..." {...field} />
+                                </FormControl>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                            />
+                            
+                            <FormField
+                                control={form.control}
+                                name="image"
+                                render={({ field }) => (
+                                    <FormItem>
+                                    <FormLabel>Header Image URL</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="https://placehold.co/1200x600.png" {...field} />
+                                    </FormControl>
+                                    <FormDescription>Recommended size: 1200x600 pixels.</FormDescription>
+                                    <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                <FormField
+                                control={form.control}
+                                name="tags"
+                                render={({ field }) => (
+                                    <FormItem className="md:col-span-2">
+                                    <FormLabel>Tags (comma-separated)</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="SEO, eCommerce, Growth" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                    </FormItem>
+                                )}
+                                />
+                                <FormField
+                                control={form.control}
+                                name="author"
+                                render={({ field }) => (
+                                    <FormItem>
+                                    <FormLabel>Author Name</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="Jane Doe" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                    </FormItem>
+                                )}
+                                />
+                            </div>
+                            <FormField
+                                control={form.control}
+                                name="views"
+                                render={({ field }) => (
+                                    <FormItem>
+                                    <FormLabel>Post Views</FormLabel>
+                                    <FormControl>
+                                        <Input type="number" placeholder="0" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                    </FormItem>
+                                )}
+                                />
 
-                    <FormField
-                    control={form.control}
-                    name="content"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel>Post Content</FormLabel>
-                        <FormControl>
-                            <QuillEditor value={field.value} onChange={field.onChange} />
-                        </FormControl>
-                        <FormMessage className="pt-2" />
-                        </FormItem>
-                    )}
-                    />
+                            <FormField
+                            control={form.control}
+                            name="content"
+                            render={({ field }) => (
+                                <FormItem>
+                                <FormLabel>Post Content</FormLabel>
+                                <FormControl>
+                                    <QuillEditor value={field.value} onChange={field.onChange} />
+                                </FormControl>
+                                <FormMessage className="pt-2" />
+                                </FormItem>
+                            )}
+                            />
+                        </CardContent>
+                    </Card>
+
+                    <Accordion type="single" collapsible className="w-full">
+                      <AccordionItem value="seo">
+                          <AccordionTrigger>
+                              <CardHeader className="p-0 text-left w-full">
+                                  <CardTitle>SEO & Metadata</CardTitle>
+                                  <CardDescription>Update the metadata for search engines.</CardDescription>
+                              </CardHeader>
+                          </AccordionTrigger>
+                          <AccordionContent>
+                              <CardContent className="space-y-4 pt-6">
+                                  <FormField control={form.control} name="metaTitle" render={({ field }) => (<FormItem><FormLabel>Meta Title</FormLabel><FormControl><Input placeholder="A catchy title for search engines" {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                  <FormField control={form.control} name="metaDescription" render={({ field }) => (<FormItem><FormLabel>Meta Description</FormLabel><FormControl><Textarea placeholder="A concise description for search snippets" {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                  <FormField control={form.control} name="metaKeywords" render={({ field }) => (<FormItem><FormLabel>Meta Keywords</FormLabel><FormControl><Textarea {...field} placeholder="e.g., case study, seo, results" /></FormControl><FormDescription>Enter keywords separated by commas.</FormDescription><FormMessage /></FormItem>)} />
+                                  <FormField control={form.control} name="ogImage" render={({ field }) => (<FormItem><FormLabel>Open Graph Image URL</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Recommended size: 1200x630 pixels.</FormDescription><FormMessage /></FormItem>)} />
+                              </CardContent>
+                          </AccordionContent>
+                      </AccordionItem>
+                    </Accordion>
+                    
                     <div className="flex gap-4">
                     <Button type="submit">{postToEdit ? 'Update Post' : 'Publish Post'}</Button>
                     <Button type="button" variant="outline" onClick={() => router.back()}>Cancel</Button>
@@ -337,8 +357,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
                 </form>
                 </Form>
             )}
-            </CardContent>
-        </Card>
+            
     </div>
   );
 }
