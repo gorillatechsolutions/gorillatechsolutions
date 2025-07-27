@@ -99,7 +99,7 @@ export default function ServicesPage() {
                                       {service.slug === 'web-development' ? (
                                         <>
                                           <p className="text-sm text-muted-foreground">Starting at</p>
-                                          <p className="text-4xl font-bold font-headline text-primary">${service.price}</p>
+                                          <p className="text-4xl font-bold font-headline text-primary">${parseFloat(service.price).toFixed(0)}</p>
                                         </>
                                       ) : (
                                         <>

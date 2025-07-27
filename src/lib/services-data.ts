@@ -24,8 +24,8 @@ export const initialServices: Service[] = [
     title: 'Web Development',
     description: 'We build fast, responsive, and user-friendly websites that provide an exceptional user experience and drive conversions.',
     icon: 'https://placehold.co/128x128.png',
-    price: '99',
-    originalPrice: '99',
+    price: '69.00',
+    originalPrice: '69.00',
     popular: true,
   },
   {
