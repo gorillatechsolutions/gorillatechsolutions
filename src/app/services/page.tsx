@@ -84,13 +84,11 @@ export default function ServicesPage() {
                                 </CardHeader>
                                 <CardContent className="p-6 pt-2 flex-1 flex flex-col">
                                     <p className="text-muted-foreground leading-relaxed mb-4 flex-1">{service.description}</p>
-                                    <div className="text-left">
-                                        <Badge variant="outline" className="border-0 p-0">
-                                            <span className={cn("font-bold text-2xl font-headline animated-gradient-text-2 animate-gradient")}>
-                                                Starting At
-                                            </span>
+                                    <div className="text-center">
+                                        <Badge variant="outline" className={cn("text-2xl font-headline font-bold animated-gradient-text-2 animate-gradient border-0 p-0")}>
+                                            Starting At
                                         </Badge>
-                                        <div className="flex items-end justify-start gap-2">
+                                        <div className="flex items-end justify-center gap-2">
                                             <p className="text-4xl font-bold font-headline text-primary">${service.price}</p>
                                         </div>
                                         <p className="text-sm text-muted-foreground line-through">${service.originalPrice}</p>
@@ -103,7 +101,7 @@ export default function ServicesPage() {
                                             Contact
                                         </Link>
                                     </Button>
-                                    <Button asChild size="lg" variant="outline" className="shadow-lg transform hover:scale-105 transition-transform duration-300 flex-1">
+                                    <Button asChild size="sm" variant="outline" className="shadow-lg transform hover:scale-105 transition-transform duration-300 flex-1">
                                         <Link href={`/services/${service.slug}`}>
                                             Read More
                                         </Link>

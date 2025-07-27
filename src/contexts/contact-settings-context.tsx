@@ -9,6 +9,8 @@ const defaultContactSettings: ContactSettings = {
     metaDescription: "Get in touch with Gorilla Tech Solutions. We're here to answer your questions about our digital marketing services and help you start your next project.",
     metaKeywords: "contact digital marketing agency, get a quote, project inquiry",
     metaOgImage: "https://placehold.co/1200x630.png",
+    heroTitle: "Get in Touch",
+    heroSubtitle: "Have a project in mind or just want to say hello? We'd love to hear from you.",
     phone: '0381 359 9517',
     email: 'Business@GorillaTechSolution.com',
     address: 'Agartala, Tripura (W) India',

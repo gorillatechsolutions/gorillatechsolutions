@@ -9,6 +9,7 @@ import Image from "next/image";
 import { useContactSettings } from "@/contexts/contact-settings-context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faTwitter, faInstagram, faLinkedin, faGithub, faGoogle, faWhatsapp, faTelegram } from "@fortawesome/free-brands-svg-icons";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const socialIconMap: { [key: string]: any } = {
     facebook: faFacebook,
@@ -24,7 +25,7 @@ const socialIconMap: { [key: string]: any } = {
 export default function ContactPage() {
     const { settings, loading } = useContactSettings();
     
-    const { phone, email, address, zip, socialLinks } = settings;
+    const { phone, email, address, zip, socialLinks, heroTitle, heroSubtitle } = settings;
 
     const contactDetails = [
         {
@@ -47,7 +48,16 @@ export default function ContactPage() {
     ];
 
     if (loading) {
-        return <div>Loading...</div>
+        return (
+            <div className="w-full bg-background text-foreground space-y-12">
+                <section className="relative bg-secondary/30 pt-16 pb-10 md:pt-24 md:pb-16">
+                    <div className="container mx-auto px-4 text-center">
+                        <Skeleton className="h-12 w-2/3 mx-auto" />
+                        <Skeleton className="h-6 w-1/2 mx-auto mt-4" />
+                    </div>
+                </section>
+            </div>
+        )
     }
 
     return (
@@ -55,9 +65,9 @@ export default function ContactPage() {
             {/* Hero Section */}
             <section className="bg-secondary/30 pt-16 pb-10 md:pt-24 md:pb-16">
                 <div className="container mx-auto px-4 text-center">
-                    <h1 className="font-headline text-4xl md:text-6xl font-bold text-primary">Get in Touch</h1>
+                    <h1 className="font-headline text-4xl md:text-6xl font-bold text-primary">{heroTitle}</h1>
                     <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-                        Have a project in mind or just want to say hello? We'd love to hear from you.
+                        {heroSubtitle}
                     </p>
                 </div>
             </section>

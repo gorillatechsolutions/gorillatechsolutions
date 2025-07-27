@@ -14,6 +14,8 @@ export type ContactSettings = {
   metaDescription: string;
   metaKeywords: string;
   metaOgImage: string;
+  heroTitle: string;
+  heroSubtitle: string;
   phone: string;
   email: string;
   address: string;
