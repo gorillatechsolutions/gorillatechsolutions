@@ -83,9 +83,10 @@ export default function ServicesPage() {
                                     <CardTitle className="font-headline text-xl text-primary group-hover:text-accent transition-colors duration-300">{service.title}</CardTitle>
                                 </CardHeader>
                                 <CardContent className="p-6 pt-2 text-center flex-1 flex flex-col">
-                                    <p className="text-muted-foreground leading-relaxed mb-6 flex-1">{service.description}</p>
+                                    <p className="text-muted-foreground leading-relaxed mb-4 flex-1">{service.description}</p>
                                     
                                     <div className="text-center">
+                                        <p className="text-muted-foreground text-sm">Starting At</p>
                                         <div className="flex items-end justify-center gap-2">
                                             <p className="text-4xl font-bold font-headline text-primary">${service.price}</p>
                                         </div>
