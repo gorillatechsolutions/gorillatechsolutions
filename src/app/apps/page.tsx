@@ -19,7 +19,7 @@ function AppsPageContent({ searchParams }: AppsPageProps) {
 
 export default function AppsPage({ searchParams }: AppsPageProps) {
   return (
-    <Suspense>
+    <Suspense fallback={<div>Loading...</div>}>
       <AppsPageContent searchParams={searchParams} />
     </Suspense>
   );
