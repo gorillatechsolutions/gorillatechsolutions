@@ -166,4 +166,9 @@
     background-image: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--primary)));
     background-size: 200% auto;
   }
+  .animated-gradient-text-2 {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(to right, hsl(var(--accent)), hsl(var(--primary)/0.8), hsl(var(--accent)));
+    background-size: 200% auto;
+  }
 }
