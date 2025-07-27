@@ -85,7 +85,7 @@ export default function ServicesPage() {
                                 <CardContent className="p-6 pt-2 flex-1 flex flex-col">
                                     <p className="text-muted-foreground leading-relaxed mb-4 flex-1">{service.description}</p>
                                     <div className="text-center">
-                                        <Badge variant="outline" className={cn("text-2xl font-headline font-bold animated-gradient-text-2 animate-gradient border-0 p-0")}>
+                                        <Badge variant="outline" className={cn("text-base font-headline font-bold animated-gradient-text-2 animate-gradient border-0 p-0")}>
                                             Starting At
                                         </Badge>
                                         <div className="flex items-end justify-center gap-2">
@@ -97,13 +97,13 @@ export default function ServicesPage() {
                                 </CardContent>
                                 <CardFooter className="p-6 bg-secondary/20 mt-auto flex gap-2">
                                     <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transform hover:scale-105 transition-transform duration-300 flex-1">
-                                        <Link href="/contact">
-                                            Contact
+                                        <Link href={service.contactButtonLink}>
+                                            {service.contactButtonText}
                                         </Link>
                                     </Button>
                                     <Button asChild size="sm" variant="outline" className="shadow-lg transform hover:scale-105 transition-transform duration-300 flex-1">
                                         <Link href={`/services/${service.slug}`}>
-                                            Read More
+                                            {service.readMoreButtonText}
                                         </Link>
                                     </Button>
                                 </CardFooter>

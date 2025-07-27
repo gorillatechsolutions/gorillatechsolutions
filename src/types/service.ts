@@ -11,4 +11,7 @@ export type Service = {
   metaDescription: string;
   metaKeywords?: string;
   ogImage?: string;
+  contactButtonText: string;
+  contactButtonLink: string;
+  readMoreButtonText: string;
 };

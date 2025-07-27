@@ -33,6 +33,9 @@ const formSchema = z.object({
   price: z.string().regex(/^\d+(\.\d{2})?$/, 'Price must be a valid number (e.g., 450.00).'),
   originalPrice: z.string().regex(/^\d+(\.\d{2})?$/, 'Original price must be a valid number (e.g., 500.00).'),
   popular: z.boolean(),
+  contactButtonText: z.string().min(1, 'Contact button text is required.'),
+  contactButtonLink: z.string().min(1, 'Contact button link is required.'),
+  readMoreButtonText: z.string().min(1, 'Read more button text is required.'),
   metaTitle: z.string().min(1, 'Meta title is required.'),
   metaDescription: z.string().min(1, 'Meta description is required.'),
   metaKeywords: z.string().optional(),
@@ -63,6 +66,9 @@ export function ServiceForm({ serviceToEdit }: ServiceFormProps) {
       price: '0.00',
       originalPrice: '0.00',
       popular: false,
+      contactButtonText: 'Contact',
+      contactButtonLink: '/contact',
+      readMoreButtonText: 'Read More',
       metaTitle: '',
       metaDescription: '',
       metaKeywords: '',
@@ -244,6 +250,23 @@ export function ServiceForm({ serviceToEdit }: ServiceFormProps) {
                     </CardContent>
                 </Card>
                 <Accordion type="single" collapsible className="w-full">
+                  <AccordionItem value="buttons">
+                      <AccordionTrigger>
+                          <CardHeader className="p-0 text-left w-full">
+                              <CardTitle>Buttons</CardTitle>
+                              <CardDescription>Update the text and links for the service card buttons.</CardDescription>
+                          </CardHeader>
+                      </AccordionTrigger>
+                      <AccordionContent>
+                           <CardContent className="space-y-4 pt-6">
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <FormField control={form.control} name="contactButtonText" render={({ field }) => (<FormItem><FormLabel>Contact Button Text</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                <FormField control={form.control} name="contactButtonLink" render={({ field }) => (<FormItem><FormLabel>Contact Button Link</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                <FormField control={form.control} name="readMoreButtonText" render={({ field }) => (<FormItem><FormLabel>Read More Button Text</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                              </div>
+                          </CardContent>
+                      </AccordionContent>
+                  </AccordionItem>
                   <AccordionItem value="seo">
                       <AccordionTrigger>
                           <CardHeader className="p-0 text-left w-full">
