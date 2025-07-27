@@ -27,7 +27,14 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({ child
     try {
         const storedServices = localStorage.getItem(SERVICES_STORAGE_KEY);
         if (storedServices) {
-            setServices(JSON.parse(storedServices));
+            const parsedServices = JSON.parse(storedServices);
+            // If the stored data is an empty array, fall back to initial data.
+            if (Array.isArray(parsedServices) && parsedServices.length > 0) {
+                setServices(parsedServices);
+            } else {
+                localStorage.setItem(SERVICES_STORAGE_KEY, JSON.stringify(initialServices));
+                setServices(initialServices);
+            }
         } else {
             localStorage.setItem(SERVICES_STORAGE_KEY, JSON.stringify(initialServices));
             setServices(initialServices);
