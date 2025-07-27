@@ -96,9 +96,18 @@ export default function ServicesPage() {
                                     <p className="text-muted-foreground leading-relaxed mb-6 flex-1">{service.description}</p>
                                     
                                     <div className="text-center">
-                                        <p className="text-base text-muted-foreground line-through">${service.originalPrice}</p>
-                                        <p className="text-4xl font-bold font-headline text-primary">${service.price}</p>
-                                        <Badge variant="destructive" className="mt-1">Save 10%</Badge>
+                                      {service.slug === 'web-development' ? (
+                                        <>
+                                          <p className="text-sm text-muted-foreground">Starting at</p>
+                                          <p className="text-4xl font-bold font-headline text-primary">${service.price}</p>
+                                        </>
+                                      ) : (
+                                        <>
+                                          <p className="text-base text-muted-foreground line-through">${service.originalPrice}</p>
+                                          <p className="text-4xl font-bold font-headline text-primary">${service.price}</p>
+                                          <Badge variant="destructive" className="mt-1">Save 10%</Badge>
+                                        </>
+                                      )}
                                     </div>
                                 </CardContent>
                                 <CardFooter className="p-6 bg-secondary/20 mt-auto">
