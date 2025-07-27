@@ -85,7 +85,7 @@ export default function ServicesPage() {
                                 <CardContent className="p-6 pt-2 text-center flex-1 flex flex-col">
                                     <p className="text-muted-foreground leading-relaxed mb-4 flex-1">{service.description}</p>
                                     
-                                    <p className="text-muted-foreground text-base">Starting At</p>
+                                    <p className="text-muted-foreground text-lg">Starting At</p>
                                     <div className="text-center">
                                         <div className="flex items-end justify-center gap-2">
                                             <p className="text-4xl font-bold font-headline text-primary">${service.price}</p>
