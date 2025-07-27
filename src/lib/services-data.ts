@@ -9,6 +9,9 @@ export const initialServices: Service[] = [
     price: '950.00',
     originalPrice: '1100.00',
     popular: true,
+    metaTitle: 'Comprehensive Digital Marketing Services',
+    metaDescription: 'Elevate your brand with our full-suite digital marketing services, including SEO, PPC, and content strategy.',
+    metaKeywords: 'digital marketing, seo, ppc, content marketing',
   },
   {
     slug: 'social-media-management',
@@ -18,6 +21,9 @@ export const initialServices: Service[] = [
     price: '320.00',
     originalPrice: '355.00',
     popular: false,
+    metaTitle: 'Expert Social Media Management Services',
+    metaDescription: 'Build a vibrant community and engage your audience with our professional social media management services.',
+    metaKeywords: 'social media, community management, content creation',
   },
   {
     slug: 'web-development',
@@ -27,6 +33,9 @@ export const initialServices: Service[] = [
     price: '69.00',
     originalPrice: '69.00',
     popular: true,
+    metaTitle: 'Professional Web Development Services',
+    metaDescription: 'Get a fast, responsive, and user-friendly website designed to convert visitors into customers.',
+    metaKeywords: 'web development, responsive design, website creation',
   },
   {
     slug: 'digital-pr',
@@ -36,5 +45,8 @@ export const initialServices: Service[] = [
     price: '450.00',
     originalPrice: '500.00',
     popular: false,
+    metaTitle: 'Strategic Digital PR and Press Release Services',
+    metaDescription: 'Boost your brand\'s reputation and media presence with our expert Digital PR and press release services.',
+    metaKeywords: 'digital pr, press release, media outreach',
   },
 ];

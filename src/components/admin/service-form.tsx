@@ -23,6 +23,7 @@ import type { Service } from '@/types/service';
 import { useService } from '@/contexts/service-context';
 import { useEffect, useState }from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const formSchema = z.object({
   title: z.string().min(2, 'Title must be at least 2 characters.'),
@@ -32,6 +33,9 @@ const formSchema = z.object({
   price: z.string().regex(/^\d+(\.\d{2})?$/, 'Price must be a valid number (e.g., 450.00).'),
   originalPrice: z.string().regex(/^\d+(\.\d{2})?$/, 'Original price must be a valid number (e.g., 500.00).'),
   popular: z.boolean(),
+  metaTitle: z.string().min(1, 'Meta title is required.'),
+  metaDescription: z.string().min(1, 'Meta description is required.'),
+  metaKeywords: z.string().optional(),
 });
 
 type ServiceFormProps = {
@@ -58,6 +62,9 @@ export function ServiceForm({ serviceToEdit }: ServiceFormProps) {
       price: '0.00',
       originalPrice: '0.00',
       popular: false,
+      metaTitle: '',
+      metaDescription: '',
+      metaKeywords: '',
     },
   });
 
@@ -109,129 +116,152 @@ export function ServiceForm({ serviceToEdit }: ServiceFormProps) {
           <CardDescription>Fill out the details below to {serviceToEdit ? 'update the' : 'create a new'} service.</CardDescription>
         </CardHeader>
       
-        <Card>
-            <CardContent className="pt-6">
-            {isClient && (
-                <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                    <FormField
-                        control={form.control}
-                        name="title"
-                        render={({ field }) => (
-                            <FormItem>
-                            <FormLabel>Service Title</FormLabel>
-                            <FormControl>
-                                <Input placeholder="Digital Marketing" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                     <FormField
-                        control={form.control}
-                        name="slug"
-                        render={({ field }) => (
-                            <FormItem>
-                            <div className="flex justify-between items-end">
-                                <FormLabel>URL Slug</FormLabel>
-                                <Button type="button" variant="link" size="sm" className="p-0 h-auto" onClick={generateSlug}>Generate from title</Button>
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                 <Card>
+                    <CardHeader>
+                        <CardTitle>Service Details</CardTitle>
+                        <CardDescription>Update the core details of the service.</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                    {isClient && (
+                        <>
+                            <FormField
+                                control={form.control}
+                                name="title"
+                                render={({ field }) => (
+                                    <FormItem>
+                                    <FormLabel>Service Title</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="Digital Marketing" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="slug"
+                                render={({ field }) => (
+                                    <FormItem>
+                                    <div className="flex justify-between items-end">
+                                        <FormLabel>URL Slug</FormLabel>
+                                        <Button type="button" variant="link" size="sm" className="p-0 h-auto" onClick={generateSlug}>Generate from title</Button>
+                                    </div>
+                                    <FormControl>
+                                        <Input placeholder="digital-marketing" {...field} disabled={!!serviceToEdit} />
+                                    </FormControl>
+                                    <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="description"
+                                render={({ field }) => (
+                                    <FormItem>
+                                    <FormLabel>Description</FormLabel>
+                                    <FormControl>
+                                        <Textarea placeholder="A short description of the service..." {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                            control={form.control}
+                            name="icon"
+                            render={({ field }) => (
+                                <FormItem>
+                                <FormLabel>Icon URL</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="https://placehold.co/128x128.png" {...field} />
+                                    </FormControl>
+                                <FormDescription>Recommended size: 128x128 pixels.</FormDescription>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                            />
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <FormField
+                                    control={form.control}
+                                    name="price"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                        <FormLabel>Current Price</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="450.00" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="originalPrice"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                        <FormLabel>Original Price (Strikethrough)</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="500.00" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
                             </div>
-                            <FormControl>
-                                <Input placeholder="digital-marketing" {...field} disabled={!!serviceToEdit} />
-                            </FormControl>
-                            <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+                            
+                            <FormField
+                                control={form.control}
+                                name="popular"
+                                render={({ field }) => (
+                                    <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                                        <FormControl>
+                                            <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                            />
+                                        </FormControl>
+                                        <div className="space-y-1 leading-none">
+                                            <FormLabel>Mark as Popular</FormLabel>
+                                            <FormDescription>
+                                                Popular services will be highlighted on the services page.
+                                            </FormDescription>
+                                        </div>
+                                    </FormItem>
+                                )}
+                            />
+                        </>
+                    )}
+                    </CardContent>
+                </Card>
+                <Accordion type="single" collapsible className="w-full">
+                  <AccordionItem value="seo">
+                      <AccordionTrigger>
+                          <CardHeader className="p-0 text-left w-full">
+                              <CardTitle>SEO & Metadata</CardTitle>
+                              <CardDescription>Update the metadata for search engines.</CardDescription>
+                          </CardHeader>
+                      </AccordionTrigger>
+                      <AccordionContent>
+                           <CardContent className="space-y-4 pt-6">
+                              <FormField control={form.control} name="metaTitle" render={({ field }) => (<FormItem><FormLabel>Meta Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                              <FormField control={form.control} name="metaDescription" render={({ field }) => (<FormItem><FormLabel>Meta Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} />
+                              <FormField control={form.control} name="metaKeywords" render={({ field }) => (<FormItem><FormLabel>Meta Keywords</FormLabel><FormControl><Textarea {...field} placeholder="e.g., service one, service two" /></FormControl><FormDescription>Enter keywords separated by commas.</FormDescription><FormMessage /></FormItem>)} />
+                          </CardContent>
+                      </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
 
-                    <FormField
-                        control={form.control}
-                        name="description"
-                        render={({ field }) => (
-                            <FormItem>
-                            <FormLabel>Description</FormLabel>
-                            <FormControl>
-                                <Textarea placeholder="A short description of the service..." {...field} />
-                            </FormControl>
-                            <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="icon"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Icon URL</FormLabel>
-                            <FormControl>
-                                <Input placeholder="https://placehold.co/128x128.png" {...field} />
-                            </FormControl>
-                          <FormDescription>Recommended size: 128x128 pixels.</FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <FormField
-                            control={form.control}
-                            name="price"
-                            render={({ field }) => (
-                                <FormItem>
-                                <FormLabel>Current Price</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="450.00" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="originalPrice"
-                            render={({ field }) => (
-                                <FormItem>
-                                <FormLabel>Original Price (Strikethrough)</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="500.00" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                    
-                    <FormField
-                        control={form.control}
-                        name="popular"
-                        render={({ field }) => (
-                            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                                <FormControl>
-                                    <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                    />
-                                </FormControl>
-                                <div className="space-y-1 leading-none">
-                                    <FormLabel>Mark as Popular</FormLabel>
-                                    <FormDescription>
-                                        Popular services will be highlighted on the services page.
-                                    </FormDescription>
-                                </div>
-                            </FormItem>
-                        )}
-                    />
-
-                    <div className="flex gap-4">
-                        <Button type="submit">{serviceToEdit ? 'Update Service' : 'Create Service'}</Button>
-                        <Button type="button" variant="outline" onClick={() => router.back()}>Cancel</Button>
-                    </div>
-                </form>
-                </Form>
-            )}
-            </CardContent>
-        </Card>
+                <div className="flex gap-4">
+                    <Button type="submit">{serviceToEdit ? 'Update Service' : 'Create Service'}</Button>
+                    <Button type="button" variant="outline" onClick={() => router.back()}>Cancel</Button>
+                </div>
+            </form>
+        </Form>
     </div>
   );
 }

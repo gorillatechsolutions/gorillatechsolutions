@@ -7,4 +7,7 @@ export type Service = {
   price: string;
   originalPrice: string;
   popular: boolean;
+  metaTitle: string;
+  metaDescription: string;
+  metaKeywords?: string;
 };
