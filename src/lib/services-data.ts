@@ -38,22 +38,4 @@ export const initialServices: Service[] = [
     originalPrice: '500.00',
     popular: false,
   },
-  {
-    slug: 'gorilla-automation',
-    title: 'Gorilla Automation',
-    description: 'Streamline your business processes with our custom automation solutions, saving you time and increasing efficiency.',
-    icon: 'https://placehold.co/128x128.png',
-    price: '800.00',
-    originalPrice: '900.00',
-    popular: true,
-  },
-  {
-    slug: 'today-tripura',
-    title: 'Today Tripura',
-    description: 'A dedicated service providing localized news, updates, and digital content relevant to the Tripura region.',
-    icon: 'https://placehold.co/128x128.png',
-    price: '150.00',
-    originalPrice: '200.00',
-    popular: false,
-  },
 ];
