@@ -87,7 +87,6 @@ export default function ServicesPage() {
                                     
                                     <div className="text-center">
                                         <div className="flex items-end justify-center gap-2">
-                                            <p className="text-sm text-muted-foreground">Starting at</p>
                                             <p className="text-4xl font-bold font-headline text-primary">${service.price}</p>
                                         </div>
                                         <p className="text-sm text-muted-foreground line-through">${service.originalPrice}</p>
