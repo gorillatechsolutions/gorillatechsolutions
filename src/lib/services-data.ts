@@ -12,6 +12,7 @@ export const initialServices: Service[] = [
     metaTitle: 'Comprehensive Digital Marketing Services',
     metaDescription: 'Elevate your brand with our full-suite digital marketing services, including SEO, PPC, and content strategy.',
     metaKeywords: 'digital marketing, seo, ppc, content marketing',
+    ogImage: 'https://placehold.co/1200x630.png',
   },
   {
     slug: 'social-media-management',
@@ -24,6 +25,7 @@ export const initialServices: Service[] = [
     metaTitle: 'Expert Social Media Management Services',
     metaDescription: 'Build a vibrant community and engage your audience with our professional social media management services.',
     metaKeywords: 'social media, community management, content creation',
+    ogImage: 'https://placehold.co/1200x630.png',
   },
   {
     slug: 'web-development',
@@ -36,6 +38,7 @@ export const initialServices: Service[] = [
     metaTitle: 'Professional Web Development Services',
     metaDescription: 'Get a fast, responsive, and user-friendly website designed to convert visitors into customers.',
     metaKeywords: 'web development, responsive design, website creation',
+    ogImage: 'https://placehold.co/1200x630.png',
   },
   {
     slug: 'digital-pr',
@@ -48,5 +51,6 @@ export const initialServices: Service[] = [
     metaTitle: 'Strategic Digital PR and Press Release Services',
     metaDescription: 'Boost your brand\'s reputation and media presence with our expert Digital PR and press release services.',
     metaKeywords: 'digital pr, press release, media outreach',
+    ogImage: 'https://placehold.co/1200x630.png',
   },
 ];

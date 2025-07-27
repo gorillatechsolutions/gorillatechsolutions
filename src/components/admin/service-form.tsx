@@ -36,6 +36,7 @@ const formSchema = z.object({
   metaTitle: z.string().min(1, 'Meta title is required.'),
   metaDescription: z.string().min(1, 'Meta description is required.'),
   metaKeywords: z.string().optional(),
+  ogImage: z.string().url('Please enter a valid URL.').optional().or(z.literal('')),
 });
 
 type ServiceFormProps = {
@@ -65,12 +66,16 @@ export function ServiceForm({ serviceToEdit }: ServiceFormProps) {
       metaTitle: '',
       metaDescription: '',
       metaKeywords: '',
+      ogImage: 'https://placehold.co/1200x630.png',
     },
   });
 
   useEffect(() => {
     if (serviceToEdit) {
-      form.reset(serviceToEdit);
+      form.reset({
+        ...serviceToEdit,
+        ogImage: serviceToEdit.ogImage || 'https://placehold.co/1200x630.png',
+      });
     }
   }, [serviceToEdit, form]);
 
@@ -251,6 +256,7 @@ export function ServiceForm({ serviceToEdit }: ServiceFormProps) {
                               <FormField control={form.control} name="metaTitle" render={({ field }) => (<FormItem><FormLabel>Meta Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
                               <FormField control={form.control} name="metaDescription" render={({ field }) => (<FormItem><FormLabel>Meta Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} />
                               <FormField control={form.control} name="metaKeywords" render={({ field }) => (<FormItem><FormLabel>Meta Keywords</FormLabel><FormControl><Textarea {...field} placeholder="e.g., service one, service two" /></FormControl><FormDescription>Enter keywords separated by commas.</FormDescription><FormMessage /></FormItem>)} />
+                              <FormField control={form.control} name="ogImage" render={({ field }) => (<FormItem><FormLabel>Open Graph Image URL</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Recommended size: 1200x630 pixels.</FormDescription><FormMessage /></FormItem>)} />
                           </CardContent>
                       </AccordionContent>
                   </AccordionItem>

@@ -10,4 +10,5 @@ export type Service = {
   metaTitle: string;
   metaDescription: string;
   metaKeywords?: string;
+  ogImage?: string;
 };
