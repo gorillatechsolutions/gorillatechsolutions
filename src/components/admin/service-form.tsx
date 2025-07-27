@@ -36,6 +36,7 @@ const formSchema = z.object({
   contactButtonText: z.string().min(1, 'Contact button text is required.'),
   contactButtonLink: z.string().min(1, 'Contact button link is required.'),
   readMoreButtonText: z.string().min(1, 'Read more button text is required.'),
+  readMoreButtonLink: z.string().min(1, 'Read more button link is required.'),
   metaTitle: z.string().min(1, 'Meta title is required.'),
   metaDescription: z.string().min(1, 'Meta description is required.'),
   metaKeywords: z.string().optional(),
@@ -69,6 +70,7 @@ export function ServiceForm({ serviceToEdit }: ServiceFormProps) {
       contactButtonText: 'Contact',
       contactButtonLink: '/contact',
       readMoreButtonText: 'Read More',
+      readMoreButtonLink: '/services',
       metaTitle: '',
       metaDescription: '',
       metaKeywords: '',
@@ -118,6 +120,9 @@ export function ServiceForm({ serviceToEdit }: ServiceFormProps) {
       const title = form.getValues('title');
       const slug = title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
       form.setValue('slug', slug, { shouldValidate: true });
+      if (!form.getValues('readMoreButtonLink')) {
+        form.setValue('readMoreButtonLink', `/services/${slug}`, { shouldValidate: true });
+      }
   }
 
   return (
@@ -263,6 +268,7 @@ export function ServiceForm({ serviceToEdit }: ServiceFormProps) {
                                 <FormField control={form.control} name="contactButtonText" render={({ field }) => (<FormItem><FormLabel>Contact Button Text</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
                                 <FormField control={form.control} name="contactButtonLink" render={({ field }) => (<FormItem><FormLabel>Contact Button Link</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
                                 <FormField control={form.control} name="readMoreButtonText" render={({ field }) => (<FormItem><FormLabel>Read More Button Text</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                <FormField control={form.control} name="readMoreButtonLink" render={({ field }) => (<FormItem><FormLabel>Read More Button Link</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
                               </div>
                           </CardContent>
                       </AccordionContent>

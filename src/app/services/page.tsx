@@ -102,7 +102,7 @@ export default function ServicesPage() {
                                         </Link>
                                     </Button>
                                     <Button asChild size="sm" variant="outline" className="shadow-lg transform hover:scale-105 transition-transform duration-300 flex-1">
-                                        <Link href={`/services/${service.slug}`}>
+                                        <Link href={service.readMoreButtonLink || `/services/${service.slug}`}>
                                             {service.readMoreButtonText || 'Read More'}
                                         </Link>
                                     </Button>

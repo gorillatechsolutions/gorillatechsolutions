@@ -16,6 +16,7 @@ export const initialServices: Service[] = [
     contactButtonText: 'Contact',
     contactButtonLink: '/contact',
     readMoreButtonText: 'Read More',
+    readMoreButtonLink: '/services/digital-marketing',
   },
   {
     slug: 'social-media-management',
@@ -32,6 +33,7 @@ export const initialServices: Service[] = [
     contactButtonText: 'Contact',
     contactButtonLink: '/contact',
     readMoreButtonText: 'Read More',
+    readMoreButtonLink: '/services/social-media-management',
   },
   {
     slug: 'web-development',
@@ -48,6 +50,7 @@ export const initialServices: Service[] = [
     contactButtonText: 'Contact',
     contactButtonLink: '/contact',
     readMoreButtonText: 'Read More',
+    readMoreButtonLink: '/services/web-development',
   },
   {
     slug: 'digital-pr',
@@ -64,5 +67,6 @@ export const initialServices: Service[] = [
     contactButtonText: 'Contact',
     contactButtonLink: '/contact',
     readMoreButtonText: 'Read More',
+    readMoreButtonLink: '/services/digital-pr',
   },
 ];

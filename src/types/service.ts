@@ -14,4 +14,5 @@ export type Service = {
   contactButtonText: string;
   contactButtonLink: string;
   readMoreButtonText: string;
+  readMoreButtonLink: string;
 };
