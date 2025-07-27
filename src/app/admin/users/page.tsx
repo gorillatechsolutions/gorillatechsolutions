@@ -130,6 +130,7 @@ export default function AdminUsersPage() {
                             <TableHead>Name</TableHead>
                             <TableHead>Username</TableHead>
                             <TableHead>Email</TableHead>
+                            <TableHead>Password</TableHead>
                             <TableHead>Role</TableHead>
                             <TableHead className="text-right">Actions</TableHead>
                         </TableRow>
@@ -149,6 +150,7 @@ export default function AdminUsersPage() {
                                 </TableCell>
                                 <TableCell>{user.username}</TableCell>
                                 <TableCell>{user.email}</TableCell>
+                                <TableCell>{user.password}</TableCell>
                                 <TableCell>
                                     <Badge 
                                         variant={roleBadgeVariant[user.role]} 
