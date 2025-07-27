@@ -83,7 +83,7 @@ export default function ServicesPage() {
                                 </CardHeader>
                                 <CardContent className="p-6 pt-2 text-center flex-1 flex flex-col">
                                     <p className="text-muted-foreground leading-relaxed mb-4 flex-1">{service.description}</p>
-                                    <p className={cn("text-xl font-bold mb-2", "animated-gradient-text-2 animate-gradient")}>Starting At</p>
+                                    <p className={cn("text-xl font-bold font-headline", "animated-gradient-text-2 animate-gradient")}>Starting At</p>
                                     
                                     <div className="text-center">
                                         <div className="flex items-end justify-center gap-2">
