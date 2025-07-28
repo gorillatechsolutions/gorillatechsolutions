@@ -86,7 +86,7 @@ export function CaseStudyDetailPageClient({ slug }: { slug: string }) {
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <i className="fa fa-eye" aria-hidden="true"></i>
-                                        <span>{formatViews(caseStudy.views)} Views</span>
+                                        <span>Views: {formatViews(caseStudy.views)}</span>
                                     </div>
                                 </div>
                             </div>
