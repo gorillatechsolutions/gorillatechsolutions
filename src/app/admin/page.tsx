@@ -32,7 +32,6 @@ const userData = [
 
 export default function AdminDashboardPage() {
   const { users } = useAuth();
-  const demoUsers = users.filter(u => u.role !== 'admin');
 
   return (
     <div className="space-y-6">
@@ -97,13 +96,13 @@ export default function AdminDashboardPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <FontAwesomeIcon icon={faKey} className="h-4 w-4 text-muted-foreground" />
-            Demo User Credentials
+            User Credentials
           </CardTitle>
-          <CardDescription>Use these credentials to test the application from a non-admin user's perspective.</CardDescription>
+          <CardDescription>Use these credentials to test the application from different user perspectives.</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {demoUsers.map(user => (
+            {users.map(user => (
               <div key={user.email} className="rounded-md border bg-secondary/50 p-3 text-sm">
                 <p className="font-semibold text-foreground">{user.name} <span className="text-muted-foreground capitalize">({user.role})</span></p>
                 <div className="text-muted-foreground mt-1">
