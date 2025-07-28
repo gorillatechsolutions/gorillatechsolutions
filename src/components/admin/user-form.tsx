@@ -20,6 +20,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth, User, UserRole } from '@/contexts/auth-context';
 import { useEffect, useState }from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Eye, EyeOff } from 'lucide-react';
 
 const formSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters.'),
@@ -41,6 +42,7 @@ export function UserForm({ userToEdit }: UserFormProps) {
   const router = useRouter();
   const { addUser, updateUser, emailExists, usernameExists } = useAuth();
   const [isClient, setIsClient] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -179,11 +181,22 @@ export function UserForm({ userToEdit }: UserFormProps) {
                             name="password"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel>Password {userToEdit && '(Leave blank to keep current)'}</FormLabel>
-                                <FormControl>
-                                    <Input type="password" placeholder="••••••••" {...field} />
-                                </FormControl>
-                                <FormMessage />
+                                    <FormLabel>Password {userToEdit && '(Leave blank to keep current)'}</FormLabel>
+                                    <div className="relative">
+                                        <FormControl>
+                                            <Input type={showPassword ? "text" : "password"} placeholder="••••••••" {...field} />
+                                        </FormControl>
+                                        <Button
+                                            type="button"
+                                            variant="ghost"
+                                            size="icon"
+                                            className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 text-muted-foreground"
+                                            onClick={() => setShowPassword(!showPassword)}
+                                        >
+                                            {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                                        </Button>
+                                    </div>
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
