@@ -131,13 +131,9 @@ export function CaseStudyList({ allCaseStudies, initialSearchTerm = '', initialP
                           <i className="fa fa-user-circle-o" aria-hidden="true"></i>
                           <span>{post.author}</span>
                       </div>
-                      <div className="flex items-center gap-2">
-                          <i className="fa fa-calendar" aria-hidden="true"></i>
-                          <span>{new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
-                      </div>
                       <div className="flex items-center gap-1.5">
                         <i className="fa fa-eye" aria-hidden="true"></i>
-                        <span>{formatViews(post.views)}</span>
+                        <span>{formatViews(post.views)} Views</span>
                       </div>
                   </div>
                   <CardContent className="p-6 flex-1 flex flex-col">
