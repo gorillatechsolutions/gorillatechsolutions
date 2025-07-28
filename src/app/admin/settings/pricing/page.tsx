@@ -18,7 +18,6 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { usePricingPlan } from '@/contexts/pricing-plan-context';
-import type { PricingPlan } from '@/types/pricing-plan';
 import { useEffect } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Textarea } from '@/components/ui/textarea';
@@ -48,7 +47,7 @@ export default function PricingSettingsPage() {
         resolver: zodResolver(formSchema),
     });
 
-    const { fields, append, remove } = useFieldArray({
+    const { fields } = useFieldArray({
         control: form.control,
         name: "plans",
     });
@@ -72,6 +71,17 @@ export default function PricingSettingsPage() {
             description: 'Your changes to the pricing plans have been saved.',
         });
     };
+
+    const removeFeature = (planIndex: number, featureIndex: number) => {
+        const features = form.getValues(`plans.${planIndex}.features`);
+        features.splice(featureIndex, 1);
+        form.setValue(`plans.${planIndex}.features`, features);
+    }
+    
+    const addFeature = (planIndex: number) => {
+        const features = form.getValues(`plans.${planIndex}.features`);
+        form.setValue(`plans.${planIndex}.features`, [...features, { value: '' }]);
+    }
 
     if (loading) {
         return (
@@ -97,7 +107,7 @@ export default function PricingSettingsPage() {
                                 <CardHeader>
                                     <CardTitle>Plan: {form.getValues(`plans.${index}.name`)}</CardTitle>
                                 </CardHeader>
-                                <CardContent className="space-y-4">
+                                <CardContent className="space-y-6">
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                         <FormField control={form.control} name={`plans.${index}.name`} render={({ field }) => (<FormItem><FormLabel>Plan Name</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
                                         <FormField control={form.control} name={`plans.${index}.price`} render={({ field }) => (<FormItem><FormLabel>Price (e.g., $29)</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
@@ -105,7 +115,7 @@ export default function PricingSettingsPage() {
                                     </div>
                                     <FormField control={form.control} name={`plans.${index}.description`} render={({ field }) => (<FormItem><FormLabel>Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} />
                                     
-                                    <div className="space-y-2">
+                                    <div className="space-y-4">
                                         <FormLabel>Features</FormLabel>
                                         {form.getValues(`plans.${index}.features`).map((_, featureIndex) => (
                                             <div key={featureIndex} className="flex items-center gap-2">
@@ -119,19 +129,12 @@ export default function PricingSettingsPage() {
                                                         </FormItem>
                                                     )}
                                                 />
-                                                <Button type="button" variant="destructive" size="icon" onClick={() => {
-                                                    const features = form.getValues(`plans.${index}.features`);
-                                                    features.splice(featureIndex, 1);
-                                                    form.setValue(`plans.${index}.features`, features);
-                                                }}>
+                                                <Button type="button" variant="destructive" size="icon" onClick={() => removeFeature(index, featureIndex)}>
                                                     <FontAwesomeIcon icon={faTrash} className="h-4 w-4" />
                                                 </Button>
                                             </div>
                                         ))}
-                                        <Button type="button" variant="outline" size="sm" onClick={() => {
-                                            const features = form.getValues(`plans.${index}.features`);
-                                            form.setValue(`plans.${index}.features`, [...features, { value: '' }]);
-                                        }}>
+                                        <Button type="button" variant="outline" size="sm" onClick={() => addFeature(index)}>
                                             Add Feature
                                         </Button>
                                     </div>
