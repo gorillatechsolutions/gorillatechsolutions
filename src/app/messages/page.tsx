@@ -5,7 +5,6 @@ import { useAuth } from '@/contexts/auth-context';
 import { useMessage } from '@/contexts/message-context';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { cn } from '@/lib/utils';
 import { format, formatDistanceToNow } from 'date-fns';
@@ -30,8 +29,10 @@ export default function MessagesPage() {
     if (user) {
       setUnreadCount(getUnreadCount(user.email));
     }
-  }, [user, getUnreadCount]);
+  }, [user, getUnreadCount, messages]);
 
+  const { messages } = useMessage();
+  
   if (authLoading || !user) {
     return <div className="container py-12">Loading messages...</div>;
   }
@@ -47,50 +48,49 @@ export default function MessagesPage() {
   };
 
   return (
-    <div className="w-full bg-secondary/30 py-12 md:py-16">
+    <div className="w-full bg-background text-foreground py-12 md:py-16">
       <div className="container mx-auto px-4 max-w-4xl">
-        <Card>
-          <CardHeader>
-            <CardTitle className="font-headline text-3xl">Your Messages</CardTitle>
-            <CardDescription>
+        <div className="mb-8">
+            <h1 className="font-headline text-3xl md:text-4xl font-bold">Your Messages</h1>
+            <p className="mt-2 text-muted-foreground">
               Here are the latest notifications and messages from our team.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
+            </p>
+        </div>
+        
+        <div className="bg-card p-4 sm:p-6 rounded-lg border">
             {userMessages.length > 0 ? (
-              <Accordion type="single" collapsible className="w-full">
+            <Accordion type="single" collapsible className="w-full">
                 {userMessages.map(message => (
-                  <AccordionItem value={message.id} key={message.id}>
+                <AccordionItem value={message.id} key={message.id}>
                     <AccordionTrigger
-                      className={cn(!message.read && "font-bold")}
-                      onClick={() => handleAccordionChange(message.id)}
+                    className={cn(!message.read && "font-bold")}
+                    onClick={() => handleAccordionChange(message.id)}
                     >
-                      <div className="flex justify-between items-center w-full pr-4">
+                    <div className="flex justify-between items-center w-full pr-4">
                         <span className="truncate">{message.subject}</span>
                         <span className="text-sm text-muted-foreground font-normal shrink-0 ml-4">
-                          {formatDistanceToNow(new Date(message.timestamp), { addSuffix: true })}
+                        {formatDistanceToNow(new Date(message.timestamp), { addSuffix: true })}
                         </span>
-                      </div>
+                    </div>
                     </AccordionTrigger>
                     <AccordionContent className="prose prose-sm max-w-none pt-2 pb-4">
-                      <p className="text-xs text-muted-foreground">
+                    <p className="text-xs text-muted-foreground">
                         From: {message.senderName} | {format(new Date(message.timestamp), 'PPP p')}
-                      </p>
-                      <div dangerouslySetInnerHTML={{ __html: message.body }}/>
+                    </p>
+                    <div dangerouslySetInnerHTML={{ __html: message.body }}/>
                     </AccordionContent>
-                  </AccordionItem>
+                </AccordionItem>
                 ))}
-              </Accordion>
+            </Accordion>
             ) : (
-              <div className="text-center py-16 border-dashed border-2 rounded-lg">
+            <div className="text-center py-16">
                 <p className="text-muted-foreground">You have no messages.</p>
                 <Button asChild variant="link" className="mt-2">
                     <Link href="/contact">Contact Support</Link>
                 </Button>
-              </div>
+            </div>
             )}
-          </CardContent>
-        </Card>
+        </div>
       </div>
     </div>
   );
