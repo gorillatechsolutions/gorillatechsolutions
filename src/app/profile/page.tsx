@@ -17,7 +17,6 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import { useAuth, UserRole } from "@/contexts/auth-context";
 import { useEffect, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
@@ -29,6 +28,7 @@ import { cn } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
 
 const profileFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -268,4 +268,3 @@ export default function ProfilePage() {
     </div>
   );
 }
-
