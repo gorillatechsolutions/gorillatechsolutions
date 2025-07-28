@@ -288,29 +288,30 @@ export default function Home() {
       {/* CTA Section */}
       <section className="w-full bg-background pt-20 md:pt-24 pb-10 md:pb-12">
         <div className="container mx-auto px-4">
-          <div className="relative w-9/10 mx-auto">
+          <div className="relative w-9/10 mx-auto bg-primary text-primary-foreground p-8 md:p-12 rounded-lg shadow-lg overflow-hidden">
              <Image
                 src={ctaImage}
                 alt="Decorative Circle"
                 width={192}
                 height={192}
-                className="absolute -top-20 left-0 rounded-full z-0"
+                className="absolute -top-20 -left-20 rounded-full z-0 opacity-20"
                 data-ai-hint={ctaImageAiHint}
               />
-            <div className="z-10 flex flex-row items-center justify-between gap-6 bg-blue-600 text-white rounded-lg rounded-tl-lg shadow-lg">
-              <Button asChild className="h-11 rounded-md pr-8 bg-green-500 hover:bg-green-600 text-white shadow-lg transition-transform transform hover:scale-105 flex-shrink-0">
-                <Link href={ctaButtonLink}>
-                  {ctaButtonText}
-                </Link>
-              </Button>
-              <div className="text-left">
-                <h2 className="font-headline text-xl sm:text-2xl md:text-3xl font-bold">
+            <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-6 text-center lg:text-left">
+              <div>
+                 <h2 className="font-headline text-2xl sm:text-3xl md:text-4xl font-bold">
                   {ctaTitle}
                 </h2>
-                <p className="mt-2 text-sm text-white/80 md:text-base">
+                <p className="mt-2 text-primary-foreground/80 md:text-lg max-w-xl">
                   {ctaSubtitle}
                 </p>
               </div>
+              <Button asChild size="lg" className="mt-4 lg:mt-0 bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transition-transform transform hover:scale-105 flex-shrink-0">
+                <Link href={ctaButtonLink}>
+                  {ctaButtonText}
+                  <i className="fa fa-arrow-right ml-2" aria-hidden="true"></i>
+                </Link>
+              </Button>
             </div>
           </div>
         </div>

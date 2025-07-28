@@ -10,6 +10,7 @@ import { faTachometerAlt, faUsers, faCog, faSignOutAlt, faPenToSquare, faMobileS
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/auth-context';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 const navItems = [
   { href: '/admin', icon: faTachometerAlt, label: 'Dashboard', exact: true },
@@ -54,16 +55,26 @@ export default function AdminLayout({
     <SidebarProvider>
       <Sidebar>
         <SidebarHeader>
-          <div className="flex items-center gap-2">
-            <Avatar>
-              <AvatarImage src="https://placehold.co/100x100.png" alt="Admin" data-ai-hint="person avatar" />
-              <AvatarFallback>{user.name ? user.name.charAt(0) : 'A'}</AvatarFallback>
-            </Avatar>
-            <div className="flex flex-col">
-                <span className="text-sm font-semibold text-sidebar-foreground">{user.name}</span>
-                <span className="text-xs text-sidebar-foreground/70">{user.email}</span>
-            </div>
-          </div>
+           <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="flex items-center gap-2 w-full justify-start h-auto px-0 py-0">
+                <Avatar>
+                  <AvatarImage src="https://placehold.co/100x100.png" alt="Admin" data-ai-hint="person avatar" />
+                  <AvatarFallback>{user.name ? user.name.charAt(0) : 'A'}</AvatarFallback>
+                </Avatar>
+                <div className="flex flex-col items-start">
+                    <span className="text-sm font-semibold text-sidebar-foreground">{user.name}</span>
+                    <span className="text-xs text-sidebar-foreground/70">{user.email}</span>
+                </div>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onSelect={logout}>
+                <FontAwesomeIcon icon={faSignOutAlt} className="mr-2 h-4 w-4" />
+                <span>Logout</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </SidebarHeader>
         <SidebarContent>
           <SidebarMenu>
@@ -80,10 +91,7 @@ export default function AdminLayout({
           </SidebarMenu>
         </SidebarContent>
         <SidebarFooter>
-            <Button variant="ghost" className="justify-start gap-2" onClick={logout}>
-                <FontAwesomeIcon icon={faSignOutAlt} className="h-4 w-4" />
-                <span>Logout</span>
-            </Button>
+            
         </SidebarFooter>
       </Sidebar>
       <SidebarInset>
