@@ -5,63 +5,18 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { CheckCircle2 } from 'lucide-react';
-import { useState } from 'react';
 import { useAuth } from '@/contexts/auth-context';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
-
-type PlanTier = 'premium' | 'gold' | 'platinum';
-
-const plans = [
-  {
-    name: 'Premium',
-    tier: 'premium' as PlanTier,
-    price: '$29',
-    description: 'Perfect for professionals who need advanced features.',
-    features: [
-      'Advanced analytics',
-      'Priority support',
-      'Access to beta features',
-      '5 team members',
-      '100GB storage'
-    ],
-    cta: 'Choose Premium',
-  },
-  {
-    name: 'Gold',
-    tier: 'gold' as PlanTier,
-    price: '$59',
-    description: 'Ideal for growing businesses that require more power.',
-    features: [
-      'All Premium features',
-      'Dedicated account manager',
-      'API access',
-      '20 team members',
-      '500GB storage'
-    ],
-    cta: 'Choose Gold',
-    popular: true,
-  },
-  {
-    name: 'Platinum',
-    tier: 'platinum' as PlanTier,
-    price: '$99',
-    description: 'The ultimate solution for large enterprises.',
-    features: [
-      'All Gold features',
-      '24/7 dedicated support',
-      'On-premise deployment option',
-      'Unlimited team members',
-      'Unlimited storage'
-    ],
-    cta: 'Choose Platinum',
-  },
-];
+import { usePricingPlan } from '@/contexts/pricing-plan-context';
+import type { PlanTier } from '@/types/pricing-plan';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function UpgradePage() {
     const { user, updateUser } = useAuth();
     const { toast } = useToast();
     const router = useRouter();
+    const { plans, loading } = usePricingPlan();
 
     const handleUpgrade = (tier: PlanTier) => {
         if (user) {
@@ -79,6 +34,24 @@ export default function UpgradePage() {
             });
             router.push('/login');
         }
+    }
+    
+    if (loading) {
+        return (
+             <div className="w-full bg-secondary/30 py-12 md:py-20">
+                <div className="container mx-auto px-4">
+                     <div className="text-center max-w-3xl mx-auto mb-12">
+                        <Skeleton className="h-12 w-2/3 mx-auto" />
+                        <Skeleton className="h-6 w-full mx-auto mt-4" />
+                     </div>
+                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                         <Skeleton className="h-96 w-full" />
+                         <Skeleton className="h-96 w-full" />
+                         <Skeleton className="h-96 w-full" />
+                     </div>
+                </div>
+            </div>
+        )
     }
 
 
