@@ -14,6 +14,7 @@ import { useToast } from '@/hooks/use-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPlus, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { cn } from '@/lib/utils';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const roleBadgeVariant: Record<UserRole, 'default' | 'secondary' | 'destructive'> = {
     admin: 'destructive',
@@ -127,11 +128,9 @@ export default function AdminUsersPage() {
                                   aria-label="Select all users"
                                />
                             </TableHead>
-                            <TableHead>Name</TableHead>
+                            <TableHead>User</TableHead>
                             <TableHead>Username</TableHead>
-                            <TableHead>Email</TableHead>
                             <TableHead>Phone</TableHead>
-                            <TableHead>Password</TableHead>
                             <TableHead>Role</TableHead>
                             <TableHead className="text-right">Actions</TableHead>
                         </TableRow>
@@ -147,12 +146,19 @@ export default function AdminUsersPage() {
                                     />
                                 </TableCell>
                                 <TableCell className="font-medium">
-                                    {user.name} {currentUser?.email === user.email && <span className="text-muted-foreground font-normal">(You)</span>}
+                                    <div className="flex items-center gap-3">
+                                        <Avatar className="h-10 w-10">
+                                            <AvatarImage src="https://placehold.co/100x100.png" alt={user.name} data-ai-hint="person avatar" />
+                                            <AvatarFallback>{user.name.charAt(0).toUpperCase()}</AvatarFallback>
+                                        </Avatar>
+                                        <div>
+                                            {user.name} {currentUser?.email === user.email && <span className="text-muted-foreground font-normal">(You)</span>}
+                                            <div className="text-sm text-muted-foreground">{user.email}</div>
+                                        </div>
+                                    </div>
                                 </TableCell>
                                 <TableCell>{user.username}</TableCell>
-                                <TableCell>{user.email}</TableCell>
                                 <TableCell>{user.phone}</TableCell>
-                                <TableCell>{user.password}</TableCell>
                                 <TableCell>
                                     <Badge 
                                         variant={roleBadgeVariant[user.role]} 
