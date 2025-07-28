@@ -12,7 +12,7 @@ import { faCogs, faBars, faTachometerAlt } from '@fortawesome/free-solid-svg-ico
 import { useAuth, User } from '@/contexts/auth-context';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { User as UserIcon, Mail, LogOut, MessageSquare } from 'lucide-react';
+import { User as UserIcon, Mail, LogOut, MessageSquare, Gem } from 'lucide-react';
 import { useMessage } from '@/contexts/message-context';
 
 const NAV_LINKS = [
@@ -61,8 +61,11 @@ function UserNav({ user, onLogout }: { user: User, onLogout: () => void }) {
                         )}
                     </Link>
                 </DropdownMenuItem>
-                 <DropdownMenuItem>
-                    <button className="text-accent hover:underline text-sm">Upgrade Account</button>
+                 <DropdownMenuItem asChild>
+                    <Link href="/upgrade">
+                        <Gem className="mr-2 h-4 w-4 text-accent" />
+                        <span className="text-accent font-semibold">Upgrade Account</span>
+                    </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={onLogout}>
