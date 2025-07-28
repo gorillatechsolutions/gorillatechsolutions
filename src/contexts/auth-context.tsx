@@ -44,19 +44,54 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const syncUsers = useCallback(() => {
     try {
       const storedUsers = localStorage.getItem(USERS_STORAGE_KEY);
-      const allUsers = storedUsers ? JSON.parse(storedUsers) : [];
-      const adminExists = allUsers.some((u: User) => u.email === 'admin@example.com');
-
-      if (!adminExists) {
-        allUsers.push({
-          name: 'Admin User',
-          username: 'admin',
-          email: 'admin@example.com',
-          password: 'adminpassword',
-          role: 'admin',
-          phone: '123-456-7890'
-        });
+      let allUsers = storedUsers ? JSON.parse(storedUsers) : [];
+      
+      // If no users exist, create the default set
+      if (allUsers.length === 0) {
+        allUsers = [
+          {
+            name: 'Admin User',
+            username: 'admin',
+            email: 'admin@example.com',
+            password: 'adminpassword',
+            role: 'admin',
+            phone: '123-456-7890'
+          },
+          {
+            name: 'Jane Doe',
+            username: 'jane.doe',
+            email: 'jane@example.com',
+            password: 'password123',
+            role: 'user',
+            phone: '234-567-8901'
+          },
+          {
+            name: 'John Smith',
+            username: 'john.smith',
+            email: 'john@example.com',
+            password: 'password123',
+            role: 'premium',
+            phone: '345-678-9012'
+          },
+          {
+            name: 'Alice Johnson',
+            username: 'alice.j',
+            email: 'alice@example.com',
+            password: 'password123',
+            role: 'gold',
+            phone: '456-789-0123'
+          },
+          {
+            name: 'Bob Williams',
+            username: 'bobbyw',
+            email: 'bob@example.com',
+            password: 'password123',
+            role: 'platinum',
+            phone: '567-890-1234'
+          },
+        ];
       }
+      
       setUsers(allUsers);
       localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(allUsers));
     } catch (e) {
