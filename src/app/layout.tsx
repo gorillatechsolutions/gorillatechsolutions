@@ -19,6 +19,7 @@ import { CaseStudiesPageProvider } from '@/contexts/case-studies-page-context';
 import { AppsPageProvider } from '@/contexts/apps-page-context';
 import { ApplicationPageProvider } from '@/contexts/application-page-context';
 import { InvestmentPageProvider } from '@/contexts/investment-page-context';
+import { MessageProvider } from '@/contexts/message-context';
 
 export const metadata: Metadata = {
   title: {
@@ -40,38 +41,40 @@ export default function RootLayout({
       </head>
       <body className={cn('min-h-screen bg-background font-body antialiased')}>
         <AuthProvider>
-          <CaseStudyProvider>
-            <AppProvider>
-              <ServiceProvider>
-                <ContactSettingsProvider>
-                  <AboutPageProvider>
-                    <LegalPageProvider>
-                      <HomePageProvider>
-                        <ReviewProvider>
-                          <ServicesPageProvider>
-                            <CaseStudiesPageProvider>
-                              <AppsPageProvider>
-                                <ApplicationPageProvider>
-                                  <InvestmentPageProvider>
-                                    <div className="relative flex min-h-dvh flex-col">
-                                        <Header />
-                                        <main className="flex-1">{children}</main>
-                                        <Footer />
-                                    </div>
-                                    <Toaster />
-                                  </InvestmentPageProvider>
-                                </ApplicationPageProvider>
-                              </AppsPageProvider>
-                            </CaseStudiesPageProvider>
-                          </ServicesPageProvider>
-                        </ReviewProvider>
-                      </HomePageProvider>
-                    </LegalPageProvider>
-                  </AboutPageProvider>
-                </ContactSettingsProvider>
-              </ServiceProvider>
-            </AppProvider>
-          </CaseStudyProvider>
+          <MessageProvider>
+            <CaseStudyProvider>
+              <AppProvider>
+                <ServiceProvider>
+                  <ContactSettingsProvider>
+                    <AboutPageProvider>
+                      <LegalPageProvider>
+                        <HomePageProvider>
+                          <ReviewProvider>
+                            <ServicesPageProvider>
+                              <CaseStudiesPageProvider>
+                                <AppsPageProvider>
+                                  <ApplicationPageProvider>
+                                    <InvestmentPageProvider>
+                                      <div className="relative flex min-h-dvh flex-col">
+                                          <Header />
+                                          <main className="flex-1">{children}</main>
+                                          <Footer />
+                                      </div>
+                                      <Toaster />
+                                    </InvestmentPageProvider>
+                                  </ApplicationPageProvider>
+                                </AppsPageProvider>
+                              </CaseStudiesPageProvider>
+                            </ServicesPageProvider>
+                          </ReviewProvider>
+                        </HomePageProvider>
+                      </LegalPageProvider>
+                    </AboutPageProvider>
+                  </ContactSettingsProvider>
+                </ServiceProvider>
+              </AppProvider>
+            </CaseStudyProvider>
+          </MessageProvider>
         </AuthProvider>
       </body>
     </html>

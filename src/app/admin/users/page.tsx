@@ -12,9 +12,10 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { useToast } from '@/hooks/use-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faPlus, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faPlus, faEdit, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { SendMessageDialog } from '@/components/admin/send-message-dialog';
 
 const roleBadgeVariant: Record<UserRole, 'default' | 'secondary' | 'destructive'> = {
     admin: 'destructive',
@@ -167,7 +168,8 @@ export default function AdminUsersPage() {
                                         {user.role}
                                     </Badge>
                                 </TableCell>
-                                <TableCell className="text-right">
+                                <TableCell className="text-right space-x-2">
+                                    <SendMessageDialog recipient={user} />
                                     <Button variant="outline" size="xs" onClick={() => router.push(`/admin/users/edit/${user.email}`)}>
                                         <FontAwesomeIcon icon={faEdit} className="mr-1 h-3 w-3" />
                                         Edit
