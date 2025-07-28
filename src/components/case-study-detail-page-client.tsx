@@ -38,7 +38,6 @@ export function CaseStudyDetailPageClient({ slug }: { slug: string }) {
                         <div className="mb-8">
                             <Skeleton className="h-12 w-3/4" />
                         </div>
-                        <Skeleton className="h-96 md:h-[500px] w-full mb-8 rounded-lg" />
                          <div className="mb-12 flex flex-col items-center gap-4">
                             <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2">
                                 <Skeleton className="h-5 w-24" />
@@ -47,6 +46,7 @@ export function CaseStudyDetailPageClient({ slug }: { slug: string }) {
                             </div>
                              <Skeleton className="h-5 w-1/2 mt-2" />
                         </div>
+                        <Skeleton className="h-96 md:h-[500px] w-full mb-8 rounded-lg" />
                         <div className="space-y-4">
                             <Skeleton className="h-6 w-full" />
                             <Skeleton className="h-6 w-full" />
