@@ -35,102 +35,99 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 const USERS_STORAGE_KEY = 'users';
 const CURRENT_USER_STORAGE_KEY = 'user';
 
+const defaultUsers: User[] = [
+  {
+    name: 'Admin User',
+    username: 'admin',
+    email: 'admin@example.com',
+    password: 'adminpassword',
+    role: 'admin',
+    phone: '123-456-7890'
+  },
+  {
+    name: 'Jane Doe',
+    username: 'jane.doe',
+    email: 'jane@example.com',
+    password: 'password123',
+    role: 'user',
+    phone: '234-567-8901'
+  },
+  {
+    name: 'John Smith',
+    username: 'john.smith',
+    email: 'john@example.com',
+    password: 'password123',
+    role: 'premium',
+    phone: '345-678-9012'
+  },
+  {
+    name: 'Alice Johnson',
+    username: 'alice.j',
+    email: 'alice@example.com',
+    password: 'password123',
+    role: 'gold',
+    phone: '456-789-0123'
+  },
+  {
+    name: 'Bob Williams',
+    username: 'bobbyw',
+    email: 'bob@example.com',
+    password: 'password123',
+    role: 'platinum',
+    phone: '567-890-1234'
+  },
+];
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  const syncUsers = useCallback(() => {
+  const syncState = useCallback(() => {
     try {
-      const storedUsers = localStorage.getItem(USERS_STORAGE_KEY);
-      let allUsers = storedUsers ? JSON.parse(storedUsers) : [];
+      let storedUsers = localStorage.getItem(USERS_STORAGE_KEY);
+      let allUsers: User[] = [];
+
+      if (storedUsers) {
+        allUsers = JSON.parse(storedUsers);
+      }
       
-      // If no users exist, create the default set
       if (allUsers.length === 0) {
-        allUsers = [
-          {
-            name: 'Admin User',
-            username: 'admin',
-            email: 'admin@example.com',
-            password: 'adminpassword',
-            role: 'admin',
-            phone: '123-456-7890'
-          },
-          {
-            name: 'Jane Doe',
-            username: 'jane.doe',
-            email: 'jane@example.com',
-            password: 'password123',
-            role: 'user',
-            phone: '234-567-8901'
-          },
-          {
-            name: 'John Smith',
-            username: 'john.smith',
-            email: 'john@example.com',
-            password: 'password123',
-            role: 'premium',
-            phone: '345-678-9012'
-          },
-          {
-            name: 'Alice Johnson',
-            username: 'alice.j',
-            email: 'alice@example.com',
-            password: 'password123',
-            role: 'gold',
-            phone: '456-789-0123'
-          },
-          {
-            name: 'Bob Williams',
-            username: 'bobbyw',
-            email: 'bob@example.com',
-            password: 'password123',
-            role: 'platinum',
-            phone: '567-890-1234'
-          },
-        ];
+        allUsers = defaultUsers;
+        localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(allUsers));
       }
       
       setUsers(allUsers);
-      localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(allUsers));
-    } catch (e) {
-        console.error("Failed to parse users from localStorage", e);
-        setUsers([]);
-    }
-  }, []);
-
-  useEffect(() => {
-    setLoading(true);
-    syncUsers();
-    try {
+      
       const storedUser = localStorage.getItem(CURRENT_USER_STORAGE_KEY);
       if (storedUser) {
         setUser(JSON.parse(storedUser));
       }
-    } catch(e) {
-        console.error("Failed to parse current user from localStorage", e);
+    } catch (e) {
+        console.error("Failed to parse data from localStorage", e);
+        setUsers(defaultUsers);
         setUser(null);
     }
     setLoading(false);
-  }, [syncUsers]);
+  }, []);
+
+  useEffect(() => {
+    syncState();
+  }, [syncState]);
 
   // Listen for storage changes to sync across tabs
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
-      if (event.key === USERS_STORAGE_KEY) {
-        syncUsers();
-      }
-      if (event.key === CURRENT_USER_STORAGE_KEY) {
-        const storedUser = localStorage.getItem(CURRENT_USER_STORAGE_KEY);
-        setUser(storedUser ? JSON.parse(storedUser) : null);
+      if (event.key === USERS_STORAGE_KEY || event.key === CURRENT_USER_STORAGE_KEY) {
+        syncState();
       }
     };
     window.addEventListener('storage', handleStorageChange);
     return () => {
       window.removeEventListener('storage', handleStorageChange);
     };
-  }, [syncUsers]);
+  }, [syncState]);
 
 
   const login = (identifier: string, password: string): User | null => {
