@@ -67,37 +67,31 @@ export function CaseStudyDetailPageClient({ slug }: { slug: string }) {
             <article className="py-12 md:py-16">
                 <div className="container mx-auto px-4">
                     <div className="max-w-4xl mx-auto">
-                        <header className="mb-4">
+                        <header className="mb-8">
                            <h1 
                               className="font-headline text-3xl md:text-4xl lg:text-5xl font-bold text-left"
                               style={{ color: '#454545' }}
                             >
                                 {caseStudy.title}
                             </h1>
+                             <div className="mt-4 flex flex-col items-start gap-4">
+                                <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
+                                    <div className="flex items-center gap-2">
+                                        <i className="fa fa-user-circle-o" aria-hidden="true"></i>
+                                        <span>By {caseStudy.author}</span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <i className="fa fa-calendar" aria-hidden="true"></i>
+                                        <span>{new Date(caseStudy.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <i className="fa fa-eye" aria-hidden="true"></i>
+                                        <span>{formatViews(caseStudy.views)} Views</span>
+                                    </div>
+                                </div>
+                            </div>
                         </header>
                         
-                         <div className="mb-8 flex flex-col items-start gap-4">
-                            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
-                                <div className="flex items-center gap-2">
-                                    <i className="fa fa-user-circle-o" aria-hidden="true"></i>
-                                    <span>By {caseStudy.author}</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <i className="fa fa-calendar" aria-hidden="true"></i>
-                                    <span>{new Date(caseStudy.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <i className="fa fa-eye" aria-hidden="true"></i>
-                                    <span>{formatViews(caseStudy.views)}</span>
-                                </div>
-                            </div>
-                            <div className="flex flex-wrap gap-2">
-                                {caseStudy.tags.map(tag => (
-                                    <Badge key={tag} variant="secondary">{tag}</Badge>
-                                ))}
-                            </div>
-                        </div>
-
                         <div className="relative h-96 md:h-[500px] mb-8">
                             <Image
                                 src={caseStudy.image}
@@ -115,6 +109,16 @@ export function CaseStudyDetailPageClient({ slug }: { slug: string }) {
                         >
                           {parse(caseStudy.content)}
                         </div>
+                        
+                        <div className="mt-12 pt-8 border-t">
+                            <h3 className="text-lg font-semibold mb-4">Tags</h3>
+                            <div className="flex flex-wrap gap-2">
+                                {caseStudy.tags.map(tag => (
+                                    <Badge key={tag} variant="secondary">{tag}</Badge>
+                                ))}
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </article>
