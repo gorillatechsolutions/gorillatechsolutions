@@ -11,6 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/auth-context';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const navItems = [
   { href: '/admin', icon: faTachometerAlt, label: 'Dashboard', exact: true },
@@ -33,12 +34,10 @@ export default function AdminLayout({
   const { user, logout, loading } = useAuth();
   
   useEffect(() => {
-    if (!loading) {
-      if (!user) {
-        router.push('/login');
-      } else if (user.role !== 'admin') {
-        router.push('/');
-      }
+    if (!loading && !user) {
+      router.push('/login');
+    } else if (!loading && user && user.role !== 'admin') {
+      router.push('/');
     }
   }, [user, loading, router]);
 
@@ -46,7 +45,13 @@ export default function AdminLayout({
   if (loading || !user || user.role !== 'admin') {
     return (
         <div className="flex h-screen items-center justify-center">
-            <div className="text-lg font-semibold">Loading Admin Dashboard...</div>
+            <div className="flex items-center gap-2">
+                <Skeleton className="h-8 w-8 rounded-full" />
+                <div className="space-y-2">
+                    <Skeleton className="h-4 w-[250px]" />
+                    <Skeleton className="h-4 w-[200px]" />
+                </div>
+            </div>
         </div>
     );
   }
@@ -87,10 +92,12 @@ export default function AdminLayout({
           <SidebarMenu>
             {navItems.map((item) => (
               <SidebarMenuItem key={item.href}>
-                <Link href={item.href}>
-                  <SidebarMenuButton data-active={pathname.startsWith(item.href) && (item.exact ? pathname === item.href : true)}>
-                    <FontAwesomeIcon icon={item.icon} className="h-4 w-4" />
-                    <span>{item.label}</span>
+                <Link href={item.href} passHref>
+                  <SidebarMenuButton asChild isActive={pathname.startsWith(item.href) && (item.exact ? pathname === item.href : true)}>
+                    <a>
+                        <FontAwesomeIcon icon={item.icon} className="h-4 w-4" />
+                        <span>{item.label}</span>
+                    </a>
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>
@@ -98,7 +105,7 @@ export default function AdminLayout({
           </SidebarMenu>
         </SidebarContent>
         <SidebarFooter>
-            
+            {/* Can add footer items here if needed */}
         </SidebarFooter>
       </Sidebar>
       <SidebarInset>
