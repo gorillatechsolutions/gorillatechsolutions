@@ -34,7 +34,8 @@ const userData = [
 const UserCredentialCard = ({ user }: { user: User }) => (
   <div className="rounded-md border bg-secondary/50 p-3 text-sm">
     <p className="font-semibold text-foreground">{user.name} <span className="text-muted-foreground capitalize">({user.role})</span></p>
-    <div className="text-muted-foreground mt-1">
+    <div className="text-muted-foreground mt-1 space-y-1">
+      <p><strong>Email:</strong> {user.email}</p>
       <p><strong>Username:</strong> {user.username}</p>
       <p><strong>Password:</strong> {user.password}</p>
     </div>
