@@ -67,7 +67,7 @@ export function CaseStudyDetailPageClient({ slug }: { slug: string }) {
             <article className="py-12 md:py-16">
                 <div className="container mx-auto px-4">
                     <div className="max-w-4xl mx-auto">
-                        <header className="mb-8">
+                        <header className="mb-4">
                            <h1 
                               className="font-headline text-3xl md:text-4xl lg:text-5xl font-bold text-left"
                               style={{ color: '#454545' }}
@@ -76,20 +76,8 @@ export function CaseStudyDetailPageClient({ slug }: { slug: string }) {
                             </h1>
                         </header>
                         
-                        <div className="relative h-96 md:h-[500px] mb-8">
-                            <Image
-                                src={caseStudy.image}
-                                alt={caseStudy.title}
-                                fill
-                                style={{objectFit: 'cover'}}
-                                className="rounded-lg shadow-xl"
-                                data-ai-hint={caseStudy.dataAiHint}
-                                priority
-                            />
-                        </div>
-
-                         <div className="mb-12 flex flex-col items-center gap-4">
-                            <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
+                         <div className="mb-8 flex flex-col items-start gap-4">
+                            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
                                 <div className="flex items-center gap-2">
                                     <i className="fa fa-user-circle-o" aria-hidden="true"></i>
                                     <span>By {caseStudy.author}</span>
@@ -100,14 +88,26 @@ export function CaseStudyDetailPageClient({ slug }: { slug: string }) {
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <i className="fa fa-eye" aria-hidden="true"></i>
-                                    <span>{formatViews(caseStudy.views)} views</span>
+                                    <span>{formatViews(caseStudy.views)}</span>
                                 </div>
                             </div>
-                            <div className="flex flex-wrap justify-center gap-2">
+                            <div className="flex flex-wrap gap-2">
                                 {caseStudy.tags.map(tag => (
                                     <Badge key={tag} variant="secondary">{tag}</Badge>
                                 ))}
                             </div>
+                        </div>
+
+                        <div className="relative h-96 md:h-[500px] mb-8">
+                            <Image
+                                src={caseStudy.image}
+                                alt={caseStudy.title}
+                                fill
+                                style={{objectFit: 'cover'}}
+                                className="rounded-lg shadow-xl"
+                                data-ai-hint={caseStudy.dataAiHint}
+                                priority
+                            />
                         </div>
 
                         <div 
