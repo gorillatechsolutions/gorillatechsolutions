@@ -3,7 +3,8 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Bar, BarChart, CartesianGrid, XAxis, Tooltip, ResponsiveContainer, LineChart, Line } from "recharts"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUsers, faBoxOpen, faDollarSign, faArrowUp } from "@fortawesome/free-solid-svg-icons";
+import { faUsers, faBoxOpen, faDollarSign, faArrowUp, faKey } from "@fortawesome/free-solid-svg-icons";
+import { useAuth } from "@/contexts/auth-context";
 
 const kpiData = [
   { title: "Total Users", value: "1,257", change: "+12.5%", icon: faUsers, iconBg: "bg-blue-100", iconColor: "text-blue-500" },
@@ -30,6 +31,9 @@ const userData = [
 ];
 
 export default function AdminDashboardPage() {
+  const { users } = useAuth();
+  const demoUsers = users.filter(u => u.role !== 'admin');
+
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-foreground">Dashboard Overview</h1>
@@ -88,6 +92,29 @@ export default function AdminDashboardPage() {
           </CardContent>
         </Card>
       </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <FontAwesomeIcon icon={faKey} className="h-4 w-4 text-muted-foreground" />
+            Demo User Credentials
+          </CardTitle>
+          <CardDescription>Use these credentials to test the application from a non-admin user's perspective.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {demoUsers.map(user => (
+              <div key={user.email} className="rounded-md border bg-secondary/50 p-3 text-sm">
+                <p className="font-semibold text-foreground">{user.name} <span className="text-muted-foreground capitalize">({user.role})</span></p>
+                <div className="text-muted-foreground mt-1">
+                  <p><strong>Username:</strong> {user.username}</p>
+                  <p><strong>Password:</strong> {user.password}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   )
 }
