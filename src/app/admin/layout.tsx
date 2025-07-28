@@ -10,7 +10,7 @@ import { faTachometerAlt, faUsers, faCog, faSignOutAlt, faPenToSquare, faMobileS
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/auth-context';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 const navItems = [
   { href: '/admin', icon: faTachometerAlt, label: 'Dashboard', exact: true },
@@ -57,22 +57,29 @@ export default function AdminLayout({
         <SidebarHeader>
            <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="flex items-center gap-2 w-full justify-start h-auto px-0 py-0">
-                <Avatar>
-                  <AvatarImage src="https://placehold.co/100x100.png" alt="Admin" data-ai-hint="person avatar" />
-                  <AvatarFallback>{user.name ? user.name.charAt(0) : 'A'}</AvatarFallback>
+              <Button variant="ghost" className="flex items-center gap-3 w-full justify-start h-auto px-2 py-2">
+                <Avatar className="h-9 w-9">
+                  <AvatarImage src="https://placehold.co/100x100.png" alt={user.name} data-ai-hint="person avatar" />
+                  <AvatarFallback>{user.name ? user.name.charAt(0).toUpperCase() : 'A'}</AvatarFallback>
                 </Avatar>
-                <div className="flex flex-col items-start">
-                    <span className="text-sm font-semibold text-sidebar-foreground">{user.name}</span>
-                    <span className="text-xs text-sidebar-foreground/70">{user.email}</span>
+                <div className="flex flex-col items-start text-left">
+                    <span className="text-sm font-semibold text-sidebar-foreground truncate">{user.name}</span>
+                    <span className="text-xs text-sidebar-foreground/70 truncate">{user.email}</span>
                 </div>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem onSelect={logout}>
-                <FontAwesomeIcon icon={faSignOutAlt} className="mr-2 h-4 w-4" />
-                <span>Logout</span>
-              </DropdownMenuItem>
+            <DropdownMenuContent className="w-56" align="end" forceMount>
+                <DropdownMenuLabel className="font-normal">
+                    <div className="flex flex-col space-y-1">
+                        <p className="text-sm font-medium leading-none">{user.name}</p>
+                        <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
+                    </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onSelect={logout}>
+                    <FontAwesomeIcon icon={faSignOutAlt} className="mr-2 h-4 w-4" />
+                    <span>Log out</span>
+                </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </SidebarHeader>
