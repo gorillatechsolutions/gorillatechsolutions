@@ -86,14 +86,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const syncState = useCallback(() => {
     try {
-      let storedUsers = localStorage.getItem(USERS_STORAGE_KEY);
       let allUsers: User[] = [];
-
+      const storedUsers = localStorage.getItem(USERS_STORAGE_KEY);
+      
       if (storedUsers) {
         allUsers = JSON.parse(storedUsers);
       }
       
-      if (allUsers.length === 0) {
+      const adminExists = allUsers.some(u => u.username === 'admin');
+      if (!adminExists) {
         allUsers = defaultUsers;
         localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(allUsers));
       }
