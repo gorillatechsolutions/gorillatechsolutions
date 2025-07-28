@@ -13,6 +13,7 @@ export type User = {
   password?: string;
   phone?: string;
   role: UserRole;
+  address?: string;
 };
 
 interface AuthContextType {
@@ -42,7 +43,8 @@ const defaultUsers: User[] = [
     email: 'admin@example.com',
     password: 'adminpassword',
     role: 'admin',
-    phone: '123-456-7890'
+    phone: '123-456-7890',
+    address: '123 Admin Way, Suite 100, Capital City, USA 12345'
   },
   {
     name: 'Jane Doe',
@@ -50,7 +52,8 @@ const defaultUsers: User[] = [
     email: 'jane@example.com',
     password: 'password123',
     role: 'user',
-    phone: '234-567-8901'
+    phone: '234-567-8901',
+    address: '456 User St, Apt 2B, Townsville, USA 67890'
   },
   {
     name: 'John Smith',
@@ -58,7 +61,8 @@ const defaultUsers: User[] = [
     email: 'john@example.com',
     password: 'password123',
     role: 'premium',
-    phone: '345-678-9012'
+    phone: '345-678-9012',
+    address: '789 Premium Blvd, Penthouse, Metropolis, USA 11223'
   },
   {
     name: 'Alice Johnson',
@@ -66,7 +70,8 @@ const defaultUsers: User[] = [
     email: 'alice@example.com',
     password: 'password123',
     role: 'gold',
-    phone: '456-789-0123'
+    phone: '456-789-0123',
+    address: '101 Gold Cir, Gold City, USA 44556'
   },
   {
     name: 'Bob Williams',
@@ -74,7 +79,8 @@ const defaultUsers: User[] = [
     email: 'bob@example.com',
     password: 'password123',
     role: 'platinum',
-    phone: '567-890-1234'
+    phone: '567-890-1234',
+    address: '210 Platinum Rd, Platinum Heights, USA 77889'
   },
 ];
 
@@ -149,7 +155,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signup = (name: string, username: string, email: string, password: string) => {
-    const newUser: User = { name, username, email, password, role: 'user' };
+    const newUser: User = { name, username, email, password, role: 'user', address: '' };
     const updatedUsers = [...users, newUser];
     setUsers(updatedUsers);
     localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(updatedUsers));

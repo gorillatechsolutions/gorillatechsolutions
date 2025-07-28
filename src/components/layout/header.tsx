@@ -42,9 +42,11 @@ function UserNav({ user, onLogout }: { user: User, onLogout: () => void }) {
                     </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                    <UserIcon className="mr-2 h-4 w-4" />
-                    <span>Profile</span>
+                <DropdownMenuItem asChild>
+                    <Link href="/profile">
+                        <UserIcon className="mr-2 h-4 w-4" />
+                        <span>Profile</span>
+                    </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                     <Mail className="mr-2 h-4 w-4" />
@@ -151,9 +153,14 @@ export function Header() {
                 </nav>
                 <div className="p-4 border-t space-y-2">
                    {user ? (
+                    <>
+                     <Button asChild className="w-full" variant="secondary">
+                       <Link href="/profile" onClick={() => setMobileMenuOpen(false)}>My Profile</Link>
+                     </Button>
                      <Button onClick={() => { logout(); setMobileMenuOpen(false); }} className="w-full">
                        Logout
                      </Button>
+                    </>
                    ) : (
                      <Button asChild className="w-full">
                        <Link href="/login" onClick={() => setMobileMenuOpen(false)}>Login</Link>

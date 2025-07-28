@@ -21,12 +21,14 @@ import { useAuth, User, UserRole } from '@/contexts/auth-context';
 import { useEffect, useState }from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Eye, EyeOff } from 'lucide-react';
+import { Textarea } from '../ui/textarea';
 
 const formSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters.'),
   username: z.string().min(3, 'Username must be at least 3 characters.').regex(/^[a-z0-9_.]+$/, 'Invalid username format.'),
   email: z.string().email('Please enter a valid email address.'),
   phone: z.string().optional(),
+  address: z.string().optional(),
   password: z.string().min(8, 'Password must be at least 8 characters.').optional().or(z.literal('')),
   role: z.enum(['admin', 'user', 'premium', 'gold', 'platinum']),
 });
@@ -53,11 +55,13 @@ export function UserForm({ userToEdit }: UserFormProps) {
     defaultValues: userToEdit ? {
         ...userToEdit,
         phone: userToEdit.phone || '',
+        address: userToEdit.address || '',
     } : {
       name: '',
       username: '',
       email: '',
       phone: '',
+      address: '',
       password: '',
       role: 'user',
     },
@@ -69,6 +73,7 @@ export function UserForm({ userToEdit }: UserFormProps) {
         ...userToEdit,
         password: '', // Password should be empty for editing for security
         phone: userToEdit.phone || '',
+        address: userToEdit.address || '',
       });
     }
   }, [userToEdit, form]);
@@ -174,6 +179,19 @@ export function UserForm({ userToEdit }: UserFormProps) {
                             )}
                         />
                     </div>
+                     <FormField
+                        control={form.control}
+                        name="address"
+                        render={({ field }) => (
+                            <FormItem>
+                            <FormLabel>Address (Optional)</FormLabel>
+                            <FormControl>
+                                <Textarea placeholder="123 Main St, Anytown, USA" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                            </FormItem>
+                        )}
+                    />
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <FormField

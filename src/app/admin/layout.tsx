@@ -81,6 +81,12 @@ export default function AdminLayout({
                     </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
+                 <DropdownMenuItem asChild>
+                    <Link href="/profile">
+                        <FontAwesomeIcon icon={faCog} className="mr-2 h-4 w-4" />
+                        <span>Profile Settings</span>
+                    </Link>
+                </DropdownMenuItem>
                 <DropdownMenuItem onSelect={logout}>
                     <FontAwesomeIcon icon={faSignOutAlt} className="mr-2 h-4 w-4" />
                     <span>Log out</span>
