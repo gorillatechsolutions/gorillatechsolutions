@@ -28,7 +28,6 @@ const formSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters.'),
   username: z.string().min(3, 'Username must be at least 3 characters.').regex(/^[a-z0-9_.]+$/, 'Invalid username format.'),
   email: z.string().email('Please enter a valid email address.'),
-  avatar: z.string().url('Please enter a valid URL.').optional(),
   phone: z.string().optional(),
   address: z.string().optional(),
   password: z.string().min(8, 'Password must be at least 8 characters.').optional().or(z.literal('')),
@@ -58,12 +57,10 @@ export function UserForm({ userToEdit }: UserFormProps) {
         ...userToEdit,
         phone: userToEdit.phone || '',
         address: userToEdit.address || '',
-        avatar: userToEdit.avatar || '',
     } : {
       name: '',
       username: '',
       email: '',
-      avatar: 'https://i.ibb.co/1mgpC4j/g-logo.png',
       phone: '',
       address: '',
       password: '',
@@ -78,18 +75,18 @@ export function UserForm({ userToEdit }: UserFormProps) {
         password: '', // Password should be empty for editing for security
         phone: userToEdit.phone || '',
         address: userToEdit.address || '',
-        avatar: userToEdit.avatar || '',
       });
     }
   }, [userToEdit, form]);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    const userData = { ...values, avatar: userToEdit?.avatar || 'https://i.ibb.co/1mgpC4j/g-logo.png' };
     if (userToEdit) {
         if (values.username !== userToEdit.username && usernameExists(values.username)) {
             form.setError('username', { type: 'manual', message: 'This username is already taken.' });
             return;
         }
-      updateUser(userToEdit.email, values);
+      updateUser(userToEdit.email, userData);
       toast({
         title: 'User Updated!',
         description: 'The user has been successfully updated.',
@@ -107,7 +104,7 @@ export function UserForm({ userToEdit }: UserFormProps) {
           form.setError('password', { type: 'manual', message: 'Password is required for new users.' });
           return;
       }
-      addUser(values as User);
+      addUser(userData as User);
       toast({
         title: 'User Created!',
         description: 'The new user has been successfully created.',
@@ -184,21 +181,7 @@ export function UserForm({ userToEdit }: UserFormProps) {
                             )}
                         />
                     </div>
-                    
-                    <FormField
-                        control={form.control}
-                        name="avatar"
-                        render={({ field }) => (
-                            <FormItem>
-                            <FormLabel>Avatar URL</FormLabel>
-                            <FormControl>
-                                <Input placeholder="https://example.com/avatar.png" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    
+                                        
                      <FormField
                         control={form.control}
                         name="address"
