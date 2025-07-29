@@ -2,22 +2,44 @@
 'use client';
 
 import { Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { CaseStudyList } from '@/components/case-study-list';
 import { useCaseStudy } from '@/contexts/case-study-context';
 import { useCaseStudiesPage } from '@/contexts/case-studies-page-context';
+import { Skeleton } from '@/components/ui/skeleton';
 
-function CaseStudyPageComponent() {
-  const searchParams = useSearchParams();
-  const searchTerm = searchParams.get('search') || '';
-  const page = Number(searchParams.get('page')) || 1;
+type CaseStudyPageProps = {
+  searchParams: {
+    search?: string;
+    page?: string;
+  };
+};
+
+function CaseStudyPageComponent({ searchParams }: CaseStudyPageProps) {
+  const searchTerm = searchParams?.search || '';
+  const page = Number(searchParams?.page) || 1;
   const { caseStudies, loading: caseStudiesLoading } = useCaseStudy();
   const { content, loading: pageContentLoading } = useCaseStudiesPage();
 
   const loading = caseStudiesLoading || pageContentLoading;
 
   if (loading) {
-      return <div className="container py-12">Loading case studies...</div>
+    return (
+        <div className="w-full bg-background text-foreground">
+          <section className="bg-secondary/30 py-8 md:py-12">
+            <div className="container mx-auto px-4 text-center">
+              <Skeleton className="h-12 w-2/3 mx-auto" />
+              <Skeleton className="h-6 w-1/2 mx-auto mt-4" />
+            </div>
+          </section>
+          <section className="py-8 md:py-12">
+            <div className="container mx-auto px-4">
+              <div className="max-w-xl mx-auto">
+                 <Skeleton className="h-10 w-full" />
+              </div>
+            </div>
+          </section>
+        </div>
+    );
   }
 
   return (
@@ -42,10 +64,10 @@ function CaseStudyPageComponent() {
 }
 
 
-export default function CaseStudyPage() {
+export default function CaseStudyPage({ searchParams }: CaseStudyPageProps) {
   return (
-    <Suspense>
-      <CaseStudyPageComponent />
+    <Suspense fallback={<div className="container py-12">Loading...</div>}>
+      <CaseStudyPageComponent searchParams={searchParams} />
     </Suspense>
-  )
+  );
 }
