@@ -14,15 +14,19 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { useToast } from '@/hooks/use-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Card, CardContent } from '@/components/ui/card';
 
 export default function MessagesPage() {
   const { user, loading: authLoading } = useAuth();
-  const { messages, getMessagesForUser, markAsRead, getUnreadCount, deleteMessage } = useMessage();
+  const { messages, getMessagesForUser, markAsRead, getUnreadCount, deleteMessages } = useMessage();
   const router = useRouter();
   const { toast } = useToast();
   
-  // This state is to force a re-render when a message is marked as read
   const [unreadCount, setUnreadCount] = useState(0);
+  const [selectedMessages, setSelectedMessages] = useState<string[]>([]);
+  
+  const userMessages = getMessagesForUser(user?.email || '');
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -40,22 +44,36 @@ export default function MessagesPage() {
     return <div className="container py-12">Loading messages...</div>;
   }
   
-  const userMessages = getMessagesForUser(user.email);
-  
   const handleAccordionChange = (messageId: string) => {
     markAsRead(messageId);
-    // Update local state to trigger a re-render
     if (user) {
         setUnreadCount(getUnreadCount(user.email));
     }
   };
 
-  const handleDelete = (messageId: string) => {
-    deleteMessage(messageId);
+  const handleSelectAll = (checked: boolean | 'indeterminate') => {
+    if (checked === true) {
+      setSelectedMessages(userMessages.map(m => m.id));
+    } else {
+      setSelectedMessages([]);
+    }
+  };
+
+  const handleSelectMessage = (id: string, checked: boolean) => {
+    if (checked) {
+      setSelectedMessages(prev => [...prev, id]);
+    } else {
+      setSelectedMessages(prev => prev.filter(messageId => messageId !== id));
+    }
+  };
+
+  const handleDeleteSelected = () => {
+    deleteMessages(selectedMessages);
     toast({
-        title: 'Message Deleted',
-        description: 'The message has been permanently removed.',
+        title: 'Messages Deleted',
+        description: `${selectedMessages.length} message(s) have been permanently removed.`,
     });
+    setSelectedMessages([]);
   }
 
   return (
@@ -69,56 +87,83 @@ export default function MessagesPage() {
         </div>
         
         {userMessages.length > 0 ? (
-        <Accordion type="single" collapsible className="w-full bg-card p-4 sm:p-6 rounded-lg border">
-            {userMessages.map(message => (
-            <AccordionItem value={message.id} key={message.id}>
-                <AccordionTrigger
-                className={cn(!message.read && "font-bold")}
-                onClick={() => handleAccordionChange(message.id)}
-                >
-                <div className="flex justify-between items-center w-full pr-4">
-                    <div className="flex items-center gap-3">
-                        <span className={cn("h-2.5 w-2.5 rounded-full", message.read ? 'bg-transparent' : 'bg-primary')} />
-                        <span className="truncate">{message.subject}</span>
-                    </div>
-                    <span className="text-sm text-muted-foreground font-normal shrink-0 ml-4">
-                    {formatDistanceToNow(new Date(message.timestamp), { addSuffix: true })}
-                    </span>
+        <div className="space-y-4">
+            <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                    <Checkbox
+                        id="select-all"
+                        checked={selectedMessages.length > 0 && selectedMessages.length === userMessages.length ? true : (selectedMessages.length > 0 ? 'indeterminate' : false)}
+                        onCheckedChange={handleSelectAll}
+                        aria-label="Select all messages"
+                    />
+                    <label htmlFor="select-all" className="text-sm font-medium">Select All</label>
                 </div>
-                </AccordionTrigger>
-                <AccordionContent className="prose prose-sm max-w-none pt-2 pb-4">
-                    <div className="text-xs text-muted-foreground mb-4">
-                        From: {message.senderName} | {format(new Date(message.timestamp), 'PPP p')}
-                    </div>
-                    <div dangerouslySetInnerHTML={{ __html: message.body }}/>
-                    <div className="mt-6 text-right not-prose">
-                         <AlertDialog>
-                            <AlertDialogTrigger asChild>
-                                <Button variant="destructive" size="xs">
-                                    <FontAwesomeIcon icon={faTrash} className="mr-2 h-3 w-3" />
-                                    Delete
-                                </Button>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                                <AlertDialogHeader>
-                                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                                <AlertDialogDescription>
-                                    This action cannot be undone. This will permanently delete this message.
-                                </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction onClick={() => handleDelete(message.id)}>
-                                    Delete Message
-                                </AlertDialogAction>
-                                </AlertDialogFooter>
-                            </AlertDialogContent>
-                        </AlertDialog>
-                    </div>
-                </AccordionContent>
-            </AccordionItem>
-            ))}
-        </Accordion>
+                 {selectedMessages.length > 0 && (
+                    <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                        <Button variant="destructive" size="sm">
+                            <FontAwesomeIcon icon={faTrash} className="mr-2 h-3 w-3" />
+                            Delete Selected ({selectedMessages.length})
+                        </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                            This will permanently delete {selectedMessages.length} messages. This action cannot be undone.
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={handleDeleteSelected}>
+                                Delete Messages
+                            </AlertDialogAction>
+                        </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+                )}
+            </div>
+
+            <Card className="p-0">
+                <CardContent className="p-0">
+                    <Accordion type="single" collapsible className="w-full">
+                        {userMessages.map(message => (
+                        <div key={message.id} className={cn("flex items-start gap-4 p-4 border-b", selectedMessages.includes(message.id) && 'bg-secondary/80')}>
+                             <Checkbox
+                                id={`select-${message.id}`}
+                                className="mt-3"
+                                checked={selectedMessages.includes(message.id)}
+                                onCheckedChange={(checked) => handleSelectMessage(message.id, !!checked)}
+                                aria-label={`Select message "${message.subject}"`}
+                            />
+                            <AccordionItem value={message.id} className="border-b-0 flex-1">
+                                <AccordionTrigger
+                                className={cn("py-0 hover:no-underline", !message.read && "font-bold")}
+                                onClick={() => handleAccordionChange(message.id)}
+                                >
+                                <div className="flex justify-between items-center w-full pr-4">
+                                    <div className="flex items-center gap-3">
+                                        <span className={cn("h-2.5 w-2.5 rounded-full shrink-0", message.read ? 'bg-transparent' : 'bg-primary')} />
+                                        <span className="truncate">{message.subject}</span>
+                                    </div>
+                                    <span className="text-sm text-muted-foreground font-normal shrink-0 ml-4">
+                                    {formatDistanceToNow(new Date(message.timestamp), { addSuffix: true })}
+                                    </span>
+                                </div>
+                                </AccordionTrigger>
+                                <AccordionContent className="prose prose-sm max-w-none pt-4 pb-1">
+                                    <div className="text-xs text-muted-foreground mb-4">
+                                        From: {message.senderName} | {format(new Date(message.timestamp), 'PPP p')}
+                                    </div>
+                                    <div dangerouslySetInnerHTML={{ __html: message.body }}/>
+                                </AccordionContent>
+                            </AccordionItem>
+                        </div>
+                        ))}
+                    </Accordion>
+                </CardContent>
+            </Card>
+        </div>
         ) : (
         <div className="text-center py-16 bg-card rounded-lg border">
             <p className="text-muted-foreground">You have no messages.</p>

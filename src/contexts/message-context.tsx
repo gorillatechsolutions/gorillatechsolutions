@@ -11,7 +11,7 @@ interface MessageContextType {
   getUnreadCount: (email: string) => number;
   sendMessage: (message: Omit<Message, 'id' | 'timestamp' | 'read'>) => void;
   markAsRead: (messageId: string) => void;
-  deleteMessage: (messageId: string) => void;
+  deleteMessages: (messageIds: string[]) => void;
 }
 
 const MessageContext = createContext<MessageContextType | undefined>(undefined);
@@ -80,14 +80,14 @@ export const MessageProvider: React.FC<{ children: React.ReactNode }> = ({ child
     localStorage.setItem(MESSAGES_STORAGE_KEY, JSON.stringify(updatedMessages));
   };
 
-  const deleteMessage = (messageId: string) => {
-    const updatedMessages = messages.filter(m => m.id !== messageId);
+  const deleteMessages = (messageIds: string[]) => {
+    const updatedMessages = messages.filter(m => !messageIds.includes(m.id));
     setMessages(updatedMessages);
     localStorage.setItem(MESSAGES_STORAGE_KEY, JSON.stringify(updatedMessages));
   };
 
   return (
-    <MessageContext.Provider value={{ messages, getMessagesForUser, getUnreadCount, sendMessage, markAsRead, deleteMessage }}>
+    <MessageContext.Provider value={{ messages, getMessagesForUser, getUnreadCount, sendMessage, markAsRead, deleteMessages }}>
       {children}
     </MessageContext.Provider>
   );
