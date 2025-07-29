@@ -14,6 +14,7 @@ export type User = {
   phone?: string;
   role: UserRole;
   address?: string;
+  avatar?: string;
 };
 
 interface AuthContextType {
@@ -44,7 +45,8 @@ const defaultUsers: User[] = [
     password: 'adminpassword',
     role: 'admin',
     phone: '123-456-7890',
-    address: '123 Admin Way, Suite 100, Capital City, USA 12345'
+    address: '123 Admin Way, Suite 100, Capital City, USA 12345',
+    avatar: 'https://i.ibb.co/1mgpC4j/g-logo.png',
   },
   {
     name: 'Jane Doe',
@@ -53,7 +55,8 @@ const defaultUsers: User[] = [
     password: 'password123',
     role: 'user',
     phone: '234-567-8901',
-    address: '456 User St, Apt 2B, Townsville, USA 67890'
+    address: '456 User St, Apt 2B, Townsville, USA 67890',
+    avatar: 'https://i.ibb.co/1mgpC4j/g-logo.png',
   },
   {
     name: 'John Smith',
@@ -62,7 +65,8 @@ const defaultUsers: User[] = [
     password: 'password123',
     role: 'premium',
     phone: '345-678-9012',
-    address: '789 Premium Blvd, Penthouse, Metropolis, USA 11223'
+    address: '789 Premium Blvd, Penthouse, Metropolis, USA 11223',
+    avatar: 'https://i.ibb.co/1mgpC4j/g-logo.png',
   },
   {
     name: 'Alice Johnson',
@@ -71,7 +75,8 @@ const defaultUsers: User[] = [
     password: 'password123',
     role: 'gold',
     phone: '456-789-0123',
-    address: '101 Gold Cir, Gold City, USA 44556'
+    address: '101 Gold Cir, Gold City, USA 44556',
+    avatar: 'https://i.ibb.co/1mgpC4j/g-logo.png',
   },
   {
     name: 'Bob Williams',
@@ -80,7 +85,8 @@ const defaultUsers: User[] = [
     password: 'password123',
     role: 'platinum',
     phone: '567-890-1234',
-    address: '210 Platinum Rd, Platinum Heights, USA 77889'
+    address: '210 Platinum Rd, Platinum Heights, USA 77889',
+    avatar: 'https://i.ibb.co/1mgpC4j/g-logo.png',
   },
 ];
 
@@ -164,7 +170,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signup = (name: string, username: string, email: string, password: string) => {
-    const newUser: User = { name, username, email, password, role: 'user', address: '' };
+    const newUser: User = { name, username, email, password, role: 'user', address: '', avatar: 'https://i.ibb.co/1mgpC4j/g-logo.png' };
     const updatedUsers = [...users, newUser];
     setUsers(updatedUsers);
     localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(updatedUsers));

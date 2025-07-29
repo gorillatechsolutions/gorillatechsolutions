@@ -139,7 +139,7 @@ export default function AdminUsersPage() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {nonAdminUsers.map((user) => (
+                        {users.map((user) => (
                             <TableRow key={user.email} data-state={selectedUsers.includes(user.email) ? 'selected' : undefined}>
                                 <TableCell>
                                     <Checkbox
@@ -151,7 +151,7 @@ export default function AdminUsersPage() {
                                 <TableCell className="font-medium">
                                     <div className="flex items-center gap-3">
                                         <Avatar className="h-10 w-10">
-                                            <AvatarImage src="https://i.ibb.co/1mgpC4j/g-logo.png" alt={user.name} data-ai-hint="google logo" />
+                                            <AvatarImage src={user.avatar} alt={user.name} data-ai-hint="google logo" />
                                             <AvatarFallback>{user.name.charAt(0).toUpperCase()}</AvatarFallback>
                                         </Avatar>
                                         <div>
