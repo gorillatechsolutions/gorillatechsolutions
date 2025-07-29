@@ -88,12 +88,15 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full shadow-sm" style={{ backgroundColor: '#f2f5f7' }}>
-      <div className="container flex h-16 max-w-screen-2xl items-center justify-between px-4">
+      <div className="flex h-16 w-full items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2 mr-6">
           {siteLoading ? (
             <FontAwesomeIcon icon={faCogs} className="h-8 w-8 text-primary" />
           ) : (
-            <Image src={siteSettings.headerLogo} alt="Gorilla Tech Solutions" width={180} height={40} />
+            <>
+                <Image src={siteSettings.headerLogo} alt="Gorilla Tech Solutions Logo" width={40} height={40} />
+                <span className="font-bold font-headline text-lg hidden sm:inline">Gorilla Tech Solutions</span>
+            </>
           )}
         </Link>
 
@@ -141,7 +144,7 @@ export function Header() {
                 <SheetTitle className="sr-only">Menu</SheetTitle>
                 <div className="p-4 border-b">
                   <Link href="/" className="flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
-                    <FontAwesomeIcon icon={faCogs} className="h-6 w-6 text-primary" />
+                    <Image src={siteSettings.headerLogo} alt="Gorilla Tech Solutions" width={32} height={32} />
                     <span className="text-lg font-bold font-headline text-primary">Gorilla Tech</span>
                   </Link>
                 </div>

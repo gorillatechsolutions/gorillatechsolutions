@@ -11,7 +11,7 @@ Sitemap: https://www.yourwebsite.com/sitemap.xml
 `;
 
 const defaultSiteSettings: SiteSettings = {
-    headerLogo: "https://placehold.co/180x40.png",
+    headerLogo: "https://placehold.co/40x40.png",
     footerLogo: "https://placehold.co/180x40.png",
     favicon: "/favicon.ico",
     ogImage: "https://placehold.co/1200x630.png",
