@@ -38,30 +38,20 @@ export function ChatWidget() {
     }
 
     return (
-        <>
+        <div className="fixed bottom-5 right-5 z-50">
             {/* Overlay */}
             <div 
                 className={cn(
-                    "fixed inset-0 bg-black/30 z-40 transition-opacity duration-300",
+                    "fixed inset-0 bg-black/30 z-[-1] transition-opacity duration-300",
                     isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
                 )}
                 onClick={() => setIsOpen(false)}
             />
             
-            <div className="fixed bottom-5 right-5 z-50">
-                {/* Main floating button */}
-                 <Button 
-                    onClick={() => setIsOpen(!isOpen)} 
-                    size="lg" 
-                    className="rounded-full shadow-lg h-16 w-16 bg-primary hover:bg-primary/90 transition-all duration-300 transform hover:scale-110"
-                >
-                    <MessageSquare className={cn("h-8 w-8 transition-transform duration-300", isOpen && "rotate-90 scale-0")} />
-                    <X className={cn("h-8 w-8 absolute transition-transform duration-300", !isOpen && "-rotate-90 scale-0")} />
-                </Button>
-
+            <div className="relative flex flex-col items-end">
                 {/* Content Window */}
                 <div className={cn(
-                    "absolute bottom-20 right-0 w-[340px] transition-all duration-300 ease-in-out origin-bottom-right",
+                    "mb-4 w-[340px] transition-all duration-300 ease-in-out origin-bottom-right",
                     isOpen ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
                 )}>
                     <div className="bg-card rounded-xl shadow-2xl p-4">
@@ -84,7 +74,17 @@ export function ChatWidget() {
                         </div>
                     </div>
                 </div>
+
+                {/* Main floating button */}
+                 <Button 
+                    onClick={() => setIsOpen(!isOpen)} 
+                    size="lg" 
+                    className="rounded-full shadow-lg h-16 w-16 bg-primary hover:bg-primary/90 transition-all duration-300 transform hover:scale-110"
+                >
+                    <MessageSquare className={cn("h-8 w-8 transition-transform duration-300", isOpen && "rotate-90 scale-0")} />
+                    <X className={cn("h-8 w-8 absolute transition-transform duration-300", !isOpen && "-rotate-90 scale-0")} />
+                </Button>
             </div>
-        </>
+        </div>
     );
 }
