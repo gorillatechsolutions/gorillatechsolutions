@@ -19,6 +19,8 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import { faCheckCircle, faPhone, faMapMarkerAlt, faEnvelope, faCogs } from '@fortawesome/free-solid-svg-icons';
 import { useContactSettings } from '@/contexts/contact-settings-context';
+import { useSiteSettings } from '@/contexts/site-settings-context';
+import Image from 'next/image';
 
 const footerLinks = {
     company: [
@@ -41,9 +43,12 @@ const footerLinks = {
 
 
 export function Footer() {
-  const { settings, loading } = useContactSettings();
+  const { settings: contactSettings, loading: contactLoading } = useContactSettings();
+  const { settings: siteSettings, loading: siteLoading } = useSiteSettings();
 
-  const { phone, email, address, zip, socialLinks } = settings;
+  const loading = contactLoading || siteLoading;
+  
+  const { phone, email, address, zip, socialLinks } = contactSettings;
 
   if (loading) {
       return null;
@@ -54,7 +59,7 @@ export function Footer() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-2% py-12" style={{ backgroundColor: '#dedede' }}>
         <div className="flex flex-col gap-4 items-start">
           <Link href="/" className="flex items-center">
-             <FontAwesomeIcon icon={faCogs} className="h-8 w-8 text-primary" />
+             <Image src={siteSettings.footerLogo} alt="Gorilla Tech Solutions" width={180} height={40} />
           </Link>
           <p className="text-sm" style={{ color: '#383838' }}>
             Driving growth with data-driven digital marketing strategies that deliver results.

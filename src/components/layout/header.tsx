@@ -14,6 +14,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { User as UserIcon, Mail, LogOut, MessageSquare, Gem } from 'lucide-react';
 import { useMessage } from '@/contexts/message-context';
+import { useSiteSettings } from '@/contexts/site-settings-context';
+import Image from 'next/image';
 
 const NAV_LINKS = [
   { name: 'Home', href: '/' },
@@ -81,16 +83,18 @@ export function Header() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, logout } = useAuth();
+  const { settings: siteSettings, loading: siteLoading } = useSiteSettings();
   const isAdmin = user?.role === 'admin';
 
   return (
     <header className="sticky top-0 z-50 w-full shadow-sm" style={{ backgroundColor: '#f2f5f7' }}>
       <div className="container flex h-16 max-w-screen-2xl items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2 mr-6">
-          <FontAwesomeIcon icon={faCogs} className="h-8 w-8 text-primary" />
-          <span className="text-xl font-bold font-headline text-primary hidden sm:inline">
-            Gorilla Tech Solutions
-          </span>
+          {siteLoading ? (
+            <FontAwesomeIcon icon={faCogs} className="h-8 w-8 text-primary" />
+          ) : (
+            <Image src={siteSettings.headerLogo} alt="Gorilla Tech Solutions" width={180} height={40} />
+          )}
         </Link>
 
         <div className="flex items-center gap-4">

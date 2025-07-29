@@ -21,6 +21,8 @@ import { ApplicationPageProvider } from '@/contexts/application-page-context';
 import { InvestmentPageProvider } from '@/contexts/investment-page-context';
 import { MessageProvider } from '@/contexts/message-context';
 import { PricingPlanProvider } from '@/contexts/pricing-plan-context';
+import { SiteSettingsProvider } from '@/contexts/site-settings-context';
+import { SiteSettingsManager } from '@/components/layout/site-settings-manager';
 
 export const metadata: Metadata = {
   title: {
@@ -43,40 +45,43 @@ export default function RootLayout({
       <body className={cn('min-h-screen bg-background font-body antialiased')}>
         <AuthProvider>
           <MessageProvider>
-            <CaseStudyProvider>
-              <AppProvider>
-                <ServiceProvider>
-                  <ContactSettingsProvider>
-                    <AboutPageProvider>
-                      <LegalPageProvider>
-                        <HomePageProvider>
-                          <ReviewProvider>
-                            <ServicesPageProvider>
-                              <CaseStudiesPageProvider>
-                                <AppsPageProvider>
-                                  <ApplicationPageProvider>
-                                    <InvestmentPageProvider>
-                                      <PricingPlanProvider>
-                                        <div className="relative flex min-h-dvh flex-col">
-                                            <Header />
-                                            <main className="flex-1">{children}</main>
-                                            <Footer />
-                                        </div>
-                                        <Toaster />
-                                      </PricingPlanProvider>
-                                    </InvestmentPageProvider>
-                                  </ApplicationPageProvider>
-                                </AppsPageProvider>
-                              </CaseStudiesPageProvider>
-                            </ServicesPageProvider>
-                          </ReviewProvider>
-                        </HomePageProvider>
-                      </LegalPageProvider>
-                    </AboutPageProvider>
-                  </ContactSettingsProvider>
-                </ServiceProvider>
-              </AppProvider>
-            </CaseStudyProvider>
+            <SiteSettingsProvider>
+              <CaseStudyProvider>
+                <AppProvider>
+                  <ServiceProvider>
+                    <ContactSettingsProvider>
+                      <AboutPageProvider>
+                        <LegalPageProvider>
+                          <HomePageProvider>
+                            <ReviewProvider>
+                              <ServicesPageProvider>
+                                <CaseStudiesPageProvider>
+                                  <AppsPageProvider>
+                                    <ApplicationPageProvider>
+                                      <InvestmentPageProvider>
+                                        <PricingPlanProvider>
+                                          <SiteSettingsManager />
+                                          <div className="relative flex min-h-dvh flex-col">
+                                              <Header />
+                                              <main className="flex-1">{children}</main>
+                                              <Footer />
+                                          </div>
+                                          <Toaster />
+                                        </PricingPlanProvider>
+                                      </InvestmentPageProvider>
+                                    </ApplicationPageProvider>
+                                  </AppsPageProvider>
+                                </CaseStudiesPageProvider>
+                              </ServicesPageProvider>
+                            </ReviewProvider>
+                          </HomePageProvider>
+                        </LegalPageProvider>
+                      </AboutPageProvider>
+                    </ContactSettingsProvider>
+                  </ServiceProvider>
+                </AppProvider>
+              </CaseStudyProvider>
+            </SiteSettingsProvider>
           </MessageProvider>
         </AuthProvider>
       </body>

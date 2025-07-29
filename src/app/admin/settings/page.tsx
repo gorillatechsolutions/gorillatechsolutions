@@ -6,28 +6,61 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight, faFileLines, faDollarSign, faCog } from "@fortawesome/free-solid-svg-icons";
+
+const settingsLinks = [
+    {
+        href: '/admin/pages',
+        icon: faFileLines,
+        title: 'Page Management',
+        description: 'Edit content for individual pages like Home, About, and Contact.'
+    },
+    {
+        href: '/admin/settings/pricing',
+        icon: faDollarSign,
+        title: 'Pricing Plans',
+        description: 'Update your subscription plans, features, and pricing.'
+    },
+    {
+        href: '/admin/settings/site',
+        icon: faCog,
+        title: 'Global Site Settings',
+        description: 'Manage site-wide settings like logos, metadata, and integrations.'
+    },
+]
 
 export default function AdminSettingsPage() {
     return (
         <div className="space-y-6">
             <div>
                 <h1 className="text-2xl font-bold text-foreground">Settings</h1>
-                <p className="text-muted-foreground">Manage your application's settings.</p>
+                <p className="text-muted-foreground">Manage your application's global settings and page content.</p>
             </div>
             
-             <Card>
-                <CardHeader>
-                    <CardTitle>Global Settings</CardTitle>
-                    <CardDescription>
-                        This section has been deprecated. All settings have been moved to their respective pages under the "Pages" section in the admin sidebar for easier management. Please use the navigation on the left to find the page you wish to edit.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <Button asChild>
-                        <Link href="/admin/pages">Go to Page Management</Link>
-                    </Button>
-                </CardContent>
-             </Card>
+             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {settingsLinks.map(link => (
+                    <Card key={link.href} className="flex flex-col">
+                        <CardHeader>
+                            <div className="flex items-start gap-4">
+                                <FontAwesomeIcon icon={link.icon} className="h-6 w-6 mt-1 text-primary" />
+                                <div>
+                                    <CardTitle>{link.title}</CardTitle>
+                                    <CardDescription className="mt-1">{link.description}</CardDescription>
+                                </div>
+                            </div>
+                        </CardHeader>
+                        <CardContent className="mt-auto">
+                            <Button asChild variant="outline" className="w-full">
+                                <Link href={link.href}>
+                                    Go to {link.title}
+                                    <FontAwesomeIcon icon={faArrowRight} className="ml-2 h-3 w-3" />
+                                </Link>
+                            </Button>
+                        </CardContent>
+                    </Card>
+                ))}
+             </div>
         </div>
     );
 }

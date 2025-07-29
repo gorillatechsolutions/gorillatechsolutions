@@ -22,7 +22,7 @@ const navItems = [
   { href: '/admin/reviews', icon: faStar, label: 'Reviews' },
   { href: '/admin/pages', icon: faFileLines, label: 'Pages' },
   { href: '/admin/settings/pricing', icon: faDollarSign, label: 'Pricing Plans' },
-  { href: '/admin/settings', icon: faCog, label: 'Settings' },
+  { href: '/admin/settings/site', icon: faCog, label: 'Site Settings' },
 ];
 
 export default function AdminLayout({
