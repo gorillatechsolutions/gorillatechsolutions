@@ -137,12 +137,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [syncState]);
 
 
-  const login = (identifier: string, password: string): User | null => {
-    const userToLogin = users.find((u) => (u.email === identifier || u.username === identifier) && u.password === password);
+  const login = (identifier: string, password) => {
+    const userToLogin = users.find(
+      (u) =>
+        (u.email.toLowerCase() === identifier.toLowerCase() ||
+          u.username.toLowerCase() === identifier.toLowerCase()) &&
+        u.password === password
+    );
+
     if (userToLogin) {
       const { password, ...userWithoutPassword } = userToLogin;
       setUser(userWithoutPassword);
-      localStorage.setItem(CURRENT_USER_STORAGE_KEY, JSON.stringify(userWithoutPassword));
+      localStorage.setItem(
+        CURRENT_USER_STORAGE_KEY,
+        JSON.stringify(userWithoutPassword)
+      );
       return userWithoutPassword;
     }
     return null;
