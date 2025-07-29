@@ -55,14 +55,20 @@ export default function AdminSupportChatPage() {
         });
     }, [conversations, users]);
 
-    const activeConversation = selectedConversationId ? getConversation(selectedConversationId) : [];
+    const activeConversation = useMemo(() => {
+        return selectedConversationId ? getConversation(selectedConversationId) : [];
+    }, [selectedConversationId, getConversation]);
 
     useEffect(() => {
         if (selectedConversationId) {
             markAsRead(selectedConversationId);
-            messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
         }
-    }, [selectedConversationId, activeConversation, markAsRead]);
+    }, [selectedConversationId, markAsRead]);
+    
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [activeConversation]);
+
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -106,7 +112,6 @@ export default function AdminSupportChatPage() {
 
     const handleSelectConversation = (id: string) => {
         setSelectedConversationId(id);
-        markAsRead(id);
     };
 
     return (
