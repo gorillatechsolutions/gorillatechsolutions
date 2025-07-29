@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useAuth } from '@/contexts/auth-context';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { MessageSquare, X, Phone, Briefcase, Tag } from 'lucide-react';
+import { MessageSquare, X, Phone, Briefcase, Tag, LogIn } from 'lucide-react';
 import Link from 'next/link';
 
 const contactOptions = [
@@ -33,10 +33,6 @@ export function ChatWidget() {
     const { user } = useAuth();
     const [isOpen, setIsOpen] = useState(false);
 
-    if (!user) {
-        return null; // Don't show the widget if the user is not logged in.
-    }
-
     return (
         <div className="fixed bottom-5 right-5 z-50">
             {/* Overlay */}
@@ -60,17 +56,29 @@ export function ChatWidget() {
                             <p className="text-sm opacity-90">How can we help you today?</p>
                         </div>
                         <div className="space-y-3">
-                           {contactOptions.map(option => (
-                                <Link key={option.title} href={option.href} onClick={() => setIsOpen(false)}>
-                                    <div className="flex items-center gap-4 p-3 rounded-lg bg-secondary/80 hover:bg-accent/20 transition-colors">
-                                        <div className="text-primary">{option.icon}</div>
-                                        <div>
-                                            <p className="font-semibold">{option.title}</p>
-                                            <p className="text-sm text-muted-foreground">{option.subtitle}</p>
+                           {user ? (
+                                contactOptions.map(option => (
+                                    <Link key={option.title} href={option.href} onClick={() => setIsOpen(false)}>
+                                        <div className="flex items-center gap-4 p-3 rounded-lg bg-secondary/80 hover:bg-accent/20 transition-colors">
+                                            <div className="text-primary">{option.icon}</div>
+                                            <div>
+                                                <p className="font-semibold">{option.title}</p>
+                                                <p className="text-sm text-muted-foreground">{option.subtitle}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </Link>
-                           ))}
+                                    </Link>
+                                ))
+                           ) : (
+                                <div className="text-center p-4">
+                                    <p className="text-muted-foreground mb-4">Please log in to chat with support.</p>
+                                    <Button asChild className="w-full">
+                                        <Link href="/login" onClick={() => setIsOpen(false)}>
+                                            <LogIn className="mr-2 h-4 w-4" />
+                                            Login or Sign Up
+                                        </Link>
+                                    </Button>
+                                </div>
+                           )}
                         </div>
                     </div>
                 </div>
