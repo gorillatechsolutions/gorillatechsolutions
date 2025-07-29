@@ -87,6 +87,10 @@ export function UserForm({ userToEdit }: UserFormProps) {
             form.setError('username', { type: 'manual', message: 'This username is already taken.' });
             return;
         }
+       if (values.email !== userToEdit.email && emailExists(values.email)) {
+            form.setError('email', { type: 'manual', message: 'This email is already taken.' });
+            return;
+        }
       updateUser(userToEdit.email, userData);
       toast({
         title: 'User Updated!',
@@ -162,7 +166,7 @@ export function UserForm({ userToEdit }: UserFormProps) {
                                 <FormItem>
                                 <FormLabel>Email Address</FormLabel>
                                 <FormControl>
-                                    <Input type="email" placeholder="you@example.com" {...field} disabled={!!userToEdit} />
+                                    <Input type="email" placeholder="you@example.com" {...field} />
                                 </FormControl>
                                 <FormMessage />
                                 </FormItem>

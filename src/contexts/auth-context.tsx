@@ -28,7 +28,7 @@ interface AuthContextType {
   usernameExists: (username: string) => boolean;
   deleteUsers: (emails: string[]) => void;
   addUser: (user: User) => void;
-  updateUser: (email: string, userData: Partial<User>) => void;
+  updateUser: (originalEmail: string, userData: Partial<User>) => void;
   getUserByEmail: (email: string) => User | null;
   updateAllUserAvatars: (avatarUrl: string) => void;
 }
@@ -197,9 +197,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(updatedUsers));
   };
 
-  const updateUser = (email: string, userData: Partial<User>) => {
+  const updateUser = (originalEmail: string, userData: Partial<User>) => {
     const updatedUsers = users.map(u => {
-      if (u.email === email) {
+      if (u.email === originalEmail) {
         // If password is an empty string, don't update it
         const { password, ...rest } = userData;
         const newUserData = { ...u, ...rest };
@@ -214,8 +214,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(updatedUsers));
 
     // Also update current user if they are the one being edited
-    if(user && user.email === email) {
-        const updatedCurrentUser = updatedUsers.find(u => u.email === email);
+    if(user && user.email === originalEmail) {
+        const updatedCurrentUser = updatedUsers.find(u => u.email === userData.email || u.email === originalEmail);
         if (updatedCurrentUser) {
             const { password, ...userWithoutPassword } = updatedCurrentUser;
             setUser(userWithoutPassword);
