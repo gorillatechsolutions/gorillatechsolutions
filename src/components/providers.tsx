@@ -1,3 +1,4 @@
+
 'use client';
 
 import { AuthProvider } from '@/contexts/auth-context';
@@ -20,6 +21,9 @@ import { SiteSettingsProvider } from '@/contexts/site-settings-context';
 import { ChatProvider } from '@/contexts/chat-context';
 import { StorageProvider } from '@/contexts/storage-context';
 import { SiteSettingsManager } from '@/components/layout/site-settings-manager';
+import { Header } from '@/components/layout/header';
+import { Footer } from '@/components/layout/footer';
+import { ChatWidget } from '@/components/chat-widget';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -43,7 +47,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
                                       <InvestmentPageProvider>
                                         <PricingPlanProvider>
                                           <SiteSettingsManager />
-                                          {children}
+                                          <Header />
+                                          <main className="flex-1">{children}</main>
+                                          <Footer />
+                                          <ChatWidget />
                                         </PricingPlanProvider>
                                       </InvestmentPageProvider>
                                     </ApplicationPageProvider>

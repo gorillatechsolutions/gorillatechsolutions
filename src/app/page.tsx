@@ -13,6 +13,7 @@ import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { useHomePage } from '@/contexts/home-page-context';
 import { useReview } from '@/contexts/review-context';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Providers } from '@/components/providers';
 
 const StarRating = ({ rating, className }: { rating: number, className?: string }) => (
   <div className="flex items-center gap-1">
@@ -26,8 +27,7 @@ const StarRating = ({ rating, className }: { rating: number, className?: string 
   </div>
 );
 
-
-export default function Home() {
+function HomePageContent() {
   const { content, loading: homeLoading } = useHomePage();
   const { reviews, loading: reviewsLoading } = useReview();
 
@@ -317,5 +317,14 @@ export default function Home() {
         </div>
       </section>
     </div>
+  );
+}
+
+
+export default function Home() {
+  return (
+    <Providers>
+      <HomePageContent />
+    </Providers>
   );
 }

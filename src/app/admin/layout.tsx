@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/auth-context';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Providers } from '@/components/providers';
 
 const navItems = [
   { href: '/admin', icon: faTachometerAlt, label: 'Dashboard', exact: true },
@@ -28,7 +29,7 @@ const navItems = [
   { href: '/admin/settings/site', icon: faCog, label: 'Site Settings' },
 ];
 
-export default function AdminLayout({
+function AdminLayoutContent({
   children,
 }: {
   children: React.ReactNode;
@@ -129,4 +130,17 @@ export default function AdminLayout({
       </SidebarInset>
     </SidebarProvider>
   );
+}
+
+
+export default function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+    return (
+        <Providers>
+            <AdminLayoutContent>{children}</AdminLayoutContent>
+        </Providers>
+    );
 }

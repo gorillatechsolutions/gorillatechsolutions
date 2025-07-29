@@ -10,6 +10,7 @@ import { useContactSettings } from "@/contexts/contact-settings-context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faTwitter, faInstagram, faLinkedin, faGithub, faGoogle, faWhatsapp, faTelegram } from "@fortawesome/free-brands-svg-icons";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Providers } from "@/components/providers";
 
 const socialIconMap: { [key: string]: any } = {
     facebook: faFacebook,
@@ -22,7 +23,7 @@ const socialIconMap: { [key: string]: any } = {
     telegram: faTelegram,
 };
 
-export default function ContactPage() {
+function ContactPageContent() {
     const { settings, loading } = useContactSettings();
     
     const { phone, email, address, zip, socialLinks, heroTitle, heroSubtitle } = settings;
@@ -146,5 +147,13 @@ export default function ContactPage() {
                 </div>
             </section>
         </div>
+    )
+}
+
+export default function ContactPage() {
+    return (
+        <Providers>
+            <ContactPageContent />
+        </Providers>
     )
 }

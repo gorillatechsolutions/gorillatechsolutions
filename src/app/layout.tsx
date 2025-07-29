@@ -28,15 +28,10 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
       <body className={cn('min-h-screen bg-background font-body antialiased')}>
-        <Providers>
-            <div className="relative flex min-h-dvh flex-col">
-                <Header />
-                <main className="flex-1">{children}</main>
-                <Footer />
-                <ChatWidget />
-            </div>
-            <Toaster />
-        </Providers>
+        <div className="relative flex min-h-dvh flex-col">
+          {children}
+        </div>
+        <Toaster />
         <Script src="https://checkout.razorpay.com/v1/checkout.js" />
       </body>
     </html>

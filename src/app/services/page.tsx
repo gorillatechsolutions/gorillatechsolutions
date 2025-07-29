@@ -15,8 +15,9 @@ import Image from 'next/image';
 import { useServicesPage } from '@/contexts/services-page-context';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
+import { Providers } from '@/components/providers';
 
-export default function ServicesPage() {
+function ServicesPageContent() {
     const { services, loading: servicesLoading } = useService();
     const { content, loading: pageContentLoading } = useServicesPage();
 
@@ -137,4 +138,12 @@ export default function ServicesPage() {
       </section>
     </div>
   );
+}
+
+export default function ServicesPage() {
+    return (
+        <Providers>
+            <ServicesPageContent />
+        </Providers>
+    )
 }

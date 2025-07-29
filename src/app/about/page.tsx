@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBolt, faBullseye, faUsers, faHandshake } from '@fortawesome/free-solid-svg-icons';
 import {createElement } from 'react';
 import { icons } from 'lucide-react';
+import { Providers } from '@/components/providers';
 
 
 const lucideIcons: { [key: string]: React.ElementType } = icons;
@@ -22,8 +23,7 @@ const faIcons: { [key: string]: any } = {
     Handshake: faHandshake,
 };
 
-
-export default function AboutPage() {
+function AboutPageContent() {
     const { content, loading } = useAboutPage();
 
     if (loading) {
@@ -157,4 +157,12 @@ export default function AboutPage() {
         </section>
       </div>
   );
+}
+
+export default function AboutPage() {
+    return (
+        <Providers>
+            <AboutPageContent />
+        </Providers>
+    )
 }

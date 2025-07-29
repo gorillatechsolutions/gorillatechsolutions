@@ -21,6 +21,7 @@ import Image from 'next/image';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useApplicationPage } from '@/contexts/application-page-context';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Providers } from '@/components/providers';
 
 const applicationFormSchema = z.object({
   fullName: z.string().min(2, { message: 'Full name must be at least 2 characters.' }),
@@ -37,7 +38,7 @@ const applicationFormSchema = z.object({
   coverLetter: z.string().min(20, { message: 'Cover letter must be at least 20 characters.' }),
 });
 
-export default function ApplicationPage() {
+function ApplicationPageContent() {
     const { toast } = useToast();
     const { content, loading } = useApplicationPage();
 
@@ -168,4 +169,13 @@ export default function ApplicationPage() {
             </section>
         </div>
     );
+}
+
+
+export default function ApplicationPage() {
+    return (
+        <Providers>
+            <ApplicationPageContent />
+        </Providers>
+    )
 }
