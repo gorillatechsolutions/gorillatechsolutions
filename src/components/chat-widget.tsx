@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
-import { MessageSquare, Send, X, LogIn } from 'lucide-react';
+import { LifeBuoy, Send, X, LogIn } from 'lucide-react';
 import { format } from 'date-fns';
 import Link from 'next/link';
 
@@ -52,7 +52,7 @@ export function ChatWidget() {
         <>
             <div className={cn("fixed bottom-5 left-5 z-50 transition-transform duration-300", isOpen && "translate-y-[200%]")}>
                 <Button onClick={() => setIsOpen(true)} size="lg" className="rounded-full shadow-lg h-16 w-16">
-                    <MessageSquare className="h-8 w-8" />
+                    <LifeBuoy className="h-8 w-8" />
                     {user && unreadCount > 0 && (
                         <span className="absolute -top-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-red-500 text-xs text-white border-2 border-background">
                             {unreadCount}
