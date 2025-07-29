@@ -26,6 +26,7 @@ import { SiteSettingsManager } from '@/components/layout/site-settings-manager';
 import Script from 'next/script';
 import { ChatProvider } from '@/contexts/chat-context';
 import { ChatWidget } from '@/components/chat-widget';
+import { StorageProvider } from '@/contexts/storage-context';
 
 export const metadata: Metadata = {
   title: {
@@ -50,42 +51,44 @@ export default function RootLayout({
           <MessageProvider>
             <ChatProvider>
               <SiteSettingsProvider>
-                <CaseStudyProvider>
-                  <AppProvider>
-                    <ServiceProvider>
-                      <ContactSettingsProvider>
-                        <AboutPageProvider>
-                          <LegalPageProvider>
-                            <HomePageProvider>
-                              <ReviewProvider>
-                                <ServicesPageProvider>
-                                  <CaseStudiesPageProvider>
-                                    <AppsPageProvider>
-                                      <ApplicationPageProvider>
-                                        <InvestmentPageProvider>
-                                          <PricingPlanProvider>
-                                            <SiteSettingsManager />
-                                            <div className="relative flex min-h-dvh flex-col">
-                                                <Header />
-                                                <main className="flex-1">{children}</main>
-                                                <Footer />
-                                                <ChatWidget />
-                                            </div>
-                                            <Toaster />
-                                          </PricingPlanProvider>
-                                        </InvestmentPageProvider>
-                                      </ApplicationPageProvider>
-                                    </AppsPageProvider>
-                                  </CaseStudiesPageProvider>
-                                </ServicesPageProvider>
-                              </ReviewProvider>
-                            </HomePageProvider>
-                          </LegalPageProvider>
-                        </AboutPageProvider>
-                      </ContactSettingsProvider>
-                    </ServiceProvider>
-                  </AppProvider>
-                </CaseStudyProvider>
+                <StorageProvider>
+                  <CaseStudyProvider>
+                    <AppProvider>
+                      <ServiceProvider>
+                        <ContactSettingsProvider>
+                          <AboutPageProvider>
+                            <LegalPageProvider>
+                              <HomePageProvider>
+                                <ReviewProvider>
+                                  <ServicesPageProvider>
+                                    <CaseStudiesPageProvider>
+                                      <AppsPageProvider>
+                                        <ApplicationPageProvider>
+                                          <InvestmentPageProvider>
+                                            <PricingPlanProvider>
+                                              <SiteSettingsManager />
+                                              <div className="relative flex min-h-dvh flex-col">
+                                                  <Header />
+                                                  <main className="flex-1">{children}</main>
+                                                  <Footer />
+                                                  <ChatWidget />
+                                              </div>
+                                              <Toaster />
+                                            </PricingPlanProvider>
+                                          </InvestmentPageProvider>
+                                        </ApplicationPageProvider>
+                                      </AppsPageProvider>
+                                    </CaseStudiesPageProvider>
+                                  </ServicesPageProvider>
+                                </ReviewProvider>
+                              </HomePageProvider>
+                            </LegalPageProvider>
+                          </AboutPageProvider>
+                        </ContactSettingsProvider>
+                      </ServiceProvider>
+                    </AppProvider>
+                  </CaseStudyProvider>
+                </StorageProvider>
               </SiteSettingsProvider>
             </ChatProvider>
           </MessageProvider>
