@@ -1,114 +1,89 @@
 
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { useAuth } from '@/contexts/auth-context';
-import { useChat } from '@/contexts/chat-context';
 import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
-import { Send, X, LogIn } from 'lucide-react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faConciergeBell } from '@fortawesome/free-solid-svg-icons';
-import { format } from 'date-fns';
+import { MessageSquare, X, Phone, Briefcase, Tag } from 'lucide-react';
 import Link from 'next/link';
+
+const contactOptions = [
+    {
+        icon: <Phone className="h-6 w-6" />,
+        title: "Callback Request",
+        subtitle: "Let's have a conversation.",
+        href: "/contact"
+    },
+    {
+        icon: <Briefcase className="h-6 w-6" />,
+        title: "Explore Services",
+        subtitle: "See what we can do for you.",
+        href: "/services"
+    },
+    {
+        icon: <Tag className="h-6 w-6" />,
+        title: "Get a Quote",
+        subtitle: "Receive a custom proposal.",
+        href: "/contact"
+    }
+]
 
 export function ChatWidget() {
     const { user } = useAuth();
-    const { getConversation, sendMessage, getUnreadAdminMessageCount } = useChat();
     const [isOpen, setIsOpen] = useState(false);
-    const [message, setMessage] = useState('');
-    const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
-    const unreadCount = user ? getUnreadAdminMessageCount(user.email) : 0;
-    const conversation = user ? getConversation(user.email) : [];
-
-    useEffect(() => {
-        if (isOpen) {
-            messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-        }
-    }, [isOpen, conversation]);
-    
-    useEffect(() => {
-        if (user && unreadCount > 0 && !isOpen) {
-            // Potentially add a sound or more prominent notification here
-        }
-    }, [user, unreadCount, isOpen]);
-
-    const handleSendMessage = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (message.trim() && user) {
-            sendMessage({
-                conversationId: user.email,
-                sender: 'user',
-                text: message.trim(),
-            });
-            setMessage('');
-        }
-    };
+    if (!user) {
+        return null; // Don't show the widget if the user is not logged in.
+    }
 
     return (
         <>
-            <div className={cn("fixed bottom-5 right-5 z-50 transition-transform duration-300", isOpen && "translate-y-[200%]")}>
-                <Button onClick={() => setIsOpen(true)} size="lg" className="rounded-full shadow-lg h-16 w-16">
-                    <FontAwesomeIcon icon={faConciergeBell} className="h-8 w-8" />
-                    {user && unreadCount > 0 && (
-                        <span className="absolute -top-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-red-500 text-xs text-white border-2 border-background">
-                            {unreadCount}
-                        </span>
-                    )}
+            {/* Overlay */}
+            <div 
+                className={cn(
+                    "fixed inset-0 bg-black/30 z-40 transition-opacity duration-300",
+                    isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+                )}
+                onClick={() => setIsOpen(false)}
+            />
+            
+            <div className="fixed bottom-5 right-5 z-50">
+                {/* Main floating button */}
+                 <Button 
+                    onClick={() => setIsOpen(!isOpen)} 
+                    size="lg" 
+                    className="rounded-full shadow-lg h-16 w-16 bg-primary hover:bg-primary/90 transition-all duration-300 transform hover:scale-110"
+                >
+                    <MessageSquare className={cn("h-8 w-8 transition-transform duration-300", isOpen && "rotate-90 scale-0")} />
+                    <X className={cn("h-8 w-8 absolute transition-transform duration-300", !isOpen && "-rotate-90 scale-0")} />
                 </Button>
-            </div>
 
-            <div className={cn(
-                "fixed bottom-5 right-5 z-50 transition-all duration-300 ease-in-out",
-                isOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"
-            )}>
-                <Card className="w-[350px] h-[500px] flex flex-col shadow-2xl">
-                    <CardHeader className="flex flex-row items-center justify-between bg-primary text-primary-foreground p-4">
-                        <CardTitle className="text-lg">Support Chat</CardTitle>
-                        <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} className="h-8 w-8 hover:bg-primary/80">
-                            <X className="h-5 w-5" />
-                        </Button>
-                    </CardHeader>
-                    <CardContent className="flex-1 p-4 overflow-hidden">
-                        <ScrollArea className="h-full pr-4">
-                            <div className="space-y-4">
-                                {conversation.map((msg) => (
-                                    <div key={msg.id} className={cn("flex items-end gap-2", msg.sender === 'user' ? 'justify-end' : 'justify-start')}>
-                                        {msg.sender === 'admin' && <Avatar className="h-8 w-8"><AvatarFallback>A</AvatarFallback></Avatar>}
-                                        <div className={cn("max-w-[70%] p-3 rounded-lg", msg.sender === 'user' ? 'bg-secondary' : 'bg-accent text-accent-foreground')}>
-                                            <p className="text-sm">{msg.text}</p>
-                                            <p className="text-xs text-right opacity-70 mt-1">{format(new Date(msg.timestamp), 'p')}</p>
+                {/* Content Window */}
+                <div className={cn(
+                    "absolute bottom-20 right-0 w-[340px] transition-all duration-300 ease-in-out origin-bottom-right",
+                    isOpen ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
+                )}>
+                    <div className="bg-card rounded-xl shadow-2xl p-4">
+                        <div className="bg-primary/90 text-primary-foreground rounded-lg px-5 py-4 mb-4">
+                            <h3 className="font-bold text-xl font-headline">Gorilla Tech Support</h3>
+                            <p className="text-sm opacity-90">How can we help you today?</p>
+                        </div>
+                        <div className="space-y-3">
+                           {contactOptions.map(option => (
+                                <Link key={option.title} href={option.href} onClick={() => setIsOpen(false)}>
+                                    <div className="flex items-center gap-4 p-3 rounded-lg bg-secondary/80 hover:bg-accent/20 transition-colors">
+                                        <div className="text-primary">{option.icon}</div>
+                                        <div>
+                                            <p className="font-semibold">{option.title}</p>
+                                            <p className="text-sm text-muted-foreground">{option.subtitle}</p>
                                         </div>
                                     </div>
-                                ))}
-                                <div ref={messagesEndRef} />
-                            </div>
-                        </ScrollArea>
-                    </CardContent>
-                    <CardFooter className="p-4 border-t">
-                        {user ? (
-                            <form onSubmit={handleSendMessage} className="flex items-center gap-2 w-full">
-                                <Input value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Type a message..." autoComplete="off" />
-                                <Button type="submit" size="icon" disabled={!message.trim()}><Send className="h-4 w-4" /></Button>
-                            </form>
-                        ) : (
-                            <div className="w-full text-center space-y-3">
-                                <p className="text-sm text-muted-foreground">Please log in to send a message.</p>
-                                <Button asChild className="w-full">
-                                    <Link href="/login">
-                                        <LogIn className="mr-2 h-4 w-4" />
-                                        Login
-                                    </Link>
-                                </Button>
-                            </div>
-                        )}
-                    </CardFooter>
-                </Card>
+                                </Link>
+                           ))}
+                        </div>
+                    </div>
+                </div>
             </div>
         </>
     );
