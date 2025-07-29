@@ -10,8 +10,9 @@ import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
-import { MessageSquare, Send, X } from 'lucide-react';
+import { MessageSquare, Send, X, LogIn } from 'lucide-react';
 import { format } from 'date-fns';
+import Link from 'next/link';
 
 export function ChatWidget() {
     const { user } = useAuth();
@@ -30,15 +31,11 @@ export function ChatWidget() {
     }, [isOpen, conversation]);
     
     useEffect(() => {
-        if (unreadCount > 0 && !isOpen) {
+        if (user && unreadCount > 0 && !isOpen) {
             // Potentially add a sound or more prominent notification here
         }
-    }, [unreadCount, isOpen]);
+    }, [user, unreadCount, isOpen]);
 
-    if (!user) {
-        return null;
-    }
-    
     const handleSendMessage = (e: React.FormEvent) => {
         e.preventDefault();
         if (message.trim() && user) {
@@ -56,7 +53,7 @@ export function ChatWidget() {
             <div className={cn("fixed bottom-5 left-5 z-50 transition-transform duration-300", isOpen && "translate-y-[200%]")}>
                 <Button onClick={() => setIsOpen(true)} size="lg" className="rounded-full shadow-lg h-16 w-16">
                     <MessageSquare className="h-8 w-8" />
-                    {unreadCount > 0 && (
+                    {user && unreadCount > 0 && (
                         <span className="absolute -top-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-red-500 text-xs text-white border-2 border-background">
                             {unreadCount}
                         </span>
@@ -92,10 +89,22 @@ export function ChatWidget() {
                         </ScrollArea>
                     </CardContent>
                     <CardFooter className="p-4 border-t">
-                        <form onSubmit={handleSendMessage} className="flex items-center gap-2 w-full">
-                            <Input value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Type a message..." autoComplete="off" />
-                            <Button type="submit" size="icon" disabled={!message.trim()}><Send className="h-4 w-4" /></Button>
-                        </form>
+                        {user ? (
+                            <form onSubmit={handleSendMessage} className="flex items-center gap-2 w-full">
+                                <Input value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Type a message..." autoComplete="off" />
+                                <Button type="submit" size="icon" disabled={!message.trim()}><Send className="h-4 w-4" /></Button>
+                            </form>
+                        ) : (
+                            <div className="w-full text-center space-y-3">
+                                <p className="text-sm text-muted-foreground">Please log in to send a message.</p>
+                                <Button asChild className="w-full">
+                                    <Link href="/login">
+                                        <LogIn className="mr-2 h-4 w-4" />
+                                        Login
+                                    </Link>
+                                </Button>
+                            </div>
+                        )}
                     </CardFooter>
                 </Card>
             </div>
