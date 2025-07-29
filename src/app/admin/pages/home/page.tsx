@@ -128,14 +128,14 @@ export default function HomeSettingsPage() {
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                     <Accordion type="multiple" defaultValue={['item-1']} className="w-full">
                         <AccordionItem value="item-1">
-                            <AccordionTrigger>
-                                <CardHeader className="p-0 text-left">
+                            <CardHeader>
+                                <AccordionTrigger>
                                     <CardTitle>SEO & Metadata</CardTitle>
-                                    <CardDescription>Update the page's metadata for search engines and social media.</CardDescription>
-                                </CardHeader>
-                            </AccordionTrigger>
+                                </AccordionTrigger>
+                            </CardHeader>
                             <AccordionContent>
-                                <CardContent className="space-y-4 pt-6">
+                                <CardDescription className="px-6 pb-4">Update the page's metadata for search engines and social media.</CardDescription>
+                                <CardContent className="space-y-4 pt-0">
                                     <FormField control={form.control} name="metaTitle" render={({ field }) => (<FormItem><FormLabel>Meta Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
                                     <FormField control={form.control} name="metaDescription" render={({ field }) => (<FormItem><FormLabel>Meta Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} />
                                     <FormField control={form.control} name="metaKeywords" render={({ field }) => (<FormItem><FormLabel>Meta Keywords</FormLabel><FormControl><Textarea {...field} placeholder="e.g., digital marketing, seo, ppc" /></FormControl><FormDescription>Enter keywords separated by commas.</FormDescription><FormMessage /></FormItem>)} />
@@ -145,14 +145,14 @@ export default function HomeSettingsPage() {
                         </AccordionItem>
 
                         <AccordionItem value="item-2">
-                             <AccordionTrigger>
-                                <CardHeader className="p-0 text-left">
+                            <CardHeader>
+                                <AccordionTrigger>
                                     <CardTitle>Hero Section</CardTitle>
-                                    <CardDescription>Update the main headline, sub-headline, image, and buttons for the hero section.</CardDescription>
-                                </CardHeader>
-                            </AccordionTrigger>
+                                </AccordionTrigger>
+                            </CardHeader>
                             <AccordionContent>
-                                <CardContent className="space-y-4 pt-6">
+                                <CardDescription className="px-6 pb-4">Update the main headline, sub-headline, image, and buttons for the hero section.</CardDescription>
+                                <CardContent className="space-y-4 pt-0">
                                     <FormField control={form.control} name="heroTitle" render={({ field }) => (<FormItem><FormLabel>Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
                                     <FormField control={form.control} name="heroSubtitle" render={({ field }) => (<FormItem><FormLabel>Subtitle</FormLabel><FormControl><Textarea {...field} rows={4} /></FormControl><FormMessage /></FormItem>)} />
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -173,14 +173,14 @@ export default function HomeSettingsPage() {
                         </AccordionItem>
 
                         <AccordionItem value="item-3">
-                             <AccordionTrigger>
-                                <CardHeader className="p-0 text-left">
+                            <CardHeader>
+                                <AccordionTrigger>
                                     <CardTitle>Proven Process Section</CardTitle>
-                                    <CardDescription>Manage the content for the 4-step process section.</CardDescription>
-                                </CardHeader>
-                            </AccordionTrigger>
+                                </AccordionTrigger>
+                            </CardHeader>
                             <AccordionContent>
-                                <CardContent className="space-y-4 pt-6">
+                                <CardDescription className="px-6 pb-4">Manage the content for the 4-step process section.</CardDescription>
+                                <CardContent className="space-y-4 pt-0">
                                     <FormField control={form.control} name="processTitle" render={({ field }) => (<FormItem><FormLabel>Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
                                     <FormField control={form.control} name="processSubtitle" render={({ field }) => (<FormItem><FormLabel>Subtitle</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
                                     <FormField control={form.control} name="processDescription" render={({ field }) => (<FormItem><FormLabel>Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} />
@@ -204,14 +204,14 @@ export default function HomeSettingsPage() {
                         </AccordionItem>
                         
                         <AccordionItem value="item-4">
-                            <AccordionTrigger>
-                                <CardHeader className="p-0 text-left">
+                            <CardHeader>
+                                <AccordionTrigger>
                                     <CardTitle>Commitment & Stats Section</CardTitle>
-                                    <CardDescription>Manage the statistics and list of benefits.</CardDescription>
-                                </CardHeader>
-                            </AccordionTrigger>
+                                </AccordionTrigger>
+                            </CardHeader>
                             <AccordionContent>
-                                <CardContent className="space-y-4 pt-6">
+                                <CardDescription className="px-6 pb-4">Manage the statistics and list of benefits.</CardDescription>
+                                <CardContent className="space-y-4 pt-0">
                                 <FormField control={form.control} name="commitmentTitle" render={({ field }) => (<FormItem><FormLabel>Section Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
                                     <div className="space-y-4">
                                         <FormLabel>Statistics</FormLabel>
@@ -236,14 +236,14 @@ export default function HomeSettingsPage() {
                         </AccordionItem>
 
                         <AccordionItem value="item-5">
-                             <AccordionTrigger>
-                                <CardHeader className="p-0 text-left">
+                             <CardHeader>
+                                <AccordionTrigger>
                                     <CardTitle>Call to Action (CTA) Section</CardTitle>
-                                    <CardDescription>Manage the final call to action section.</CardDescription>
-                                </CardHeader>
-                            </AccordionTrigger>
+                                </AccordionTrigger>
+                             </CardHeader>
                             <AccordionContent>
-                                <CardContent className="space-y-4 pt-6">
+                                <CardDescription className="px-6 pb-4">Manage the final call to action section.</CardDescription>
+                                <CardContent className="space-y-4 pt-0">
                                 <FormField control={form.control} name="ctaTitle" render={({ field }) => (<FormItem><FormLabel>Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
                                 <FormField control={form.control} name="ctaSubtitle" render={({ field }) => (<FormItem><FormLabel>Subtitle</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} />
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

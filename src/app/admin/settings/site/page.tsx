@@ -75,13 +75,13 @@ export default function SiteSettingsPage() {
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <Accordion type="multiple" defaultValue={['branding', 'seo']} className="w-full space-y-4">
                         <Card as={AccordionItem} value="branding">
-                           <AccordionTrigger className="p-6">
-                                <CardHeader className="p-0 text-left">
-                                    <CardTitle>Branding & Logos</CardTitle>
-                                    <CardDescription>Update your site's logos and favicon.</CardDescription>
-                                </CardHeader>
-                            </AccordionTrigger>
+                           <CardHeader>
+                             <AccordionTrigger className="p-0">
+                                <CardTitle>Branding & Logos</CardTitle>
+                             </AccordionTrigger>
+                           </CardHeader>
                             <AccordionContent>
+                                <CardDescription className="px-6 pb-4">Update your site's logos and favicon.</CardDescription>
                                 <CardContent className="space-y-4 pt-0">
                                     <FormField control={form.control} name="headerLogo" render={({ field }) => (<FormItem><FormLabel>Header Logo URL</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
                                     <FormField control={form.control} name="footerLogo" render={({ field }) => (<FormItem><FormLabel>Footer Logo URL</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
@@ -91,13 +91,13 @@ export default function SiteSettingsPage() {
                         </Card>
 
                         <Card as={AccordionItem} value="seo">
-                            <AccordionTrigger className="p-6">
-                                <CardHeader className="p-0 text-left">
+                            <CardHeader>
+                                <AccordionTrigger className="p-0">
                                     <CardTitle>Global SEO & Metadata</CardTitle>
-                                    <CardDescription>Set default metadata for pages that don't have their own.</CardDescription>
-                                </CardHeader>
-                            </AccordionTrigger>
+                                </AccordionTrigger>
+                            </CardHeader>
                             <AccordionContent>
+                                 <CardDescription className="px-6 pb-4">Set default metadata for pages that don't have their own.</CardDescription>
                                 <CardContent className="space-y-4 pt-0">
                                     <FormField control={form.control} name="ogImage" render={({ field }) => (<FormItem><FormLabel>Default Open Graph Image URL</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>This image is used when sharing links on social media. Recommended size: 1200x630px.</FormDescription><FormMessage /></FormItem>)} />
                                     <FormField control={form.control} name="metaDescription" render={({ field }) => (<FormItem><FormLabel>Default Meta Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormDescription>A concise summary for search engine results.</FormDescription><FormMessage /></FormItem>)} />
@@ -107,13 +107,13 @@ export default function SiteSettingsPage() {
                         </Card>
                         
                         <Card as={AccordionItem} value="integrations">
-                             <AccordionTrigger className="p-6">
-                                <CardHeader className="p-0 text-left">
+                             <CardHeader>
+                                <AccordionTrigger className="p-0">
                                     <CardTitle>Webmaster Tools</CardTitle>
-                                    <CardDescription>Integrate with search engine webmaster tools for site verification.</CardDescription>
-                                </CardHeader>
-                            </AccordionTrigger>
+                                </AccordionTrigger>
+                             </CardHeader>
                              <AccordionContent>
+                                <CardDescription className="px-6 pb-4">Integrate with search engine webmaster tools for site verification.</CardDescription>
                                 <CardContent className="space-y-4 pt-0">
                                     <FormField control={form.control} name="googleSiteVerification" render={({ field }) => (<FormItem><FormLabel>Google Site Verification Code</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Enter the content attribute from Google's meta tag.</FormDescription><FormMessage /></FormItem>)} />
                                     <FormField control={form.control} name="bingSiteVerification" render={({ field }) => (<FormItem><FormLabel>Bing Site Verification Code</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Enter the content attribute from Bing's meta tag.</FormDescription><FormMessage /></FormItem>)} />

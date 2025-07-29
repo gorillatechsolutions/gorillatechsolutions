@@ -113,27 +113,23 @@ export default function ContactSettingsPage() {
                      <Accordion type="multiple" defaultValue={['item-1']} className="w-full">
                         <AccordionItem value="item-1">
                             <AccordionTrigger>
-                                <CardHeader className="p-0 text-left">
-                                    <CardTitle>Hero Section</CardTitle>
-                                    <CardDescription>Update the headline and sub-headline for the contact page.</CardDescription>
-                                </CardHeader>
+                                <CardTitle>Hero Section</CardTitle>
                             </AccordionTrigger>
                             <AccordionContent>
-                                <CardContent className="space-y-4 pt-6">
+                                <CardDescription className="pb-4">Update the headline and sub-headline for the contact page.</CardDescription>
+                                <CardContent className="space-y-4 pt-0">
                                     <FormField control={form.control} name="heroTitle" render={({ field }) => (<FormItem><FormLabel>Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
                                     <FormField control={form.control} name="heroSubtitle" render={({ field }) => (<FormItem><FormLabel>Subtitle</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} />
                                 </CardContent>
                             </AccordionContent>
                         </AccordionItem>
                         <AccordionItem value="item-2">
-                            <AccordionTrigger>
-                                <CardHeader className="p-0 text-left">
-                                    <CardTitle>Business Details</CardTitle>
-                                    <CardDescription>Update your primary contact information.</CardDescription>
-                                </CardHeader>
+                             <AccordionTrigger>
+                               <CardTitle>Business Details</CardTitle>
                             </AccordionTrigger>
                             <AccordionContent>
-                               <CardContent className="space-y-4 pt-6">
+                               <CardDescription className="pb-4">Update your primary contact information.</CardDescription>
+                               <CardContent className="space-y-4 pt-0">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <FormField control={form.control} name="phone" render={({ field }) => (<FormItem><FormLabel>Phone Number</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
                                         <FormField control={form.control} name="email" render={({ field }) => (<FormItem><FormLabel>Email Address</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
@@ -144,14 +140,12 @@ export default function ContactSettingsPage() {
                             </AccordionContent>
                         </AccordionItem>
                          <AccordionItem value="item-3">
-                            <AccordionTrigger>
-                                <CardHeader className="p-0 text-left">
-                                    <CardTitle>Social Media Links</CardTitle>
-                                    <CardDescription>Enter the full URLs for your social media profiles.</CardDescription>
-                                </CardHeader>
+                             <AccordionTrigger>
+                               <CardTitle>Social Media Links</CardTitle>
                             </AccordionTrigger>
                             <AccordionContent>
-                                <CardContent className="space-y-4 pt-6">
+                                <CardDescription className="pb-4">Enter the full URLs for your social media profiles.</CardDescription>
+                                <CardContent className="space-y-4 pt-0">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <FormField control={form.control} name="socialLinks.facebook" render={({ field }) => (<FormItem><FormLabel>Facebook</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
                                         <FormField control={form.control} name="socialLinks.instagram" render={({ field }) => (<FormItem><FormLabel>Instagram</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
@@ -165,14 +159,12 @@ export default function ContactSettingsPage() {
                             </AccordionContent>
                         </AccordionItem>
                         <AccordionItem value="item-4">
-                            <AccordionTrigger>
-                                <CardHeader className="p-0 text-left">
-                                    <CardTitle>SEO & Metadata</CardTitle>
-                                    <CardDescription>Update the page's metadata for search engines and social media.</CardDescription>
-                                </CardHeader>
+                           <AccordionTrigger>
+                               <CardTitle>SEO & Metadata</CardTitle>
                             </AccordionTrigger>
                             <AccordionContent>
-                               <CardContent className="space-y-4 pt-6">
+                               <CardDescription className="pb-4">Update the page's metadata for search engines and social media.</CardDescription>
+                               <CardContent className="space-y-4 pt-0">
                                     <FormField control={form.control} name="metaTitle" render={({ field }) => (<FormItem><FormLabel>Meta Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
                                     <FormField control={form.control} name="metaDescription" render={({ field }) => (<FormItem><FormLabel>Meta Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} />
                                     <FormField control={form.control} name="metaKeywords" render={({ field }) => (<FormItem><FormLabel>Meta Keywords</FormLabel><FormControl><Textarea {...field} placeholder="e.g., contact us, get in touch" /></FormControl><FormDescription>Enter keywords separated by commas.</FormDescription><FormMessage /></FormItem>)} />

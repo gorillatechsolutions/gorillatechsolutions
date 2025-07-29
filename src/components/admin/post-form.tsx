@@ -333,14 +333,14 @@ export function PostForm({ postToEdit }: PostFormProps) {
 
                     <Accordion type="single" collapsible className="w-full">
                       <AccordionItem value="seo">
-                          <AccordionTrigger>
-                              <CardHeader className="p-0 text-left w-full">
-                                  <CardTitle>SEO & Metadata</CardTitle>
-                                  <CardDescription>Update the metadata for search engines.</CardDescription>
-                              </CardHeader>
-                          </AccordionTrigger>
+                          <CardHeader>
+                            <AccordionTrigger>
+                                <CardTitle>SEO & Metadata</CardTitle>
+                            </AccordionTrigger>
+                          </CardHeader>
                           <AccordionContent>
-                              <CardContent className="space-y-4 pt-6">
+                              <CardDescription className="px-6 pb-4">Update the metadata for search engines.</CardDescription>
+                              <CardContent className="space-y-4 pt-0">
                                   <FormField control={form.control} name="metaTitle" render={({ field }) => (<FormItem><FormLabel>Meta Title</FormLabel><FormControl><Input placeholder="A catchy title for search engines" {...field} /></FormControl><FormMessage /></FormItem>)} />
                                   <FormField control={form.control} name="metaDescription" render={({ field }) => (<FormItem><FormLabel>Meta Description</FormLabel><FormControl><Textarea placeholder="A concise description for search snippets" {...field} /></FormControl><FormMessage /></FormItem>)} />
                                   <FormField control={form.control} name="metaKeywords" render={({ field }) => (<FormItem><FormLabel>Meta Keywords</FormLabel><FormControl><Textarea {...field} placeholder="e.g., case study, seo, results" /></FormControl><FormDescription>Enter keywords separated by commas.</FormDescription><FormMessage /></FormItem>)} />

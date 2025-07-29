@@ -256,14 +256,14 @@ export function ServiceForm({ serviceToEdit }: ServiceFormProps) {
                 </Card>
                 <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="buttons">
-                      <AccordionTrigger>
-                          <CardHeader className="p-0 text-left w-full">
-                              <CardTitle>Buttons</CardTitle>
-                              <CardDescription>Update the text and links for the service card buttons.</CardDescription>
-                          </CardHeader>
-                      </AccordionTrigger>
+                    <CardHeader>
+                        <AccordionTrigger>
+                            <CardTitle>Buttons</CardTitle>
+                        </AccordionTrigger>
+                    </CardHeader>
                       <AccordionContent>
-                           <CardContent className="space-y-4 pt-6">
+                           <CardDescription className="px-6 pb-4">Update the text and links for the service card buttons.</CardDescription>
+                           <CardContent className="space-y-4 pt-0">
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <FormField control={form.control} name="contactButtonText" render={({ field }) => (<FormItem><FormLabel>Contact Button Text</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
                                 <FormField control={form.control} name="contactButtonLink" render={({ field }) => (<FormItem><FormLabel>Contact Button Link</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
@@ -274,14 +274,14 @@ export function ServiceForm({ serviceToEdit }: ServiceFormProps) {
                       </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="seo">
-                      <AccordionTrigger>
-                          <CardHeader className="p-0 text-left w-full">
+                      <CardHeader>
+                          <AccordionTrigger>
                               <CardTitle>SEO & Metadata</CardTitle>
-                              <CardDescription>Update the metadata for search engines.</CardDescription>
-                          </CardHeader>
-                      </AccordionTrigger>
+                          </AccordionTrigger>
+                      </CardHeader>
                       <AccordionContent>
-                           <CardContent className="space-y-4 pt-6">
+                           <CardDescription className="px-6 pb-4">Update the metadata for search engines.</CardDescription>
+                           <CardContent className="space-y-4 pt-0">
                               <FormField control={form.control} name="metaTitle" render={({ field }) => (<FormItem><FormLabel>Meta Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
                               <FormField control={form.control} name="metaDescription" render={({ field }) => (<FormItem><FormLabel>Meta Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} />
                               <FormField control={form.control} name="metaKeywords" render={({ field }) => (<FormItem><FormLabel>Meta Keywords</FormLabel><FormControl><Textarea {...field} placeholder="e.g., service one, service two" /></FormControl><FormDescription>Enter keywords separated by commas.</FormDescription><FormMessage /></FormItem>)} />
