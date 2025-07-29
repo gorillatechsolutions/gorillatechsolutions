@@ -40,9 +40,11 @@ export default function AdminUsersPage() {
     const { toast } = useToast();
     const router = useRouter();
 
+    const nonAdminUsers = users.filter(user => user.role !== 'admin');
+
     const handleSelectAll = (checked: boolean | 'indeterminate') => {
         if (checked === true) {
-            setSelectedUsers(users.map(u => u.email));
+            setSelectedUsers(nonAdminUsers.map(u => u.email));
         } else {
             setSelectedUsers([]);
         }
@@ -84,7 +86,7 @@ export default function AdminUsersPage() {
                 <div className="flex justify-between items-center">
                     <div>
                         <CardTitle>User Management & Credentials</CardTitle>
-                        <CardDescription>View, create, edit, delete users, and see their credentials for testing.</CardDescription>
+                        <CardDescription>View, create, edit, and delete non-admin users, and see their credentials for testing.</CardDescription>
                     </div>
                     <div className="flex items-center gap-2">
                         {selectedUsers.length > 0 && (
@@ -124,7 +126,7 @@ export default function AdminUsersPage() {
                         <TableRow>
                             <TableHead className="w-[50px]">
                                <Checkbox
-                                  checked={selectedUsers.length > 0 && selectedUsers.length === users.length ? true : (selectedUsers.length > 0 ? 'indeterminate' : false)}
+                                  checked={selectedUsers.length > 0 && selectedUsers.length === nonAdminUsers.length ? true : (selectedUsers.length > 0 ? 'indeterminate' : false)}
                                   onCheckedChange={handleSelectAll}
                                   aria-label="Select all users"
                                />
@@ -137,7 +139,7 @@ export default function AdminUsersPage() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {users.map((user) => (
+                        {nonAdminUsers.map((user) => (
                             <TableRow key={user.email} data-state={selectedUsers.includes(user.email) ? 'selected' : undefined}>
                                 <TableCell>
                                     <Checkbox
