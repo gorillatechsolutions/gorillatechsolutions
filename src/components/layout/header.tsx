@@ -63,12 +63,14 @@ function UserNav({ user, onLogout }: { user: User, onLogout: () => void }) {
                         )}
                     </Link>
                 </DropdownMenuItem>
-                 <DropdownMenuItem asChild>
-                    <Link href="/upgrade">
-                        <Gem className="mr-2 h-4 w-4 text-accent" />
-                        <span className="text-accent font-semibold">Upgrade Account</span>
-                    </Link>
-                </DropdownMenuItem>
+                 {user.role !== 'admin' && (
+                    <DropdownMenuItem asChild>
+                        <Link href="/upgrade">
+                            <Gem className="mr-2 h-4 w-4 text-accent" />
+                            <span className="text-accent font-semibold">Upgrade Account</span>
+                        </Link>
+                    </DropdownMenuItem>
+                 )}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={onLogout}>
                     <LogOut className="mr-2 h-4 w-4" />

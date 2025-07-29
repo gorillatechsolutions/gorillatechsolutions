@@ -40,6 +40,7 @@ export function ChatWidget() {
     const pathname = usePathname();
 
     const conversation = user ? getConversation(user.email) : [];
+    const isAdmin = user?.role === 'admin';
 
     useEffect(() => {
         if (isOpen && view === 'chat') {
@@ -203,6 +204,10 @@ export function ChatWidget() {
             </div>
         </div>
     );
+
+    if (isAdmin) {
+        return null;
+    }
 
     return (
         <div className="fixed bottom-5 right-5 z-50">
