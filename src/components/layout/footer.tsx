@@ -14,10 +14,9 @@ import {
   faLinkedin,
   faMeta,
   faTelegram,
-  faWikipediaW,
   faWhatsapp,
 } from '@fortawesome/free-brands-svg-icons';
-import { faCheckCircle, faPhone, faMapMarkerAlt, faEnvelope, faCogs } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faPhone, faMapMarkerAlt, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { useContactSettings } from '@/contexts/contact-settings-context';
 import { useSiteSettings } from '@/contexts/site-settings-context';
 import Image from 'next/image';
