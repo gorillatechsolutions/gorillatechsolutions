@@ -30,6 +30,7 @@ interface AuthContextType {
   addUser: (user: User) => void;
   updateUser: (email: string, userData: Partial<User>) => void;
   getUserByEmail: (email: string) => User | null;
+  updateAllUserAvatars: (avatarUrl: string) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -223,13 +224,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const updateAllUserAvatars = (avatarUrl: string) => {
+    const updatedUsers = users.map(u => {
+      if (u.role !== 'admin') {
+        return { ...u, avatar: avatarUrl };
+      }
+      return u;
+    });
+    setUsers(updatedUsers);
+    localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(updatedUsers));
+  };
+
   const getUserByEmail = (email: string) => {
       return users.find(u => u.email === email) || null;
   };
 
 
   return (
-    <AuthContext.Provider value={{ user, users, loading, login, logout, signup, emailExists, usernameExists, deleteUsers, addUser, updateUser, getUserByEmail }}>
+    <AuthContext.Provider value={{ user, users, loading, login, logout, signup, emailExists, usernameExists, deleteUsers, addUser, updateUser, getUserByEmail, updateAllUserAvatars }}>
       {children}
     </AuthContext.Provider>
   );

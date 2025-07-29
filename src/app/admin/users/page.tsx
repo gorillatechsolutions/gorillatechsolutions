@@ -16,6 +16,9 @@ import { faTrash, faPlus, faEdit, faPaperPlane, faImage } from '@fortawesome/fre
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { SendMessageDialog } from '@/components/admin/send-message-dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogTrigger } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 const roleBadgeVariant: Record<UserRole, 'default' | 'secondary' | 'destructive'> = {
     admin: 'destructive',
@@ -31,6 +34,63 @@ const roleBadgeClass: Record<UserRole, string> = {
     premium: 'bg-amber-600 hover:bg-amber-600/80',
     gold: 'bg-yellow-400 text-black hover:bg-yellow-400/80',
     platinum: 'bg-slate-400 hover:bg-slate-400/80',
+}
+
+function ChangeAvatarDialog() {
+    const { updateAllUserAvatars } = useAuth();
+    const { toast } = useToast();
+    const [avatarUrl, setAvatarUrl] = useState('');
+    const [open, setOpen] = useState(false);
+
+    const handleSave = () => {
+        if (!avatarUrl) {
+            toast({
+                variant: 'destructive',
+                title: 'URL is required',
+                description: 'Please enter a valid image URL.',
+            });
+            return;
+        }
+        updateAllUserAvatars(avatarUrl);
+        toast({
+            title: 'Avatars Updated',
+            description: 'All non-admin user avatars have been updated.',
+        });
+        setOpen(false);
+        setAvatarUrl('');
+    };
+
+    return (
+        <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
+                <Button variant="outline" size="sm">
+                    <FontAwesomeIcon icon={faImage} className="mr-2 h-4 w-4" />
+                    Change Avatar Image
+                </Button>
+            </DialogTrigger>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>Change User Avatars</DialogTitle>
+                    <DialogDescription>
+                        Enter a new image URL to update the avatar for all non-admin users. The admin's avatar will not be changed.
+                    </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                    <Label htmlFor="avatar-url">Avatar Image URL</Label>
+                    <Input
+                        id="avatar-url"
+                        value={avatarUrl}
+                        onChange={(e) => setAvatarUrl(e.target.value)}
+                        placeholder="https://example.com/image.png"
+                    />
+                </div>
+                <DialogFooter>
+                    <Button variant="secondary" onClick={() => setOpen(false)}>Cancel</Button>
+                    <Button onClick={handleSave}>Save Changes</Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
+    )
 }
 
 
@@ -117,10 +177,7 @@ export default function AdminUsersPage() {
                             <FontAwesomeIcon icon={faPlus} className="mr-2 h-4 w-4" />
                             Create User
                         </Button>
-                        <Button variant="outline" size="sm">
-                            <FontAwesomeIcon icon={faImage} className="mr-2 h-4 w-4" />
-                            Change Avatar Image
-                        </Button>
+                        <ChangeAvatarDialog />
                     </div>
                 </div>
             </CardHeader>
