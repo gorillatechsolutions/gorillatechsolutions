@@ -75,11 +75,9 @@ export default function SiteSettingsPage() {
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <Accordion type="multiple" defaultValue={['branding', 'seo']} className="w-full space-y-4">
                         <Card as={AccordionItem} value="branding">
-                           <CardHeader>
-                             <AccordionTrigger className="p-0">
-                                <CardTitle>Branding & Logos</CardTitle>
-                             </AccordionTrigger>
-                           </CardHeader>
+                           <AccordionTrigger className="px-6 py-4">
+                              <CardTitle>Branding & Logos</CardTitle>
+                           </AccordionTrigger>
                             <AccordionContent>
                                 <CardDescription className="px-6 pb-4">Update your site's logos and favicon.</CardDescription>
                                 <CardContent className="space-y-4 pt-0">
@@ -91,11 +89,9 @@ export default function SiteSettingsPage() {
                         </Card>
 
                         <Card as={AccordionItem} value="seo">
-                            <CardHeader>
-                                <AccordionTrigger className="p-0">
-                                    <CardTitle>Global SEO & Metadata</CardTitle>
-                                </AccordionTrigger>
-                            </CardHeader>
+                            <AccordionTrigger className="px-6 py-4">
+                                <CardTitle>Global SEO & Metadata</CardTitle>
+                            </AccordionTrigger>
                             <AccordionContent>
                                  <CardDescription className="px-6 pb-4">Set default metadata for pages that don't have their own.</CardDescription>
                                 <CardContent className="space-y-4 pt-0">
@@ -107,11 +103,9 @@ export default function SiteSettingsPage() {
                         </Card>
                         
                         <Card as={AccordionItem} value="integrations">
-                             <CardHeader>
-                                <AccordionTrigger className="p-0">
-                                    <CardTitle>Webmaster Tools</CardTitle>
-                                </AccordionTrigger>
-                             </CardHeader>
+                             <AccordionTrigger className="px-6 py-4">
+                                <CardTitle>Webmaster Tools</CardTitle>
+                             </AccordionTrigger>
                              <AccordionContent>
                                 <CardDescription className="px-6 pb-4">Integrate with search engine webmaster tools for site verification.</CardDescription>
                                 <CardContent className="space-y-4 pt-0">

@@ -113,7 +113,7 @@ export default function ContactSettingsPage() {
                      <Accordion type="multiple" defaultValue={['item-1']} className="w-full">
                         <AccordionItem value="item-1">
                             <AccordionTrigger>
-                                <CardTitle>Hero Section</CardTitle>
+                                <h3 className="text-lg font-medium">Hero Section</h3>
                             </AccordionTrigger>
                             <AccordionContent>
                                 <CardDescription className="pb-4">Update the headline and sub-headline for the contact page.</CardDescription>
@@ -125,7 +125,7 @@ export default function ContactSettingsPage() {
                         </AccordionItem>
                         <AccordionItem value="item-2">
                              <AccordionTrigger>
-                               <CardTitle>Business Details</CardTitle>
+                               <h3 className="text-lg font-medium">Business Details</h3>
                             </AccordionTrigger>
                             <AccordionContent>
                                <CardDescription className="pb-4">Update your primary contact information.</CardDescription>
@@ -141,7 +141,7 @@ export default function ContactSettingsPage() {
                         </AccordionItem>
                          <AccordionItem value="item-3">
                              <AccordionTrigger>
-                               <CardTitle>Social Media Links</CardTitle>
+                               <h3 className="text-lg font-medium">Social Media Links</h3>
                             </AccordionTrigger>
                             <AccordionContent>
                                 <CardDescription className="pb-4">Enter the full URLs for your social media profiles.</CardDescription>
@@ -160,7 +160,7 @@ export default function ContactSettingsPage() {
                         </AccordionItem>
                         <AccordionItem value="item-4">
                            <AccordionTrigger>
-                               <CardTitle>SEO & Metadata</CardTitle>
+                               <h3 className="text-lg font-medium">SEO & Metadata</h3>
                             </AccordionTrigger>
                             <AccordionContent>
                                <CardDescription className="pb-4">Update the page's metadata for search engines and social media.</CardDescription>

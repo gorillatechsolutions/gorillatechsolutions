@@ -205,7 +205,6 @@ export function PostForm({ postToEdit }: PostFormProps) {
       )}
 
       
-        
             
             {isClient && (
                 <Form {...form}>
@@ -333,11 +332,9 @@ export function PostForm({ postToEdit }: PostFormProps) {
 
                     <Accordion type="single" collapsible className="w-full">
                       <AccordionItem value="seo">
-                          <CardHeader>
-                            <AccordionTrigger>
-                                <CardTitle>SEO & Metadata</CardTitle>
-                            </AccordionTrigger>
-                          </CardHeader>
+                          <AccordionTrigger className="px-6">
+                              <h3 className="text-lg font-medium">SEO & Metadata</h3>
+                          </AccordionTrigger>
                           <AccordionContent>
                               <CardDescription className="px-6 pb-4">Update the metadata for search engines.</CardDescription>
                               <CardContent className="space-y-4 pt-0">

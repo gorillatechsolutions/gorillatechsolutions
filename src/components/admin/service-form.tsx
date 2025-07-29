@@ -256,11 +256,9 @@ export function ServiceForm({ serviceToEdit }: ServiceFormProps) {
                 </Card>
                 <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="buttons">
-                    <CardHeader>
-                        <AccordionTrigger>
-                            <CardTitle>Buttons</CardTitle>
-                        </AccordionTrigger>
-                    </CardHeader>
+                    <AccordionTrigger className="px-6">
+                        <h3 className="text-lg font-medium">Buttons</h3>
+                    </AccordionTrigger>
                       <AccordionContent>
                            <CardDescription className="px-6 pb-4">Update the text and links for the service card buttons.</CardDescription>
                            <CardContent className="space-y-4 pt-0">
@@ -274,11 +272,9 @@ export function ServiceForm({ serviceToEdit }: ServiceFormProps) {
                       </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="seo">
-                      <CardHeader>
-                          <AccordionTrigger>
-                              <CardTitle>SEO & Metadata</CardTitle>
-                          </AccordionTrigger>
-                      </CardHeader>
+                      <AccordionTrigger className="px-6">
+                          <h3 className="text-lg font-medium">SEO & Metadata</h3>
+                      </AccordionTrigger>
                       <AccordionContent>
                            <CardDescription className="px-6 pb-4">Update the metadata for search engines.</CardDescription>
                            <CardContent className="space-y-4 pt-0">

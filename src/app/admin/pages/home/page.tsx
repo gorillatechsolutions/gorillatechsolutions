@@ -128,11 +128,9 @@ export default function HomeSettingsPage() {
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                     <Accordion type="multiple" defaultValue={['item-1']} className="w-full">
                         <AccordionItem value="item-1">
-                            <CardHeader>
-                                <AccordionTrigger>
-                                    <CardTitle>SEO & Metadata</CardTitle>
-                                </AccordionTrigger>
-                            </CardHeader>
+                            <AccordionTrigger className="px-6">
+                                <h3 className="text-lg font-medium">SEO & Metadata</h3>
+                            </AccordionTrigger>
                             <AccordionContent>
                                 <CardDescription className="px-6 pb-4">Update the page's metadata for search engines and social media.</CardDescription>
                                 <CardContent className="space-y-4 pt-0">
@@ -145,11 +143,9 @@ export default function HomeSettingsPage() {
                         </AccordionItem>
 
                         <AccordionItem value="item-2">
-                            <CardHeader>
-                                <AccordionTrigger>
-                                    <CardTitle>Hero Section</CardTitle>
-                                </AccordionTrigger>
-                            </CardHeader>
+                            <AccordionTrigger className="px-6">
+                                <h3 className="text-lg font-medium">Hero Section</h3>
+                            </AccordionTrigger>
                             <AccordionContent>
                                 <CardDescription className="px-6 pb-4">Update the main headline, sub-headline, image, and buttons for the hero section.</CardDescription>
                                 <CardContent className="space-y-4 pt-0">
@@ -173,11 +169,9 @@ export default function HomeSettingsPage() {
                         </AccordionItem>
 
                         <AccordionItem value="item-3">
-                            <CardHeader>
-                                <AccordionTrigger>
-                                    <CardTitle>Proven Process Section</CardTitle>
-                                </AccordionTrigger>
-                            </CardHeader>
+                            <AccordionTrigger className="px-6">
+                                <h3 className="text-lg font-medium">Proven Process Section</h3>
+                            </AccordionTrigger>
                             <AccordionContent>
                                 <CardDescription className="px-6 pb-4">Manage the content for the 4-step process section.</CardDescription>
                                 <CardContent className="space-y-4 pt-0">
@@ -204,11 +198,9 @@ export default function HomeSettingsPage() {
                         </AccordionItem>
                         
                         <AccordionItem value="item-4">
-                            <CardHeader>
-                                <AccordionTrigger>
-                                    <CardTitle>Commitment & Stats Section</CardTitle>
-                                </AccordionTrigger>
-                            </CardHeader>
+                            <AccordionTrigger className="px-6">
+                                <h3 className="text-lg font-medium">Commitment & Stats Section</h3>
+                            </AccordionTrigger>
                             <AccordionContent>
                                 <CardDescription className="px-6 pb-4">Manage the statistics and list of benefits.</CardDescription>
                                 <CardContent className="space-y-4 pt-0">
@@ -236,11 +228,9 @@ export default function HomeSettingsPage() {
                         </AccordionItem>
 
                         <AccordionItem value="item-5">
-                             <CardHeader>
-                                <AccordionTrigger>
-                                    <CardTitle>Call to Action (CTA) Section</CardTitle>
-                                </AccordionTrigger>
-                             </CardHeader>
+                             <AccordionTrigger className="px-6">
+                                <h3 className="text-lg font-medium">Call to Action (CTA) Section</h3>
+                             </AccordionTrigger>
                             <AccordionContent>
                                 <CardDescription className="px-6 pb-4">Manage the final call to action section.</CardDescription>
                                 <CardContent className="space-y-4 pt-0">
