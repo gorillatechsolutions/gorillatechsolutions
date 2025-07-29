@@ -24,6 +24,8 @@ import { PricingPlanProvider } from '@/contexts/pricing-plan-context';
 import { SiteSettingsProvider } from '@/contexts/site-settings-context';
 import { SiteSettingsManager } from '@/components/layout/site-settings-manager';
 import Script from 'next/script';
+import { ChatProvider } from '@/contexts/chat-context';
+import { ChatWidget } from '@/components/chat-widget';
 
 export const metadata: Metadata = {
   title: {
@@ -46,43 +48,46 @@ export default function RootLayout({
       <body className={cn('min-h-screen bg-background font-body antialiased')}>
         <AuthProvider>
           <MessageProvider>
-            <SiteSettingsProvider>
-              <CaseStudyProvider>
-                <AppProvider>
-                  <ServiceProvider>
-                    <ContactSettingsProvider>
-                      <AboutPageProvider>
-                        <LegalPageProvider>
-                          <HomePageProvider>
-                            <ReviewProvider>
-                              <ServicesPageProvider>
-                                <CaseStudiesPageProvider>
-                                  <AppsPageProvider>
-                                    <ApplicationPageProvider>
-                                      <InvestmentPageProvider>
-                                        <PricingPlanProvider>
-                                          <SiteSettingsManager />
-                                          <div className="relative flex min-h-dvh flex-col">
-                                              <Header />
-                                              <main className="flex-1">{children}</main>
-                                              <Footer />
-                                          </div>
-                                          <Toaster />
-                                        </PricingPlanProvider>
-                                      </InvestmentPageProvider>
-                                    </ApplicationPageProvider>
-                                  </AppsPageProvider>
-                                </CaseStudiesPageProvider>
-                              </ServicesPageProvider>
-                            </ReviewProvider>
-                          </HomePageProvider>
-                        </LegalPageProvider>
-                      </AboutPageProvider>
-                    </ContactSettingsProvider>
-                  </ServiceProvider>
-                </AppProvider>
-              </CaseStudyProvider>
-            </SiteSettingsProvider>
+            <ChatProvider>
+              <SiteSettingsProvider>
+                <CaseStudyProvider>
+                  <AppProvider>
+                    <ServiceProvider>
+                      <ContactSettingsProvider>
+                        <AboutPageProvider>
+                          <LegalPageProvider>
+                            <HomePageProvider>
+                              <ReviewProvider>
+                                <ServicesPageProvider>
+                                  <CaseStudiesPageProvider>
+                                    <AppsPageProvider>
+                                      <ApplicationPageProvider>
+                                        <InvestmentPageProvider>
+                                          <PricingPlanProvider>
+                                            <SiteSettingsManager />
+                                            <div className="relative flex min-h-dvh flex-col">
+                                                <Header />
+                                                <main className="flex-1">{children}</main>
+                                                <Footer />
+                                                <ChatWidget />
+                                            </div>
+                                            <Toaster />
+                                          </PricingPlanProvider>
+                                        </InvestmentPageProvider>
+                                      </ApplicationPageProvider>
+                                    </AppsPageProvider>
+                                  </CaseStudiesPageProvider>
+                                </ServicesPageProvider>
+                              </ReviewProvider>
+                            </HomePageProvider>
+                          </LegalPageProvider>
+                        </AboutPageProvider>
+                      </ContactSettingsProvider>
+                    </ServiceProvider>
+                  </AppProvider>
+                </CaseStudyProvider>
+              </SiteSettingsProvider>
+            </ChatProvider>
           </MessageProvider>
         </AuthProvider>
         <Script src="https://checkout.razorpay.com/v1/checkout.js" />
