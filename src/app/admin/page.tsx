@@ -3,9 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Bar, BarChart, CartesianGrid, XAxis, Tooltip, ResponsiveContainer, LineChart, Line } from "recharts"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUsers, faBoxOpen, faDollarSign, faArrowUp, faKey, faUserShield } from "@fortawesome/free-solid-svg-icons";
-import { useAuth, User } from "@/contexts/auth-context";
-import { Separator } from "@/components/ui/separator";
+import { faUsers, faBoxOpen, faDollarSign, faArrowUp } from "@fortawesome/free-solid-svg-icons";
 
 const kpiData = [
   { title: "Total Users", value: "1,257", change: "+12.5%", icon: faUsers, iconBg: "bg-blue-100", iconColor: "text-blue-500" },
@@ -31,22 +29,7 @@ const userData = [
   { name: 'Jun', users: 350 },
 ];
 
-const UserCredentialCard = ({ user }: { user: User }) => (
-  <div className="rounded-md border bg-secondary/50 p-3 text-sm">
-    <p className="font-semibold text-foreground">{user.name} <span className="text-muted-foreground capitalize">({user.role})</span></p>
-    <div className="text-muted-foreground mt-1 space-y-1">
-      <p><strong>Email:</strong> {user.email}</p>
-      <p><strong>Username:</strong> {user.username}</p>
-      <p><strong>Password:</strong> {user.password}</p>
-    </div>
-  </div>
-);
-
 export default function AdminDashboardPage() {
-  const { users } = useAuth();
-  const adminUser = users.find(user => user.role === 'admin');
-  const otherUsers = users.filter(user => user.role !== 'admin');
-
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-foreground">Dashboard Overview</h1>
@@ -106,41 +89,6 @@ export default function AdminDashboardPage() {
         </Card>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <FontAwesomeIcon icon={faKey} className="h-4 w-4 text-muted-foreground" />
-            User Credentials
-          </CardTitle>
-          <CardDescription>Use these credentials to test the application from different user perspectives.</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {adminUser && (
-            <>
-              <div className="rounded-md border-2 border-primary/50 bg-primary/5 p-4">
-                <h3 className="flex items-center gap-2 text-base font-semibold text-primary mb-2">
-                  <FontAwesomeIcon icon={faUserShield} className="h-4 w-4" />
-                  Administrator
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <UserCredentialCard user={adminUser} />
-                </div>
-              </div>
-              <Separator />
-            </>
-          )}
-
-          <div>
-             <h3 className="text-base font-semibold text-foreground mb-2">Demo Users</h3>
-             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {otherUsers.map(user => (
-                  <UserCredentialCard key={user.email} user={user} />
-              ))}
-            </div>
-          </div>
-          
-        </CardContent>
-      </Card>
     </div>
   )
 }
