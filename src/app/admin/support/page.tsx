@@ -2,23 +2,34 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { useChat, ChatMessage } from '@/contexts/chat-context';
-import { useAuth, User } from '@/contexts/auth-context';
+import { useChat } from '@/contexts/chat-context';
+import { useAuth } from '@/contexts/auth-context';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
-import { Send, ArrowLeft } from 'lucide-react';
+import { Send, ArrowLeft, Paperclip, File as FileIcon, X } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { format } from 'date-fns';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useToast } from '@/hooks/use-toast';
+
+type Attachment = {
+  name: string;
+  type: string;
+  dataUrl: string;
+};
 
 export default function AdminSupportChatPage() {
     const { conversations, getConversation, sendMessage, markAsRead } = useChat();
     const { users } = useAuth();
+    const { toast } = useToast();
     const [selectedConversationId, setSelectedConversationId] = useState<string | null>(null);
     const [message, setMessage] = useState('');
+    const [attachment, setAttachment] = useState<Attachment | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
     const activeConversation = selectedConversationId ? getConversation(selectedConversationId) : [];
@@ -49,15 +60,43 @@ export default function AdminSupportChatPage() {
         }
     }, [selectedConversationId, activeConversation, markAsRead]);
 
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            if (file.size > 1 * 1024 * 1024) { // 1MB limit
+                toast({
+                    variant: 'destructive',
+                    title: 'File too large',
+                    description: 'Please upload a file smaller than 1MB.',
+                });
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                setAttachment({
+                    name: file.name,
+                    type: file.type,
+                    dataUrl: e.target?.result as string,
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
     const handleSendMessage = (e: React.FormEvent) => {
         e.preventDefault();
-        if (message.trim() && selectedConversationId) {
+        if ((message.trim() || attachment) && selectedConversationId) {
             sendMessage({
                 conversationId: selectedConversationId,
                 sender: 'admin',
                 text: message.trim(),
+                attachment: attachment || undefined,
             });
             setMessage('');
+            setAttachment(null);
+            if(fileInputRef.current) {
+              fileInputRef.current.value = '';
+            }
         }
     };
 
@@ -78,7 +117,6 @@ export default function AdminSupportChatPage() {
                         {conversationList.map(({ id, user, lastMessage, unreadCount }) => (
                             <div key={id} onClick={() => handleSelectConversation(id)} className={cn("flex items-center gap-4 p-3 hover:bg-secondary cursor-pointer border-b", selectedConversationId === id && "bg-secondary")}>
                                 <Avatar>
-                                    <AvatarImage src="https://placehold.co/100x100.png" alt={user?.name} data-ai-hint="person avatar" />
                                     <AvatarFallback>{user?.name.charAt(0).toUpperCase()}</AvatarFallback>
                                 </Avatar>
                                 <div className="flex-1 truncate">
@@ -100,7 +138,6 @@ export default function AdminSupportChatPage() {
                                 <ArrowLeft className="h-5 w-5" />
                             </Button>
                             <Avatar>
-                                <AvatarImage src="https://placehold.co/100x100.png" alt={users.find(u => u.email === selectedConversationId)?.name} data-ai-hint="person avatar" />
                                 <AvatarFallback>{users.find(u => u.email === selectedConversationId)?.name.charAt(0).toUpperCase()}</AvatarFallback>
                             </Avatar>
                             <div>
@@ -115,7 +152,13 @@ export default function AdminSupportChatPage() {
                                         <div key={msg.id} className={cn("flex items-end gap-2", msg.sender === 'admin' ? 'justify-end' : 'justify-start')}>
                                             {msg.sender === 'user' && <Avatar className="h-8 w-8"><AvatarFallback>{users.find(u => u.email === selectedConversationId)?.name.charAt(0).toUpperCase()}</AvatarFallback></Avatar>}
                                             <div className={cn("max-w-[70%] p-3 rounded-lg", msg.sender === 'admin' ? 'bg-primary text-primary-foreground' : 'bg-secondary')}>
-                                                <p className="text-sm">{msg.text}</p>
+                                                {msg.text && <p className="text-sm">{msg.text}</p>}
+                                                {msg.attachment && (
+                                                  <a href={msg.attachment.dataUrl} download={msg.attachment.name} className="flex items-center gap-2 mt-2 p-2 rounded-md bg-black/10 hover:bg-black/20">
+                                                    <FileIcon className="h-4 w-4" />
+                                                    <span className="text-xs font-medium truncate">{msg.attachment.name}</span>
+                                                  </a>
+                                                )}
                                                 <p className="text-xs text-right opacity-70 mt-1">{format(new Date(msg.timestamp), 'p')}</p>
                                             </div>
                                         </div>
@@ -125,9 +168,44 @@ export default function AdminSupportChatPage() {
                             </ScrollArea>
                         </CardContent>
                         <div className="p-4 border-t">
-                            <form onSubmit={handleSendMessage} className="flex items-center gap-2">
-                                <Input value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Type a message..." autoComplete="off" />
-                                <Button type="submit" size="icon" disabled={!message.trim()}><Send className="h-4 w-4" /></Button>
+                            <form onSubmit={handleSendMessage} className="space-y-2">
+                                {attachment && (
+                                    <div className="flex items-center justify-between p-2 text-sm rounded-md bg-secondary">
+                                        <span className="truncate">{attachment.name}</span>
+                                        <Button
+                                            type="button"
+                                            variant="ghost"
+                                            size="icon"
+                                            className="h-6 w-6"
+                                            onClick={() => {
+                                                setAttachment(null);
+                                                if (fileInputRef.current) fileInputRef.current.value = '';
+                                            }}
+                                        >
+                                            <X className="h-4 w-4" />
+                                        </Button>
+                                    </div>
+                                )}
+                                <div className="flex items-center gap-2">
+                                    <Input value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Type a message..." autoComplete="off" />
+                                    <input
+                                        type="file"
+                                        ref={fileInputRef}
+                                        onChange={handleFileChange}
+                                        className="hidden"
+                                    />
+                                    <Button
+                                        type="button"
+                                        variant="ghost"
+                                        size="icon"
+                                        onClick={() => fileInputRef.current?.click()}
+                                    >
+                                        <Paperclip className="h-5 w-5" />
+                                    </Button>
+                                    <Button type="submit" size="icon" disabled={!message.trim() && !attachment}>
+                                        <Send className="h-4 w-4" />
+                                    </Button>
+                                </div>
                             </form>
                         </div>
                     </>

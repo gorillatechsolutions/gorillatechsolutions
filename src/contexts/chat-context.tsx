@@ -11,12 +11,19 @@ export interface ChatMessage {
   text: string;
   timestamp: string;
   read: boolean;
+  attachment?: {
+    name: string;
+    type: string;
+    dataUrl: string;
+  };
 }
+
+interface SendMessagePayload extends Omit<ChatMessage, 'id' | 'timestamp' | 'read'> {}
 
 interface ChatContextType {
   conversations: Record<string, ChatMessage[]>;
   getConversation: (conversationId: string) => ChatMessage[];
-  sendMessage: (message: Omit<ChatMessage, 'id' | 'timestamp' | 'read'>) => void;
+  sendMessage: (message: SendMessagePayload) => void;
   markAsRead: (conversationId: string) => void;
   getUnreadAdminMessageCount: (conversationId: string) => number;
 }
@@ -68,7 +75,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return conversation.filter(m => m.sender === 'admin' && !m.read).length;
   }
 
-  const sendMessage = (message: Omit<ChatMessage, 'id' | 'timestamp' | 'read'>) => {
+  const sendMessage = (message: SendMessagePayload) => {
     const newMessage: ChatMessage = {
       ...message,
       id: `${new Date().getTime()}-${Math.random()}`,

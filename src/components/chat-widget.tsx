@@ -7,25 +7,35 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp, faTelegram } from '@fortawesome/free-brands-svg-icons';
-import { faCommentDots, faHeadset, faPhone, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faHeadset, faPhone, faTimes, faPaperclip, faFile, faXmark } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import { useContactSettings } from '@/contexts/contact-settings-context';
 import { Input } from './ui/input';
 import { ScrollArea } from './ui/scroll-area';
 import { useChat } from '@/contexts/chat-context';
-import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
+import { Avatar, AvatarFallback } from './ui/avatar';
 import { format } from 'date-fns';
 import { Send, LogIn } from 'lucide-react';
 import { usePathname } from 'next/navigation';
+import { useToast } from '@/hooks/use-toast';
+
+type Attachment = {
+  name: string;
+  type: string;
+  dataUrl: string;
+};
 
 export function ChatWidget() {
     const { user } = useAuth();
     const { settings: contactSettings } = useContactSettings();
     const { getConversation, sendMessage } = useChat();
+    const { toast } = useToast();
 
     const [isOpen, setIsOpen] = useState(false);
     const [view, setView] = useState<'main' | 'chat'>('main');
     const [message, setMessage] = useState('');
+    const [attachment, setAttachment] = useState<Attachment | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
     const pathname = usePathname();
 
@@ -38,20 +48,47 @@ export function ChatWidget() {
     }, [conversation, isOpen, view]);
 
     useEffect(() => {
-        // Close widget on page navigation
         setIsOpen(false);
     }, [pathname]);
 
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            if (file.size > 1 * 1024 * 1024) { // 1MB limit
+                toast({
+                    variant: 'destructive',
+                    title: 'File too large',
+                    description: 'Please upload a file smaller than 1MB.',
+                });
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                setAttachment({
+                    name: file.name,
+                    type: file.type,
+                    dataUrl: e.target?.result as string,
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     const handleSendMessage = (e: React.FormEvent) => {
         e.preventDefault();
-        if (message.trim() && user) {
+        if ((message.trim() || attachment) && user) {
             sendMessage({
                 conversationId: user.email,
                 sender: 'user',
                 text: message.trim(),
+                attachment: attachment || undefined,
             });
             setMessage('');
+            setAttachment(null);
+            if(fileInputRef.current) {
+              fileInputRef.current.value = '';
+            }
         }
     };
     
@@ -90,7 +127,13 @@ export function ChatWidget() {
                             <div key={msg.id} className={cn("flex items-end gap-2", msg.sender === 'user' ? 'justify-end' : 'justify-start')}>
                                 {msg.sender === 'admin' && <Avatar className="h-8 w-8"><AvatarFallback>A</AvatarFallback></Avatar>}
                                 <div className={cn("max-w-[80%] p-3 rounded-lg text-sm", msg.sender === 'user' ? 'bg-primary text-primary-foreground' : 'bg-secondary')}>
-                                    <p>{msg.text}</p>
+                                    {msg.text && <p>{msg.text}</p>}
+                                    {msg.attachment && (
+                                      <a href={msg.attachment.dataUrl} download={msg.attachment.name} className="flex items-center gap-2 mt-2 p-2 rounded-md bg-black/10 hover:bg-black/20">
+                                        <FontAwesomeIcon icon={faFile} className="h-4 w-4" />
+                                        <span className="text-xs font-medium truncate">{msg.attachment.name}</span>
+                                      </a>
+                                    )}
                                     <p className="text-xs text-right opacity-70 mt-1">{format(new Date(msg.timestamp), 'p')}</p>
                                 </div>
                             </div>
@@ -101,9 +144,53 @@ export function ChatWidget() {
             </div>
             <div className="p-4 border-t">
                  {user ? (
-                    <form onSubmit={handleSendMessage} className="flex items-center gap-2">
-                        <Input value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Type a message..." autoComplete="off" />
-                        <Button type="submit" size="icon" disabled={!message.trim()}><Send className="h-4 w-4" /></Button>
+                    <form onSubmit={handleSendMessage} className="space-y-2">
+                         {attachment && (
+                            <div className="flex items-center justify-between p-2 text-sm rounded-md bg-secondary">
+                                <span className="truncate">{attachment.name}</span>
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-6 w-6"
+                                    onClick={() => {
+                                        setAttachment(null);
+                                        if (fileInputRef.current) fileInputRef.current.value = '';
+                                    }}
+                                >
+                                    <FontAwesomeIcon icon={faXmark} className="h-4 w-4" />
+                                </Button>
+                            </div>
+                        )}
+                        <div className="flex items-center gap-2">
+                          <Input
+                              value={message}
+                              onChange={(e) => setMessage(e.target.value)}
+                              placeholder="Type a message..."
+                              autoComplete="off"
+                          />
+                          <input
+                              type="file"
+                              ref={fileInputRef}
+                              onChange={handleFileChange}
+                              className="hidden"
+                          />
+                          <Button
+                              type="button"
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => fileInputRef.current?.click()}
+                          >
+                              <FontAwesomeIcon icon={faPaperclip} className="h-5 w-5" />
+                          </Button>
+                          <Button
+                              type="submit"
+                              size="icon"
+                              disabled={!message.trim() && !attachment}
+                          >
+                              <Send className="h-4 w-4" />
+                          </Button>
+                        </div>
                     </form>
                  ) : (
                     <div className="text-center">
