@@ -57,6 +57,7 @@ export function UserForm({ userToEdit }: UserFormProps) {
         ...userToEdit,
         phone: userToEdit.phone || '',
         address: userToEdit.address || '',
+        password: '',
     } : {
       name: '',
       username: '',
