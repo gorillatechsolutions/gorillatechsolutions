@@ -36,8 +36,8 @@ export default function AdminSupportChatPage() {
     const conversationList = useMemo(() => {
         return Object.keys(conversations).map(email => {
             const user = users.find(u => u.email === email);
-            const lastMessage = conversations[email][conversations[email].length - 1];
-            const unreadCount = conversations[email].filter(m => m.sender === 'user' && !m.read).length;
+            const lastMessage = conversations[email]?.[conversations[email].length - 1];
+            const unreadCount = conversations[email]?.filter(m => m.sender === 'user' && !m.read).length || 0;
             return {
                 id: email,
                 user,
@@ -61,9 +61,12 @@ export default function AdminSupportChatPage() {
 
     useEffect(() => {
         if (selectedConversationId) {
-            markAsRead(selectedConversationId);
+            const hasUnread = (conversations[selectedConversationId] || []).some(m => !m.read);
+            if (hasUnread) {
+                markAsRead(selectedConversationId);
+            }
         }
-    }, [selectedConversationId, markAsRead]);
+    }, [selectedConversationId, conversations, markAsRead]);
     
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
