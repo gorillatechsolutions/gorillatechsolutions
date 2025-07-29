@@ -21,6 +21,9 @@ import { useAuth } from '@/contexts/auth-context';
 import { useMessage } from '@/contexts/message-context';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import Link from 'next/link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHistory } from '@fortawesome/free-solid-svg-icons';
 
 const formSchema = z.object({
   recipientType: z.enum(['all', 'specific']),
@@ -91,9 +94,17 @@ export default function NotificationsPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-foreground">Send Notification</h1>
-        <p className="text-muted-foreground">Compose and send a message to all or specific users.</p>
+      <div className="flex justify-between items-center">
+        <div>
+            <h1 className="text-2xl font-bold text-foreground">Send Notification</h1>
+            <p className="text-muted-foreground">Compose and send a message to all or specific users.</p>
+        </div>
+        <Button asChild variant="outline">
+            <Link href="/admin/notifications/history">
+                <FontAwesomeIcon icon={faHistory} className="mr-2 h-4 w-4" />
+                Message History
+            </Link>
+        </Button>
       </div>
 
       <Card>

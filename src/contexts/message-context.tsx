@@ -4,6 +4,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import type { Message } from '@/types/message';
 import { useAuth } from './auth-context';
+import { subMonths } from 'date-fns';
 
 interface MessageContextType {
   messages: Message[];
@@ -26,7 +27,21 @@ export const MessageProvider: React.FC<{ children: React.ReactNode }> = ({ child
     try {
       const storedMessages = localStorage.getItem(MESSAGES_STORAGE_KEY);
       if (storedMessages) {
-        setMessages(JSON.parse(storedMessages));
+        const parsedMessages: Message[] = JSON.parse(storedMessages);
+        
+        // Auto-delete messages older than 3 months
+        const threeMonthsAgo = subMonths(new Date(), 3);
+        const recentMessages = parsedMessages.filter(
+          (message) => new Date(message.timestamp) >= threeMonthsAgo
+        );
+
+        setMessages(recentMessages);
+        
+        // If messages were deleted, update localStorage
+        if (recentMessages.length < parsedMessages.length) {
+            localStorage.setItem(MESSAGES_STORAGE_KEY, JSON.stringify(recentMessages));
+        }
+
       } else {
         setMessages([]);
       }
@@ -65,7 +80,7 @@ export const MessageProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const sendMessage = (message: Omit<Message, 'id' | 'timestamp' | 'read'>) => {
     const newMessage: Message = {
       ...message,
-      id: new Date().getTime().toString(),
+      id: new Date().getTime().toString() + Math.random(),
       timestamp: new Date().toISOString(),
       read: false,
     };
