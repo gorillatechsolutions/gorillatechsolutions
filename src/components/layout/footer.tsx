@@ -49,17 +49,20 @@ export function Footer() {
   const loading = contactLoading || siteLoading;
   
   const { phone, email, address, zip, socialLinks } = contactSettings;
+  const { footerLogo, copyrightText } = siteSettings;
 
   if (loading) {
       return null;
   }
+
+  const processedCopyrightText = copyrightText.replace('{year}', new Date().getFullYear().toString());
 
   return (
     <footer className="w-full border-t text-card-foreground">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-2% py-12" style={{ backgroundColor: '#dedede' }}>
         <div className="flex flex-col gap-4 items-start">
           <Link href="/" className="flex items-center">
-             <Image src={siteSettings.footerLogo} alt="Gorilla Tech Solutions" width={180} height={40} />
+             <Image src={footerLogo} alt="Gorilla Tech Solutions" width={180} height={40} />
           </Link>
           <p className="text-sm" style={{ color: '#383838' }}>
             Driving growth with data-driven digital marketing strategies that deliver results.
@@ -148,7 +151,7 @@ export function Footer() {
       </div>
       <div className="py-4" style={{ backgroundColor: '#243878' }}>
         <div className="w-full flex flex-col sm:flex-row justify-between items-center text-sm text-white/80 gap-4 px-2%">
-          <p className="text-center sm:text-left">&copy; {new Date().getFullYear()} Gorilla Tech Solutions. All rights reserved.</p>
+          <p className="text-center sm:text-left">{processedCopyrightText}</p>
           <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2">
             <div className="flex items-center gap-2 px-3 py-2 rounded-md" style={{ backgroundColor: '#f2f5f7', color: 'black' }}>
                 <FontAwesomeIcon icon={faMeta} className="h-6 w-6" style={{color: "#0081FB"}} />

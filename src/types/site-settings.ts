@@ -9,4 +9,5 @@ export interface SiteSettings {
   googleSiteVerification: string;
   bingSiteVerification: string;
   robotsTxt: string;
+  copyrightText: string;
 }

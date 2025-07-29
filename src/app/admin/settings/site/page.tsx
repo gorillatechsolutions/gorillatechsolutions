@@ -27,6 +27,7 @@ const formSchema = z.object({
   headerLogo: z.string().url('Please enter a valid URL.'),
   footerLogo: z.string().url('Please enter a valid URL.'),
   favicon: z.string().url('Please enter a valid URL.'),
+  copyrightText: z.string().min(1, 'Copyright text is required.'),
   ogImage: z.string().url('Please enter a valid URL.'),
   metaDescription: z.string().min(1, 'Meta description is required.'),
   metaKeywords: z.string().optional(),
@@ -75,77 +76,84 @@ export default function SiteSettingsPage() {
             </div>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                    <Accordion type="multiple" defaultValue={['branding']} className="w-full space-y-4">
-                        <Card>
-                          <AccordionItem value="branding" className="border-b-0">
-                           <AccordionTrigger className="px-6 py-4">
-                               <h3 className="text-lg font-medium">Branding & Logos</h3>
-                           </AccordionTrigger>
-                            <AccordionContent>
-                                <CardDescription className="px-6 pb-4">Update your site's logos and favicon.</CardDescription>
-                                <CardContent className="space-y-4 pt-0">
-                                    <FormField control={form.control} name="headerLogo" render={({ field }) => (<FormItem><FormLabel>Header Logo URL</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                    <FormField control={form.control} name="footerLogo" render={({ field }) => (<FormItem><FormLabel>Footer Logo URL</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                    <FormField control={form.control} name="favicon" render={({ field }) => (<FormItem><FormLabel>Favicon URL (.ico, .svg, .png)</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                </CardContent>
-                            </AccordionContent>
-                          </AccordionItem>
-                        </Card>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Branding &amp; General</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <Accordion type="multiple" defaultValue={['branding']} className="w-full space-y-4">
+                                <AccordionItem value="branding" className="border-b-0">
+                                <AccordionTrigger>
+                                    <h3 className="text-lg font-medium">Branding &amp; Logos</h3>
+                                </AccordionTrigger>
+                                    <AccordionContent>
+                                        <CardDescription className="px-6 pb-4">Update your site's logos and favicon.</CardDescription>
+                                        <CardContent className="space-y-4 pt-0">
+                                            <FormField control={form.control} name="headerLogo" render={({ field }) => (<FormItem><FormLabel>Header Logo URL</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                            <FormField control={form.control} name="footerLogo" render={({ field }) => (<FormItem><FormLabel>Footer Logo URL</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                            <FormField control={form.control} name="favicon" render={({ field }) => (<FormItem><FormLabel>Favicon URL (.ico, .svg, .png)</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                            <FormField control={form.control} name="copyrightText" render={({ field }) => (<FormItem><FormLabel>Footer Copyright Text</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Use {'{year}'} to automatically insert the current year.</FormDescription><FormMessage /></FormItem>)} />
+                                        </CardContent>
+                                    </AccordionContent>
+                                </AccordionItem>
+                            </Accordion>
+                        </CardContent>
+                    </Card>
 
-                        <Card>
-                          <AccordionItem value="seo" className="border-b-0">
-                             <AccordionTrigger className="px-6 py-4">
-                                <h3 className="text-lg font-medium">Global SEO & Metadata</h3>
-                             </AccordionTrigger>
-                            <AccordionContent>
-                                 <CardDescription className="px-6 pb-4">Set default metadata for pages that don't have their own.</CardDescription>
-                                <CardContent className="space-y-4 pt-0">
-                                    <FormField control={form.control} name="ogImage" render={({ field }) => (<FormItem><FormLabel>Default Open Graph Image URL</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>This image is used when sharing links on social media. Recommended size: 1200x630px.</FormDescription><FormMessage /></FormItem>)} />
-                                    <FormField control={form.control} name="metaDescription" render={({ field }) => (<FormItem><FormLabel>Default Meta Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormDescription>A concise summary for search engine results.</FormDescription><FormMessage /></FormItem>)} />
-                                    <FormField control={form.control} name="metaKeywords" render={({ field }) => (<FormItem><FormLabel>Default Meta Keywords</FormLabel><FormControl><Textarea {...field} /></FormControl><FormDescription>Comma-separated keywords for search engines.</FormDescription><FormMessage /></FormItem>)} />
-                                </CardContent>
-                            </AccordionContent>
-                          </AccordionItem>
-                        </Card>
-                        
-                        <Card>
-                          <AccordionItem value="integrations" className="border-b-0">
-                             <AccordionTrigger className="px-6 py-4">
-                                <h3 className="text-lg font-medium">Webmaster Tools</h3>
-                             </AccordionTrigger>
-                             <AccordionContent>
-                                <CardDescription className="px-6 pb-4">Integrate with search engine webmaster tools for site verification.</CardDescription>
-                                <CardContent className="space-y-4 pt-0">
-                                    <FormField control={form.control} name="googleSiteVerification" render={({ field }) => (<FormItem><FormLabel>Google Site Verification Code</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Enter the content attribute from Google's meta tag.</FormDescription><FormMessage /></FormItem>)} />
-                                    <FormField control={form.control} name="bingSiteVerification" render={({ field }) => (<FormItem><FormLabel>Bing Site Verification Code</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Enter the content attribute from Bing's meta tag.</FormDescription><FormMessage /></FormItem>)} />
-                                </CardContent>
-                            </AccordionContent>
-                          </AccordionItem>
-                        </Card>
+                    <Card>
+                        <CardHeader><CardTitle>SEO &amp; Webmaster Tools</CardTitle></CardHeader>
+                        <CardContent>
+                            <Accordion type="multiple" defaultValue={['seo']} className="w-full space-y-4">
+                                <AccordionItem value="seo" className="border-b-0">
+                                <AccordionTrigger>
+                                    <h3 className="text-lg font-medium">Global SEO &amp; Metadata</h3>
+                                </AccordionTrigger>
+                                    <AccordionContent>
+                                        <CardDescription className="px-6 pb-4">Set default metadata for pages that don't have their own.</CardDescription>
+                                        <CardContent className="space-y-4 pt-0">
+                                            <FormField control={form.control} name="ogImage" render={({ field }) => (<FormItem><FormLabel>Default Open Graph Image URL</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>This image is used when sharing links on social media. Recommended size: 1200x630px.</FormDescription><FormMessage /></FormItem>)} />
+                                            <FormField control={form.control} name="metaDescription" render={({ field }) => (<FormItem><FormLabel>Default Meta Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormDescription>A concise summary for search engine results.</FormDescription><FormMessage /></FormItem>)} />
+                                            <FormField control={form.control} name="metaKeywords" render={({ field }) => (<FormItem><FormLabel>Default Meta Keywords</FormLabel><FormControl><Textarea {...field} /></FormControl><FormDescription>Comma-separated keywords for search engines.</FormDescription><FormMessage /></FormItem>)} />
+                                        </CardContent>
+                                    </AccordionContent>
+                                </AccordionItem>
+                                
+                                <AccordionItem value="integrations" className="border-b-0">
+                                <AccordionTrigger>
+                                    <h3 className="text-lg font-medium">Webmaster Tools</h3>
+                                </AccordionTrigger>
+                                <AccordionContent>
+                                        <CardDescription className="px-6 pb-4">Integrate with search engine webmaster tools for site verification.</CardDescription>
+                                        <CardContent className="space-y-4 pt-0">
+                                            <FormField control={form.control} name="googleSiteVerification" render={({ field }) => (<FormItem><FormLabel>Google Site Verification Code</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Enter the content attribute from Google's meta tag.</FormDescription><FormMessage /></FormItem>)} />
+                                            <FormField control={form.control} name="bingSiteVerification" render={({ field }) => (<FormItem><FormLabel>Bing Site Verification Code</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Enter the content attribute from Bing's meta tag.</FormDescription><FormMessage /></FormItem>)} />
+                                        </CardContent>
+                                    </AccordionContent>
+                                </AccordionItem>
 
-                        <Card>
-                          <AccordionItem value="robots" className="border-b-0">
-                             <AccordionTrigger className="px-6 py-4">
-                                <h3 className="text-lg font-medium">Robots.txt</h3>
-                             </AccordionTrigger>
-                             <AccordionContent>
-                                <CardDescription className="px-6 pb-4">Manage the content of your `robots.txt` file to control search engine crawlers.</CardDescription>
-                                <CardContent className="space-y-4 pt-0">
-                                    <FormField control={form.control} name="robotsTxt" render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>robots.txt Content</FormLabel>
-                                            <FormControl>
-                                                <Textarea {...field} className="h-48 font-mono text-xs" />
-                                            </FormControl>
-                                            <FormDescription>Note: Changes may require a server restart to take effect on a live site.</FormDescription>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )} />
-                                </CardContent>
-                            </AccordionContent>
-                          </AccordionItem>
-                        </Card>
-                    </Accordion>
+                                <AccordionItem value="robots" className="border-b-0">
+                                <AccordionTrigger>
+                                    <h3 className="text-lg font-medium">Robots.txt</h3>
+                                </AccordionTrigger>
+                                <AccordionContent>
+                                        <CardDescription className="px-6 pb-4">Manage the content of your `robots.txt` file to control search engine crawlers.</CardDescription>
+                                        <CardContent className="space-y-4 pt-0">
+                                            <FormField control={form.control} name="robotsTxt" render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel>robots.txt Content</FormLabel>
+                                                    <FormControl>
+                                                        <Textarea {...field} className="h-48 font-mono text-xs" />
+                                                    </FormControl>
+                                                    <FormDescription>Note: Changes may require a server restart to take effect on a live site.</FormDescription>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )} />
+                                        </CardContent>
+                                    </AccordionContent>
+                                </AccordionItem>
+                            </Accordion>
+                        </CardContent>
+                    </Card>
                     <Button type="submit">Save Settings</Button>
                 </form>
             </Form>

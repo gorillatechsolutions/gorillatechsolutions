@@ -20,6 +20,7 @@ const defaultSiteSettings: SiteSettings = {
     googleSiteVerification: "",
     bingSiteVerification: "",
     robotsTxt: defaultRobotsTxt,
+    copyrightText: "© {year} Gorilla Tech Solutions. All rights reserved.",
 };
 
 interface SiteSettingsContextType {
