@@ -52,7 +52,7 @@ export function ChatWidget() {
 
     return (
         <>
-            <div className={cn("fixed bottom-5 left-5 z-50 transition-transform duration-300", isOpen && "translate-y-[200%]")}>
+            <div className={cn("fixed bottom-5 right-5 z-50 transition-transform duration-300", isOpen && "translate-y-[200%]")}>
                 <Button onClick={() => setIsOpen(true)} size="lg" className="rounded-full shadow-lg h-16 w-16">
                     <FontAwesomeIcon icon={faConciergeBell} className="h-8 w-8" />
                     {user && unreadCount > 0 && (
@@ -64,7 +64,7 @@ export function ChatWidget() {
             </div>
 
             <div className={cn(
-                "fixed bottom-5 left-5 z-50 transition-all duration-300 ease-in-out",
+                "fixed bottom-5 right-5 z-50 transition-all duration-300 ease-in-out",
                 isOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"
             )}>
                 <Card className="w-[350px] h-[500px] flex flex-col shadow-2xl">
