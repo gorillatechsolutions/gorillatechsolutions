@@ -49,7 +49,7 @@ export function Footer() {
   const loading = contactLoading || siteLoading;
   
   const { phone, email, address, zip, socialLinks } = contactSettings;
-  const { footerLogo, copyrightText } = siteSettings;
+  const { footerLogo, copyrightText, sourceCodeLink } = siteSettings;
 
   if (loading) {
       return null;
@@ -134,7 +134,7 @@ export function Footer() {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button asChild variant="outline" className="mt-4">
-                      <Link href="https://github.com" target="_blank">
+                      <Link href={sourceCodeLink} target="_blank">
                         <FontAwesomeIcon icon={faGithub} className="mr-2 h-4 w-4" />
                         Download Source Code
                       </Link>

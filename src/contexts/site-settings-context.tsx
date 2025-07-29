@@ -21,6 +21,7 @@ const defaultSiteSettings: SiteSettings = {
     bingSiteVerification: "",
     robotsTxt: defaultRobotsTxt,
     copyrightText: "© {year} Gorilla Tech Solutions. All rights reserved.",
+    sourceCodeLink: "https://github.com",
 };
 
 interface SiteSettingsContextType {

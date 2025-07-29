@@ -34,6 +34,7 @@ const formSchema = z.object({
   googleSiteVerification: z.string().optional(),
   bingSiteVerification: z.string().optional(),
   robotsTxt: z.string().optional(),
+  sourceCodeLink: z.string().url('Please enter a valid URL.'),
 });
 
 export default function SiteSettingsPage() {
@@ -93,6 +94,7 @@ export default function SiteSettingsPage() {
                                             <FormField control={form.control} name="footerLogo" render={({ field }) => (<FormItem><FormLabel>Footer Logo URL</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
                                             <FormField control={form.control} name="favicon" render={({ field }) => (<FormItem><FormLabel>Favicon URL (.ico, .svg, .png)</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
                                             <FormField control={form.control} name="copyrightText" render={({ field }) => (<FormItem><FormLabel>Footer Copyright Text</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Use {'{year}'} to automatically insert the current year.</FormDescription><FormMessage /></FormItem>)} />
+                                            <FormField control={form.control} name="sourceCodeLink" render={({ field }) => (<FormItem><FormLabel>Footer Source Code Link</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>URL for the 'Download Source Code' button.</FormDescription><FormMessage /></FormItem>)} />
                                         </CardContent>
                                     </AccordionContent>
                                 </AccordionItem>
