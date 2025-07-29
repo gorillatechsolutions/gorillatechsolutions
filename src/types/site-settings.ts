@@ -8,4 +8,5 @@ export interface SiteSettings {
   metaKeywords: string;
   googleSiteVerification: string;
   bingSiteVerification: string;
+  robotsTxt: string;
 }

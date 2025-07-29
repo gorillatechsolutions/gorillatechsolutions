@@ -4,6 +4,12 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import type { SiteSettings } from '@/types/site-settings';
 
+const defaultRobotsTxt = `User-agent: *
+Allow: /
+
+Sitemap: https://www.yourwebsite.com/sitemap.xml
+`;
+
 const defaultSiteSettings: SiteSettings = {
     headerLogo: "https://placehold.co/180x40.png",
     footerLogo: "https://placehold.co/180x40.png",
@@ -13,6 +19,7 @@ const defaultSiteSettings: SiteSettings = {
     metaKeywords: "digital marketing, seo, ppc, content strategy, growth",
     googleSiteVerification: "",
     bingSiteVerification: "",
+    robotsTxt: defaultRobotsTxt,
 };
 
 interface SiteSettingsContextType {

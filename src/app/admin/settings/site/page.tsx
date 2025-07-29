@@ -32,6 +32,7 @@ const formSchema = z.object({
   metaKeywords: z.string().optional(),
   googleSiteVerification: z.string().optional(),
   bingSiteVerification: z.string().optional(),
+  robotsTxt: z.string().optional(),
 });
 
 export default function SiteSettingsPage() {
@@ -62,6 +63,7 @@ export default function SiteSettingsPage() {
             <Skeleton className="h-10 w-1/3" />
             <Skeleton className="h-64 w-full" />
             <Skeleton className="h-64 w-full" />
+            <Skeleton className="h-64 w-full" />
         </div>
     }
 
@@ -73,14 +75,12 @@ export default function SiteSettingsPage() {
             </div>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                    <Accordion type="multiple" defaultValue={['branding', 'seo']} className="w-full space-y-4">
+                    <Accordion type="multiple" defaultValue={['branding']} className="w-full space-y-4">
                         <Card>
                           <AccordionItem value="branding" className="border-b-0">
-                           <CardHeader>
-                             <AccordionTrigger>
-                                <h3 className="text-lg font-medium">Branding & Logos</h3>
-                             </AccordionTrigger>
-                           </CardHeader>
+                           <AccordionTrigger className="px-6 py-4">
+                               <h3 className="text-lg font-medium">Branding & Logos</h3>
+                           </AccordionTrigger>
                             <AccordionContent>
                                 <CardDescription className="px-6 pb-4">Update your site's logos and favicon.</CardDescription>
                                 <CardContent className="space-y-4 pt-0">
@@ -94,11 +94,9 @@ export default function SiteSettingsPage() {
 
                         <Card>
                           <AccordionItem value="seo" className="border-b-0">
-                            <CardHeader>
-                              <AccordionTrigger>
-                                  <h3 className="text-lg font-medium">Global SEO & Metadata</h3>
-                              </AccordionTrigger>
-                            </CardHeader>
+                             <AccordionTrigger className="px-6 py-4">
+                                <h3 className="text-lg font-medium">Global SEO & Metadata</h3>
+                             </AccordionTrigger>
                             <AccordionContent>
                                  <CardDescription className="px-6 pb-4">Set default metadata for pages that don't have their own.</CardDescription>
                                 <CardContent className="space-y-4 pt-0">
@@ -112,16 +110,37 @@ export default function SiteSettingsPage() {
                         
                         <Card>
                           <AccordionItem value="integrations" className="border-b-0">
-                            <CardHeader>
-                             <AccordionTrigger>
+                             <AccordionTrigger className="px-6 py-4">
                                 <h3 className="text-lg font-medium">Webmaster Tools</h3>
                              </AccordionTrigger>
-                            </CardHeader>
                              <AccordionContent>
                                 <CardDescription className="px-6 pb-4">Integrate with search engine webmaster tools for site verification.</CardDescription>
                                 <CardContent className="space-y-4 pt-0">
                                     <FormField control={form.control} name="googleSiteVerification" render={({ field }) => (<FormItem><FormLabel>Google Site Verification Code</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Enter the content attribute from Google's meta tag.</FormDescription><FormMessage /></FormItem>)} />
                                     <FormField control={form.control} name="bingSiteVerification" render={({ field }) => (<FormItem><FormLabel>Bing Site Verification Code</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Enter the content attribute from Bing's meta tag.</FormDescription><FormMessage /></FormItem>)} />
+                                </CardContent>
+                            </AccordionContent>
+                          </AccordionItem>
+                        </Card>
+
+                        <Card>
+                          <AccordionItem value="robots" className="border-b-0">
+                             <AccordionTrigger className="px-6 py-4">
+                                <h3 className="text-lg font-medium">Robots.txt</h3>
+                             </AccordionTrigger>
+                             <AccordionContent>
+                                <CardDescription className="px-6 pb-4">Manage the content of your `robots.txt` file to control search engine crawlers.</CardDescription>
+                                <CardContent className="space-y-4 pt-0">
+                                    <FormField control={form.control} name="robotsTxt" render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>robots.txt Content</FormLabel>
+                                            <FormControl>
+                                                <Textarea {...field} className="h-48 font-mono text-xs" />
+                                            </FormControl>
+                                            <FormDescription>Note: Changes may require a server restart to take effect on a live site.</FormDescription>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )} />
                                 </CardContent>
                             </AccordionContent>
                           </AccordionItem>
