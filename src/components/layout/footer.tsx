@@ -67,12 +67,12 @@ export function Footer() {
           <p className="text-sm" style={{ color: '#383838' }}>
             Driving growth with data-driven digital marketing strategies that deliver results.
           </p>
-          <div className="flex gap-3 mt-2 pl-1">
+          <div className="flex flex-wrap gap-3 mt-2">
             {socialLinks?.facebook && <Link href={socialLinks.facebook} target="_blank" aria-label="Facebook" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-facebook text-white"><FontAwesomeIcon icon={faFacebook} className="h-5 w-5" /></Link>}
             {socialLinks?.instagram && <Link href={socialLinks.instagram} target="_blank" aria-label="Instagram" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-instagram text-white"><FontAwesomeIcon icon={faInstagram} className="h-5 w-5" /></Link>}
             {socialLinks?.linkedin && <Link href={socialLinks.linkedin} target="_blank" aria-label="LinkedIn" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-linkedin text-white"><FontAwesomeIcon icon={faLinkedin} className="h-5 w-5" /></Link>}
             {socialLinks?.whatsapp && <Link href={socialLinks.whatsapp} target="_blank" aria-label="WhatsApp" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-whatsapp text-white"><FontAwesomeIcon icon={faWhatsapp} className="h-5 w-5" /></Link>}
-            {socialLinks?.telegram && <Link href={socialLinks.telegram} target="_blank" aria-label="Telegram" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-google text-white"><FontAwesomeIcon icon={faTelegram} className="h-5 w-5" /></Link>}
+            {socialLinks?.telegram && <Link href={socialLinks.telegram} target="_blank" aria-label="Telegram" className="h-8 w-8 flex items-center justify-center rounded-full bg-blue-500 text-white"><FontAwesomeIcon icon={faTelegram} className="h-5 w-5" /></Link>}
             {socialLinks?.googleMyBusiness && <Link href={socialLinks.googleMyBusiness} target="_blank" aria-label="Google Business" className="h-8 w-8 flex items-center justify-center rounded-full bg-social-google text-white"><FontAwesomeIcon icon={faGoogle} className="h-5 w-5" /></Link>}
             {socialLinks?.github && <Link href={socialLinks.github} target="_blank" aria-label="Github" className="h-8 w-8 flex items-center justify-center rounded-full bg-black text-white"><FontAwesomeIcon icon={faGithub} className="h-5 w-5" /></Link>}
           </div>
