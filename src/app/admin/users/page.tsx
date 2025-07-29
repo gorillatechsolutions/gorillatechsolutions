@@ -85,8 +85,8 @@ export default function AdminUsersPage() {
             <CardHeader>
                 <div className="flex justify-between items-center">
                     <div>
-                        <CardTitle>User Management & Credentials</CardTitle>
-                        <CardDescription>View, create, edit, and delete non-admin users, and see their credentials for testing.</CardDescription>
+                        <CardTitle>User Management</CardTitle>
+                        <CardDescription>View, create, edit, and delete non-admin users.</CardDescription>
                     </div>
                     <div className="flex items-center gap-2">
                         {selectedUsers.length > 0 && (
@@ -151,7 +151,7 @@ export default function AdminUsersPage() {
                                 <TableCell className="font-medium">
                                     <div className="flex items-center gap-3">
                                         <Avatar className="h-10 w-10">
-                                            <AvatarImage src="https://placehold.co/100x100.png" alt={user.name} data-ai-hint="person avatar" />
+                                            <AvatarImage src="https://i.ibb.co/1mgpC4j/g-logo.png" alt={user.name} data-ai-hint="person avatar" />
                                             <AvatarFallback>{user.name.charAt(0).toUpperCase()}</AvatarFallback>
                                         </Avatar>
                                         <div>

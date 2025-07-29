@@ -152,7 +152,7 @@ export default function ProfilePage() {
                 <Card>
                     <CardContent className="p-6 flex flex-col items-center text-center">
                         <Avatar className="h-24 w-24 mb-4 border-4 border-primary">
-                            <AvatarImage src="https://placehold.co/100x100.png" alt={user.name} data-ai-hint="person avatar" />
+                            <AvatarImage src="https://i.ibb.co/1mgpC4j/g-logo.png" alt={user.name} data-ai-hint="google logo" />
                             <AvatarFallback className="text-3xl">{user.name.charAt(0).toUpperCase()}</AvatarFallback>
                         </Avatar>
                         <h2 className="text-xl font-bold font-headline">{user.name}</h2>

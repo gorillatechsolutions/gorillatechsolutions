@@ -67,7 +67,7 @@ export default function AdminLayout({
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="flex items-center gap-3 w-full justify-start h-auto px-2 py-2">
                 <Avatar className="h-9 w-9">
-                  <AvatarImage src="https://placehold.co/100x100.png" alt={user.name} data-ai-hint="person avatar" />
+                  <AvatarImage src="https://i.ibb.co/1mgpC4j/g-logo.png" alt={user.name} data-ai-hint="google logo" />
                   <AvatarFallback>{user.name ? user.name.charAt(0).toUpperCase() : 'A'}</AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col items-start text-left">

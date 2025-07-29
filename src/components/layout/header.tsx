@@ -29,13 +29,14 @@ const NAV_LINKS = [
 function UserNav({ user, onLogout }: { user: User, onLogout: () => void }) {
     const { getUnreadCount } = useMessage();
     const unreadCount = getUnreadCount(user.email);
+    const isAdmin = user?.role === 'admin';
 
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-10 w-10 rounded-full">
                     <Avatar className="h-10 w-10">
-                        <AvatarImage src="https://placehold.co/100x100.png" alt={user.name} data-ai-hint="person avatar" />
+                        <AvatarImage src="https://i.ibb.co/1mgpC4j/g-logo.png" alt={user.name} data-ai-hint="google logo" />
                         <AvatarFallback>{user.name.charAt(0).toUpperCase()}</AvatarFallback>
                     </Avatar>
                 </Button>
@@ -63,7 +64,7 @@ function UserNav({ user, onLogout }: { user: User, onLogout: () => void }) {
                         )}
                     </Link>
                 </DropdownMenuItem>
-                 {user.role !== 'admin' && (
+                 {!isAdmin && (
                     <DropdownMenuItem asChild>
                         <Link href="/upgrade">
                             <Gem className="mr-2 h-4 w-4 text-accent" />
