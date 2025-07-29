@@ -24,6 +24,8 @@ import { PricingPlanProvider } from '@/contexts/pricing-plan-context';
 import { SiteSettingsProvider } from '@/contexts/site-settings-context';
 import { SiteSettingsManager } from '@/components/layout/site-settings-manager';
 import Script from 'next/script';
+import { ChatProvider } from '@/contexts/chat-context';
+import { ChatWidget } from '@/components/chat-widget';
 
 export const metadata: Metadata = {
   title: {
@@ -46,6 +48,7 @@ export default function RootLayout({
       <body className={cn('min-h-screen bg-background font-body antialiased')}>
         <AuthProvider>
           <MessageProvider>
+            <ChatProvider>
               <SiteSettingsProvider>
                 <CaseStudyProvider>
                   <AppProvider>
@@ -66,6 +69,7 @@ export default function RootLayout({
                                                 <Header />
                                                 <main className="flex-1">{children}</main>
                                                 <Footer />
+                                                <ChatWidget />
                                             </div>
                                             <Toaster />
                                           </PricingPlanProvider>
@@ -83,6 +87,7 @@ export default function RootLayout({
                   </AppProvider>
                 </CaseStudyProvider>
               </SiteSettingsProvider>
+            </ChatProvider>
           </MessageProvider>
         </AuthProvider>
         <Script src="https://checkout.razorpay.com/v1/checkout.js" />
