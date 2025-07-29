@@ -2,5 +2,5 @@
 import { EditUserPageClient } from '@/components/admin/user-form-client';
 
 export default function EditUserPage({ params }: { params: { email: string } }) {
-  return <EditUserPageClient params={params} />;
+  return <EditUserPageClient email={params.email} />;
 }

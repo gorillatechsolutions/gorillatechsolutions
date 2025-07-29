@@ -8,8 +8,7 @@ import { notFound } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import type { User } from '@/contexts/auth-context';
 
-export function EditUserPageClient({ params }: { params: { email: string } }) {
-  const { email } = params;
+export function EditUserPageClient({ email }: { email: string }) {
   const { getUserByEmail, loading } = useAuth();
   const [user, setUser] = useState<User | null | undefined>(undefined);
 
