@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { useChat } from '@/contexts/chat-context';
 import { useAuth } from '@/contexts/auth-context';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -14,6 +14,7 @@ import { Send, ArrowLeft, Paperclip, File as FileIcon, X } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { format } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFile, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useToast } from '@/hooks/use-toast';
 
 type Attachment = {
@@ -32,26 +33,29 @@ export default function AdminSupportChatPage() {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
+    const conversationList = useMemo(() => {
+        return Object.keys(conversations).map(email => {
+            const user = users.find(u => u.email === email);
+            const lastMessage = conversations[email][conversations[email].length - 1];
+            const unreadCount = conversations[email].filter(m => m.sender === 'user' && !m.read).length;
+            return {
+                id: email,
+                user,
+                lastMessage: lastMessage?.text || 'No messages yet.',
+                timestamp: lastMessage?.timestamp,
+                unreadCount
+            };
+        }).sort((a, b) => {
+            if (a.unreadCount > 0 && b.unreadCount === 0) return -1;
+            if (b.unreadCount > 0 && a.unreadCount === 0) return 1;
+            if (a.timestamp && b.timestamp) return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+            if (a.timestamp) return -1;
+            if (b.timestamp) return 1;
+            return 0;
+        });
+    }, [conversations, users]);
+
     const activeConversation = selectedConversationId ? getConversation(selectedConversationId) : [];
-    const conversationList = Object.keys(conversations).map(email => {
-        const user = users.find(u => u.email === email);
-        const lastMessage = conversations[email][conversations[email].length - 1];
-        const unreadCount = conversations[email].filter(m => m.sender === 'user' && !m.read).length;
-        return {
-            id: email,
-            user,
-            lastMessage: lastMessage?.text || 'No messages yet.',
-            timestamp: lastMessage?.timestamp,
-            unreadCount
-        };
-    }).sort((a, b) => {
-        if (a.unreadCount > 0 && b.unreadCount === 0) return -1;
-        if (b.unreadCount > 0 && a.unreadCount === 0) return 1;
-        if (a.timestamp && b.timestamp) return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
-        if (a.timestamp) return -1;
-        if (b.timestamp) return 1;
-        return 0;
-    });
 
     useEffect(() => {
         if (selectedConversationId) {
@@ -155,7 +159,7 @@ export default function AdminSupportChatPage() {
                                                 {msg.text && <p className="text-sm">{msg.text}</p>}
                                                 {msg.attachment && (
                                                   <a href={msg.attachment.dataUrl} download={msg.attachment.name} className="flex items-center gap-2 mt-2 p-2 rounded-md bg-black/10 hover:bg-black/20">
-                                                    <FileIcon className="h-4 w-4" />
+                                                    <FontAwesomeIcon icon={faFile} className="h-4 w-4" />
                                                     <span className="text-xs font-medium truncate">{msg.attachment.name}</span>
                                                   </a>
                                                 )}
@@ -182,7 +186,7 @@ export default function AdminSupportChatPage() {
                                                 if (fileInputRef.current) fileInputRef.current.value = '';
                                             }}
                                         >
-                                            <X className="h-4 w-4" />
+                                            <FontAwesomeIcon icon={faXmark} className="h-4 w-4" />
                                         </Button>
                                     </div>
                                 )}
