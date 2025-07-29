@@ -75,8 +75,8 @@ export default function SiteSettingsPage() {
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <Accordion type="multiple" defaultValue={['branding', 'seo']} className="w-full space-y-4">
                         <Card as={AccordionItem} value="branding">
-                           <AccordionTrigger className="px-6 py-4">
-                              <CardTitle>Branding & Logos</CardTitle>
+                           <AccordionTrigger>
+                              <h3 className="text-lg font-medium">Branding & Logos</h3>
                            </AccordionTrigger>
                             <AccordionContent>
                                 <CardDescription className="px-6 pb-4">Update your site's logos and favicon.</CardDescription>
@@ -89,8 +89,8 @@ export default function SiteSettingsPage() {
                         </Card>
 
                         <Card as={AccordionItem} value="seo">
-                            <AccordionTrigger className="px-6 py-4">
-                                <CardTitle>Global SEO & Metadata</CardTitle>
+                            <AccordionTrigger>
+                                <h3 className="text-lg font-medium">Global SEO & Metadata</h3>
                             </AccordionTrigger>
                             <AccordionContent>
                                  <CardDescription className="px-6 pb-4">Set default metadata for pages that don't have their own.</CardDescription>
@@ -103,8 +103,8 @@ export default function SiteSettingsPage() {
                         </Card>
                         
                         <Card as={AccordionItem} value="integrations">
-                             <AccordionTrigger className="px-6 py-4">
-                                <CardTitle>Webmaster Tools</CardTitle>
+                             <AccordionTrigger>
+                                <h3 className="text-lg font-medium">Webmaster Tools</h3>
                              </AccordionTrigger>
                              <AccordionContent>
                                 <CardDescription className="px-6 pb-4">Integrate with search engine webmaster tools for site verification.</CardDescription>

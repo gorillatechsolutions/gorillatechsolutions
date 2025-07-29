@@ -332,7 +332,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
 
                     <Accordion type="single" collapsible className="w-full">
                       <AccordionItem value="seo">
-                          <AccordionTrigger className="px-6">
+                          <AccordionTrigger>
                               <h3 className="text-lg font-medium">SEO & Metadata</h3>
                           </AccordionTrigger>
                           <AccordionContent>

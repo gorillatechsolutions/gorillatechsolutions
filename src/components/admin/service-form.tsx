@@ -256,7 +256,7 @@ export function ServiceForm({ serviceToEdit }: ServiceFormProps) {
                 </Card>
                 <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="buttons">
-                    <AccordionTrigger className="px-6">
+                    <AccordionTrigger>
                         <h3 className="text-lg font-medium">Buttons</h3>
                     </AccordionTrigger>
                       <AccordionContent>
@@ -272,7 +272,7 @@ export function ServiceForm({ serviceToEdit }: ServiceFormProps) {
                       </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="seo">
-                      <AccordionTrigger className="px-6">
+                      <AccordionTrigger>
                           <h3 className="text-lg font-medium">SEO & Metadata</h3>
                       </AccordionTrigger>
                       <AccordionContent>

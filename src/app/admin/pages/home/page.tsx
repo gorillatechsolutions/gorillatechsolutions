@@ -128,7 +128,7 @@ export default function HomeSettingsPage() {
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                     <Accordion type="multiple" defaultValue={['item-1']} className="w-full">
                         <AccordionItem value="item-1">
-                            <AccordionTrigger className="px-6">
+                            <AccordionTrigger>
                                 <h3 className="text-lg font-medium">SEO & Metadata</h3>
                             </AccordionTrigger>
                             <AccordionContent>
@@ -143,7 +143,7 @@ export default function HomeSettingsPage() {
                         </AccordionItem>
 
                         <AccordionItem value="item-2">
-                            <AccordionTrigger className="px-6">
+                            <AccordionTrigger>
                                 <h3 className="text-lg font-medium">Hero Section</h3>
                             </AccordionTrigger>
                             <AccordionContent>
@@ -169,7 +169,7 @@ export default function HomeSettingsPage() {
                         </AccordionItem>
 
                         <AccordionItem value="item-3">
-                            <AccordionTrigger className="px-6">
+                            <AccordionTrigger>
                                 <h3 className="text-lg font-medium">Proven Process Section</h3>
                             </AccordionTrigger>
                             <AccordionContent>
@@ -198,7 +198,7 @@ export default function HomeSettingsPage() {
                         </AccordionItem>
                         
                         <AccordionItem value="item-4">
-                            <AccordionTrigger className="px-6">
+                            <AccordionTrigger>
                                 <h3 className="text-lg font-medium">Commitment & Stats Section</h3>
                             </AccordionTrigger>
                             <AccordionContent>
@@ -228,7 +228,7 @@ export default function HomeSettingsPage() {
                         </AccordionItem>
 
                         <AccordionItem value="item-5">
-                             <AccordionTrigger className="px-6">
+                             <AccordionTrigger>
                                 <h3 className="text-lg font-medium">Call to Action (CTA) Section</h3>
                              </AccordionTrigger>
                             <AccordionContent>
