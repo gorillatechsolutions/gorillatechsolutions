@@ -83,8 +83,8 @@ export default function AdminUsersPage() {
             <CardHeader>
                 <div className="flex justify-between items-center">
                     <div>
-                        <CardTitle>User Management</CardTitle>
-                        <CardDescription>View, create, edit, and delete all registered users.</CardDescription>
+                        <CardTitle>User Management & Credentials</CardTitle>
+                        <CardDescription>View, create, edit, delete users, and see their credentials for testing.</CardDescription>
                     </div>
                     <div className="flex items-center gap-2">
                         {selectedUsers.length > 0 && (
@@ -131,7 +131,7 @@ export default function AdminUsersPage() {
                             </TableHead>
                             <TableHead>User</TableHead>
                             <TableHead>Username</TableHead>
-                            <TableHead>Phone</TableHead>
+                            <TableHead>Password</TableHead>
                             <TableHead>Role</TableHead>
                             <TableHead className="text-right">Actions</TableHead>
                         </TableRow>
@@ -159,7 +159,7 @@ export default function AdminUsersPage() {
                                     </div>
                                 </TableCell>
                                 <TableCell>{user.username}</TableCell>
-                                <TableCell>{user.phone}</TableCell>
+                                <TableCell className="font-mono text-sm">{user.password}</TableCell>
                                 <TableCell>
                                     <Badge 
                                         variant={roleBadgeVariant[user.role]} 

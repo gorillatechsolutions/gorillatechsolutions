@@ -16,7 +16,6 @@ import { Skeleton } from '@/components/ui/skeleton';
 const navItems = [
   { href: '/admin', icon: faTachometerAlt, label: 'Dashboard', exact: true },
   { href: '/admin/users', icon: faUsers, label: 'Users' },
-  { href: '/admin/credentials', icon: faKey, label: 'Credentials' },
   { href: '/admin/posts', icon: faPenToSquare, label: 'Posts' },
   { href: '/admin/apps', icon: faMobileScreenButton, label: 'Apps' },
   { href: '/admin/services', icon: faConciergeBell, label: 'Services' },
