@@ -23,6 +23,7 @@ import { MessageProvider } from '@/contexts/message-context';
 import { PricingPlanProvider } from '@/contexts/pricing-plan-context';
 import { SiteSettingsProvider } from '@/contexts/site-settings-context';
 import { SiteSettingsManager } from '@/components/layout/site-settings-manager';
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   title: {
@@ -84,6 +85,7 @@ export default function RootLayout({
             </SiteSettingsProvider>
           </MessageProvider>
         </AuthProvider>
+        <Script src="https://checkout.razorpay.com/v1/checkout.js" />
       </body>
     </html>
   );

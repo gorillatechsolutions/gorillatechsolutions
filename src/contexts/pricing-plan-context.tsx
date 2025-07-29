@@ -19,6 +19,7 @@ const defaultPlans: PricingPlan[] = [
     ],
     cta: 'Choose Premium',
     popular: false,
+    razorpayPlanId: 'plan_H5gA4f7iZ6k3fE',
   },
   {
     name: 'Gold',
@@ -34,6 +35,7 @@ const defaultPlans: PricingPlan[] = [
     ],
     cta: 'Choose Gold',
     popular: true,
+    razorpayPlanId: 'plan_H5gCj2fX9l3f4G',
   },
   {
     name: 'Platinum',
@@ -49,6 +51,7 @@ const defaultPlans: PricingPlan[] = [
     ],
     cta: 'Choose Platinum',
     popular: false,
+    razorpayPlanId: 'plan_H5gE1aB3c4d5F6',
   },
 ];
 
@@ -73,7 +76,11 @@ export const PricingPlanProvider: React.FC<{ children: React.ReactNode }> = ({ c
       if (storedPlans) {
         const parsed = JSON.parse(storedPlans);
         if (Array.isArray(parsed) && parsed.length > 0) {
-            setPlans(parsed);
+            const plansWithDefaults = parsed.map((plan, index) => ({
+              ...defaultPlans[index],
+              ...plan
+            }));
+            setPlans(plansWithDefaults);
         } else {
             setPlans(defaultPlans);
             localStorage.setItem(PRICING_PLANS_STORAGE_KEY, JSON.stringify(defaultPlans));

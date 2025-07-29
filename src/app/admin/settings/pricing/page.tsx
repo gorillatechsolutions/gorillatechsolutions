@@ -33,6 +33,7 @@ const planSchema = z.object({
   features: z.array(z.object({ value: z.string().min(1, 'Feature cannot be empty.') })),
   cta: z.string().min(1, 'CTA text is required.'),
   popular: z.boolean(),
+  razorpayPlanId: z.string().optional(),
 });
 
 const formSchema = z.object({
@@ -115,6 +116,8 @@ export default function PricingSettingsPage() {
                                     </div>
                                     <FormField control={form.control} name={`plans.${index}.description`} render={({ field }) => (<FormItem><FormLabel>Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} />
                                     
+                                     <FormField control={form.control} name={`plans.${index}.razorpayPlanId`} render={({ field }) => (<FormItem><FormLabel>Razorpay Plan ID (Optional)</FormLabel><FormControl><Input {...field} placeholder="e.g., plan_ABC123" /></FormControl><FormDescription>Enter the Plan ID from your Razorpay dashboard.</FormDescription><FormMessage /></FormItem>)} />
+
                                     <div className="space-y-4">
                                         <FormLabel>Features</FormLabel>
                                         {form.getValues(`plans.${index}.features`).map((_, featureIndex) => (

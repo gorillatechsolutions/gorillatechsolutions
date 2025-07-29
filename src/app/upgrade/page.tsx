@@ -9,8 +9,14 @@ import { useAuth } from '@/contexts/auth-context';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import { usePricingPlan } from '@/contexts/pricing-plan-context';
-import type { PlanTier } from '@/types/pricing-plan';
+import type { PlanTier, PricingPlan } from '@/types/pricing-plan';
 import { Skeleton } from '@/components/ui/skeleton';
+
+declare global {
+    interface Window {
+      Razorpay: any;
+    }
+}
 
 export default function UpgradePage() {
     const { user, updateUser } = useAuth();
@@ -18,22 +24,66 @@ export default function UpgradePage() {
     const router = useRouter();
     const { plans, loading } = usePricingPlan();
 
-    const handleUpgrade = (tier: PlanTier) => {
-        if (user) {
-            updateUser(user.email, { role: tier });
-            toast({
-                title: 'Upgrade Successful!',
-                description: `You have successfully upgraded to the ${tier} plan.`,
-            });
-            router.push('/profile');
-        } else {
+    const handleUpgrade = (plan: PricingPlan) => {
+        if (!user) {
              toast({
                 variant: 'destructive',
                 title: 'Not Logged In',
                 description: `You must be logged in to upgrade your plan.`,
             });
-            router.push('/login');
+            router.push('/login?redirect=/upgrade');
+            return;
         }
+
+        if (!plan.razorpayPlanId) {
+             toast({
+                variant: 'destructive',
+                title: 'Plan Not Available',
+                description: `This plan is not configured for online purchase. Please contact support.`,
+            });
+            return;
+        }
+
+        const options = {
+            key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_test_xxxxxxxxxxxxxx', // Use test key as fallback
+            plan_id: plan.razorpayPlanId,
+            name: "Gorilla Tech Solutions",
+            description: `Upgrade to ${plan.name} Plan`,
+            image: "https://placehold.co/100x100.png",
+            handler: function (response: any) {
+                // In a real app, you would verify this on the backend
+                console.log('Razorpay response:', response);
+                updateUser(user.email, { role: plan.tier });
+                toast({
+                    title: 'Upgrade Successful!',
+                    description: `You have successfully upgraded to the ${plan.name} plan.`,
+                });
+                router.push('/profile');
+            },
+            prefill: {
+                name: user.name,
+                email: user.email,
+                contact: user.phone || ''
+            },
+            notes: {
+                address: user.address || 'No address provided'
+            },
+            theme: {
+                color: "#243878"
+            }
+        };
+
+        if (typeof window.Razorpay === 'undefined') {
+            toast({
+                variant: 'destructive',
+                title: 'Payment Gateway Error',
+                description: 'Could not connect to the payment gateway. Please try again later.',
+            });
+            return;
+        }
+
+        const rzp = new window.Razorpay(options);
+        rzp.open();
     }
     
     if (loading) {
@@ -101,7 +151,7 @@ export default function UpgradePage() {
                 <Button 
                   className={cn("w-full", !plan.popular && "bg-accent text-accent-foreground hover:bg-accent/90")}
                   variant={plan.popular ? 'default' : 'secondary'}
-                  onClick={() => handleUpgrade(plan.tier)}
+                  onClick={() => handleUpgrade(plan)}
                   disabled={user?.role === plan.tier}
                 >
                   {user?.role === plan.tier ? 'Current Plan' : plan.cta}

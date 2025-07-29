@@ -9,4 +9,5 @@ export interface PricingPlan {
   features: string[];
   cta: string;
   popular?: boolean;
+  razorpayPlanId?: string;
 }
