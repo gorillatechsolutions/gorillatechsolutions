@@ -74,10 +74,13 @@ export default function SiteSettingsPage() {
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <Accordion type="multiple" defaultValue={['branding', 'seo']} className="w-full space-y-4">
-                        <Card as={AccordionItem} value="branding">
-                           <AccordionTrigger>
-                              <h3 className="text-lg font-medium">Branding & Logos</h3>
-                           </AccordionTrigger>
+                        <Card>
+                          <AccordionItem value="branding" className="border-b-0">
+                           <CardHeader>
+                             <AccordionTrigger>
+                                <h3 className="text-lg font-medium">Branding & Logos</h3>
+                             </AccordionTrigger>
+                           </CardHeader>
                             <AccordionContent>
                                 <CardDescription className="px-6 pb-4">Update your site's logos and favicon.</CardDescription>
                                 <CardContent className="space-y-4 pt-0">
@@ -86,12 +89,16 @@ export default function SiteSettingsPage() {
                                     <FormField control={form.control} name="favicon" render={({ field }) => (<FormItem><FormLabel>Favicon URL (.ico, .svg, .png)</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
                                 </CardContent>
                             </AccordionContent>
+                          </AccordionItem>
                         </Card>
 
-                        <Card as={AccordionItem} value="seo">
-                            <AccordionTrigger>
-                                <h3 className="text-lg font-medium">Global SEO & Metadata</h3>
-                            </AccordionTrigger>
+                        <Card>
+                          <AccordionItem value="seo" className="border-b-0">
+                            <CardHeader>
+                              <AccordionTrigger>
+                                  <h3 className="text-lg font-medium">Global SEO & Metadata</h3>
+                              </AccordionTrigger>
+                            </CardHeader>
                             <AccordionContent>
                                  <CardDescription className="px-6 pb-4">Set default metadata for pages that don't have their own.</CardDescription>
                                 <CardContent className="space-y-4 pt-0">
@@ -100,12 +107,16 @@ export default function SiteSettingsPage() {
                                     <FormField control={form.control} name="metaKeywords" render={({ field }) => (<FormItem><FormLabel>Default Meta Keywords</FormLabel><FormControl><Textarea {...field} /></FormControl><FormDescription>Comma-separated keywords for search engines.</FormDescription><FormMessage /></FormItem>)} />
                                 </CardContent>
                             </AccordionContent>
+                          </AccordionItem>
                         </Card>
                         
-                        <Card as={AccordionItem} value="integrations">
+                        <Card>
+                          <AccordionItem value="integrations" className="border-b-0">
+                            <CardHeader>
                              <AccordionTrigger>
                                 <h3 className="text-lg font-medium">Webmaster Tools</h3>
                              </AccordionTrigger>
+                            </CardHeader>
                              <AccordionContent>
                                 <CardDescription className="px-6 pb-4">Integrate with search engine webmaster tools for site verification.</CardDescription>
                                 <CardContent className="space-y-4 pt-0">
@@ -113,6 +124,7 @@ export default function SiteSettingsPage() {
                                     <FormField control={form.control} name="bingSiteVerification" render={({ field }) => (<FormItem><FormLabel>Bing Site Verification Code</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Enter the content attribute from Bing's meta tag.</FormDescription><FormMessage /></FormItem>)} />
                                 </CardContent>
                             </AccordionContent>
+                          </AccordionItem>
                         </Card>
                     </Accordion>
                     <Button type="submit">Save Settings</Button>

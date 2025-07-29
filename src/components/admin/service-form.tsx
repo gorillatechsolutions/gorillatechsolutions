@@ -254,38 +254,48 @@ export function ServiceForm({ serviceToEdit }: ServiceFormProps) {
                     )}
                     </CardContent>
                 </Card>
-                <Accordion type="single" collapsible className="w-full">
-                  <AccordionItem value="buttons">
-                    <AccordionTrigger>
-                        <h3 className="text-lg font-medium">Buttons</h3>
-                    </AccordionTrigger>
-                      <AccordionContent>
-                           <CardDescription className="px-6 pb-4">Update the text and links for the service card buttons.</CardDescription>
-                           <CardContent className="space-y-4 pt-0">
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <FormField control={form.control} name="contactButtonText" render={({ field }) => (<FormItem><FormLabel>Contact Button Text</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                <FormField control={form.control} name="contactButtonLink" render={({ field }) => (<FormItem><FormLabel>Contact Button Link</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                <FormField control={form.control} name="readMoreButtonText" render={({ field }) => (<FormItem><FormLabel>Read More Button Text</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                <FormField control={form.control} name="readMoreButtonLink" render={({ field }) => (<FormItem><FormLabel>Read More Button Link</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                              </div>
-                          </CardContent>
-                      </AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="seo">
-                      <AccordionTrigger>
-                          <h3 className="text-lg font-medium">SEO & Metadata</h3>
-                      </AccordionTrigger>
-                      <AccordionContent>
-                           <CardDescription className="px-6 pb-4">Update the metadata for search engines.</CardDescription>
-                           <CardContent className="space-y-4 pt-0">
-                              <FormField control={form.control} name="metaTitle" render={({ field }) => (<FormItem><FormLabel>Meta Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                              <FormField control={form.control} name="metaDescription" render={({ field }) => (<FormItem><FormLabel>Meta Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} />
-                              <FormField control={form.control} name="metaKeywords" render={({ field }) => (<FormItem><FormLabel>Meta Keywords</FormLabel><FormControl><Textarea {...field} placeholder="e.g., service one, service two" /></FormControl><FormDescription>Enter keywords separated by commas.</FormDescription><FormMessage /></FormItem>)} />
-                              <FormField control={form.control} name="ogImage" render={({ field }) => (<FormItem><FormLabel>Open Graph Image URL</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Recommended size: 1200x630 pixels.</FormDescription><FormMessage /></FormItem>)} />
-                          </CardContent>
-                      </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
+                <Card>
+                    <Accordion type="single" collapsible className="w-full">
+                      <AccordionItem value="buttons" className="border-b-0">
+                        <CardHeader>
+                          <AccordionTrigger>
+                              <h3 className="text-lg font-medium">Buttons</h3>
+                          </AccordionTrigger>
+                        </CardHeader>
+                          <AccordionContent>
+                               <CardDescription className="px-6 pb-4">Update the text and links for the service card buttons.</CardDescription>
+                               <CardContent className="space-y-4 pt-0">
+                                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <FormField control={form.control} name="contactButtonText" render={({ field }) => (<FormItem><FormLabel>Contact Button Text</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                    <FormField control={form.control} name="contactButtonLink" render={({ field }) => (<FormItem><FormLabel>Contact Button Link</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                    <FormField control={form.control} name="readMoreButtonText" render={({ field }) => (<FormItem><FormLabel>Read More Button Text</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                    <FormField control={form.control} name="readMoreButtonLink" render={({ field }) => (<FormItem><FormLabel>Read More Button Link</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                  </div>
+                              </CardContent>
+                          </AccordionContent>
+                      </AccordionItem>
+                    </Accordion>
+                </Card>
+                <Card>
+                    <Accordion type="single" collapsible className="w-full">
+                      <AccordionItem value="seo" className="border-b-0">
+                        <CardHeader>
+                          <AccordionTrigger>
+                              <h3 className="text-lg font-medium">SEO & Metadata</h3>
+                          </AccordionTrigger>
+                        </CardHeader>
+                          <AccordionContent>
+                               <CardDescription className="px-6 pb-4">Update the metadata for search engines.</CardDescription>
+                               <CardContent className="space-y-4 pt-0">
+                                  <FormField control={form.control} name="metaTitle" render={({ field }) => (<FormItem><FormLabel>Meta Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                  <FormField control={form.control} name="metaDescription" render={({ field }) => (<FormItem><FormLabel>Meta Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                  <FormField control={form.control} name="metaKeywords" render={({ field }) => (<FormItem><FormLabel>Meta Keywords</FormLabel><FormControl><Textarea {...field} placeholder="e.g., service one, service two" /></FormControl><FormDescription>Enter keywords separated by commas.</FormDescription><FormMessage /></FormItem>)} />
+                                  <FormField control={form.control} name="ogImage" render={({ field }) => (<FormItem><FormLabel>Open Graph Image URL</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Recommended size: 1200x630 pixels.</FormDescription><FormMessage /></FormItem>)} />
+                              </CardContent>
+                          </AccordionContent>
+                      </AccordionItem>
+                    </Accordion>
+                </Card>
 
                 <div className="flex gap-4">
                     <Button type="submit">{serviceToEdit ? 'Update Service' : 'Create Service'}</Button>

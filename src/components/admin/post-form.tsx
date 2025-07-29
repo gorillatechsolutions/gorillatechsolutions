@@ -330,22 +330,26 @@ export function PostForm({ postToEdit }: PostFormProps) {
                         </CardContent>
                     </Card>
 
-                    <Accordion type="single" collapsible className="w-full">
-                      <AccordionItem value="seo">
-                          <AccordionTrigger>
-                              <h3 className="text-lg font-medium">SEO & Metadata</h3>
-                          </AccordionTrigger>
-                          <AccordionContent>
-                              <CardDescription className="px-6 pb-4">Update the metadata for search engines.</CardDescription>
-                              <CardContent className="space-y-4 pt-0">
-                                  <FormField control={form.control} name="metaTitle" render={({ field }) => (<FormItem><FormLabel>Meta Title</FormLabel><FormControl><Input placeholder="A catchy title for search engines" {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                  <FormField control={form.control} name="metaDescription" render={({ field }) => (<FormItem><FormLabel>Meta Description</FormLabel><FormControl><Textarea placeholder="A concise description for search snippets" {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                  <FormField control={form.control} name="metaKeywords" render={({ field }) => (<FormItem><FormLabel>Meta Keywords</FormLabel><FormControl><Textarea {...field} placeholder="e.g., case study, seo, results" /></FormControl><FormDescription>Enter keywords separated by commas.</FormDescription><FormMessage /></FormItem>)} />
-                                  <FormField control={form.control} name="ogImage" render={({ field }) => (<FormItem><FormLabel>Open Graph Image URL</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Recommended size: 1200x630 pixels.</FormDescription><FormMessage /></FormItem>)} />
-                              </CardContent>
-                          </AccordionContent>
-                      </AccordionItem>
-                    </Accordion>
+                    <Card>
+                        <Accordion type="single" collapsible className="w-full">
+                          <AccordionItem value="seo" className="border-b-0">
+                              <CardHeader>
+                                <AccordionTrigger>
+                                    <h3 className="text-lg font-medium">SEO & Metadata</h3>
+                                </AccordionTrigger>
+                              </CardHeader>
+                              <AccordionContent>
+                                  <CardDescription className="px-6 pb-4">Update the metadata for search engines.</CardDescription>
+                                  <CardContent className="space-y-4 pt-0">
+                                      <FormField control={form.control} name="metaTitle" render={({ field }) => (<FormItem><FormLabel>Meta Title</FormLabel><FormControl><Input placeholder="A catchy title for search engines" {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                      <FormField control={form.control} name="metaDescription" render={({ field }) => (<FormItem><FormLabel>Meta Description</FormLabel><FormControl><Textarea placeholder="A concise description for search snippets" {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                      <FormField control={form.control} name="metaKeywords" render={({ field }) => (<FormItem><FormLabel>Meta Keywords</FormLabel><FormControl><Textarea {...field} placeholder="e.g., case study, seo, results" /></FormControl><FormDescription>Enter keywords separated by commas.</FormDescription><FormMessage /></FormItem>)} />
+                                      <FormField control={form.control} name="ogImage" render={({ field }) => (<FormItem><FormLabel>Open Graph Image URL</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Recommended size: 1200x630 pixels.</FormDescription><FormMessage /></FormItem>)} />
+                                  </CardContent>
+                              </AccordionContent>
+                          </AccordionItem>
+                        </Accordion>
+                    </Card>
                     
                     <div className="flex gap-4">
                     <Button type="submit">{postToEdit ? 'Update Post' : 'Publish Post'}</Button>

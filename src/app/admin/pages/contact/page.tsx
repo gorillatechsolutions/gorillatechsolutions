@@ -110,68 +110,84 @@ export default function ContactSettingsPage() {
             </div>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                     <Accordion type="multiple" defaultValue={['item-1']} className="w-full">
-                        <AccordionItem value="item-1">
-                            <AccordionTrigger>
-                                <h3 className="text-lg font-medium">Hero Section</h3>
-                            </AccordionTrigger>
-                            <AccordionContent>
-                                <CardDescription className="pb-4">Update the headline and sub-headline for the contact page.</CardDescription>
-                                <CardContent className="space-y-4 pt-0">
-                                    <FormField control={form.control} name="heroTitle" render={({ field }) => (<FormItem><FormLabel>Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                    <FormField control={form.control} name="heroSubtitle" render={({ field }) => (<FormItem><FormLabel>Subtitle</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                </CardContent>
-                            </AccordionContent>
-                        </AccordionItem>
-                        <AccordionItem value="item-2">
-                             <AccordionTrigger>
-                               <h3 className="text-lg font-medium">Business Details</h3>
-                            </AccordionTrigger>
-                            <AccordionContent>
-                               <CardDescription className="pb-4">Update your primary contact information.</CardDescription>
-                               <CardContent className="space-y-4 pt-0">
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <FormField control={form.control} name="phone" render={({ field }) => (<FormItem><FormLabel>Phone Number</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                        <FormField control={form.control} name="email" render={({ field }) => (<FormItem><FormLabel>Email Address</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                        <FormField control={form.control} name="address" render={({ field }) => (<FormItem><FormLabel>Address</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                        <FormField control={form.control} name="zip" render={({ field }) => (<FormItem><FormLabel>ZIP/Postal Code</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                    </div>
-                                </CardContent>
-                            </AccordionContent>
-                        </AccordionItem>
-                         <AccordionItem value="item-3">
-                             <AccordionTrigger>
-                               <h3 className="text-lg font-medium">Social Media Links</h3>
-                            </AccordionTrigger>
-                            <AccordionContent>
-                                <CardDescription className="pb-4">Enter the full URLs for your social media profiles.</CardDescription>
-                                <CardContent className="space-y-4 pt-0">
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <FormField control={form.control} name="socialLinks.facebook" render={({ field }) => (<FormItem><FormLabel>Facebook</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                        <FormField control={form.control} name="socialLinks.instagram" render={({ field }) => (<FormItem><FormLabel>Instagram</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                        <FormField control={form.control} name="socialLinks.linkedin" render={({ field }) => (<FormItem><FormLabel>LinkedIn</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                        <FormField control={form.control} name="socialLinks.whatsapp" render={({ field }) => (<FormItem><FormLabel>WhatsApp</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                        <FormField control={form.control} name="socialLinks.telegram" render={({ field }) => (<FormItem><FormLabel>Telegram</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                        <FormField control={form.control} name="socialLinks.googleMyBusiness" render={({ field }) => (<FormItem><FormLabel>Google My Business</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                        <FormField control={form.control} name="socialLinks.github" render={({ field }) => (<FormItem><FormLabel>GitHub</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                    </div>
-                                </CardContent>
-                            </AccordionContent>
-                        </AccordionItem>
-                        <AccordionItem value="item-4">
-                           <AccordionTrigger>
-                               <h3 className="text-lg font-medium">SEO & Metadata</h3>
-                            </AccordionTrigger>
-                            <AccordionContent>
-                               <CardDescription className="pb-4">Update the page's metadata for search engines and social media.</CardDescription>
-                               <CardContent className="space-y-4 pt-0">
-                                    <FormField control={form.control} name="metaTitle" render={({ field }) => (<FormItem><FormLabel>Meta Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                    <FormField control={form.control} name="metaDescription" render={({ field }) => (<FormItem><FormLabel>Meta Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                    <FormField control={form.control} name="metaKeywords" render={({ field }) => (<FormItem><FormLabel>Meta Keywords</FormLabel><FormControl><Textarea {...field} placeholder="e.g., contact us, get in touch" /></FormControl><FormDescription>Enter keywords separated by commas.</FormDescription><FormMessage /></FormItem>)} />
-                                    <FormField control={form.control} name="metaOgImage" render={({ field }) => (<FormItem><FormLabel>Open Graph Image URL</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Recommended size: 1200x630 pixels.</FormDescription><FormMessage /></FormItem>)} />
-                                </CardContent>
-                            </AccordionContent>
-                        </AccordionItem>
+                     <Accordion type="multiple" defaultValue={['item-1']} className="w-full space-y-4">
+                        <Card>
+                            <AccordionItem value="item-1" className="border-b-0">
+                                <CardHeader>
+                                    <AccordionTrigger>
+                                        <h3 className="text-lg font-medium">Hero Section</h3>
+                                    </AccordionTrigger>
+                                </CardHeader>
+                                <AccordionContent>
+                                    <CardDescription className="px-6 pb-4">Update the headline and sub-headline for the contact page.</CardDescription>
+                                    <CardContent className="space-y-4 pt-0">
+                                        <FormField control={form.control} name="heroTitle" render={({ field }) => (<FormItem><FormLabel>Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                        <FormField control={form.control} name="heroSubtitle" render={({ field }) => (<FormItem><FormLabel>Subtitle</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                    </CardContent>
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Card>
+                        <Card>
+                             <AccordionItem value="item-2" className="border-b-0">
+                                <CardHeader>
+                                   <AccordionTrigger>
+                                       <h3 className="text-lg font-medium">Business Details</h3>
+                                   </AccordionTrigger>
+                                </CardHeader>
+                                <AccordionContent>
+                                   <CardDescription className="px-6 pb-4">Update your primary contact information.</CardDescription>
+                                   <CardContent className="space-y-4 pt-0">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <FormField control={form.control} name="phone" render={({ field }) => (<FormItem><FormLabel>Phone Number</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                            <FormField control={form.control} name="email" render={({ field }) => (<FormItem><FormLabel>Email Address</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                            <FormField control={form.control} name="address" render={({ field }) => (<FormItem><FormLabel>Address</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                            <FormField control={form.control} name="zip" render={({ field }) => (<FormItem><FormLabel>ZIP/Postal Code</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                        </div>
+                                    </CardContent>
+                                </AccordionContent>
+                             </AccordionItem>
+                        </Card>
+                        <Card>
+                             <AccordionItem value="item-3" className="border-b-0">
+                                <CardHeader>
+                                   <AccordionTrigger>
+                                       <h3 className="text-lg font-medium">Social Media Links</h3>
+                                   </AccordionTrigger>
+                                </CardHeader>
+                                <AccordionContent>
+                                    <CardDescription className="px-6 pb-4">Enter the full URLs for your social media profiles.</CardDescription>
+                                    <CardContent className="space-y-4 pt-0">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <FormField control={form.control} name="socialLinks.facebook" render={({ field }) => (<FormItem><FormLabel>Facebook</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                            <FormField control={form.control} name="socialLinks.instagram" render={({ field }) => (<FormItem><FormLabel>Instagram</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                            <FormField control={form.control} name="socialLinks.linkedin" render={({ field }) => (<FormItem><FormLabel>LinkedIn</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                            <FormField control={form.control} name="socialLinks.whatsapp" render={({ field }) => (<FormItem><FormLabel>WhatsApp</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                            <FormField control={form.control} name="socialLinks.telegram" render={({ field }) => (<FormItem><FormLabel>Telegram</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                            <FormField control={form.control} name="socialLinks.googleMyBusiness" render={({ field }) => (<FormItem><FormLabel>Google My Business</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                            <FormField control={form.control} name="socialLinks.github" render={({ field }) => (<FormItem><FormLabel>GitHub</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                        </div>
+                                    </CardContent>
+                                </AccordionContent>
+                             </AccordionItem>
+                        </Card>
+                        <Card>
+                           <AccordionItem value="item-4" className="border-b-0">
+                                <CardHeader>
+                                   <AccordionTrigger>
+                                       <h3 className="text-lg font-medium">SEO & Metadata</h3>
+                                   </AccordionTrigger>
+                                </CardHeader>
+                                <AccordionContent>
+                                   <CardDescription className="px-6 pb-4">Update the page's metadata for search engines and social media.</CardDescription>
+                                   <CardContent className="space-y-4 pt-0">
+                                        <FormField control={form.control} name="metaTitle" render={({ field }) => (<FormItem><FormLabel>Meta Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                        <FormField control={form.control} name="metaDescription" render={({ field }) => (<FormItem><FormLabel>Meta Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                        <FormField control={form.control} name="metaKeywords" render={({ field }) => (<FormItem><FormLabel>Meta Keywords</FormLabel><FormControl><Textarea {...field} placeholder="e.g., contact us, get in touch" /></FormControl><FormDescription>Enter keywords separated by commas.</FormDescription><FormMessage /></FormItem>)} />
+                                        <FormField control={form.control} name="metaOgImage" render={({ field }) => (<FormItem><FormLabel>Open Graph Image URL</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Recommended size: 1200x630 pixels.</FormDescription><FormMessage /></FormItem>)} />
+                                    </CardContent>
+                                </AccordionContent>
+                           </AccordionItem>
+                        </Card>
                     </Accordion>
                     <Button type="submit">Save Settings</Button>
                 </form>
