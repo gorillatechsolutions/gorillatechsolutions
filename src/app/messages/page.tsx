@@ -10,11 +10,16 @@ import { cn } from '@/lib/utils';
 import { format, formatDistanceToNow } from 'date-fns';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { useToast } from '@/hooks/use-toast';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 export default function MessagesPage() {
   const { user, loading: authLoading } = useAuth();
-  const { messages, getMessagesForUser, markAsRead, getUnreadCount } = useMessage();
+  const { messages, getMessagesForUser, markAsRead, getUnreadCount, deleteMessage } = useMessage();
   const router = useRouter();
+  const { toast } = useToast();
   
   // This state is to force a re-render when a message is marked as read
   const [unreadCount, setUnreadCount] = useState(0);
@@ -45,6 +50,14 @@ export default function MessagesPage() {
     }
   };
 
+  const handleDelete = (messageId: string) => {
+    deleteMessage(messageId);
+    toast({
+        title: 'Message Deleted',
+        description: 'The message has been permanently removed.',
+    });
+  }
+
   return (
     <div className="w-full bg-secondary/30 text-foreground py-12 md:py-16">
       <div className="container mx-auto px-4 max-w-4xl">
@@ -64,17 +77,44 @@ export default function MessagesPage() {
                 onClick={() => handleAccordionChange(message.id)}
                 >
                 <div className="flex justify-between items-center w-full pr-4">
-                    <span className="truncate">{message.subject}</span>
+                    <div className="flex items-center gap-3">
+                        <span className={cn("h-2.5 w-2.5 rounded-full", message.read ? 'bg-transparent' : 'bg-primary')} />
+                        <span className="truncate">{message.subject}</span>
+                    </div>
                     <span className="text-sm text-muted-foreground font-normal shrink-0 ml-4">
                     {formatDistanceToNow(new Date(message.timestamp), { addSuffix: true })}
                     </span>
                 </div>
                 </AccordionTrigger>
                 <AccordionContent className="prose prose-sm max-w-none pt-2 pb-4">
-                <p className="text-xs text-muted-foreground">
-                    From: {message.senderName} | {format(new Date(message.timestamp), 'PPP p')}
-                </p>
-                <div dangerouslySetInnerHTML={{ __html: message.body }}/>
+                    <div className="text-xs text-muted-foreground mb-4">
+                        From: {message.senderName} | {format(new Date(message.timestamp), 'PPP p')}
+                    </div>
+                    <div dangerouslySetInnerHTML={{ __html: message.body }}/>
+                    <div className="mt-6 text-right not-prose">
+                         <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                                <Button variant="destructive" size="xs">
+                                    <FontAwesomeIcon icon={faTrash} className="mr-2 h-3 w-3" />
+                                    Delete
+                                </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    This action cannot be undone. This will permanently delete this message.
+                                </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={() => handleDelete(message.id)}>
+                                    Delete Message
+                                </AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
+                    </div>
                 </AccordionContent>
             </AccordionItem>
             ))}
