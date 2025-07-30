@@ -15,9 +15,8 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Checkbox } from '@/components/ui/checkbox';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faEye, faCalendar, faTags, faEdit, faTrash, faUser } from '@fortawesome/free-solid-svg-icons';
-import { Providers } from '@/components/providers';
 
-function AdminPostsListPageContent() {
+export default function AdminPostsListPage() {
   const router = useRouter();
   const { toast } = useToast();
   const { caseStudies, deleteCaseStudy, loading } = useCaseStudy();
@@ -187,13 +186,4 @@ function AdminPostsListPageContent() {
       </Card>
     </div>
   );
-}
-
-
-export default function AdminPostsListPage() {
-  return (
-    <Providers>
-      <AdminPostsListPageContent />
-    </Providers>
-  )
 }

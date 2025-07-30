@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Bar, BarChart, CartesianGrid, XAxis, Tooltip, ResponsiveContainer, LineChart, Line } from "recharts"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUsers, faBoxOpen, faDollarSign, faArrowUp } from "@fortawesome/free-solid-svg-icons";
-import { Providers } from "@/components/providers";
 
 const kpiData = [
   { title: "Total Users", value: "1,257", change: "+12.5%", icon: faUsers, iconBg: "bg-blue-100", iconColor: "text-blue-500" },
@@ -30,7 +29,7 @@ const userData = [
   { name: 'Jun', users: 350 },
 ];
 
-function AdminDashboardPageContent() {
+export default function AdminDashboardPage() {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-foreground">Dashboard Overview</h1>
@@ -92,12 +91,4 @@ function AdminDashboardPageContent() {
 
     </div>
   )
-}
-
-export default function AdminDashboardPage() {
-    return (
-        <Providers>
-            <AdminDashboardPageContent />
-        </Providers>
-    )
 }

@@ -25,8 +25,7 @@ const navItems = [
   { href: '/admin/notifications', icon: faBullhorn, label: 'Notifications' },
   { href: '/admin/pages', icon: faFileLines, label: 'Pages' },
   { href: '/admin/support', icon: faLifeRing, label: 'Support' },
-  { href: '/admin/settings/pricing', icon: faDollarSign, label: 'Pricing Plans' },
-  { href: '/admin/settings/site', icon: faCog, label: 'Site Settings' },
+  { href: '/admin/settings', icon: faCog, label: 'Settings' },
 ];
 
 function AdminLayoutContent({

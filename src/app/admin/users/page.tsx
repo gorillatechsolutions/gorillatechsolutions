@@ -20,7 +20,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Providers } from '@/components/providers';
 
 const roleBadgeVariant: Record<UserRole, 'default' | 'secondary' | 'destructive'> = {
     admin: 'destructive',
@@ -95,7 +94,7 @@ function ChangeAvatarDialog() {
     )
 }
 
-function AdminUsersPageContent() {
+export default function AdminUsersPage() {
     const { users, user: currentUser, deleteUsers } = useAuth();
     const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -302,13 +301,4 @@ function AdminUsersPageContent() {
             </Card>
         </div>
     );
-}
-
-
-export default function AdminUsersPage() {
-    return (
-        <Providers>
-            <AdminUsersPageContent />
-        </Providers>
-    )
 }

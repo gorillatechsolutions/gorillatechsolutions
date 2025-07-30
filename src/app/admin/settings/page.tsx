@@ -1,10 +1,8 @@
 
+'use client';
+
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faFileLines, faDollarSign, faCog } from "@fortawesome/free-solid-svg-icons";

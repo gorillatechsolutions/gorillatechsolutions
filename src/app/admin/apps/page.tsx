@@ -15,9 +15,8 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faEdit, faTrash, faStar, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Providers } from '@/components/providers';
 
-function AdminAppsListPageContent() {
+export default function AdminAppsListPage() {
   const router = useRouter();
   const { toast } = useToast();
   const { apps, deleteApp, loading } = useApp();
@@ -173,12 +172,4 @@ function AdminAppsListPageContent() {
       </Card>
     </div>
   );
-}
-
-export default function AdminAppsListPage() {
-  return (
-    <Providers>
-      <AdminAppsListPageContent />
-    </Providers>
-  )
 }
