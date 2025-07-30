@@ -8,7 +8,8 @@ import type { CaseStudy } from '@/types/case-study';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useCaseStudy } from '@/contexts/case-study-context';
 
-export function EditPostPageClient({ slug }: { slug: string }) {
+export function EditPostPageClient({ params }: { params: { slug: string } }) {
+  const { slug } = params;
   const { getCaseStudyBySlug, loading } = useCaseStudy();
   const [post, setPost] = useState<CaseStudy | null | undefined>(undefined);
 
