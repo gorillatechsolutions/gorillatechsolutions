@@ -17,7 +17,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { useAboutPage, AboutPageProvider } from '@/contexts/about-page-context';
+import { useAboutPage } from '@/contexts/about-page-context';
 import { useEffect } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Textarea } from '@/components/ui/textarea';
@@ -49,7 +49,7 @@ const formSchema = z.object({
   ctaSubtitle: z.string().min(1, 'CTA subtitle is required.'),
 });
 
-function AboutSettingsPageContent() {
+export default function AboutSettingsPage() {
     const { content, updateContent, loading } = useAboutPage();
     const { toast } = useToast();
 
@@ -186,14 +186,5 @@ function AboutSettingsPageContent() {
                 </form>
             </Form>
         </div>
-    );
-}
-
-
-export default function AboutSettingsPage() {
-    return (
-        <AboutPageProvider>
-            <AboutSettingsPageContent />
-        </AboutPageProvider>
     );
 }

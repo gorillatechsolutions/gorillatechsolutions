@@ -9,10 +9,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTachometerAlt, faUsers, faCog, faSignOutAlt, faPenToSquare, faMobileScreenButton, faConciergeBell, faFileLines, faStar, faDollarSign, faBullhorn, faLifeRing, faKey, faHardDrive } from '@fortawesome/free-solid-svg-icons';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { useAuth } from '@/contexts/auth-context';
+import { useAuth, AuthProvider } from '@/contexts/auth-context';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
-import { AuthProvider } from '@/contexts/auth-context';
+import { AdminProviders } from '@/components/admin/admin-providers';
 
 const navItems = [
   { href: '/admin', icon: faTachometerAlt, label: 'Dashboard', exact: true },
@@ -125,7 +125,7 @@ function AdminLayoutContent({
             </div>
         </header>
         <main className="flex-1 p-4 sm:p-6 lg:p-8 bg-secondary/40">
-            {children}
+            <AdminProviders>{children}</AdminProviders>
         </main>
       </SidebarInset>
     </SidebarProvider>
