@@ -42,5 +42,5 @@ export function EditPostPageClient({ params }: { params: { slug: string } }) {
     return null;
   }
 
-  return <PostForm postToEdit={post} />;
+  return <PostForm key={post.id} postToEdit={post} />;
 }
