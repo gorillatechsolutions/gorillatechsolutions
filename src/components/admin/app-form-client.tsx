@@ -8,7 +8,8 @@ import type { App } from '@/types/app';
 import { notFound } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-export function EditAppPageClient({ slug }: { slug: string }) {
+export function EditAppPageClient({ params }: { params: { slug: string } }) {
+  const { slug } = params;
   const { getAppBySlug, loading } = useApp();
   const [app, setApp] = useState<App | null | undefined>(undefined);
 
