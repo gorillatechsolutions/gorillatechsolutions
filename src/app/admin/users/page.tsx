@@ -146,7 +146,7 @@ export default function AdminUsersPage() {
                 <div className="flex justify-between items-center">
                     <div>
                         <CardTitle>User Management</CardTitle>
-                        <CardDescription>View, create, edit, and delete non-admin users.</CardDescription>
+                        <CardDescription>View, create, and delete non-admin users.</CardDescription>
                     </div>
                     <div className="flex items-center gap-2">
                         {selectedUsers.length > 0 && (
@@ -233,10 +233,6 @@ export default function AdminUsersPage() {
                                 </TableCell>
                                 <TableCell className="text-right space-x-2">
                                     <SendMessageDialog recipient={user} />
-                                    <Button variant="outline" size="xs" onClick={() => router.push(`/admin/users/edit/${user.email}`)}>
-                                        <FontAwesomeIcon icon={faEdit} className="mr-1 h-3 w-3" />
-                                        Edit
-                                    </Button>
                                 </TableCell>
                             </TableRow>
                         ))}
