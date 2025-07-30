@@ -142,7 +142,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
           form.setError('slug', { type: 'manual', message: 'This slug is already taken.' });
           return;
       }
-      updateCaseStudy(postToEdit.id, postData);
+      updateCaseStudy(values.id, postData);
       toast({
         title: 'Post Updated!',
         description: 'Your case study has been successfully updated.',
