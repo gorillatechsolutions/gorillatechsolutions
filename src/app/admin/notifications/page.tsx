@@ -24,6 +24,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHistory } from '@fortawesome/free-solid-svg-icons';
+import { Providers } from '@/components/providers';
 
 const formSchema = z.object({
   recipientType: z.enum(['all', 'specific']),
@@ -32,7 +33,7 @@ const formSchema = z.object({
   body: z.string().min(10, 'Message body must be at least 10 characters.'),
 });
 
-export default function NotificationsPage() {
+function NotificationsPageContent() {
   const { toast } = useToast();
   const { user: adminUser, users } = useAuth();
   const { sendMessage } = useMessage();
@@ -213,4 +214,12 @@ export default function NotificationsPage() {
       </Card>
     </div>
   );
+}
+
+export default function NotificationsPage() {
+  return (
+    <Providers>
+      <NotificationsPageContent />
+    </Providers>
+  )
 }

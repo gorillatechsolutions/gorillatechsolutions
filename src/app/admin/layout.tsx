@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/auth-context';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Providers } from '@/components/providers';
+import { AuthProvider } from '@/contexts/auth-context';
 
 const navItems = [
   { href: '/admin', icon: faTachometerAlt, label: 'Dashboard', exact: true },
@@ -139,8 +139,8 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
     return (
-        <Providers>
+        <AuthProvider>
             <AdminLayoutContent>{children}</AdminLayoutContent>
-        </Providers>
+        </AuthProvider>
     );
 }

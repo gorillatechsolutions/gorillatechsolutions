@@ -15,8 +15,9 @@ import { faPlus, faEdit, faTrash, faStar as faSolidStar } from '@fortawesome/fre
 import { faStar as faRegularStar } from '@fortawesome/free-regular-svg-icons';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Providers } from '@/components/providers';
 
-export default function AdminReviewsPage() {
+function AdminReviewsPageContent() {
   const router = useRouter();
   const { toast } = useToast();
   const { reviews, deleteReview, loading } = useReview();
@@ -177,4 +178,12 @@ export default function AdminReviewsPage() {
       </Card>
     </div>
   );
+}
+
+export default function AdminReviewsPage() {
+    return (
+        <Providers>
+            <AdminReviewsPageContent />
+        </Providers>
+    )
 }

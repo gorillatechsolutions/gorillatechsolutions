@@ -22,6 +22,7 @@ import { useEffect } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Textarea } from '@/components/ui/textarea';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Providers } from '@/components/providers';
 
 const formSchema = z.object({
   headerLogo: z.string().url('Please enter a valid URL.'),
@@ -37,7 +38,7 @@ const formSchema = z.object({
   sourceCodeLink: z.string().url('Please enter a valid URL.'),
 });
 
-export default function SiteSettingsPage() {
+function SiteSettingsPageContent() {
     const { settings, updateSettings, loading } = useSiteSettings();
     const { toast } = useToast();
 
@@ -161,4 +162,12 @@ export default function SiteSettingsPage() {
             </Form>
         </div>
     );
+}
+
+export default function SiteSettingsPage() {
+    return (
+        <Providers>
+            <SiteSettingsPageContent />
+        </Providers>
+    )
 }

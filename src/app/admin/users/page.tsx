@@ -11,7 +11,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { useToast } from '@/hooks/use-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faPlus, faImage, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faPlus, faImage, faPaperPlane, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { SendMessageDialog } from '@/components/admin/send-message-dialog';
@@ -20,6 +20,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Providers } from '@/components/providers';
 
 const roleBadgeVariant: Record<UserRole, 'default' | 'secondary' | 'destructive'> = {
     admin: 'destructive',
@@ -94,7 +95,7 @@ function ChangeAvatarDialog() {
     )
 }
 
-export default function AdminUsersPage() {
+function AdminUsersPageContent() {
     const { users, user: currentUser, deleteUsers } = useAuth();
     const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -281,7 +282,11 @@ export default function AdminUsersPage() {
                                     <TableCell>
                                         <span className="font-mono text-xs bg-muted p-1 rounded-md">{user.password}</span>
                                     </TableCell>
-                                    <TableCell className="text-right">
+                                    <TableCell className="text-right space-x-2">
+                                        <Button variant="outline" size="xs" onClick={() => router.push(`/admin/users/edit/${user.email}`)} disabled={user.email === currentUser?.email}>
+                                            <FontAwesomeIcon icon={faEdit} className="mr-1 h-3 w-3" />
+                                            Edit
+                                        </Button>
                                         <SendMessageDialog recipient={user} />
                                     </TableCell>
                                 </TableRow>
@@ -297,4 +302,13 @@ export default function AdminUsersPage() {
             </Card>
         </div>
     );
+}
+
+
+export default function AdminUsersPage() {
+    return (
+        <Providers>
+            <AdminUsersPageContent />
+        </Providers>
+    )
 }

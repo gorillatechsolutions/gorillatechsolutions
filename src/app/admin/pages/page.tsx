@@ -7,6 +7,7 @@ import { faFileLines, faAddressBook, faBalanceScale, faArrowRight, faHome, faCon
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Providers } from "@/components/providers";
 
 const pageLinks = [
     {
@@ -74,7 +75,7 @@ const pageLinks = [
     }
 ]
 
-export default function AdminPagesOverview() {
+function AdminPagesOverviewContent() {
   return (
     <div className="space-y-6">
       <div>
@@ -129,4 +130,13 @@ export default function AdminPagesOverview() {
       </Card>
     </div>
   );
+}
+
+
+export default function AdminPagesOverview() {
+    return (
+        <Providers>
+            <AdminPagesOverviewContent />
+        </Providers>
+    )
 }
