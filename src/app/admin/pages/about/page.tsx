@@ -17,13 +17,12 @@ import {
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { useAboutPage } from '@/contexts/about-page-context';
+import { useAboutPage, AboutPageProvider } from '@/contexts/about-page-context';
 import { useEffect } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Textarea } from '@/components/ui/textarea';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { Providers } from '@/components/providers';
 
 const valueSchema = z.object({
   icon: z.string().min(1, 'Icon name is required.'),
@@ -154,7 +153,7 @@ function AboutSettingsPageContent() {
                                             <FormField control={form.control} name={`values.${index}.icon`} render={({ field }) => (<FormItem><FormLabel>Icon Name</FormLabel><FormControl><Input {...field} placeholder="e.g., Bolt" /></FormControl><FormMessage /></FormItem>)} />
                                             <FormField control={form.control} name={`values.${index}.title`} render={({ field }) => (<FormItem><FormLabel>Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
                                             <div className="md:col-span-3">
-                                               <FormField control={form.control} name={`values.${index}.description`} render={({ field }) => (<FormItem><FormLabel>Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                               <FormField control={form.control} name={`values.${index}.description`} render={({ field }) => (<FormItem><FormLabel>Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormMessage /></FormItem>)} />
                                             </div>
                                         </div>
                                          <Button type="button" variant="destructive" size="sm" onClick={() => remove(index)} className="mt-2">
@@ -190,8 +189,8 @@ function AboutSettingsPageContent() {
 
 export default function AboutSettingsPage() {
     return (
-        <Providers>
+        <AboutPageProvider>
             <AboutSettingsPageContent />
-        </Providers>
+        </AboutPageProvider>
     );
 }
