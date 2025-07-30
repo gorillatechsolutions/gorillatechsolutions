@@ -284,23 +284,6 @@ export default function AdminUsersPage() {
                                     <TableCell className="text-right">
                                         <div className="flex items-center justify-end gap-2">
                                             <SendMessageDialog recipient={user} />
-                                             <AlertDialog>
-                                                <AlertDialogTrigger asChild>
-                                                    <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive" disabled={user.email === currentUser?.email}>
-                                                        <FontAwesomeIcon icon={faTrash} className="h-4 w-4" />
-                                                    </Button>
-                                                </AlertDialogTrigger>
-                                                <AlertDialogContent>
-                                                    <AlertDialogHeader>
-                                                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                                                        <AlertDialogDescription>This action will permanently delete the user {user.name}.</AlertDialogDescription>
-                                                    </AlertDialogHeader>
-                                                    <AlertDialogFooter>
-                                                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                                        <AlertDialogAction onClick={() => handleDelete([user.email])}>Delete</AlertDialogAction>
-                                                    </AlertDialogFooter>
-                                                </AlertDialogContent>
-                                            </AlertDialog>
                                         </div>
                                     </TableCell>
                                 </TableRow>
