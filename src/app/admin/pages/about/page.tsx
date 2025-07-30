@@ -23,6 +23,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Textarea } from '@/components/ui/textarea';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { Providers } from '@/components/providers';
 
 const valueSchema = z.object({
   icon: z.string().min(1, 'Icon name is required.'),
@@ -49,7 +50,7 @@ const formSchema = z.object({
   ctaSubtitle: z.string().min(1, 'CTA subtitle is required.'),
 });
 
-export default function AboutSettingsPage() {
+function AboutSettingsPageContent() {
     const { content, updateContent, loading } = useAboutPage();
     const { toast } = useToast();
 
@@ -184,5 +185,13 @@ export default function AboutSettingsPage() {
                 </form>
             </Form>
         </div>
+    );
+}
+
+export default function AboutSettingsPage() {
+    return (
+        <Providers>
+            <AboutSettingsPageContent />
+        </Providers>
     );
 }
