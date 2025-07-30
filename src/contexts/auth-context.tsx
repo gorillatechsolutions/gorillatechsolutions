@@ -198,6 +198,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const updateUser = (originalEmail: string, userData: Partial<User>) => {
+    let updatedCurrentUserInList: User | undefined;
     const updatedUsers = users.map(u => {
       if (u.email === originalEmail) {
         const { password, ...rest } = userData;
@@ -205,6 +206,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (password) {
           newUserData.password = password;
         }
+        updatedCurrentUserInList = newUserData;
         return newUserData;
       }
       return u;
@@ -212,13 +214,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUsers(updatedUsers);
     localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(updatedUsers));
 
-    if (user && user.email === originalEmail) {
-      const updatedCurrentUser = updatedUsers.find(u => u.email === (userData.email || originalEmail));
-      if (updatedCurrentUser) {
-        const { password, ...userWithoutPassword } = updatedCurrentUser;
+    if (user && user.email === originalEmail && updatedCurrentUserInList) {
+        const { password, ...userWithoutPassword } = updatedCurrentUserInList;
         setUser(userWithoutPassword);
         localStorage.setItem(CURRENT_USER_STORAGE_KEY, JSON.stringify(userWithoutPassword));
-      }
     }
   };
 
