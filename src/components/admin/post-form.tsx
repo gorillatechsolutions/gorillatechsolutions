@@ -101,7 +101,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
         metaKeywords: postToEdit.metaKeywords || '',
       });
     }
-  }, [postToEdit, form.reset]);
+  }, [postToEdit, form]);
   
   const handleGenerateArticle = async () => {
     if (!aiTopic) {
@@ -150,7 +150,8 @@ export function PostForm({ postToEdit }: PostFormProps) {
           form.setError('slug', { type: 'manual', message: 'This slug is already taken.' });
           return;
       }
-      updateCaseStudy(postData.id, postData);
+      // Use the ID from the form values, not the stale closure prop
+      updateCaseStudy(values.id, postData);
       toast({
         title: 'Post Updated!',
         description: 'Your case study has been successfully updated.',
