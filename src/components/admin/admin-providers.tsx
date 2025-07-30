@@ -1,6 +1,7 @@
 
 'use client';
 
+import { AuthProvider } from '@/contexts/auth-context';
 import { CaseStudyProvider } from '@/contexts/case-study-context';
 import { AppProvider } from '@/contexts/app-context';
 import { ServiceProvider } from '@/contexts/service-context';
@@ -22,42 +23,44 @@ import { StorageProvider } from '@/contexts/storage-context';
 
 export function AdminProviders({ children }: { children: React.ReactNode }) {
   return (
-    <MessageProvider>
-      <ChatProvider>
-        <SiteSettingsProvider>
-          <StorageProvider>
-            <CaseStudyProvider>
-              <AppProvider>
-                <ServiceProvider>
-                  <ContactSettingsProvider>
-                    <AboutPageProvider>
-                      <LegalPageProvider>
-                        <HomePageProvider>
-                          <ReviewProvider>
-                            <ServicesPageProvider>
-                              <CaseStudiesPageProvider>
-                                <AppsPageProvider>
-                                  <ApplicationPageProvider>
-                                    <InvestmentPageProvider>
-                                      <PricingPlanProvider>
-                                        {children}
-                                      </PricingPlanProvider>
-                                    </InvestmentPageProvider>
-                                  </ApplicationPageProvider>
-                                </AppsPageProvider>
-                              </CaseStudiesPageProvider>
-                            </ServicesPageProvider>
-                          </ReviewProvider>
-                        </HomePageProvider>
-                      </LegalPageProvider>
-                    </AboutPageProvider>
-                  </ContactSettingsProvider>
-                </ServiceProvider>
-              </AppProvider>
-            </CaseStudyProvider>
-          </StorageProvider>
-        </SiteSettingsProvider>
-      </ChatProvider>
-    </MessageProvider>
+    <AuthProvider>
+      <MessageProvider>
+        <ChatProvider>
+          <SiteSettingsProvider>
+            <StorageProvider>
+              <CaseStudyProvider>
+                <AppProvider>
+                  <ServiceProvider>
+                    <ContactSettingsProvider>
+                      <AboutPageProvider>
+                        <LegalPageProvider>
+                          <HomePageProvider>
+                            <ReviewProvider>
+                              <ServicesPageProvider>
+                                <CaseStudiesPageProvider>
+                                  <AppsPageProvider>
+                                    <ApplicationPageProvider>
+                                      <InvestmentPageProvider>
+                                        <PricingPlanProvider>
+                                          {children}
+                                        </PricingPlanProvider>
+                                      </InvestmentPageProvider>
+                                    </ApplicationPageProvider>
+                                  </AppsPageProvider>
+                                </CaseStudiesPageProvider>
+                              </ServicesPageProvider>
+                            </ReviewProvider>
+                          </HomePageProvider>
+                        </LegalPageProvider>
+                      </AboutPageProvider>
+                    </ContactSettingsProvider>
+                  </ServiceProvider>
+                </AppProvider>
+              </CaseStudyProvider>
+            </StorageProvider>
+          </SiteSettingsProvider>
+        </ChatProvider>
+      </MessageProvider>
+    </AuthProvider>
   );
 }

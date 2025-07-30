@@ -6,10 +6,10 @@ import { usePathname, useRouter } from 'next/navigation';
 import { SidebarProvider, Sidebar, SidebarTrigger, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarFooter, SidebarInset } from '@/components/ui/sidebar';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTachometerAlt, faUsers, faCog, faSignOutAlt, faPenToSquare, faMobileScreenButton, faConciergeBell, faFileLines, faStar, faDollarSign, faBullhorn, faLifeRing, faKey, faHardDrive } from '@fortawesome/free-solid-svg-icons';
+import { faTachometerAlt, faUsers, faCog, faSignOutAlt, faPenToSquare, faMobileScreenButton, faConciergeBell, faFileLines, faStar, faBullhorn, faLifeRing, faHardDrive } from '@fortawesome/free-solid-svg-icons';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { useAuth, AuthProvider } from '@/contexts/auth-context';
+import { useAuth } from '@/contexts/auth-context';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AdminProviders } from '@/components/admin/admin-providers';
@@ -28,7 +28,7 @@ const navItems = [
   { href: '/admin/settings', icon: faCog, label: 'Settings' },
 ];
 
-function AdminLayoutContent({
+function AdminLayoutComponent({
   children,
 }: {
   children: React.ReactNode;
@@ -36,7 +36,7 @@ function AdminLayoutContent({
   const pathname = usePathname();
   const router = useRouter();
   const { user, logout, loading } = useAuth();
-  
+
   useEffect(() => {
     if (!loading && !user) {
       router.push('/login');
@@ -124,7 +124,7 @@ function AdminLayoutContent({
             </div>
         </header>
         <main className="flex-1 p-4 sm:p-6 lg:p-8 bg-secondary/40">
-            <AdminProviders>{children}</AdminProviders>
+            {children}
         </main>
       </SidebarInset>
     </SidebarProvider>
@@ -138,8 +138,8 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
     return (
-        <AuthProvider>
-            <AdminLayoutContent>{children}</AdminLayoutContent>
-        </AuthProvider>
+      <AdminProviders>
+        <AdminLayoutComponent>{children}</AdminLayoutComponent>
+      </AdminProviders>
     );
 }
