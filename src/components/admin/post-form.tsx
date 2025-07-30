@@ -67,8 +67,12 @@ export function PostForm({ postToEdit }: PostFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: postToEdit ? {
-        ...postToEdit,
-        tags: postToEdit.tags.join(', ')
+      ...postToEdit,
+      tags: postToEdit.tags.join(', '),
+      ogImage: postToEdit.ogImage || '',
+      metaTitle: postToEdit.metaTitle || '',
+      metaDescription: postToEdit.metaDescription || '',
+      metaKeywords: postToEdit.metaKeywords || '',
     } : {
       id: `cs_${new Date().getTime()}`,
       title: '',
@@ -85,6 +89,19 @@ export function PostForm({ postToEdit }: PostFormProps) {
       metaKeywords: '',
     },
   });
+
+  useEffect(() => {
+    if (postToEdit) {
+      form.reset({
+        ...postToEdit,
+        tags: postToEdit.tags.join(', '),
+        ogImage: postToEdit.ogImage || '',
+        metaTitle: postToEdit.metaTitle || '',
+        metaDescription: postToEdit.metaDescription || '',
+        metaKeywords: postToEdit.metaKeywords || '',
+      });
+    }
+  }, [postToEdit, form]);
   
   const handleGenerateArticle = async () => {
     if (!aiTopic) {
@@ -121,8 +138,10 @@ export function PostForm({ postToEdit }: PostFormProps) {
   };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const postData: Omit<CaseStudy, 'date' | 'dataAiHint'> = {
+    const postData: CaseStudy = {
       ...values,
+      date: postToEdit?.date || new Date().toISOString(),
+      dataAiHint: postToEdit?.dataAiHint || 'custom article content',
       tags: values.tags.split(',').map(tag => tag.trim()),
     };
 
@@ -131,8 +150,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
           form.setError('slug', { type: 'manual', message: 'This slug is already taken.' });
           return;
       }
-      const finalPostData = { ...postData, date: postToEdit.date, dataAiHint: postToEdit.dataAiHint };
-      updateCaseStudy(finalPostData.id, finalPostData);
+      updateCaseStudy(postData.id, postData);
       toast({
         title: 'Post Updated!',
         description: 'Your case study has been successfully updated.',
@@ -142,8 +160,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
           form.setError('slug', { type: 'manual', message: 'This slug is already taken.' });
           return;
       }
-      const finalPostData = { ...postData, date: new Date().toISOString(), dataAiHint: 'custom article content' };
-      addCaseStudy(finalPostData);
+      addCaseStudy(postData);
       toast({
         title: 'Post Created!',
         description: 'Your new case study has been successfully created.',
