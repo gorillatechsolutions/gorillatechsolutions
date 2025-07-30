@@ -155,7 +155,7 @@ function AboutSettingsPageContent() {
                                             <FormField control={form.control} name={`values.${index}.icon`} render={({ field }) => (<FormItem><FormLabel>Icon Name</FormLabel><FormControl><Input {...field} placeholder="e.g., Bolt" /></FormControl><FormMessage /></FormItem>)} />
                                             <FormField control={form.control} name={`values.${index}.title`} render={({ field }) => (<FormItem><FormLabel>Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
                                             <div className="md:col-span-3">
-                                               <FormField control={form.control} name={`values.${index}.description`} render={({ field }) => (<FormItem><FormLabel>Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormMessage /></FormItem>)} />
+                                               <FormField control={form.control} name={`values.${index}.description`} render={({ field }) => (<FormItem><FormLabel>Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} />
                                             </div>
                                         </div>
                                          <Button type="button" variant="destructive" size="sm" onClick={() => remove(index)} className="mt-2">
@@ -188,6 +188,7 @@ function AboutSettingsPageContent() {
         </div>
     );
 }
+
 
 export default function AboutSettingsPage() {
     return (
