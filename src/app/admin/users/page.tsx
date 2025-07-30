@@ -11,7 +11,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { useToast } from '@/hooks/use-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faPlus, faImage, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faPlus, faImage, faPaperPlane, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { SendMessageDialog } from '@/components/admin/send-message-dialog';
@@ -211,18 +211,18 @@ export default function AdminUsersPage() {
                                 </Button>
                               </AlertDialogTrigger>
                               <AlertDialogContent>
-                                <AlertDialogHeader>
-                                  <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                                  <AlertDialogDescription>
+                                <DialogHeader>
+                                  <DialogTitle>Are you sure?</DialogTitle>
+                                  <DialogDescription>
                                     This will permanently delete {selectedUsers.length} user(s). This action cannot be undone.
-                                  </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
+                                  </DialogDescription>
+                                </DialogHeader>
+                                <DialogFooter>
                                   <AlertDialogCancel>Cancel</AlertDialogCancel>
                                   <AlertDialogAction onClick={() => handleDelete(selectedUsers)}>
                                     Continue
                                   </AlertDialogAction>
-                                </AlertDialogFooter>
+                                </DialogFooter>
                               </AlertDialogContent>
                             </AlertDialog>
                         )}
@@ -283,6 +283,10 @@ export default function AdminUsersPage() {
                                     </TableCell>
                                     <TableCell className="text-right">
                                         <div className="flex items-center justify-end gap-2">
+                                             <Button variant="outline" size="xs" onClick={() => router.push(`/admin/users/edit/${user.email}`)} disabled={user.email === currentUser?.email}>
+                                                <FontAwesomeIcon icon={faEdit} className="mr-1 h-3 w-3" />
+                                                Edit
+                                            </Button>
                                             <SendMessageDialog recipient={user} />
                                         </div>
                                     </TableCell>
