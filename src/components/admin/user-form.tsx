@@ -53,12 +53,7 @@ export function UserForm({ userToEdit }: UserFormProps) {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: userToEdit ? {
-        ...userToEdit,
-        phone: userToEdit.phone || '',
-        address: userToEdit.address || '',
-        password: '',
-    } : {
+    defaultValues: userToEdit || {
       name: '',
       username: '',
       email: '',
@@ -81,7 +76,6 @@ export function UserForm({ userToEdit }: UserFormProps) {
   }, [userToEdit, form]);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const userData = { ...values, avatar: userToEdit?.avatar || 'https://i.ibb.co/1mgpC4j/g-logo.png' };
     if (userToEdit) {
         if (values.username !== userToEdit.username && usernameExists(values.username)) {
             form.setError('username', { type: 'manual', message: 'This username is already taken.' });
@@ -91,6 +85,7 @@ export function UserForm({ userToEdit }: UserFormProps) {
             form.setError('email', { type: 'manual', message: 'This email is already taken.' });
             return;
         }
+      const userData = { ...values, avatar: userToEdit.avatar };
       updateUser(userToEdit.email, userData);
       toast({
         title: 'User Updated!',
@@ -109,6 +104,7 @@ export function UserForm({ userToEdit }: UserFormProps) {
           form.setError('password', { type: 'manual', message: 'Password is required for new users.' });
           return;
       }
+      const userData = { ...values, avatar: 'https://i.ibb.co/1mgpC4j/g-logo.png' };
       addUser(userData as User);
       toast({
         title: 'User Created!',
