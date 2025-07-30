@@ -7,6 +7,7 @@ const createContent = (text: string): string => {
 
 export const demoCaseStudies: CaseStudy[] = [
     {
+        id: 'cs_1',
         slug: 'tripled-organic-traffic-ecommerce',
         title: 'How We Tripled Organic Traffic for a Major eCommerce Brand',
         excerpt: 'Discover the SEO strategies that led to a 300% increase in organic traffic and a 150% boost in online sales for a leading eCommerce retailer.',
@@ -27,6 +28,7 @@ Our keyword research identified hundreds of high-intent transactional keywords t
 The final piece was a targeted digital PR campaign that earned high-authority backlinks from respected industry publications, significantly boosting their domain authority and search rankings across the board. The results speak for themselves: a threefold increase in organic traffic and a massive uplift in revenue.`)
     },
     {
+        id: 'cs_2',
         slug: 'slashing-b2b-saas-cpa',
         title: 'Slashing B2B SaaS Cost-Per-Acquisition by 60% with PPC',
         excerpt: 'A deep dive into the PPC optimization techniques that dramatically reduced CPA while increasing qualified lead volume for a B2B SaaS company.',
@@ -47,6 +49,7 @@ We implemented a multi-layered bidding strategy, combining automated bidding wit
 The result was a 60% reduction in CPA within three months. More importantly, the quality of leads improved, as measured by the sales team's conversion rate from lead to demo. This allowed the client to reinvest the savings into scaling their campaigns and accelerating their growth.`)
     },
     {
+        id: 'cs_3',
         slug: 'building-community-with-social-media',
         title: 'Building a Thriving Community for a Lifestyle Brand',
         excerpt: 'Learn how we used authentic engagement and user-generated content to build a highly active and loyal social media community.',
@@ -67,6 +70,7 @@ A key initiative was launching a User-Generated Content (UGC) campaign with a br
 We coupled this with proactive community management, responding to every comment and message, and initiating discussions. Within a year, their engagement rate on Instagram increased by 500%, and their follower count grew organically by 150%, creating a powerful asset for the brand.`)
     },
     {
+        id: 'cs_4',
         slug: 'healthcare-content-strategy',
         title: 'Dominating Search with a Data-Driven Healthcare Content Strategy',
         excerpt: 'How we created a pillar-and-cluster content model that established a healthcare provider as a leading authority in their field.',
@@ -87,6 +91,7 @@ This pillar page was supported by dozens of "cluster" articles, each diving deep
 This strategy resulted in first-page rankings for highly competitive medical terms, a 400% increase in organic traffic to their blog, and a significant rise in patient inquiries directly attributed to their content.`)
     },
     {
+        id: 'cs_5',
         slug: 'non-profit-email-marketing',
         title: 'Boosting Donations by 80% for a Non-Profit with Email Automation',
         excerpt: 'See how we leveraged email segmentation and automated nurturing sequences to re-engage donors and increase online contributions by 80%.',
@@ -107,6 +112,7 @@ We then built several automated email sequences. A welcome series for new subscr
 The results were transformative. The automated campaigns led to an 80% increase in online donations over six months, with a 50% increase in the rate of repeat donations, providing a sustainable new revenue stream for their important work.`)
     },
     {
+        id: 'cs_6',
         slug: 'real-estate-video-marketing',
         title: 'How Video Marketing Generated 200+ High-Quality Real Estate Leads',
         excerpt: 'This case study explores the video content strategy that helped a real estate agency generate over 200 qualified buyer and seller leads in one quarter.',
@@ -123,6 +129,7 @@ The results were transformative. The automated campaigns led to an 80% increase 
         content: createContent('Facing a saturated market, a real estate agency needed to stand out. We developed a video-first strategy focusing on property tours, neighborhood guides, and agent profiles. High-quality, professionally shot videos were distributed across YouTube, Instagram Reels, and their website. Each video was optimized for search and included clear calls-to-action, driving viewers to dedicated landing pages. This approach not only showcased their properties effectively but also built the personal brands of their agents, establishing them as local experts. The campaign resulted in a massive increase in engagement and generated over 200 high-intent leads, proving the power of video in a visual industry.')
     },
     {
+        id: 'cs_7',
         slug: 'cro-for-subscription-box',
         title: 'Increasing Subscription Box Sign-ups by 45% Through CRO',
         excerpt: 'A detailed breakdown of the Conversion Rate Optimization (CRO) process that boosted sign-ups for a monthly subscription box service by 45%.',
@@ -139,6 +146,7 @@ The results were transformative. The automated campaigns led to an 80% increase 
         content: createContent('A subscription box company had steady traffic but a low conversion rate. Using heatmaps, user session recordings, and surveys, we identified key friction points in their sign-up funnel. The pricing page was confusing, and the checkout process had too many steps. We designed and A/B tested a simplified, transparent pricing table and a streamlined, single-page checkout. We also added social proof elements like customer testimonials and trust badges. The winning variations were implemented, leading to a 45% uplift in the visitor-to-subscriber conversion rate and a significant increase in monthly recurring revenue.')
     },
     {
+        id: 'cs_8',
         slug: 'influencer-marketing-launch',
         title: 'Launching a Fashion Brand with a Targeted Influencer Campaign',
         excerpt: 'How a strategic influencer marketing campaign generated massive buzz and drove initial sales for a new direct-to-consumer fashion brand.',
@@ -155,6 +163,7 @@ The results were transformative. The automated campaigns led to an 80% increase 
         content: createContent('For a new fashion brand launch, we bypassed traditional advertising in favor of a micro-influencer-focused campaign. We identified 50 influencers whose personal style and audience demographics perfectly aligned with the brand. Instead of one-off sponsored posts, we built long-term partnerships, providing them with products and creative freedom. The authentic content they created resonated with their followers, driving high engagement and traffic. The campaign culminated in a synchronized "launch day" push, resulting in a sold-out initial collection and a foundational base of loyal customers.')
     },
     {
+        id: 'cs_9',
         slug: 'local-seo-for-law-firm',
         title: 'Dominating Local Search: SEO for a Multi-Location Law Firm',
         excerpt: 'The strategies we used to achieve top-3 map pack rankings for a law firm across five competitive metropolitan areas.',
@@ -171,6 +180,7 @@ The results were transformative. The automated campaigns led to an 80% increase 
         content: createContent('A law firm with multiple offices struggled to gain visibility in local search results. Our approach involved a complete overhaul of their local SEO foundation. We optimized their Google Business Profiles for each location, ensuring consistency and completeness. We built location-specific service pages on their website, targeting geographically-modified keywords. A citation-building campaign cleaned up inconsistent NAP (Name, Address, Phone number) information and built new, authoritative local citations. This comprehensive strategy resulted in consistent top-3 rankings in the Google Map Pack for their primary practice areas in all five target cities, leading to a 120% increase in qualified calls from their website.')
     },
     {
+        id: 'cs_10',
         slug: 'app-store-optimization',
         title: 'ASO Strategy Boosts App Downloads by 250%',
         excerpt: 'How we used App Store Optimization (ASO) to increase organic downloads for a mobile fitness app by 250% in six months.',
@@ -187,6 +197,7 @@ The results were transformative. The automated campaigns led to an 80% increase 
         content: createContent('A fitness app was getting lost in the crowded App Store and Google Play. Our ASO strategy began with extensive keyword research to understand what users were searching for. We optimized the app title, subtitle, and keyword fields with high-volume, relevant terms. We then focused on creative assets, A/B testing different app icons, screenshots, and preview videos to improve the tap-through rate from search results. This data-led approach to both keyword and creative optimization led to higher rankings and better conversion, resulting in a 250% increase in organic downloads and a lower reliance on paid user acquisition.')
     },
     {
+        id: 'cs_11',
         slug: 'manufacturing-b2b-content',
         title: 'Content Marketing for a Niche B2B Manufacturing Company',
         excerpt: 'How a long-form content strategy positioned a niche manufacturing company as an industry leader and generated high-value B2B leads.',
@@ -203,6 +214,7 @@ The results were transformative. The automated campaigns led to an 80% increase 
         content: createContent('A B2B manufacturing company needed to reach a highly technical audience of engineers and procurement managers. We developed a content strategy focused on creating in-depth, problem-solving content. This included detailed white papers, technical guides, and case studies that addressed their customers\' specific challenges. We gated the most valuable content behind simple forms to capture leads. The content was promoted through targeted LinkedIn campaigns and industry forums. This approach established the company as a go-to resource, building trust and generating a steady stream of highly qualified leads from major players in their industry.')
     },
     {
+        id: 'cs_12',
         slug: 'restaurant-social-media-makeover',
         title: 'A Recipe for Success: Social Media for a New Restaurant',
         excerpt: 'How a "mouth-watering" visual strategy on Instagram and Facebook drove reservations and filled tables for a new restaurant opening.',

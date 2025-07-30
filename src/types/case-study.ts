@@ -1,5 +1,6 @@
 
 export type CaseStudy = {
+  id: string;
   slug: string;
   title: string;
   excerpt: string;

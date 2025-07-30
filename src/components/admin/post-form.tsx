@@ -32,6 +32,7 @@ const QuillEditor = dynamic(() => import('@/components/admin/quill-editor'), { s
 
 
 const formSchema = z.object({
+  id: z.string(),
   title: z.string().min(5, 'Title must be at least 5 characters.'),
   slug: z.string().min(5, 'Slug must be at least 5 characters.').regex(/^[a-z0-9-]+$/, 'Slug can only contain lowercase letters, numbers, and hyphens.'),
   excerpt: z.string().min(20, 'Excerpt must be at least 20 characters.').max(200, 'Excerpt must not exceed 200 characters.'),
@@ -69,6 +70,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
         ...postToEdit,
         tags: postToEdit.tags.join(', ')
     } : {
+      id: `cs_${new Date().getTime()}`,
       title: '',
       slug: '',
       excerpt: '',
@@ -128,7 +130,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
   };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const postData = {
+    const postData: CaseStudy = {
       ...values,
       tags: values.tags.split(',').map(tag => tag.trim()),
       date: postToEdit ? postToEdit.date : new Date().toISOString(),
@@ -136,7 +138,11 @@ export function PostForm({ postToEdit }: PostFormProps) {
     };
 
     if (postToEdit) {
-      updateCaseStudy(postToEdit.slug, postData);
+      if (postData.slug !== postToEdit.slug && slugExists(postData.slug)) {
+          form.setError('slug', { type: 'manual', message: 'This slug is already taken.' });
+          return;
+      }
+      updateCaseStudy(postToEdit.id, postData);
       toast({
         title: 'Post Updated!',
         description: 'Your case study has been successfully updated.',
@@ -237,7 +243,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
                                     <Button type="button" variant="link" size="sm" className="p-0 h-auto" onClick={generateSlug}>Generate from title</Button>
                                 </div>
                                 <FormControl>
-                                    <Input placeholder="how-we-tripled-traffic" {...field} disabled={!!postToEdit} />
+                                    <Input placeholder="how-we-tripled-traffic" {...field} />
                                 </FormControl>
                                 <FormMessage />
                                 </FormItem>
