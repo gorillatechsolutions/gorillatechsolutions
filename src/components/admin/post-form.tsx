@@ -85,15 +85,6 @@ export function PostForm({ postToEdit }: PostFormProps) {
       metaKeywords: '',
     },
   });
-
-  useEffect(() => {
-    if (postToEdit) {
-      form.reset({
-        ...postToEdit,
-        tags: postToEdit.tags.join(', ')
-      });
-    }
-  }, [postToEdit, form]);
   
   const handleGenerateArticle = async () => {
     if (!aiTopic) {
@@ -130,11 +121,9 @@ export function PostForm({ postToEdit }: PostFormProps) {
   };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const postData: CaseStudy = {
+    const postData: Omit<CaseStudy, 'date' | 'dataAiHint'> = {
       ...values,
       tags: values.tags.split(',').map(tag => tag.trim()),
-      date: postToEdit ? postToEdit.date : new Date().toISOString(),
-      dataAiHint: 'custom article content',
     };
 
     if (postToEdit) {
@@ -142,7 +131,8 @@ export function PostForm({ postToEdit }: PostFormProps) {
           form.setError('slug', { type: 'manual', message: 'This slug is already taken.' });
           return;
       }
-      updateCaseStudy(values.id, postData);
+      const finalPostData = { ...postData, date: postToEdit.date, dataAiHint: postToEdit.dataAiHint };
+      updateCaseStudy(finalPostData.id, finalPostData);
       toast({
         title: 'Post Updated!',
         description: 'Your case study has been successfully updated.',
@@ -152,7 +142,8 @@ export function PostForm({ postToEdit }: PostFormProps) {
           form.setError('slug', { type: 'manual', message: 'This slug is already taken.' });
           return;
       }
-      addCaseStudy(postData);
+      const finalPostData = { ...postData, date: new Date().toISOString(), dataAiHint: 'custom article content' };
+      addCaseStudy(finalPostData);
       toast({
         title: 'Post Created!',
         description: 'Your new case study has been successfully created.',
