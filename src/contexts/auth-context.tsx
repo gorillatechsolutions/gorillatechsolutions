@@ -200,7 +200,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const updateUser = (originalEmail: string, userData: Partial<User>) => {
     const updatedUsers = users.map(u => {
       if (u.email === originalEmail) {
-        // If password is an empty string, don't update it
         const { password, ...rest } = userData;
         const newUserData = { ...u, ...rest };
         if (password) {
@@ -213,14 +212,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUsers(updatedUsers);
     localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(updatedUsers));
 
-    // Also update current user if they are the one being edited
-    if(user && user.email === originalEmail) {
-        const updatedCurrentUser = updatedUsers.find(u => u.email === userData.email || u.email === originalEmail);
-        if (updatedCurrentUser) {
-            const { password, ...userWithoutPassword } = updatedCurrentUser;
-            setUser(userWithoutPassword);
-            localStorage.setItem(CURRENT_USER_STORAGE_KEY, JSON.stringify(userWithoutPassword));
-        }
+    if (user && user.email === originalEmail) {
+      const updatedCurrentUser = updatedUsers.find(u => u.email === (userData.email || originalEmail));
+      if (updatedCurrentUser) {
+        const { password, ...userWithoutPassword } = updatedCurrentUser;
+        setUser(userWithoutPassword);
+        localStorage.setItem(CURRENT_USER_STORAGE_KEY, JSON.stringify(userWithoutPassword));
+      }
     }
   };
 
