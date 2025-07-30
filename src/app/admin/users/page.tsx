@@ -1,9 +1,9 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useAuth, User, UserRole } from '@/contexts/auth-context';
@@ -11,14 +11,15 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { useToast } from '@/hooks/use-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faPlus, faImage, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faPlus, faImage, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { SendMessageDialog } from '@/components/admin/send-message-dialog';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 const roleBadgeVariant: Record<UserRole, 'default' | 'secondary' | 'destructive'> = {
     admin: 'destructive',
@@ -65,7 +66,7 @@ function ChangeAvatarDialog() {
             <DialogTrigger asChild>
                 <Button variant="outline" size="sm">
                     <FontAwesomeIcon icon={faImage} className="mr-2 h-4 w-4" />
-                    Change Avatar Image
+                    Change User Avatars
                 </Button>
             </DialogTrigger>
             <DialogContent>
@@ -93,88 +94,30 @@ function ChangeAvatarDialog() {
     )
 }
 
-function UserCard({ user, isSelected, onSelect, onDelete }: { user: User, isSelected: boolean, onSelect: (email: string, checked: boolean) => void, onDelete: (email: string) => void }) {
-    const { user: currentUser } = useAuth();
-    return (
-        <Card className={cn("flex flex-col overflow-hidden transition-all duration-300", isSelected ? "ring-2 ring-primary" : "border-border/80")}>
-            <CardHeader className="flex flex-row items-start gap-4 p-4 bg-secondary/40">
-                <Checkbox
-                    checked={isSelected}
-                    onCheckedChange={(checked) => onSelect(user.email, !!checked)}
-                    aria-label={`Select user ${user.name}`}
-                    className="mt-1"
-                />
-                <Avatar className="h-12 w-12 border-2 border-primary/50">
-                    <AvatarImage src={user.avatar} alt={user.name} data-ai-hint="google logo" />
-                    <AvatarFallback>{user.name.charAt(0).toUpperCase()}</AvatarFallback>
-                </Avatar>
-                <div className="flex-1">
-                    <h3 className="font-semibold">{user.name} {currentUser?.email === user.email && <span className="text-muted-foreground font-normal">(You)</span>}</h3>
-                    <p className="text-xs text-muted-foreground">{user.email}</p>
-                    <Badge 
-                        variant={roleBadgeVariant[user.role]} 
-                        className={cn("capitalize mt-2 text-xs", roleBadgeClass[user.role])}
-                    >
-                        {user.role}
-                    </Badge>
-                </div>
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
-                            <FontAwesomeIcon icon={faEllipsisV} className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                         <DropdownMenuItem asChild>
-                           <SendMessageDialog recipient={user} />
-                         </DropdownMenuItem>
-                         <AlertDialog>
-                            <AlertDialogTrigger asChild>
-                                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                     <span className="text-destructive">Delete User</span>
-                                </DropdownMenuItem>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                                <AlertDialogHeader>
-                                    <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                                    <AlertDialogDescription>This action will permanently delete the user {user.name}.</AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                    <AlertDialogAction onClick={() => onDelete(user.email)}>Delete</AlertDialogAction>
-                                </AlertDialogFooter>
-                            </AlertDialogContent>
-                        </AlertDialog>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </CardHeader>
-            <CardContent className="p-4 text-sm flex-1">
-                <div className="space-y-2">
-                    <div>
-                        <p className="font-medium text-muted-foreground">Username</p>
-                        <p className="font-mono text-xs bg-muted p-1 rounded-md">{user.username}</p>
-                    </div>
-                     <div>
-                        <p className="font-medium text-muted-foreground">Password</p>
-                        <p className="font-mono text-xs bg-muted p-1 rounded-md">{user.password}</p>
-                    </div>
-                </div>
-            </CardContent>
-        </Card>
-    )
-}
-
 export default function AdminUsersPage() {
     const { users, user: currentUser, deleteUsers } = useAuth();
     const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [roleFilter, setRoleFilter] = useState<UserRole | 'all'>('all');
     const { toast } = useToast();
     const router = useRouter();
 
-    const nonAdminUsers = users.filter(user => user.role !== 'admin' || user.email === currentUser?.email);
+    const filteredUsers = useMemo(() => {
+        return users.filter(user => {
+            const searchMatch = searchTerm.toLowerCase() === '' ||
+                user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                user.username.toLowerCase().includes(searchTerm.toLowerCase());
+            
+            const roleMatch = roleFilter === 'all' || user.role === roleFilter;
+
+            return searchMatch && roleMatch;
+        });
+    }, [users, searchTerm, roleFilter]);
 
     const handleSelectAll = (checked: boolean | 'indeterminate') => {
         if (checked === true) {
-            setSelectedUsers(users.filter(u => u.email !== currentUser?.email).map(u => u.email));
+            setSelectedUsers(filteredUsers.filter(u => u.email !== currentUser?.email).map(u => u.email));
         } else {
             setSelectedUsers([]);
         }
@@ -227,53 +170,150 @@ export default function AdminUsersPage() {
                 </div>
             </div>
             
-            <div className="flex items-center justify-between">
-                 <div className="flex items-center gap-3">
-                    <Checkbox
-                        id="select-all"
-                        checked={selectedUsers.length > 0 && selectedUsers.length === users.filter(u => u.role !== 'admin').length ? true : (selectedUsers.length > 0 ? 'indeterminate' : false)}
-                        onCheckedChange={handleSelectAll}
-                        aria-label="Select all non-admin users"
-                    />
-                    <label htmlFor="select-all" className="text-sm font-medium">Select All</label>
-                </div>
-                 {selectedUsers.length > 0 && (
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <Button variant="destructive" size="sm">
-                          <FontAwesomeIcon icon={faTrash} className="mr-2 h-3 w-3" />
-                          Delete Selected ({selectedUsers.length})
-                        </Button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                          <AlertDialogDescription>
-                            This will permanently delete {selectedUsers.length} user(s). This action cannot be undone.
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction onClick={() => handleDelete(selectedUsers)}>
-                            Continue
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
-                )}
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {users.map((user) => (
-                    <UserCard 
-                        key={user.email} 
-                        user={user} 
-                        isSelected={selectedUsers.includes(user.email)} 
-                        onSelect={handleSelectUser}
-                        onDelete={(email) => handleDelete([email])}
-                    />
-                ))}
-            </div>
+            <Card>
+                <CardHeader>
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div>
+                            <CardTitle>All Users</CardTitle>
+                            <CardDescription>A list of all users in your system.</CardDescription>
+                        </div>
+                        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+                            <Input 
+                                placeholder="Search by name, email, username..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="w-full sm:w-64"
+                            />
+                            <Select value={roleFilter} onValueChange={(value: UserRole | 'all') => setRoleFilter(value)}>
+                                <SelectTrigger className="w-full sm:w-48">
+                                    <SelectValue placeholder="Filter by role" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="all">All Roles</SelectItem>
+                                    <SelectItem value="admin">Admin</SelectItem>
+                                    <SelectItem value="user">User</SelectItem>
+                                    <SelectItem value="premium">Premium</SelectItem>
+                                    <SelectItem value="gold">Gold</SelectItem>
+                                    <SelectItem value="platinum">Platinum</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+                    </div>
+                </CardHeader>
+                 <CardContent>
+                    <div className="flex items-center justify-end mb-4">
+                        {selectedUsers.length > 0 && (
+                            <AlertDialog>
+                              <AlertDialogTrigger asChild>
+                                <Button variant="destructive" size="sm">
+                                  <FontAwesomeIcon icon={faTrash} className="mr-2 h-3 w-3" />
+                                  Delete Selected ({selectedUsers.length})
+                                </Button>
+                              </AlertDialogTrigger>
+                              <AlertDialogContent>
+                                <AlertDialogHeader>
+                                  <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                  <AlertDialogDescription>
+                                    This will permanently delete {selectedUsers.length} user(s). This action cannot be undone.
+                                  </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                  <AlertDialogAction onClick={() => handleDelete(selectedUsers)}>
+                                    Continue
+                                  </AlertDialogAction>
+                                </AlertDialogFooter>
+                              </AlertDialogContent>
+                            </AlertDialog>
+                        )}
+                    </div>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead className="w-[50px]">
+                                    <Checkbox
+                                        checked={selectedUsers.length > 0 && selectedUsers.length === filteredUsers.filter(u => u.role !== 'admin').length ? true : (selectedUsers.length > 0 ? 'indeterminate' : false)}
+                                        onCheckedChange={handleSelectAll}
+                                        aria-label="Select all non-admin users"
+                                    />
+                                </TableHead>
+                                <TableHead>User</TableHead>
+                                <TableHead>Role</TableHead>
+                                <TableHead>Username</TableHead>
+                                <TableHead>Password</TableHead>
+                                <TableHead className="text-right">Actions</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {filteredUsers.map((user) => (
+                                <TableRow key={user.email} data-state={selectedUsers.includes(user.email) ? 'selected' : undefined}>
+                                    <TableCell>
+                                        <Checkbox
+                                            checked={selectedUsers.includes(user.email)}
+                                            onCheckedChange={(checked) => handleSelectUser(user.email, !!checked)}
+                                            aria-label={`Select user ${user.name}`}
+                                            disabled={user.email === currentUser?.email}
+                                        />
+                                    </TableCell>
+                                    <TableCell>
+                                        <div className="flex items-center gap-3">
+                                            <Avatar>
+                                                <AvatarImage src={user.avatar} alt={user.name} data-ai-hint="google logo" />
+                                                <AvatarFallback>{user.name.charAt(0).toUpperCase()}</AvatarFallback>
+                                            </Avatar>
+                                            <div>
+                                                <div className="font-medium">{user.name} {user.email === currentUser?.email && '(You)'}</div>
+                                                <div className="text-sm text-muted-foreground">{user.email}</div>
+                                            </div>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Badge 
+                                            variant={roleBadgeVariant[user.role]} 
+                                            className={cn("capitalize", roleBadgeClass[user.role])}
+                                        >
+                                            {user.role}
+                                        </Badge>
+                                    </TableCell>
+                                    <TableCell>
+                                        <span className="font-mono text-xs bg-muted p-1 rounded-md">{user.username}</span>
+                                    </TableCell>
+                                    <TableCell>
+                                        <span className="font-mono text-xs bg-muted p-1 rounded-md">{user.password}</span>
+                                    </TableCell>
+                                    <TableCell className="text-right">
+                                        <div className="flex items-center justify-end gap-2">
+                                            <SendMessageDialog recipient={user} />
+                                             <AlertDialog>
+                                                <AlertDialogTrigger asChild>
+                                                    <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive" disabled={user.email === currentUser?.email}>
+                                                        <FontAwesomeIcon icon={faTrash} className="h-4 w-4" />
+                                                    </Button>
+                                                </AlertDialogTrigger>
+                                                <AlertDialogContent>
+                                                    <AlertDialogHeader>
+                                                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                                        <AlertDialogDescription>This action will permanently delete the user {user.name}.</AlertDialogDescription>
+                                                    </AlertDialogHeader>
+                                                    <AlertDialogFooter>
+                                                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                        <AlertDialogAction onClick={() => handleDelete([user.email])}>Delete</AlertDialogAction>
+                                                    </AlertDialogFooter>
+                                                </AlertDialogContent>
+                                            </AlertDialog>
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                    {filteredUsers.length === 0 && (
+                        <div className="text-center py-12 text-muted-foreground">
+                            <p>No users found matching your criteria.</p>
+                        </div>
+                    )}
+                </CardContent>
+            </Card>
         </div>
     );
 }
