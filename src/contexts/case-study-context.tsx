@@ -67,7 +67,7 @@ export const CaseStudyProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   };
 
   const updateCaseStudy = (id: string, postData: CaseStudy) => {
-    const updatedPosts = caseStudies.map(p => (p.id === id ? { ...postData, id } : p));
+    const updatedPosts = caseStudies.map(p => (p.id === id ? postData : p));
     setCaseStudies(updatedPosts);
     localStorage.setItem(CASE_STUDIES_STORAGE_KEY, JSON.stringify(updatedPosts));
   };
