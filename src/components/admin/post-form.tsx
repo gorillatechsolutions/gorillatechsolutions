@@ -101,7 +101,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
         metaKeywords: postToEdit.metaKeywords || '',
       });
     }
-  }, [postToEdit, form]);
+  }, [postToEdit, form.reset]);
   
   const handleGenerateArticle = async () => {
     if (!aiTopic) {
