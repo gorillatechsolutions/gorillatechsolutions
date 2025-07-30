@@ -5,16 +5,17 @@ import { UserForm } from '@/components/admin/user-form';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useAuth } from '@/contexts/auth-context';
 import type { User } from '@/contexts/auth-context';
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-export function EditUserPageClient({ params }: { params: { email: string } }) {
-  const { email } = params;
+export function EditUserPageClient() {
+  const params = useParams();
+  const email = params.email as string;
   const { getUserByEmail, loading } = useAuth();
   const [user, setUser] = useState<User | null | undefined>(undefined);
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && email) {
       const decodedEmail = decodeURIComponent(email);
       const userToEdit = getUserByEmail(decodedEmail);
       setUser(userToEdit);

@@ -53,7 +53,7 @@ export function UserForm({ userToEdit }: UserFormProps) {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: userToEdit || {
+    defaultValues: {
       name: '',
       username: '',
       email: '',
@@ -75,49 +75,47 @@ export function UserForm({ userToEdit }: UserFormProps) {
     }
   }, [userToEdit, form]);
 
-  const handleCreateUser = (values: z.infer<typeof formSchema>) => {
-    if (emailExists(values.email)) {
-        form.setError('email', { type: 'manual', message: 'This email is already taken.' });
-        return;
-    }
-    if (usernameExists(values.username)) {
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    if (userToEdit) {
+      // Handle update
+      if (values.username !== userToEdit.username && usernameExists(values.username)) {
         form.setError('username', { type: 'manual', message: 'This username is already taken.' });
         return;
+      }
+      if (values.email !== userToEdit.email && emailExists(values.email)) {
+          form.setError('email', { type: 'manual', message: 'This email is already taken.' });
+          return;
+      }
+      const userData = { ...values, avatar: userToEdit.avatar };
+      updateUser(userToEdit.email, userData);
+      toast({
+        title: 'User Updated!',
+        description: 'The user has been successfully updated.',
+      });
+      router.push('/admin/users');
+    } else {
+      // Handle create
+      if (emailExists(values.email)) {
+          form.setError('email', { type: 'manual', message: 'This email is already taken.' });
+          return;
+      }
+      if (usernameExists(values.username)) {
+          form.setError('username', { type: 'manual', message: 'This username is already taken.' });
+          return;
+      }
+      if (!values.password) {
+          form.setError('password', { type: 'manual', message: 'Password is required for new users.' });
+          return;
+      }
+      const userData = { ...values, avatar: 'https://i.ibb.co/1mgpC4j/g-logo.png' };
+      addUser(userData as User);
+      toast({
+        title: 'User Created!',
+        description: 'The new user has been successfully created.',
+      });
+      router.push('/admin/users');
     }
-    if (!values.password) {
-        form.setError('password', { type: 'manual', message: 'Password is required for new users.' });
-        return;
-    }
-    const userData = { ...values, avatar: 'https://i.ibb.co/1mgpC4j/g-logo.png' };
-    addUser(userData as User);
-    toast({
-      title: 'User Created!',
-      description: 'The new user has been successfully created.',
-    });
-    router.push('/admin/users');
   };
-
-  const handleUpdateUser = (values: z.infer<typeof formSchema>) => {
-    if (!userToEdit) return;
-
-    if (values.username !== userToEdit.username && usernameExists(values.username)) {
-      form.setError('username', { type: 'manual', message: 'This username is already taken.' });
-      return;
-    }
-    if (values.email !== userToEdit.email && emailExists(values.email)) {
-        form.setError('email', { type: 'manual', message: 'This email is already taken.' });
-        return;
-    }
-    const userData = { ...values, avatar: userToEdit.avatar };
-    updateUser(userToEdit.email, userData);
-    toast({
-      title: 'User Updated!',
-      description: 'The user has been successfully updated.',
-    });
-    router.push('/admin/users');
-  };
-
-  const onSubmit = userToEdit ? handleUpdateUser : handleCreateUser;
 
   return (
     <div className="space-y-6">
