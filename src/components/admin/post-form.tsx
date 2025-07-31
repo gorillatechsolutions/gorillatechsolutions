@@ -92,7 +92,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
         tags: postToEdit.tags.join(', '),
       });
     }
-  }, [postToEdit, form]);
+  }, [postToEdit, form.reset]);
 
   const handleGenerateArticle = async () => {
     if (!aiTopic) {
@@ -129,7 +129,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
   };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const postData = {
+    const postData: Partial<CaseStudy> = {
       ...values,
       tags: values.tags.split(',').map(tag => tag.trim()),
     };
@@ -150,7 +150,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
         ...postData, 
         id: `cs_${new Date().getTime()}`, 
         date: new Date().toISOString() 
-      };
+      } as CaseStudy;
       addCaseStudy(newPost);
       toast({
         title: 'Post Created!',
