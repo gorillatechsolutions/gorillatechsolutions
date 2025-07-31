@@ -99,7 +99,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
         tags: postToEdit.tags.join(', '),
       });
     }
-  }, [postToEdit, form]);
+  }, [postToEdit?.id]);
 
   const handleGenerateArticle = async () => {
     if (!aiTopic) {
