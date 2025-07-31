@@ -70,9 +70,8 @@ export const CaseStudyProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     const updatedCaseStudies = caseStudies.map(p => {
       if (p.slug === slug) {
         // Create a new object by merging the existing post with the new data
-        const updatedPost = { ...p, ...postData };
-        // Ensure the original slug is preserved if it's not in postData, which it shouldn't be
-        updatedPost.slug = slug; 
+        // Important: Preserve the original slug to maintain URL integrity
+        const updatedPost = { ...p, ...postData, slug: p.slug };
         return updatedPost;
       }
       return p;

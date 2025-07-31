@@ -1,6 +1,49 @@
 
-import { EditPostPageClient } from '@/components/admin/post-form-client';
+'use client';
 
-export default function EditPostPage({ params }: { params: { slug: string } }) {
-  return <EditPostPageClient params={params} />;
+import { useEffect, useState } from 'react';
+import { notFound, useParams } from 'next/navigation';
+import { PostForm } from '@/components/admin/post-form';
+import type { CaseStudy } from '@/types/case-study';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useCaseStudy } from '@/contexts/case-study-context';
+
+export default function EditPostPage() {
+  const params = useParams();
+  const slug = params.slug as string;
+  const { getCaseStudyBySlug, loading } = useCaseStudy();
+  const [post, setPost] = useState<CaseStudy | null>(null);
+  const [initialLoading, setInitialLoading] = useState(true);
+
+  useEffect(() => {
+    if (!loading && slug) {
+      const postToEdit = getCaseStudyBySlug(slug);
+      setPost(postToEdit);
+      setInitialLoading(false);
+    }
+  }, [slug, loading, getCaseStudyBySlug]);
+
+  if (initialLoading) {
+    return (
+      <div className="space-y-6">
+        <Skeleton className="h-10 w-1/3" />
+        <div className="space-y-4 rounded-lg border bg-card p-6">
+          <Skeleton className="h-8 w-1/4" />
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-8 w-1/4" />
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-8 w-1/4" />
+          <Skeleton className="h-40 w-full" />
+          <Skeleton className="h-10 w-32" />
+        </div>
+      </div>
+    );
+  }
+
+  if (!post) {
+    notFound();
+    return null;
+  }
+
+  return <PostForm key={post.slug} postToEdit={post} />;
 }

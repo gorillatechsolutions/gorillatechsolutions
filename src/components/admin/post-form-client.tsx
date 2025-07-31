@@ -1,8 +1,12 @@
 
 'use client';
 
+// This component is no longer used and can be deleted.
+// The logic has been moved directly into the page component for a more robust data flow.
+// See /src/app/admin/posts/edit/[slug]/page.tsx for the new implementation.
+
 import { useEffect, useState } from 'react';
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import { PostForm } from '@/components/admin/post-form';
 import type { CaseStudy } from '@/types/case-study';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -20,7 +24,7 @@ export function EditPostPageClient({ params }: { params: { slug: string } }) {
     }
   }, [slug, loading, getCaseStudyBySlug]);
 
-  if (loading || post === undefined) {
+  if (loading) {
     return (
       <div className="space-y-6">
         <Skeleton className="h-10 w-1/3" />
