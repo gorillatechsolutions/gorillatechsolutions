@@ -20,7 +20,7 @@ export function EditPostPageClient({ params }: { params: { slug: string } }) {
     }
   }, [slug, loading, getCaseStudyBySlug]);
 
-  if (loading || post === undefined) {
+  if (loading) {
     return (
       <div className="space-y-6">
         <Skeleton className="h-10 w-1/3" />
@@ -42,5 +42,5 @@ export function EditPostPageClient({ params }: { params: { slug: string } }) {
     return null;
   }
 
-  return <PostForm key={post.id} postToEdit={post} />;
+  return <PostForm key={post.slug} postToEdit={post} />;
 }

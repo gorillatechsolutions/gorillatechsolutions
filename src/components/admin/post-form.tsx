@@ -60,7 +60,10 @@ export function PostForm({ postToEdit }: PostFormProps) {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
+    defaultValues: postToEdit ? {
+      ...postToEdit,
+      tags: postToEdit.tags.join(', '),
+    } : {
       title: '',
       slug: '',
       excerpt: '',
@@ -79,13 +82,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
   
   useEffect(() => {
     setIsClient(true);
-    if (postToEdit) {
-      form.reset({
-        ...postToEdit,
-        tags: postToEdit.tags.join(', '),
-      });
-    }
-  }, [postToEdit, form]);
+  }, []);
 
   const handleGenerateArticle = async () => {
     if (!aiTopic) {
