@@ -18,7 +18,7 @@ export function EditPostPageClient({ params }: { params: { slug: string } }) {
       const postToEdit = getCaseStudyBySlug(slug);
       setPost(postToEdit);
     }
-  }, [slug, getCaseStudyBySlug, loading]);
+  }, [slug, loading, getCaseStudyBySlug]);
 
   if (loading || post === undefined) {
     return (

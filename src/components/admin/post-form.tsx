@@ -90,19 +90,6 @@ export function PostForm({ postToEdit }: PostFormProps) {
     },
   });
 
-  useEffect(() => {
-    if (postToEdit) {
-      form.reset({
-        ...postToEdit,
-        tags: postToEdit.tags.join(', '),
-        ogImage: postToEdit.ogImage || '',
-        metaTitle: postToEdit.metaTitle || '',
-        metaDescription: postToEdit.metaDescription || '',
-        metaKeywords: postToEdit.metaKeywords || '',
-      });
-    }
-  }, [postToEdit, form]);
-  
   const handleGenerateArticle = async () => {
     if (!aiTopic) {
         toast({
@@ -138,10 +125,8 @@ export function PostForm({ postToEdit }: PostFormProps) {
   };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const postData: CaseStudy = {
+    const postData = {
       ...values,
-      date: postToEdit?.date || new Date().toISOString(),
-      dataAiHint: postToEdit?.dataAiHint || 'custom article content',
       tags: values.tags.split(',').map(tag => tag.trim()),
     };
 
@@ -150,7 +135,6 @@ export function PostForm({ postToEdit }: PostFormProps) {
           form.setError('slug', { type: 'manual', message: 'This slug is already taken.' });
           return;
       }
-      // Use the ID from the form values, not the stale closure prop
       updateCaseStudy(values.id, postData);
       toast({
         title: 'Post Updated!',
@@ -161,7 +145,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
           form.setError('slug', { type: 'manual', message: 'This slug is already taken.' });
           return;
       }
-      addCaseStudy(postData);
+      addCaseStudy({ ...postData, date: new Date().toISOString(), dataAiHint: 'custom' });
       toast({
         title: 'Post Created!',
         description: 'Your new case study has been successfully created.',
