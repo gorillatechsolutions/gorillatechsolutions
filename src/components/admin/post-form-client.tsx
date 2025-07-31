@@ -11,7 +11,7 @@ import { useCaseStudy } from '@/contexts/case-study-context';
 export function EditPostPageClient({ params }: { params: { slug: string } }) {
   const { slug } = params;
   const { getCaseStudyBySlug, loading } = useCaseStudy();
-  const [post, setPost] = useState<CaseStudy | null | undefined>(undefined);
+  const [post, setPost] = useState<CaseStudy | null>(null);
 
   useEffect(() => {
     if (!loading) {
