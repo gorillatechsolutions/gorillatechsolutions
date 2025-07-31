@@ -39,7 +39,7 @@ const formSchema = z.object({
   tags: z.string().min(1, 'Please enter at least one tag.'),
   author: z.string().min(2, 'Author name is required.'),
   content: z.string().min(100, 'Content must be at least 100 characters.'),
-  views: z.string().regex(/^[0-9]+$/, 'Views must be a non-negative number.'),
+  views: z.coerce.number().nonnegative('Views must be a non-negative number.'),
   metaTitle: z.string().optional(),
   metaDescription: z.string().optional(),
   metaKeywords: z.string().optional(),
@@ -63,7 +63,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
     defaultValues: postToEdit ? {
       ...postToEdit,
       tags: postToEdit.tags.join(', '),
-      views: String(postToEdit.views),
+      views: postToEdit.views,
     } : {
       title: '',
       slug: '',
@@ -74,7 +74,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
       tags: '',
       author: '',
       content: '',
-      views: '0',
+      views: 0,
       metaTitle: '',
       metaDescription: '',
       metaKeywords: '',
@@ -123,7 +123,6 @@ export function PostForm({ postToEdit }: PostFormProps) {
     const postData = {
       ...values,
       tags: values.tags.split(',').map(tag => tag.trim()),
-      views: Number(values.views),
     };
 
     if (postToEdit) {
@@ -137,7 +136,12 @@ export function PostForm({ postToEdit }: PostFormProps) {
           form.setError('slug', { type: 'manual', message: 'This slug is already taken.' });
           return;
       }
-      addCaseStudy({ ...postData, id: `cs_${new Date().getTime()}`, date: new Date().toISOString() } as CaseStudy);
+      const newPost: CaseStudy = { 
+        ...postData, 
+        id: `cs_${new Date().getTime()}`, 
+        date: new Date().toISOString() 
+      };
+      addCaseStudy(newPost);
       toast({
         title: 'Post Created!',
         description: 'Your new case study has been successfully created.',
@@ -315,7 +319,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
                                     <FormItem>
                                     <FormLabel>Post Views</FormLabel>
                                     <FormControl>
-                                        <Input type="text" placeholder="0" {...field} />
+                                        <Input type="number" placeholder="0" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                     </FormItem>

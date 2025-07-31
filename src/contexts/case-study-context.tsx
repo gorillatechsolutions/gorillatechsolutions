@@ -10,7 +10,7 @@ interface CaseStudyContextType {
   loading: boolean;
   getCaseStudyBySlug: (slug: string) => CaseStudy | null;
   addCaseStudy: (post: CaseStudy) => void;
-  updateCaseStudy: (slug: string, postData: Partial<CaseStudy>) => void;
+  updateCaseStudy: (slug: string, postData: Partial<Omit<CaseStudy, 'slug' | 'id' | 'date'>>) => void;
   deleteCaseStudy: (slug: string) => void;
   slugExists: (slug: string) => boolean;
 }
@@ -66,17 +66,22 @@ export const CaseStudyProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     localStorage.setItem(CASE_STUDIES_STORAGE_KEY, JSON.stringify(updatedPosts));
   };
 
-  const updateCaseStudy = (slug: string, postData: Partial<CaseStudy>) => {
-    setCaseStudies(prevCaseStudies => {
-      const updatedCaseStudies = prevCaseStudies.map(p => {
-        if (p.slug === slug) {
-          return { ...p, ...postData };
-        }
-        return p;
-      });
-      localStorage.setItem(CASE_STUDIES_STORAGE_KEY, JSON.stringify(updatedCaseStudies));
-      return updatedCaseStudies;
+  const updateCaseStudy = (slug: string, postData: Partial<Omit<CaseStudy, 'slug' | 'id' | 'date'>>) => {
+    const updatedCaseStudies = caseStudies.map(p => {
+      if (p.slug === slug) {
+        // Merge the new data with the existing post, but keep original slug, id, and date
+        return {
+          ...p,
+          ...postData,
+          slug: p.slug, 
+          id: p.id,
+          date: p.date
+        };
+      }
+      return p;
     });
+    setCaseStudies(updatedCaseStudies);
+    localStorage.setItem(CASE_STUDIES_STORAGE_KEY, JSON.stringify(updatedCaseStudies));
   };
 
   const deleteCaseStudy = (slug: string) => {
