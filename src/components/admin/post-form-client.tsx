@@ -20,7 +20,7 @@ export function EditPostPageClient({ params }: { params: { slug: string } }) {
     }
   }, [slug, loading, getCaseStudyBySlug]);
 
-  if (loading) {
+  if (loading || post === undefined) {
     return (
       <div className="space-y-6">
         <Skeleton className="h-10 w-1/3" />

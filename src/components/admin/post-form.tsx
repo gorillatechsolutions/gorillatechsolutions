@@ -63,7 +63,6 @@ export function PostForm({ postToEdit }: PostFormProps) {
     defaultValues: postToEdit ? {
       ...postToEdit,
       tags: postToEdit.tags.join(', '),
-      views: postToEdit.views,
     } : {
       title: '',
       slug: '',

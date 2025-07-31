@@ -10,7 +10,7 @@ interface CaseStudyContextType {
   loading: boolean;
   getCaseStudyBySlug: (slug: string) => CaseStudy | null;
   addCaseStudy: (post: CaseStudy) => void;
-  updateCaseStudy: (slug: string, postData: Partial<Omit<CaseStudy, 'slug' | 'id' | 'date'>>) => void;
+  updateCaseStudy: (slug: string, postData: Partial<CaseStudy>) => void;
   deleteCaseStudy: (slug: string) => void;
   slugExists: (slug: string) => boolean;
 }
@@ -66,17 +66,14 @@ export const CaseStudyProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     localStorage.setItem(CASE_STUDIES_STORAGE_KEY, JSON.stringify(updatedPosts));
   };
 
-  const updateCaseStudy = (slug: string, postData: Partial<Omit<CaseStudy, 'slug' | 'id' | 'date'>>) => {
+  const updateCaseStudy = (slug: string, postData: Partial<CaseStudy>) => {
     const updatedCaseStudies = caseStudies.map(p => {
       if (p.slug === slug) {
-        // Merge the new data with the existing post, but keep original slug, id, and date
-        return {
-          ...p,
-          ...postData,
-          slug: p.slug, 
-          id: p.id,
-          date: p.date
-        };
+        // Create a new object by merging the existing post with the new data
+        const updatedPost = { ...p, ...postData };
+        // Ensure the original slug is preserved if it's not in postData, which it shouldn't be
+        updatedPost.slug = slug; 
+        return updatedPost;
       }
       return p;
     });
