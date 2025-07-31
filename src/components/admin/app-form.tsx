@@ -90,7 +90,7 @@ export function AppForm({ appToEdit }: AppFormProps) {
   }, [appToEdit, form]);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const appData = {
+    const appData: Partial<App> = {
       ...values,
       badge: values.badge || undefined, // Set to undefined if empty string
     };
@@ -102,11 +102,11 @@ export function AppForm({ appToEdit }: AppFormProps) {
         description: 'The application has been successfully updated.',
       });
     } else {
-      if (slugExists(appData.slug)) {
+      if (slugExists(appData.slug!)) {
           form.setError('slug', { type: 'manual', message: 'This slug is already taken.' });
           return;
       }
-      addApp(appData);
+      addApp(appData as App);
       toast({
         title: 'App Created!',
         description: 'The new application has been successfully created.',

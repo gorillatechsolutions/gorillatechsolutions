@@ -10,7 +10,7 @@ interface AppContextType {
   loading: boolean;
   getAppBySlug: (slug: string) => App | null;
   addApp: (app: App) => void;
-  updateApp: (slug: string, app: App) => void;
+  updateApp: (slug: string, appData: Partial<App>) => void;
   deleteApp: (slug: string) => void;
   slugExists: (slug: string) => boolean;
 }
@@ -65,8 +65,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     localStorage.setItem(APPS_STORAGE_KEY, JSON.stringify(updatedApps));
   };
 
-  const updateApp = (slug: string, appData: App) => {
-    const updatedApps = apps.map(p => (p.slug === slug ? appData : p));
+  const updateApp = (slug: string, appData: Partial<App>) => {
+    const updatedApps = apps.map(p => {
+      if (p.slug === slug) {
+        // Create the updated app by merging existing data with new data
+        // This ensures the original slug is preserved.
+        return { ...p, ...appData };
+      }
+      return p;
+    });
     setApps(updatedApps);
     localStorage.setItem(APPS_STORAGE_KEY, JSON.stringify(updatedApps));
   };
