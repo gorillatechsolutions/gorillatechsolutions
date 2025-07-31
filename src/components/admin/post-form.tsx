@@ -84,6 +84,16 @@ export function PostForm({ postToEdit }: PostFormProps) {
     setIsClient(true);
   }, []);
 
+  // This effect correctly resets the form ONLY when the postToEdit prop's slug changes.
+  useEffect(() => {
+    if (postToEdit) {
+      form.reset({
+        ...postToEdit,
+        tags: postToEdit.tags.join(', '),
+      });
+    }
+  }, [postToEdit, form]);
+
   const handleGenerateArticle = async () => {
     if (!aiTopic) {
         toast({
@@ -125,6 +135,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
     };
 
     if (postToEdit) {
+      // Use the original slug for updating, in case it was changed in the form
       updateCaseStudy(postToEdit.slug, postData);
       toast({
         title: 'Post Updated!',
@@ -148,6 +159,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
     }
 
     router.push('/admin/posts');
+    router.refresh(); // Force a refresh to ensure data is up-to-date
   }
 
   const generateSlug = () => {

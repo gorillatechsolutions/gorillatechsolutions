@@ -45,5 +45,7 @@ export default function EditPostPage() {
     return null;
   }
 
+  // Using the post's slug as a key ensures the form component
+  // completely re-mounts when navigating between different edit pages.
   return <PostForm key={post.slug} postToEdit={post} />;
 }
