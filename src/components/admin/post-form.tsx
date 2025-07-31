@@ -30,9 +30,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 
 const QuillEditor = dynamic(() => import('@/components/admin/quill-editor'), { ssr: false });
 
-
 const formSchema = z.object({
-  id: z.string(),
+  id: z.string().optional(),
   title: z.string().min(5, 'Title must be at least 5 characters.'),
   slug: z.string().min(5, 'Slug must be at least 5 characters.').regex(/^[a-z0-9-]+$/, 'Slug can only contain lowercase letters, numbers, and hyphens.'),
   excerpt: z.string().min(20, 'Excerpt must be at least 20 characters.').max(200, 'Excerpt must not exceed 200 characters.'),
@@ -60,7 +59,6 @@ export function PostForm({ postToEdit }: PostFormProps) {
   const [aiTopic, setAiTopic] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
 
-
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -70,10 +68,6 @@ export function PostForm({ postToEdit }: PostFormProps) {
     defaultValues: postToEdit ? {
       ...postToEdit,
       tags: postToEdit.tags.join(', '),
-      ogImage: postToEdit.ogImage || '',
-      metaTitle: postToEdit.metaTitle || '',
-      metaDescription: postToEdit.metaDescription || '',
-      metaKeywords: postToEdit.metaKeywords || '',
     } : {
       id: `cs_${new Date().getTime()}`,
       title: '',
@@ -99,7 +93,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
         tags: postToEdit.tags.join(', '),
       });
     }
-  }, [postToEdit?.id]);
+  }, [postToEdit, form]);
 
   const handleGenerateArticle = async () => {
     if (!aiTopic) {
@@ -142,7 +136,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
     };
 
     if (postToEdit) {
-      updateCaseStudy(values.id, postData);
+      updateCaseStudy(postToEdit.id, postData as Partial<CaseStudy>);
       toast({
         title: 'Post Updated!',
         description: 'Your case study has been successfully updated.',
@@ -152,7 +146,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
           form.setError('slug', { type: 'manual', message: 'This slug is already taken.' });
           return;
       }
-      addCaseStudy({ ...postData, date: new Date().toISOString() });
+      addCaseStudy({ ...postData, id: `cs_${new Date().getTime()}`, date: new Date().toISOString() });
       toast({
         title: 'Post Created!',
         description: 'Your new case study has been successfully created.',
@@ -240,10 +234,12 @@ export function PostForm({ postToEdit }: PostFormProps) {
                                 <FormItem>
                                 <div className="flex justify-between items-end">
                                     <FormLabel>URL Slug</FormLabel>
-                                    <Button type="button" variant="link" size="sm" className="p-0 h-auto" onClick={generateSlug}>Generate from title</Button>
+                                    {!postToEdit && (
+                                      <Button type="button" variant="link" size="sm" className="p-0 h-auto" onClick={generateSlug}>Generate from title</Button>
+                                    )}
                                 </div>
                                 <FormControl>
-                                    <Input placeholder="how-we-tripled-traffic" {...field} />
+                                    <Input placeholder="how-we-tripled-traffic" {...field} disabled={!!postToEdit} />
                                 </FormControl>
                                 <FormMessage />
                                 </FormItem>

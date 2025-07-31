@@ -37,7 +37,7 @@ export function EditPostPageClient({ params }: { params: { slug: string } }) {
     );
   }
 
-  if (post === null) {
+  if (!post) {
     notFound();
     return null;
   }
