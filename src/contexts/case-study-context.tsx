@@ -67,14 +67,16 @@ export const CaseStudyProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   };
 
   const updateCaseStudy = (id: string, postData: Partial<CaseStudy>) => {
-    const updatedPosts = caseStudies.map(p => {
-      if (p.id === id) {
-        return { ...p, ...postData };
-      }
-      return p;
+    setCaseStudies(prevCaseStudies => {
+      const updatedCaseStudies = prevCaseStudies.map(p => {
+        if (p.id === id) {
+          return { ...p, ...postData };
+        }
+        return p;
+      });
+      localStorage.setItem(CASE_STUDIES_STORAGE_KEY, JSON.stringify(updatedCaseStudies));
+      return updatedCaseStudies;
     });
-    setCaseStudies(updatedPosts);
-    localStorage.setItem(CASE_STUDIES_STORAGE_KEY, JSON.stringify(updatedPosts));
   };
 
   const deleteCaseStudy = (slug: string) => {

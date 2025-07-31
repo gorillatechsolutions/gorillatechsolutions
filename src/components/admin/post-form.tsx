@@ -142,7 +142,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
     };
 
     if (postToEdit) {
-      updateCaseStudy(postToEdit.id, postData);
+      updateCaseStudy(values.id, postData);
       toast({
         title: 'Post Updated!',
         description: 'Your case study has been successfully updated.',
