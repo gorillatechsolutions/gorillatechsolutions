@@ -10,7 +10,7 @@ interface CaseStudyContextType {
   loading: boolean;
   getCaseStudyBySlug: (slug: string) => CaseStudy | null;
   addCaseStudy: (post: CaseStudy) => void;
-  updateCaseStudy: (id: string, postData: Partial<CaseStudy>) => void;
+  updateCaseStudy: (slug: string, postData: Partial<CaseStudy>) => void;
   deleteCaseStudy: (slug: string) => void;
   slugExists: (slug: string) => boolean;
 }
@@ -66,10 +66,10 @@ export const CaseStudyProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     localStorage.setItem(CASE_STUDIES_STORAGE_KEY, JSON.stringify(updatedPosts));
   };
 
-  const updateCaseStudy = (id: string, postData: Partial<CaseStudy>) => {
+  const updateCaseStudy = (slug: string, postData: Partial<CaseStudy>) => {
     setCaseStudies(prevCaseStudies => {
       const updatedCaseStudies = prevCaseStudies.map(p => {
-        if (p.id === id) {
+        if (p.slug === slug) {
           return { ...p, ...postData };
         }
         return p;

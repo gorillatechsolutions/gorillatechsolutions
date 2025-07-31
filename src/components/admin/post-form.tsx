@@ -31,7 +31,6 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 const QuillEditor = dynamic(() => import('@/components/admin/quill-editor'), { ssr: false });
 
 const formSchema = z.object({
-  id: z.string().optional(),
   title: z.string().min(5, 'Title must be at least 5 characters.'),
   slug: z.string().min(5, 'Slug must be at least 5 characters.').regex(/^[a-z0-9-]+$/, 'Slug can only contain lowercase letters, numbers, and hyphens.'),
   excerpt: z.string().min(20, 'Excerpt must be at least 20 characters.').max(200, 'Excerpt must not exceed 200 characters.'),
@@ -59,17 +58,9 @@ export function PostForm({ postToEdit }: PostFormProps) {
   const [aiTopic, setAiTopic] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: postToEdit ? {
-      ...postToEdit,
-      tags: postToEdit.tags.join(', '),
-    } : {
-      id: `cs_${new Date().getTime()}`,
+    defaultValues: {
       title: '',
       slug: '',
       excerpt: '',
@@ -87,6 +78,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
   });
   
   useEffect(() => {
+    setIsClient(true);
     if (postToEdit) {
       form.reset({
         ...postToEdit,
@@ -130,23 +122,23 @@ export function PostForm({ postToEdit }: PostFormProps) {
   };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const postData = {
+    const postData: Partial<CaseStudy> = {
       ...values,
       tags: values.tags.split(',').map(tag => tag.trim()),
     };
 
     if (postToEdit) {
-      updateCaseStudy(postToEdit.id, postData as Partial<CaseStudy>);
+      updateCaseStudy(postToEdit.slug, postData);
       toast({
         title: 'Post Updated!',
         description: 'Your case study has been successfully updated.',
       });
     } else {
-      if (slugExists(postData.slug)) {
+      if (slugExists(values.slug)) {
           form.setError('slug', { type: 'manual', message: 'This slug is already taken.' });
           return;
       }
-      addCaseStudy({ ...postData, id: `cs_${new Date().getTime()}`, date: new Date().toISOString() });
+      addCaseStudy({ ...postData, id: `cs_${new Date().getTime()}`, date: new Date().toISOString() } as CaseStudy);
       toast({
         title: 'Post Created!',
         description: 'Your new case study has been successfully created.',
