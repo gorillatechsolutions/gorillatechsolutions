@@ -37,6 +37,7 @@ const formSchema = z.object({
   slug: z.string().min(5, 'Slug must be at least 5 characters.').regex(/^[a-z0-9-]+$/, 'Slug can only contain lowercase letters, numbers, and hyphens.'),
   excerpt: z.string().min(20, 'Excerpt must be at least 20 characters.').max(200, 'Excerpt must not exceed 200 characters.'),
   image: z.string().url('Please enter a valid image URL.'),
+  dataAiHint: z.string().min(1, 'AI hint is required.'),
   tags: z.string().min(1, 'Please enter at least one tag.'),
   author: z.string().min(2, 'Author name is required.'),
   content: z.string().min(100, 'Content must be at least 100 characters.'),
@@ -79,6 +80,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
       slug: '',
       excerpt: '',
       image: 'https://placehold.co/1200x600.png',
+      dataAiHint: 'custom',
       ogImage: 'https://placehold.co/1200x630.png',
       tags: '',
       author: '',
@@ -89,6 +91,15 @@ export function PostForm({ postToEdit }: PostFormProps) {
       metaKeywords: '',
     },
   });
+  
+  useEffect(() => {
+    if (postToEdit) {
+      form.reset({
+        ...postToEdit,
+        tags: postToEdit.tags.join(', '),
+      });
+    }
+  }, [postToEdit, form]);
 
   const handleGenerateArticle = async () => {
     if (!aiTopic) {
@@ -131,11 +142,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
     };
 
     if (postToEdit) {
-      if (postData.slug !== postToEdit.slug && slugExists(postData.slug)) {
-          form.setError('slug', { type: 'manual', message: 'This slug is already taken.' });
-          return;
-      }
-      updateCaseStudy(values.id, postData);
+      updateCaseStudy(postToEdit.id, postData);
       toast({
         title: 'Post Updated!',
         description: 'Your case study has been successfully updated.',
@@ -145,7 +152,7 @@ export function PostForm({ postToEdit }: PostFormProps) {
           form.setError('slug', { type: 'manual', message: 'This slug is already taken.' });
           return;
       }
-      addCaseStudy({ ...postData, date: new Date().toISOString(), dataAiHint: 'custom' });
+      addCaseStudy({ ...postData, date: new Date().toISOString() });
       toast({
         title: 'Post Created!',
         description: 'Your new case study has been successfully created.',
@@ -256,20 +263,35 @@ export function PostForm({ postToEdit }: PostFormProps) {
                             )}
                             />
                             
-                            <FormField
-                                control={form.control}
-                                name="image"
-                                render={({ field }) => (
-                                    <FormItem>
-                                    <FormLabel>Header Image URL</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="https://placehold.co/1200x600.png" {...field} />
-                                    </FormControl>
-                                    <FormDescription>Recommended size: 1200x600 pixels.</FormDescription>
-                                    <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <FormField
+                                    control={form.control}
+                                    name="image"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                        <FormLabel>Header Image URL</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="https://placehold.co/1200x600.png" {...field} />
+                                        </FormControl>
+                                        <FormDescription>Recommended size: 1200x600 pixels.</FormDescription>
+                                        <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="dataAiHint"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                        <FormLabel>Image AI Hint</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="e.g., 'data chart'" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                             </div>
                             
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                                 <FormField
