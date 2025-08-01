@@ -37,10 +37,13 @@ const roleBadgeClass: Record<UserRole, string> = {
     platinum: 'bg-slate-400 hover:bg-slate-400/80',
 }
 
+type AvatarUpdateTarget = 'subscribed' | 'admin' | 'basic';
+
 function ChangeAvatarDialog() {
-    const { updateAllUserAvatars } = useAuth();
+    const { updateAvatarsByRole } = useAuth();
     const { toast } = useToast();
     const [avatarUrl, setAvatarUrl] = useState('');
+    const [targetGroup, setTargetGroup] = useState<AvatarUpdateTarget>('subscribed');
     const [open, setOpen] = useState(false);
 
     const handleSave = () => {
@@ -52,10 +55,25 @@ function ChangeAvatarDialog() {
             });
             return;
         }
-        updateAllUserAvatars(avatarUrl);
+
+        let rolesToUpdate: UserRole[] = [];
+        let toastMessage = '';
+
+        if (targetGroup === 'subscribed') {
+            rolesToUpdate = ['premium', 'gold', 'platinum'];
+            toastMessage = 'All subscribed user avatars have been updated.';
+        } else if (targetGroup === 'admin') {
+            rolesToUpdate = ['admin'];
+            toastMessage = 'All admin user avatars have been updated.';
+        } else if (targetGroup === 'basic') {
+            rolesToUpdate = ['user'];
+            toastMessage = 'All basic (non-subscribed) user avatars have been updated.';
+        }
+        
+        updateAvatarsByRole(rolesToUpdate, avatarUrl);
         toast({
             title: 'Avatars Updated',
-            description: 'All non-admin user avatars have been updated.',
+            description: toastMessage,
         });
         setOpen(false);
         setAvatarUrl('');
@@ -73,17 +91,32 @@ function ChangeAvatarDialog() {
                 <DialogHeader>
                     <DialogTitle>Change User Avatars</DialogTitle>
                     <DialogDescription>
-                        Enter a new image URL to update the avatar for all non-admin users. The admin's avatar will not be changed.
+                        Enter a new image URL and select which group of users to update.
                     </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
-                    <Label htmlFor="avatar-url">Avatar Image URL</Label>
-                    <Input
-                        id="avatar-url"
-                        value={avatarUrl}
-                        onChange={(e) => setAvatarUrl(e.target.value)}
-                        placeholder="https://example.com/image.png"
-                    />
+                    <div className="space-y-2">
+                        <Label htmlFor="target-group">Target Group</Label>
+                        <Select value={targetGroup} onValueChange={(value: AvatarUpdateTarget) => setTargetGroup(value)}>
+                            <SelectTrigger id="target-group">
+                                <SelectValue placeholder="Select a group to update" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="subscribed">All Subscribed Users</SelectItem>
+                                <SelectItem value="admin">Admin Users Only</SelectItem>
+                                <SelectItem value="basic">Basic (Non-subscribed) Users</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="avatar-url">Avatar Image URL</Label>
+                      <Input
+                          id="avatar-url"
+                          value={avatarUrl}
+                          onChange={(e) => setAvatarUrl(e.target.value)}
+                          placeholder="https://example.com/image.png"
+                      />
+                    </div>
                 </div>
                 <DialogFooter>
                     <Button variant="secondary" onClick={() => setOpen(false)}>Cancel</Button>

@@ -30,7 +30,7 @@ interface AuthContextType {
   addUser: (user: User) => void;
   updateUser: (originalEmail: string, userData: Partial<User>) => void;
   getUserByEmail: (email: string) => User | null;
-  updateAllUserAvatars: (avatarUrl: string) => void;
+  updateAvatarsByRole: (roles: UserRole[], avatarUrl: string) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -221,15 +221,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const updateAllUserAvatars = (avatarUrl: string) => {
+  const updateAvatarsByRole = (roles: UserRole[], avatarUrl: string) => {
     const updatedUsers = users.map(u => {
-      if (u.role !== 'admin') {
+      if (roles.includes(u.role)) {
         return { ...u, avatar: avatarUrl };
       }
       return u;
     });
     setUsers(updatedUsers);
     localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(updatedUsers));
+
+    // Also update current user if their role was affected
+    if (user && roles.includes(user.role)) {
+      const updatedCurrentUser = { ...user, avatar: avatarUrl };
+      setUser(updatedCurrentUser);
+      localStorage.setItem(CURRENT_USER_STORAGE_KEY, JSON.stringify(updatedCurrentUser));
+    }
   };
 
   const getUserByEmail = (email: string) => {
@@ -238,7 +245,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 
   return (
-    <AuthContext.Provider value={{ user, users, loading, login, logout, signup, emailExists, usernameExists, deleteUsers, addUser, updateUser, getUserByEmail, updateAllUserAvatars }}>
+    <AuthContext.Provider value={{ user, users, loading, login, logout, signup, emailExists, usernameExists, deleteUsers, addUser, updateUser, getUserByEmail, updateAvatarsByRole }}>
       {children}
     </AuthContext.Provider>
   );
