@@ -61,7 +61,7 @@ function ChangeAvatarDialog() {
 
         if (targetGroup === 'subscribed') {
             rolesToUpdate = ['premium', 'gold', 'platinum'];
-            toastMessage = 'All subscribed user avatars have been updated.';
+            toastMessage = 'All subscribed user avatars (excluding admins) have been updated.';
         } else if (targetGroup === 'admin') {
             rolesToUpdate = ['admin'];
             toastMessage = 'All admin user avatars have been updated.';
@@ -89,9 +89,9 @@ function ChangeAvatarDialog() {
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Change User Avatars</DialogTitle>
+                    <DialogTitle>Change User Avatars by Role</DialogTitle>
                     <DialogDescription>
-                        Enter a new image URL and select which group of users to update.
+                        Enter a new image URL and select which group of users to update. This will override the avatar for all users in that group.
                     </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
@@ -102,14 +102,14 @@ function ChangeAvatarDialog() {
                                 <SelectValue placeholder="Select a group to update" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="subscribed">All Subscribed Users</SelectItem>
+                                <SelectItem value="subscribed">Subscribed Users (Premium, Gold, etc.)</SelectItem>
                                 <SelectItem value="admin">Admin Users Only</SelectItem>
-                                <SelectItem value="basic">Basic (Non-subscribed) Users</SelectItem>
+                                <SelectItem value="basic">Basic Users (Non-Subscribed)</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="avatar-url">Avatar Image URL</Label>
+                      <Label htmlFor="avatar-url">New Avatar Image URL</Label>
                       <Input
                           id="avatar-url"
                           value={avatarUrl}
