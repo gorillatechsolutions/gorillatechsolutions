@@ -22,6 +22,7 @@ import Image from "next/image";
 import { useAuth } from "@/contexts/auth-context";
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
+import { Providers } from "@/components/providers";
 
 const formSchema = z.object({
   identifier: z.string().min(1, {
@@ -32,7 +33,7 @@ const formSchema = z.object({
   }),
 });
 
-export default function LoginPage() {
+function LoginPageContent() {
   const { toast } = useToast();
   const router = useRouter();
   const { login } = useAuth();
@@ -147,4 +148,12 @@ export default function LoginPage() {
         </div>
     </div>
   );
+}
+
+export default function LoginPage() {
+    return (
+        <Providers>
+            <LoginPageContent />
+        </Providers>
+    )
 }

@@ -24,8 +24,14 @@ import { SiteSettingsManager } from '@/components/layout/site-settings-manager';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { ChatWidget } from '@/components/chat-widget';
+import { usePathname } from 'next/navigation';
+
+const publicPages = ['/login', '/signup', '/forgot-password'];
 
 export function Providers({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const isPublicPage = publicPages.includes(pathname);
+
   return (
     <AuthProvider>
       <MessageProvider>
@@ -47,9 +53,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
                                       <InvestmentPageProvider>
                                         <PricingPlanProvider>
                                           <SiteSettingsManager />
-                                          <Header />
+                                          {!isPublicPage && <Header />}
                                           <main className="flex-1">{children}</main>
-                                          <Footer />
+                                          {!isPublicPage && <Footer />}
                                           <ChatWidget />
                                         </PricingPlanProvider>
                                       </InvestmentPageProvider>

@@ -18,6 +18,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
 import Image from "next/image";
+import { Providers } from "@/components/providers";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -25,7 +26,7 @@ const formSchema = z.object({
   }),
 });
 
-export default function ForgotPasswordPage() {
+function ForgotPasswordPageContent() {
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -97,4 +98,12 @@ export default function ForgotPasswordPage() {
       </div>
     </div>
   );
+}
+
+export default function ForgotPasswordPage() {
+    return (
+        <Providers>
+            <ForgotPasswordPageContent />
+        </Providers>
+    )
 }
