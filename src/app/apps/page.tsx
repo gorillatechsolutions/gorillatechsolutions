@@ -2,7 +2,7 @@
 import { AppsPageClient } from '@/components/apps-page-client';
 import type { AppFilter } from '@/types/app-filter';
 import { Suspense } from 'react';
-import { Providers } from '@/components/providers';
+import { PublicProviders } from '@/components/providers';
 
 type AppsPageProps = {
   searchParams: {
@@ -21,9 +21,9 @@ function AppsPageContent({ searchParams }: AppsPageProps) {
 export default function AppsPage({ searchParams }: AppsPageProps) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <Providers>
+      <PublicProviders>
         <AppsPageContent searchParams={searchParams} />
-      </Providers>
+      </PublicProviders>
     </Suspense>
   );
 }

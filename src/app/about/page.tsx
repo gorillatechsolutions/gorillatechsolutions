@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBolt, faBullseye, faUsers, faHandshake } from '@fortawesome/free-solid-svg-icons';
 import {createElement } from 'react';
 import { icons } from 'lucide-react';
-import { Providers } from '@/components/providers';
+import { PublicProviders } from '@/components/providers';
 
 
 const lucideIcons: { [key: string]: React.ElementType } = icons;
@@ -161,8 +161,8 @@ function AboutPageContent() {
 
 export default function AboutPage() {
     return (
-        <Providers>
+        <PublicProviders>
             <AboutPageContent />
-        </Providers>
+        </PublicProviders>
     )
 }

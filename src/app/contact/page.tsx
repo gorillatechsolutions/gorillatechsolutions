@@ -10,7 +10,7 @@ import { useContactSettings } from "@/contexts/contact-settings-context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faTwitter, faInstagram, faLinkedin, faGithub, faGoogle, faWhatsapp, faTelegram } from "@fortawesome/free-brands-svg-icons";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Providers } from "@/components/providers";
+import { PublicProviders } from "@/components/providers";
 
 const socialIconMap: { [key: string]: any } = {
     facebook: faFacebook,
@@ -152,8 +152,8 @@ function ContactPageContent() {
 
 export default function ContactPage() {
     return (
-        <Providers>
+        <PublicProviders>
             <ContactPageContent />
-        </Providers>
+        </PublicProviders>
     )
 }

@@ -1,5 +1,5 @@
 
-import { Providers } from '@/components/providers';
+import { PublicProviders } from '@/components/providers';
 import { CaseStudyDetailPageClient } from '@/components/case-study-detail-page-client';
 
 function CaseStudyDetailPageContent({ params }: { params: { slug: string } }) {
@@ -9,8 +9,8 @@ function CaseStudyDetailPageContent({ params }: { params: { slug: string } }) {
 
 export default function CaseStudyDetailPage({ params }: { params: { slug: string } }) {
   return (
-    <Providers>
+    <PublicProviders>
       <CaseStudyDetailPageContent params={params} />
-    </Providers>
+    </PublicProviders>
   );
 }

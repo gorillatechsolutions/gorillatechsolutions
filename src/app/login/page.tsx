@@ -22,7 +22,8 @@ import Image from "next/image";
 import { useAuth } from "@/contexts/auth-context";
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import { Providers } from "@/components/providers";
+import { PublicProviders } from "@/components/providers";
+import { AuthProvider } from "@/contexts/auth-context";
 
 const formSchema = z.object({
   identifier: z.string().min(1, {
@@ -70,7 +71,7 @@ function LoginPageContent() {
   }
 
   return (
-    <div className="w-full min-h-[calc(100vh-8rem)] flex items-center justify-center bg-secondary/30 py-12">
+    <div className="w-full min-h-screen flex items-center justify-center bg-secondary/30 py-12">
         <div className="container mx-auto px-4 grid lg:grid-cols-2 gap-12 items-center">
             <div className="hidden lg:block">
                 <Image 
@@ -152,8 +153,8 @@ function LoginPageContent() {
 
 export default function LoginPage() {
     return (
-        <Providers>
+        <AuthProvider>
             <LoginPageContent />
-        </Providers>
+        </AuthProvider>
     )
 }

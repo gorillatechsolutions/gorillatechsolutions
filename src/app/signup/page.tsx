@@ -22,7 +22,7 @@ import Image from "next/image";
 import { useAuth } from "@/contexts/auth-context";
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import { Providers } from "@/components/providers";
+import { AuthProvider } from "@/contexts/auth-context";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -76,7 +76,7 @@ function SignupPageContent() {
   }
 
   return (
-    <div className="w-full min-h-[calc(100vh-8rem)] flex items-center justify-center bg-secondary/30 py-12">
+    <div className="w-full min-h-screen flex items-center justify-center bg-secondary/30 py-12">
       <div className="container mx-auto px-4 grid lg:grid-cols-2 gap-12 items-center">
             <Card className="max-w-md mx-auto w-full border-border/80 lg:order-last">
                 <CardHeader className="text-center">
@@ -179,8 +179,8 @@ function SignupPageContent() {
 
 export default function SignupPage() {
     return (
-        <Providers>
+        <AuthProvider>
             <SignupPageContent />
-        </Providers>
+        </AuthProvider>
     )
 }

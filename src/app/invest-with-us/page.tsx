@@ -20,6 +20,7 @@ import { Textarea } from '@/components/ui/textarea';
 import Image from 'next/image';
 import { useInvestmentPage } from '@/contexts/investment-page-context';
 import { Skeleton } from '@/components/ui/skeleton';
+import { PublicProviders } from '@/components/providers';
 
 const investmentFormSchema = z.object({
   fullName: z.string().min(2, { message: 'Full name must be at least 2 characters.' }),
@@ -32,7 +33,7 @@ const investmentFormSchema = z.object({
   investmentInterest: z.string().min(10, { message: 'Please provide some details about your interest.' }),
 });
 
-export default function InvestWithUsPage() {
+function InvestWithUsPageContent() {
     const { toast } = useToast();
     const { content, loading } = useInvestmentPage();
 
@@ -123,4 +124,12 @@ export default function InvestWithUsPage() {
             </section>
         </div>
     );
+}
+
+export default function InvestWithUsPage() {
+    return (
+        <PublicProviders>
+            <InvestWithUsPageContent />
+        </PublicProviders>
+    )
 }

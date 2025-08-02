@@ -15,7 +15,7 @@ import Image from 'next/image';
 import { useServicesPage } from '@/contexts/services-page-context';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
-import { Providers } from '@/components/providers';
+import { PublicProviders } from '@/components/providers';
 
 function ServicesPageContent() {
     const { services, loading: servicesLoading } = useService();
@@ -142,8 +142,8 @@ function ServicesPageContent() {
 
 export default function ServicesPage() {
     return (
-        <Providers>
+        <PublicProviders>
             <ServicesPageContent />
-        </Providers>
+        </PublicProviders>
     )
 }

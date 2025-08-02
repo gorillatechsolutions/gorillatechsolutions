@@ -19,59 +19,50 @@ import { MessageProvider } from '@/contexts/message-context';
 import { PricingPlanProvider } from '@/contexts/pricing-plan-context';
 import { SiteSettingsProvider } from '@/contexts/site-settings-context';
 import { ChatProvider } from '@/contexts/chat-context';
-import { StorageProvider } from '@/contexts/storage-context';
 import { SiteSettingsManager } from '@/components/layout/site-settings-manager';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { ChatWidget } from '@/components/chat-widget';
-import { usePathname } from 'next/navigation';
 
-const publicPages = ['/login', '/signup', '/forgot-password'];
-
-export function Providers({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-  const isPublicPage = publicPages.includes(pathname);
-
+export function PublicProviders({ children }: { children: React.ReactNode }) {
   return (
     <AuthProvider>
       <MessageProvider>
         <ChatProvider>
           <SiteSettingsProvider>
-            <StorageProvider>
-              <CaseStudyProvider>
-                <AppProvider>
-                  <ServiceProvider>
-                    <ContactSettingsProvider>
-                      <AboutPageProvider>
-                        <LegalPageProvider>
-                          <HomePageProvider>
-                            <ReviewProvider>
-                              <ServicesPageProvider>
-                                <CaseStudiesPageProvider>
-                                  <AppsPageProvider>
-                                    <ApplicationPageProvider>
-                                      <InvestmentPageProvider>
-                                        <PricingPlanProvider>
-                                          <SiteSettingsManager />
-                                          {!isPublicPage && <Header />}
-                                          <main className="flex-1">{children}</main>
-                                          {!isPublicPage && <Footer />}
-                                          <ChatWidget />
-                                        </PricingPlanProvider>
-                                      </InvestmentPageProvider>
-                                    </ApplicationPageProvider>
-                                  </AppsPageProvider>
-                                </CaseStudiesPageProvider>
-                              </ServicesPageProvider>
-                            </ReviewProvider>
-                          </HomePageProvider>
-                        </LegalPageProvider>
-                      </AboutPageProvider>
-                    </ContactSettingsProvider>
-                  </ServiceProvider>
-                </AppProvider>
-              </CaseStudyProvider>
-            </StorageProvider>
+            <CaseStudyProvider>
+              <AppProvider>
+                <ServiceProvider>
+                  <ContactSettingsProvider>
+                    <AboutPageProvider>
+                      <LegalPageProvider>
+                        <HomePageProvider>
+                          <ReviewProvider>
+                            <ServicesPageProvider>
+                              <CaseStudiesPageProvider>
+                                <AppsPageProvider>
+                                  <ApplicationPageProvider>
+                                    <InvestmentPageProvider>
+                                      <PricingPlanProvider>
+                                        <SiteSettingsManager />
+                                        <Header />
+                                        <main className="flex-1">{children}</main>
+                                        <Footer />
+                                        <ChatWidget />
+                                      </PricingPlanProvider>
+                                    </InvestmentPageProvider>
+                                  </ApplicationPageProvider>
+                                </AppsPageProvider>
+                              </CaseStudiesPageProvider>
+                            </ServicesPageProvider>
+                          </ReviewProvider>
+                        </HomePageProvider>
+                      </LegalPageProvider>
+                    </AboutPageProvider>
+                  </ContactSettingsProvider>
+                </ServiceProvider>
+              </AppProvider>
+            </CaseStudyProvider>
           </SiteSettingsProvider>
         </ChatProvider>
       </MessageProvider>

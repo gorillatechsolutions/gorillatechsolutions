@@ -21,7 +21,7 @@ import Image from 'next/image';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useApplicationPage } from '@/contexts/application-page-context';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Providers } from '@/components/providers';
+import { PublicProviders } from '@/components/providers';
 
 const applicationFormSchema = z.object({
   fullName: z.string().min(2, { message: 'Full name must be at least 2 characters.' }),
@@ -174,8 +174,8 @@ function ApplicationPageContent() {
 
 export default function ApplicationPage() {
     return (
-        <Providers>
+        <PublicProviders>
             <ApplicationPageContent />
-        </Providers>
+        </PublicProviders>
     )
 }

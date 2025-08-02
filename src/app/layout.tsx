@@ -3,11 +3,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
-import { Header } from '@/components/layout/header';
-import { Footer } from '@/components/layout/footer';
-import { Providers } from '@/components/providers';
 import Script from 'next/script';
-import { ChatWidget } from '@/components/chat-widget';
 
 export const metadata: Metadata = {
   title: {

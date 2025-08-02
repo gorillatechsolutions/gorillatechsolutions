@@ -6,7 +6,7 @@ import { CaseStudyList } from '@/components/case-study-list';
 import { useCaseStudy } from '@/contexts/case-study-context';
 import { useCaseStudiesPage } from '@/contexts/case-studies-page-context';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Providers } from '@/components/providers';
+import { PublicProviders } from '@/components/providers';
 
 type CaseStudyPageProps = {
   searchParams: {
@@ -67,10 +67,10 @@ function CaseStudyPageComponent({ searchParams }: CaseStudyPageProps) {
 
 export default function CaseStudyPage({ searchParams }: CaseStudyPageProps) {
   return (
-    <Providers>
+    <PublicProviders>
       <Suspense fallback={<div className="container py-12">Loading...</div>}>
         <CaseStudyPageComponent searchParams={searchParams} />
       </Suspense>
-    </Providers>
+    </PublicProviders>
   );
 }
