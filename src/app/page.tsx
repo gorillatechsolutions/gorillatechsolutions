@@ -288,31 +288,15 @@ function HomePageContent() {
       {/* CTA Section */}
       <section className="w-full bg-background pt-20 md:pt-24 pb-10 md:pb-12">
         <div className="container mx-auto px-4">
-          <div className="relative text-center bg-gradient-to-r from-primary via-primary/80 to-accent text-primary-foreground p-8 md:p-12 rounded-lg shadow-lg overflow-hidden">
-             <Image
-                src={ctaImage}
-                alt="Decorative Circle"
-                width={192}
-                height={192}
-                className="absolute -top-12 -left-12 opacity-10"
-                data-ai-hint={ctaImageAiHint}
-              />
-               <Image
-                src={ctaImage}
-                alt="Decorative Circle"
-                width={128}
-                height={128}
-                className="absolute -bottom-12 -right-12 opacity-10"
-                data-ai-hint={ctaImageAiHint}
-              />
+          <div className="relative text-center bg-card border-2 border-border p-8 md:p-12 rounded-lg shadow-lg">
             <div className="relative z-10 flex flex-col items-center justify-center gap-6">
-              <h2 className="font-headline text-2xl sm:text-3xl md:text-4xl font-bold">
+              <h2 className="font-headline text-2xl sm:text-3xl md:text-4xl font-bold text-primary">
                 {ctaTitle}
               </h2>
-              <p className="mt-2 text-primary-foreground/80 md:text-lg max-w-xl">
+              <p className="mt-2 text-muted-foreground md:text-lg max-w-xl">
                 {ctaSubtitle}
               </p>
-              <Button asChild size="lg" className="mt-4 bg-white text-primary hover:bg-white/90 shadow-lg transition-transform transform hover:scale-105 flex-shrink-0">
+              <Button asChild size="lg" className="mt-4 bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transition-transform transform hover:scale-105 flex-shrink-0">
                 <Link href={ctaButtonLink}>
                   {ctaButtonText}
                   <i className="fa fa-arrow-right ml-2" aria-hidden="true"></i>
@@ -334,3 +318,5 @@ export default function Home() {
     </Providers>
   );
 }
+
+    
