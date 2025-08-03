@@ -29,14 +29,12 @@ export const CaseStudyProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         if (storedPosts) {
             setCaseStudies(JSON.parse(storedPosts));
         } else {
-            // Initialize with an empty array if nothing is in storage
-            localStorage.setItem(CASE_STUDIES_STORAGE_KEY, JSON.stringify([]));
-            setCaseStudies([]);
+            localStorage.setItem(CASE_STUDIES_STORAGE_KEY, JSON.stringify(demoCaseStudies));
+            setCaseStudies(demoCaseStudies);
         }
     } catch (e) {
         console.error("Failed to parse case studies from localStorage", e);
-        // Fallback to an empty array in case of error
-        setCaseStudies([]);
+        setCaseStudies(demoCaseStudies);
     }
     setLoading(false);
   }, []);
