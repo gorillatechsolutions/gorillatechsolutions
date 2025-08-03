@@ -10,7 +10,7 @@ interface CaseStudyContextType {
   getCaseStudyBySlug: (slug: string) => CaseStudy | null;
   addCaseStudy: (post: CaseStudy) => void;
   updateCaseStudy: (slug: string, postData: Partial<CaseStudy>) => void;
-  deleteCaseStudy: (slug: string) => void;
+  deleteCaseStudies: (slugs: string[]) => void;
   slugExists: (slug: string) => boolean;
 }
 
@@ -77,8 +77,8 @@ export const CaseStudyProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     localStorage.setItem(CASE_STUDIES_STORAGE_KEY, JSON.stringify(updatedCaseStudies));
   };
 
-  const deleteCaseStudy = (slug: string) => {
-    const updatedPosts = caseStudies.filter(p => p.slug !== slug);
+  const deleteCaseStudies = (slugs: string[]) => {
+    const updatedPosts = caseStudies.filter(p => !slugs.includes(p.slug));
     setCaseStudies(updatedPosts);
     localStorage.setItem(CASE_STUDIES_STORAGE_KEY, JSON.stringify(updatedPosts));
   };
@@ -88,7 +88,7 @@ export const CaseStudyProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   };
 
   return (
-    <CaseStudyContext.Provider value={{ caseStudies, loading, getCaseStudyBySlug, addCaseStudy, updateCaseStudy, deleteCaseStudy, slugExists }}>
+    <CaseStudyContext.Provider value={{ caseStudies, loading, getCaseStudyBySlug, addCaseStudy, updateCaseStudy, deleteCaseStudies, slugExists }}>
       {children}
     </CaseStudyContext.Provider>
   );

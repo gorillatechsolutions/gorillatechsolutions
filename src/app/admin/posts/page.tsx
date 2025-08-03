@@ -19,11 +19,11 @@ import { faPlus, faEye, faCalendar, faTags, faEdit, faTrash, faUser } from '@for
 export default function AdminPostsListPage() {
   const router = useRouter();
   const { toast } = useToast();
-  const { caseStudies, deleteCaseStudy, loading } = useCaseStudy();
+  const { caseStudies, deleteCaseStudies, loading } = useCaseStudy();
   const [selectedPosts, setSelectedPosts] = useState<string[]>([]);
 
   const handleDelete = (slugs: string[]) => {
-    slugs.forEach(slug => deleteCaseStudy(slug));
+    deleteCaseStudies(slugs);
     toast({
       title: 'Posts Deleted',
       description: `${slugs.length} case study/studies have been successfully deleted.`,
