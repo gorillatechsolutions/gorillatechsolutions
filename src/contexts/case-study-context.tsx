@@ -3,7 +3,6 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import type { CaseStudy } from '@/types/case-study';
-import { demoCaseStudies } from '@/lib/demo-data';
 
 interface CaseStudyContextType {
   caseStudies: CaseStudy[];
