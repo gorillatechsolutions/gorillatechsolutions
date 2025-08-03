@@ -20,17 +20,42 @@ import { Textarea } from '@/components/ui/textarea';
 import { useAuth } from '@/contexts/auth-context';
 import { useMessage } from '@/contexts/message-context';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHistory } from '@fortawesome/free-solid-svg-icons';
 
-const formSchema = z.object({
-  recipientType: z.enum(['all', 'specific']),
-  recipientEmail: z.string().optional(),
-  subject: z.string().min(2, 'Subject must be at least 2 characters.'),
-  body: z.string().min(10, 'Message body must be at least 10 characters.'),
-});
+const formSchema = z
+  .object({
+    recipientType: z.enum(['all', 'specific']),
+    recipientEmail: z.string().optional(),
+    subject: z.string().min(2, 'Subject must be at least 2 characters.'),
+    body: z.string().min(10, 'Message body must be at least 10 characters.'),
+  })
+  .refine(
+    (data) => {
+      if (data.recipientType === 'specific') {
+        return !!data.recipientEmail;
+      }
+      return true;
+    },
+    {
+      message: 'Recipient email is required.',
+      path: ['recipientEmail'],
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.recipientType === 'specific' && data.recipientEmail) {
+        return z.string().email().safeParse(data.recipientEmail).success;
+      }
+      return true;
+    },
+    {
+      message: 'Please enter a valid email address.',
+      path: ['recipientEmail'],
+    }
+  );
+
 
 export default function NotificationsPage() {
   const { toast } = useToast();
@@ -61,7 +86,7 @@ export default function NotificationsPage() {
       successMessage = `Message sent to all ${recipients.length} users.`;
     } else {
       if (!values.recipientEmail) {
-        form.setError('recipientEmail', { type: 'manual', message: 'Please select a user.' });
+        form.setError('recipientEmail', { type: 'manual', message: 'Please enter a user email.' });
         return;
       }
       recipients = [values.recipientEmail];
@@ -149,28 +174,17 @@ export default function NotificationsPage() {
 
               {recipientType === 'specific' && (
                 <FormField
-                    control={form.control}
-                    name="recipientEmail"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel>Select User</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Select a user to message" />
-                                </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                                {users.map(user => (
-                                    <SelectItem key={user.email} value={user.email}>
-                                        {user.name} ({user.email})
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                        <FormMessage />
-                        </FormItem>
-                    )}
+                  control={form.control}
+                  name="recipientEmail"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Recipient Email</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter user's email address" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
               )}
 
