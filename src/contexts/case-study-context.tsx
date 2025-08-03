@@ -28,7 +28,6 @@ export const CaseStudyProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         if (storedPosts) {
             setCaseStudies(JSON.parse(storedPosts));
         } else {
-            // Initialize with an empty array if nothing is in storage
             const initialData: CaseStudy[] = [];
             localStorage.setItem(CASE_STUDIES_STORAGE_KEY, JSON.stringify(initialData));
             setCaseStudies(initialData);
@@ -70,8 +69,6 @@ export const CaseStudyProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const updateCaseStudy = (slug: string, postData: Partial<CaseStudy>) => {
     const updatedCaseStudies = caseStudies.map(p => {
       if (p.slug === slug) {
-        // Create the updated post by merging existing data with new data
-        // This ensures fields not in the form (like 'id', 'date') are preserved.
         return { ...p, ...postData };
       }
       return p;
