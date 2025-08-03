@@ -3,7 +3,6 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import type { CaseStudy } from '@/types/case-study';
-import { demoCaseStudies } from '@/lib/demo-data';
 
 interface CaseStudyContextType {
   caseStudies: CaseStudy[];
@@ -30,8 +29,9 @@ export const CaseStudyProvider: React.FC<{ children: React.ReactNode }> = ({ chi
             setCaseStudies(JSON.parse(storedPosts));
         } else {
             // Initialize with an empty array if nothing is in storage
-            localStorage.setItem(CASE_STUDIES_STORAGE_KEY, JSON.stringify([]));
-            setCaseStudies([]);
+            const initialData: CaseStudy[] = [];
+            localStorage.setItem(CASE_STUDIES_STORAGE_KEY, JSON.stringify(initialData));
+            setCaseStudies(initialData);
         }
     } catch (e) {
         console.error("Failed to parse case studies from localStorage", e);
