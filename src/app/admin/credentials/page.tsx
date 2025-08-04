@@ -12,7 +12,6 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  FormDescription,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -21,6 +20,7 @@ import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle, faOpenai } from '@fortawesome/free-brands-svg-icons';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const credentialsSchema = z.object({
   gemini: z.string().optional(),
@@ -84,91 +84,90 @@ export default function CredentialsPage() {
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <Card>
-            <CardHeader>
-              <CardTitle>Google Gemini</CardTitle>
-              <CardDescription>API key for accessing Google's Gemini models through Genkit.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <FormField
-                control={form.control}
-                name="gemini"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="flex items-center gap-2">
-                        <FontAwesomeIcon icon={faGoogle} className="h-4 w-4" />
-                        Gemini API Key
-                    </FormLabel>
-                    <PasswordInput field={field} show={showKeys.gemini} onToggle={() => toggleShowKey('gemini')} />
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>OpenAI</CardTitle>
-              <CardDescription>API key for accessing models like GPT-4, GPT-3.5, etc.</CardDescription>
-            </CardHeader>
-            <CardContent>
-               <FormField
-                control={form.control}
-                name="openai"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="flex items-center gap-2">
-                        <FontAwesomeIcon icon={faOpenai} className="h-4 w-4" />
-                        OpenAI API Key
-                    </FormLabel>
-                    <PasswordInput field={field} show={showKeys.openai} onToggle={() => toggleShowKey('openai')} />
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-          </Card>
-          
-           <Card>
-            <CardHeader>
-              <CardTitle>Grok</CardTitle>
-              <CardDescription>API key for accessing Grok models by xAI.</CardDescription>
-            </CardHeader>
-            <CardContent>
-               <FormField
-                control={form.control}
-                name="grok"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Grok API Key</FormLabel>
-                    <PasswordInput field={field} show={showKeys.grok} onToggle={() => toggleShowKey('grok')} />
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-          </Card>
-
-           <Card>
-            <CardHeader>
-              <CardTitle>DeepSeek</CardTitle>
-              <CardDescription>API key for accessing DeepSeek models.</CardDescription>
-            </CardHeader>
-            <CardContent>
-               <FormField
-                control={form.control}
-                name="deepseek"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>DeepSeek API Key</FormLabel>
-                    <PasswordInput field={field} show={showKeys.deepseek} onToggle={() => toggleShowKey('deepseek')} />
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-          </Card>
+            <Card>
+                <CardHeader>
+                    <CardTitle>Service Provider API Keys</CardTitle>
+                    <CardDescription>Click on a provider to expand and manage its API key.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <Accordion type="multiple" className="w-full space-y-2">
+                        <AccordionItem value="gemini">
+                            <AccordionTrigger className="px-4 py-2 bg-secondary/50 rounded-md">
+                                <span className="flex items-center gap-3">
+                                    <FontAwesomeIcon icon={faGoogle} className="h-5 w-5" />
+                                    Google Gemini
+                                </span>
+                            </AccordionTrigger>
+                            <AccordionContent className="p-4 pt-6">
+                                <FormField
+                                    control={form.control}
+                                    name="gemini"
+                                    render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Gemini API Key</FormLabel>
+                                        <PasswordInput field={field} show={showKeys.gemini} onToggle={() => toggleShowKey('gemini')} />
+                                        <FormMessage />
+                                    </FormItem>
+                                    )}
+                                />
+                            </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="openai">
+                             <AccordionTrigger className="px-4 py-2 bg-secondary/50 rounded-md">
+                                <span className="flex items-center gap-3">
+                                    <FontAwesomeIcon icon={faOpenai} className="h-5 w-5" />
+                                    OpenAI
+                                </span>
+                            </AccordionTrigger>
+                            <AccordionContent className="p-4 pt-6">
+                               <FormField
+                                    control={form.control}
+                                    name="openai"
+                                    render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>OpenAI API Key (for GPT models)</FormLabel>
+                                        <PasswordInput field={field} show={showKeys.openai} onToggle={() => toggleShowKey('openai')} />
+                                        <FormMessage />
+                                    </FormItem>
+                                    )}
+                                />
+                            </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="grok">
+                            <AccordionTrigger className="px-4 py-2 bg-secondary/50 rounded-md">Grok (xAI)</AccordionTrigger>
+                            <AccordionContent className="p-4 pt-6">
+                               <FormField
+                                    control={form.control}
+                                    name="grok"
+                                    render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Grok API Key</FormLabel>
+                                        <PasswordInput field={field} show={showKeys.grok} onToggle={() => toggleShowKey('grok')} />
+                                        <FormMessage />
+                                    </FormItem>
+                                    )}
+                                />
+                            </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="deepseek">
+                            <AccordionTrigger className="px-4 py-2 bg-secondary/50 rounded-md">DeepSeek</AccordionTrigger>
+                            <AccordionContent className="p-4 pt-6">
+                               <FormField
+                                    control={form.control}
+                                    name="deepseek"
+                                    render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>DeepSeek API Key</FormLabel>
+                                        <PasswordInput field={field} show={showKeys.deepseek} onToggle={() => toggleShowKey('deepseek')} />
+                                        <FormMessage />
+                                    </FormItem>
+                                    )}
+                                />
+                            </AccordionContent>
+                        </AccordionItem>
+                    </Accordion>
+                </CardContent>
+            </Card>
 
           <Button type="submit">Save Credentials</Button>
         </form>
