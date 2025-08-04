@@ -60,7 +60,15 @@ export function AppForm({ appToEdit }: AppFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: appToEdit ? {
-        ...appToEdit
+        ...appToEdit,
+        badge: appToEdit.badge || '',
+        links: {
+          web: appToEdit.links.web || '',
+          playStore: appToEdit.links.playStore || '',
+          appStore: appToEdit.links.appStore || '',
+          download: appToEdit.links.download || '',
+          buy: appToEdit.links.buy || '',
+        }
     } : {
       title: '',
       slug: '',
@@ -84,7 +92,15 @@ export function AppForm({ appToEdit }: AppFormProps) {
   useEffect(() => {
     if (appToEdit) {
       form.reset({
-        ...appToEdit
+        ...appToEdit,
+        badge: appToEdit.badge || '',
+         links: {
+          web: appToEdit.links.web || '',
+          playStore: appToEdit.links.playStore || '',
+          appStore: appToEdit.links.appStore || '',
+          download: appToEdit.links.download || '',
+          buy: appToEdit.links.buy || '',
+        }
       });
     }
   }, [appToEdit, form]);
@@ -256,14 +272,14 @@ export function AppForm({ appToEdit }: AppFormProps) {
                             render={({ field }) => (
                                 <FormItem>
                                 <FormLabel>Badge</FormLabel>
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <Select onValueChange={field.onChange} value={field.value}>
                                     <FormControl>
                                         <SelectTrigger>
                                             <SelectValue placeholder="Select a badge" />
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                        <SelectItem value=" ">None</SelectItem>
+                                        <SelectItem value="">None</SelectItem>
                                         <SelectItem value="Premium">Premium</SelectItem>
                                         <SelectItem value="Gold">Gold</SelectItem>
                                         <SelectItem value="Login Required">Login Required</SelectItem>

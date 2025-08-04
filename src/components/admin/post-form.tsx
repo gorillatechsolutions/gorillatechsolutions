@@ -63,6 +63,10 @@ export function PostForm({ postToEdit }: PostFormProps) {
     defaultValues: postToEdit ? {
       ...postToEdit,
       tags: postToEdit.tags.join(', '),
+      metaTitle: postToEdit.metaTitle || '',
+      metaDescription: postToEdit.metaDescription || '',
+      metaKeywords: postToEdit.metaKeywords || '',
+      ogImage: postToEdit.ogImage || 'https://placehold.co/1200x630.png',
     } : {
       title: '',
       slug: '',
@@ -90,9 +94,13 @@ export function PostForm({ postToEdit }: PostFormProps) {
       form.reset({
         ...postToEdit,
         tags: postToEdit.tags.join(', '),
+        metaTitle: postToEdit.metaTitle || '',
+        metaDescription: postToEdit.metaDescription || '',
+        metaKeywords: postToEdit.metaKeywords || '',
+        ogImage: postToEdit.ogImage || 'https://placehold.co/1200x630.png',
       });
     }
-  }, [postToEdit, form.reset]);
+  }, [postToEdit, form]);
 
   const handleGenerateArticle = async () => {
     if (!aiTopic) {

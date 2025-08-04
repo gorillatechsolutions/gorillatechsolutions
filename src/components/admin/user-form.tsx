@@ -53,7 +53,12 @@ export function UserForm({ userToEdit }: UserFormProps) {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
+    defaultValues: userToEdit ? {
+      ...userToEdit,
+      password: '', // Password should be empty for editing for security
+      phone: userToEdit.phone || '',
+      address: userToEdit.address || '',
+    } : {
       name: '',
       username: '',
       email: '',

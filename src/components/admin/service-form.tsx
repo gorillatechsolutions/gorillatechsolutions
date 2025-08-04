@@ -59,7 +59,11 @@ export function ServiceForm({ serviceToEdit }: ServiceFormProps) {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: serviceToEdit || {
+    defaultValues: serviceToEdit ? {
+      ...serviceToEdit,
+      metaKeywords: serviceToEdit.metaKeywords || '',
+      ogImage: serviceToEdit.ogImage || 'https://placehold.co/1200x630.png',
+    } : {
       title: '',
       slug: '',
       description: '',
@@ -82,6 +86,7 @@ export function ServiceForm({ serviceToEdit }: ServiceFormProps) {
     if (serviceToEdit) {
       form.reset({
         ...serviceToEdit,
+        metaKeywords: serviceToEdit.metaKeywords || '',
         ogImage: serviceToEdit.ogImage || 'https://placehold.co/1200x630.png',
       });
     }

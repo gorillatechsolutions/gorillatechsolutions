@@ -171,7 +171,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signup = (name: string, username: string, email: string, password: string) => {
-    const newUser: User = { name, username, email, password, role: 'user', address: '', avatar: 'https://i.ibb.co/1mgpC4j/g-logo.png' };
+    const newUser: User = { name, username, email, password, role: 'user', address: '', phone: '', avatar: 'https://i.ibb.co/1mgpC4j/g-logo.png' };
     const updatedUsers = [...users, newUser];
     setUsers(updatedUsers);
     localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(updatedUsers));

@@ -43,12 +43,24 @@ export default function SiteSettingsPage() {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaultValues: settings,
+        defaultValues: {
+            ...settings,
+            metaKeywords: settings.metaKeywords || '',
+            googleSiteVerification: settings.googleSiteVerification || '',
+            bingSiteVerification: settings.bingSiteVerification || '',
+            robotsTxt: settings.robotsTxt || '',
+        },
     });
     
     useEffect(() => {
         if (!loading) {
-            form.reset(settings);
+            form.reset({
+                ...settings,
+                metaKeywords: settings.metaKeywords || '',
+                googleSiteVerification: settings.googleSiteVerification || '',
+                bingSiteVerification: settings.bingSiteVerification || '',
+                robotsTxt: settings.robotsTxt || '',
+            });
         }
     }, [settings, loading, form]);
 
@@ -115,7 +127,7 @@ export default function SiteSettingsPage() {
                                         <CardContent className="space-y-4 pt-0">
                                             <FormField control={form.control} name="ogImage" render={({ field }) => (<FormItem><FormLabel>Default Open Graph Image URL</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>This image is used when sharing links on social media. Recommended size: 1200x630px.</FormDescription><FormMessage /></FormItem>)} />
                                             <FormField control={form.control} name="metaDescription" render={({ field }) => (<FormItem><FormLabel>Default Meta Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormDescription>A concise summary for search engine results.</FormDescription><FormMessage /></FormItem>)} />
-                                            <FormField control={form.control} name="metaKeywords" render={({ field }) => (<FormItem><FormLabel>Default Meta Keywords</FormLabel><FormControl><Textarea {...field} /></FormControl><FormDescription>Comma-separated keywords for search engines.</FormDescription><FormMessage /></FormItem>)} />
+                                            <FormField control={form.control} name="metaKeywords" render={({ field }) => (<FormItem><FormLabel>Default Meta Keywords</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Comma-separated keywords for search engines.</FormDescription><FormMessage /></FormItem>)} />
                                         </CardContent>
                                     </AccordionContent>
                                 </AccordionItem>
