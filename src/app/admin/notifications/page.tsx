@@ -17,42 +17,34 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Textarea } from '@/components/ui/textarea';
-import { useAuth } from '@/contexts/auth-context';
+import { useAuth, User } from '@/contexts/auth-context';
 import { useMessage } from '@/contexts/message-context';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHistory } from '@fortawesome/free-solid-svg-icons';
+import { faHistory, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { useState, useRef, useEffect } from 'react';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Badge } from '@/components/ui/badge';
 
 const formSchema = z
   .object({
     recipientType: z.enum(['all', 'specific']),
-    recipientEmail: z.string().optional(),
+    recipients: z.array(z.string().email()),
     subject: z.string().min(2, 'Subject must be at least 2 characters.'),
     body: z.string().min(10, 'Message body must be at least 10 characters.'),
   })
   .refine(
     (data) => {
       if (data.recipientType === 'specific') {
-        return !!data.recipientEmail;
+        return data.recipients.length > 0;
       }
       return true;
     },
     {
-      message: 'Recipient email is required.',
-      path: ['recipientEmail'],
-    }
-  )
-  .refine(
-    (data) => {
-      if (data.recipientType === 'specific' && data.recipientEmail) {
-        return z.string().email().safeParse(data.recipientEmail).success;
-      }
-      return true;
-    },
-    {
-      message: 'Please enter a valid email address.',
-      path: ['recipientEmail'],
+      message: 'At least one recipient email is required.',
+      path: ['recipients'],
     }
   );
 
@@ -61,11 +53,16 @@ export default function NotificationsPage() {
   const { toast } = useToast();
   const { user: adminUser, users } = useAuth();
   const { sendMessage } = useMessage();
+  const [recipientSearch, setRecipientSearch] = useState('');
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const triggerRef = useRef<HTMLDivElement>(null);
+
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       recipientType: 'all',
+      recipients: [],
       subject: '',
       body: '',
     },
@@ -85,13 +82,8 @@ export default function NotificationsPage() {
       recipients = users.map(u => u.email);
       successMessage = `Message sent to all ${recipients.length} users.`;
     } else {
-      if (!values.recipientEmail) {
-        form.setError('recipientEmail', { type: 'manual', message: 'Please enter a user email.' });
-        return;
-      }
-      recipients = [values.recipientEmail];
-      const recipientUser = users.find(u => u.email === values.recipientEmail);
-      successMessage = `Message sent to ${recipientUser?.name || 'the selected user'}.`;
+      recipients = values.recipients;
+      successMessage = `Message sent to ${recipients.length} user(s).`;
     }
 
     recipients.forEach(email => {
@@ -109,13 +101,31 @@ export default function NotificationsPage() {
     });
     form.reset({
         recipientType: 'all',
-        recipientEmail: '',
+        recipients: [],
         subject: '',
         body: '',
     });
   }
   
   const recipientType = form.watch('recipientType');
+  const selectedRecipients = form.watch('recipients');
+  
+  const filteredUsers = users.filter(user => 
+    (user.email.toLowerCase().includes(recipientSearch.toLowerCase()) || 
+     user.username.toLowerCase().includes(recipientSearch.toLowerCase())) &&
+    !selectedRecipients.includes(user.email)
+  );
+
+  const handleSelectRecipient = (email: string) => {
+    form.setValue('recipients', [...selectedRecipients, email]);
+    setRecipientSearch('');
+    setIsPopoverOpen(false);
+  };
+  
+  const handleRemoveRecipient = (email: string) => {
+    form.setValue('recipients', selectedRecipients.filter(r => r !== email));
+  };
+
 
   return (
     <div className="space-y-6">
@@ -163,7 +173,7 @@ export default function NotificationsPage() {
                           <FormControl>
                             <RadioGroupItem value="specific" />
                           </FormControl>
-                          <FormLabel className="font-normal">Specific User</FormLabel>
+                          <FormLabel className="font-normal">Specific User(s)</FormLabel>
                         </FormItem>
                       </RadioGroup>
                     </FormControl>
@@ -175,13 +185,66 @@ export default function NotificationsPage() {
               {recipientType === 'specific' && (
                 <FormField
                   control={form.control}
-                  name="recipientEmail"
+                  name="recipients"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Recipient Email</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter user's email address" {...field} />
-                      </FormControl>
+                      <FormLabel>Recipients</FormLabel>
+                        <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+                          <PopoverTrigger asChild>
+                            <div
+                              ref={triggerRef}
+                              className="w-full min-h-10 flex flex-wrap items-center gap-2 p-2 border rounded-md"
+                              onClick={() => setIsPopoverOpen(true)}
+                            >
+                              {selectedRecipients.map(email => {
+                                const user = users.find(u => u.email === email);
+                                return (
+                                  <Badge key={email} variant="secondary" className="text-sm">
+                                    {user?.name || email}
+                                    <button
+                                      type="button"
+                                      className="ml-2"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleRemoveRecipient(email);
+                                      }}
+                                    >
+                                      <FontAwesomeIcon icon={faTimes} className="h-3 w-3" />
+                                    </button>
+                                  </Badge>
+                                );
+                              })}
+                              <Input
+                                  value={recipientSearch}
+                                  onChange={e => setRecipientSearch(e.target.value)}
+                                  placeholder="Type to search users..."
+                                  className="flex-1 border-none shadow-none focus-visible:ring-0 p-0 h-auto"
+                                />
+                            </div>
+                          </PopoverTrigger>
+                          <PopoverContent 
+                            className="w-full p-0" 
+                            style={{ width: triggerRef.current?.offsetWidth }}
+                            align="start"
+                          >
+                             <ScrollArea className="h-48">
+                                {filteredUsers.length > 0 ? (
+                                    filteredUsers.map(user => (
+                                      <div
+                                        key={user.email}
+                                        className="p-2 hover:bg-secondary cursor-pointer"
+                                        onClick={() => handleSelectRecipient(user.email)}
+                                      >
+                                        <p className="font-medium">{user.name}</p>
+                                        <p className="text-sm text-muted-foreground">{user.email}</p>
+                                      </div>
+                                    ))
+                                ) : (
+                                    <p className="p-2 text-sm text-muted-foreground">No users found.</p>
+                                )}
+                            </ScrollArea>
+                          </PopoverContent>
+                        </Popover>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -228,3 +291,4 @@ export default function NotificationsPage() {
     </div>
   );
 }
+
