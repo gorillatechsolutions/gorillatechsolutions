@@ -5,7 +5,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight, faFileLines, faDollarSign, faCog } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faFileLines, faDollarSign, faCog, faRocket } from "@fortawesome/free-solid-svg-icons";
 
 const settingsLinks = [
     {
@@ -26,6 +26,12 @@ const settingsLinks = [
         title: 'Global Site Settings',
         description: 'Manage site-wide settings like logos, metadata, and integrations.'
     },
+    {
+        href: '/admin/settings/optimization',
+        icon: faRocket,
+        title: 'System Optimization',
+        description: 'Manage application cache, temporary files, and other optimizations.'
+    }
 ]
 
 export default function AdminSettingsPage() {
