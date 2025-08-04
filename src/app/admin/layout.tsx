@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { SidebarProvider, Sidebar, SidebarTrigger, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarFooter, SidebarInset } from '@/components/ui/sidebar';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTachometerAlt, faUsers, faCog, faSignOutAlt, faPenToSquare, faMobileScreenButton, faConciergeBell, faFileLines, faStar, faBullhorn, faLifeRing, faHardDrive } from '@fortawesome/free-solid-svg-icons';
+import { faTachometerAlt, faUsers, faCog, faSignOutAlt, faPenToSquare, faMobileScreenButton, faConciergeBell, faFileLines, faStar, faBullhorn, faLifeRing, faHardDrive, faKey } from '@fortawesome/free-solid-svg-icons';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/auth-context';
@@ -25,6 +25,7 @@ const navItems = [
   { href: '/admin/notifications', icon: faBullhorn, label: 'Notifications' },
   { href: '/admin/pages', icon: faFileLines, label: 'Pages' },
   { href: '/admin/support', icon: faLifeRing, label: 'Support' },
+  { href: '/admin/credentials', icon: faKey, label: 'Credentials' },
   { href: '/admin/settings', icon: faCog, label: 'Settings' },
 ];
 

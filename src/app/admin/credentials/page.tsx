@@ -1,130 +1,178 @@
+
 'use client';
 
-import { useEffect } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
-import { SidebarProvider, Sidebar, SidebarTrigger, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarFooter, SidebarInset } from '@/components/ui/sidebar';
-import Link from 'next/link';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTachometerAlt, faUsers, faCog, faSignOutAlt, faPenToSquare, faMobileScreenButton, faConciergeBell, faFileLines, faStar, faDollarSign, faBullhorn, faLifeRing, faKey } from '@fortawesome/free-solid-svg-icons';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 import { Button } from '@/components/ui/button';
-import { useAuth } from '@/contexts/auth-context';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Skeleton } from '@/components/ui/skeleton';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  FormDescription,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { useToast } from '@/hooks/use-toast';
+import { useState } from 'react';
+import { Eye, EyeOff } from 'lucide-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGoogle, faOpenai } from '@fortawesome/free-brands-svg-icons';
 
-const navItems = [
-  { href: '/admin', icon: faTachometerAlt, label: 'Dashboard', exact: true },
-  { href: '/admin/users', icon: faUsers, label: 'Users' },
-  { href: '/admin/posts', icon: faPenToSquare, label: 'Posts' },
-  { href: '/admin/apps', icon: faMobileScreenButton, label: 'Apps' },
-  { href: '/admin/services', icon: faConciergeBell, label: 'Services' },
-  { href: '/admin/reviews', icon: faStar, label: 'Reviews' },
-  { href: '/admin/notifications', icon: faBullhorn, label: 'Notifications' },
-  { href: '/admin/pages', icon: faFileLines, label: 'Pages' },
-  { href: '/admin/support', icon: faLifeRing, label: 'Support' },
-  { href: '/admin/settings/pricing', icon: faDollarSign, label: 'Pricing Plans' },
-  { href: '/admin/settings/site', icon: faCog, label: 'Site Settings' },
-];
+const credentialsSchema = z.object({
+  gemini: z.string().optional(),
+  openai: z.string().optional(),
+  grok: z.string().optional(),
+  deepseek: z.string().optional(),
+});
 
-export default function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const pathname = usePathname();
-  const router = useRouter();
-  const { user, logout, loading } = useAuth();
-  
-  useEffect(() => {
-    if (!loading && !user) {
-      router.push('/login');
-    } else if (!loading && user && user.role !== 'admin') {
-      router.push('/');
-    }
-  }, [user, loading, router]);
+type CredentialsFormValues = z.infer<typeof credentialsSchema>;
 
+const PasswordInput = ({ field, show, onToggle }: { field: any; show: boolean; onToggle: () => void }) => (
+    <div className="relative">
+      <FormControl>
+        <Input type={show ? 'text' : 'password'} {...field} />
+      </FormControl>
+      <Button type="button" variant="ghost" size="icon" className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 text-muted-foreground" onClick={onToggle}>
+        {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+      </Button>
+    </div>
+);
 
-  if (loading || !user || user.role !== 'admin') {
-    return (
-        <div className="flex h-screen items-center justify-center">
-            <div className="flex items-center gap-2">
-                <Skeleton className="h-8 w-8 rounded-full" />
-                <div className="space-y-2">
-                    <Skeleton className="h-4 w-[250px]" />
-                    <Skeleton className="h-4 w-[200px]" />
-                </div>
-            </div>
-        </div>
-    );
-  }
+export default function CredentialsPage() {
+  const { toast } = useToast();
+  // In a real app, these values would be fetched and managed via a context or state management solution.
+  const [showKeys, setShowKeys] = useState({
+    gemini: false,
+    openai: false,
+    grok: false,
+    deepseek: false,
+  });
+
+  const form = useForm<CredentialsFormValues>({
+    resolver: zodResolver(credentialsSchema),
+    defaultValues: {
+      gemini: '',
+      openai: '',
+      grok: '',
+      deepseek: '',
+    },
+  });
+
+  const toggleShowKey = (key: keyof typeof showKeys) => {
+    setShowKeys(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const onSubmit = (values: CredentialsFormValues) => {
+    // Here you would typically save these values to a secure backend or environment variables.
+    // For this prototype, we'll just log them and show a toast.
+    console.log('Saving credentials:', values);
+    toast({
+      title: 'Credentials Saved',
+      description: 'Your API keys have been updated. (This is a demo and keys are not actually saved).',
+    });
+  };
 
   return (
-    <SidebarProvider>
-      <Sidebar>
-        <SidebarHeader>
-           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="flex items-center gap-3 w-full justify-start h-auto px-2 py-2">
-                <Avatar className="h-9 w-9">
-                  <AvatarImage src="https://placehold.co/100x100.png" alt={user.name} data-ai-hint="person avatar" />
-                  <AvatarFallback>{user.name ? user.name.charAt(0).toUpperCase() : 'A'}</AvatarFallback>
-                </Avatar>
-                <div className="flex flex-col items-start text-left">
-                    <span className="text-sm font-semibold text-sidebar-foreground truncate">{user.name}</span>
-                    <span className="text-xs text-sidebar-foreground/70 truncate">{user.email}</span>
-                </div>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56" align="end" forceMount>
-                <DropdownMenuLabel className="font-normal">
-                    <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-medium leading-none">{user.name}</p>
-                        <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
-                    </div>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                 <DropdownMenuItem asChild>
-                    <Link href="/profile">
-                        <FontAwesomeIcon icon={faCog} className="mr-2 h-4 w-4" />
-                        <span>Profile Settings</span>
-                    </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem onSelect={logout}>
-                    <FontAwesomeIcon icon={faSignOutAlt} className="mr-2 h-4 w-4" />
-                    <span>Log out</span>
-                </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </SidebarHeader>
-        <SidebarContent>
-          <SidebarMenu>
-            {navItems.map((item) => (
-              <SidebarMenuItem key={item.href}>
-                <Link href={item.href}>
-                  <SidebarMenuButton isActive={pathname.startsWith(item.href) && (item.exact ? pathname === item.href : true)}>
-                    <FontAwesomeIcon icon={item.icon} className="h-4 w-4" />
-                    <span>{item.label}</span>
-                  </SidebarMenuButton>
-                </Link>
-              </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
-        </SidebarContent>
-        <SidebarFooter>
-            {/* Can add footer items here if needed */}
-        </SidebarFooter>
-      </Sidebar>
-      <SidebarInset>
-        <header className="flex h-14 items-center justify-between border-b bg-background p-4 sm:justify-end">
-            <SidebarTrigger className="sm:hidden"/>
-            <div className="text-foreground font-semibold">
-                Welcome, {user.name}!
-            </div>
-        </header>
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 bg-secondary/40">
-            {children}
-        </main>
-      </SidebarInset>
-    </SidebarProvider>
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold text-foreground">AI Credentials</h1>
+        <p className="text-muted-foreground">Manage API keys for various AI service providers.</p>
+      </div>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <Card>
+            <CardHeader>
+              <CardTitle>Google Gemini</CardTitle>
+              <CardDescription>API key for accessing Google's Gemini models through Genkit.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <FormField
+                control={form.control}
+                name="gemini"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="flex items-center gap-2">
+                        <FontAwesomeIcon icon={faGoogle} className="h-4 w-4" />
+                        Gemini API Key
+                    </FormLabel>
+                    <PasswordInput field={field} show={showKeys.gemini} onToggle={() => toggleShowKey('gemini')} />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>OpenAI</CardTitle>
+              <CardDescription>API key for accessing models like GPT-4, GPT-3.5, etc.</CardDescription>
+            </CardHeader>
+            <CardContent>
+               <FormField
+                control={form.control}
+                name="openai"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="flex items-center gap-2">
+                        <FontAwesomeIcon icon={faOpenai} className="h-4 w-4" />
+                        OpenAI API Key
+                    </FormLabel>
+                    <PasswordInput field={field} show={showKeys.openai} onToggle={() => toggleShowKey('openai')} />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
+          
+           <Card>
+            <CardHeader>
+              <CardTitle>Grok</CardTitle>
+              <CardDescription>API key for accessing Grok models by xAI.</CardDescription>
+            </CardHeader>
+            <CardContent>
+               <FormField
+                control={form.control}
+                name="grok"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Grok API Key</FormLabel>
+                    <PasswordInput field={field} show={showKeys.grok} onToggle={() => toggleShowKey('grok')} />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
+
+           <Card>
+            <CardHeader>
+              <CardTitle>DeepSeek</CardTitle>
+              <CardDescription>API key for accessing DeepSeek models.</CardDescription>
+            </CardHeader>
+            <CardContent>
+               <FormField
+                control={form.control}
+                name="deepseek"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>DeepSeek API Key</FormLabel>
+                    <PasswordInput field={field} show={showKeys.deepseek} onToggle={() => toggleShowKey('deepseek')} />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
+
+          <Button type="submit">Save Credentials</Button>
+        </form>
+      </Form>
+    </div>
   );
 }
