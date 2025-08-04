@@ -118,7 +118,7 @@ function AboutPageContent() {
                 const faIcon = faIcons[value.icon];
                 const lucideIcon = lucideIcons[value.icon];
 
-                if (faIcon) {
+                if (faIcon && faIcon.icon) {
                     iconComponent = <FontAwesomeIcon icon={faIcon} {...iconProps} />;
                 } else if (lucideIcon) {
                     iconComponent = createElement(lucideIcon, iconProps);
