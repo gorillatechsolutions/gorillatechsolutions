@@ -115,10 +115,13 @@ function AboutPageContent() {
               {values.map((value, index) => {
                 let iconComponent = null;
                 const iconProps = { className: 'h-8 w-8 text-primary' };
-                if (faIcons[value.icon]) {
-                    iconComponent = <FontAwesomeIcon icon={faIcons[value.icon]} {...iconProps} />;
-                } else if (lucideIcons[value.icon]) {
-                    iconComponent = createElement(lucideIcons[value.icon], iconProps);
+                const faIcon = faIcons[value.icon];
+                const lucideIcon = lucideIcons[value.icon];
+
+                if (faIcon) {
+                    iconComponent = <FontAwesomeIcon icon={faIcon} {...iconProps} />;
+                } else if (lucideIcon) {
+                    iconComponent = createElement(lucideIcon, iconProps);
                 }
 
                 return (
