@@ -15,9 +15,7 @@ type CaseStudyPageProps = {
   };
 };
 
-function CaseStudyPageComponent({ searchParams }: CaseStudyPageProps) {
-  const searchTerm = searchParams?.search || '';
-  const page = Number(searchParams?.page) || 1;
+function CaseStudyPageComponent({ searchTerm, page }: { searchTerm: string; page: number }) {
   const { caseStudies, loading: caseStudiesLoading } = useCaseStudy();
   const { content, loading: pageContentLoading } = useCaseStudiesPage();
 
@@ -66,10 +64,13 @@ function CaseStudyPageComponent({ searchParams }: CaseStudyPageProps) {
 
 
 export default function CaseStudyPage({ searchParams }: CaseStudyPageProps) {
+  const searchTerm = searchParams?.search || '';
+  const page = Number(searchParams?.page) || 1;
+    
   return (
     <PublicProviders>
       <Suspense fallback={<div className="container py-12">Loading...</div>}>
-        <CaseStudyPageComponent searchParams={searchParams} />
+        <CaseStudyPageComponent searchTerm={searchTerm} page={page} />
       </Suspense>
     </PublicProviders>
   );
