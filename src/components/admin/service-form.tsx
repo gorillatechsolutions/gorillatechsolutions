@@ -21,9 +21,16 @@ import { Textarea } from '@/components/ui/textarea';
 import { useRouter } from 'next/navigation';
 import type { Service } from '@/types/service';
 import { useService } from '@/contexts/service-context';
-import { useEffect, useState }from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import Image from 'next/image';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Label } from '@/components/ui/label';
+import { useStorage } from '@/contexts/storage-context';
+import { cn } from '@/lib/utils';
 
 const formSchema = z.object({
   title: z.string().min(2, 'Title must be at least 2 characters.'),
@@ -46,6 +53,93 @@ const formSchema = z.object({
 type ServiceFormProps = {
   serviceToEdit?: Service;
 };
+
+type ImageFieldKey = "icon" | "ogImage";
+
+const ImageSelectionDialog = ({
+    form,
+    field,
+    title,
+    description,
+}: {
+    form: ReturnType<typeof useForm<z.infer<typeof formSchema>>>;
+    field: ImageFieldKey;
+    title: string;
+    description: string;
+}) => {
+    const [open, setOpen] = useState(false);
+    const { files: storageFiles } = useStorage();
+    const [tempUrl, setTempUrl] = useState(form.getValues(field));
+
+    const imageFiles = useMemo(() => storageFiles.filter(f => f.type.startsWith('image/')), [storageFiles]);
+
+    const handleSave = () => {
+        form.setValue(field, tempUrl, { shouldValidate: true });
+        setOpen(false);
+    };
+    
+    const handleOpenChange = (isOpen: boolean) => {
+        if (isOpen) {
+            setTempUrl(form.getValues(field));
+        }
+        setOpen(isOpen);
+    }
+
+    return (
+        <Dialog open={open} onOpenChange={handleOpenChange}>
+            <DialogTrigger asChild>
+                <Button type="button" variant="outline">Select Image</Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-2xl">
+                <DialogHeader>
+                    <DialogTitle>{title}</DialogTitle>
+                    <DialogDescription>{description}</DialogDescription>
+                </DialogHeader>
+                <Tabs defaultValue="storage">
+                    <TabsList className="grid w-full grid-cols-2">
+                        <TabsTrigger value="storage">Select from Storage</TabsTrigger>
+                        <TabsTrigger value="url">Image URL</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="storage" className="pt-4">
+                        <ScrollArea className="h-64">
+                            <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 pr-4">
+                                {imageFiles.map(file => (
+                                    <button
+                                        key={file.id}
+                                        type="button"
+                                        className={cn(
+                                            "relative aspect-square rounded-md overflow-hidden border-2 transition-all",
+                                            tempUrl === file.url ? 'border-primary ring-2 ring-primary' : 'border-transparent'
+                                        )}
+                                        onClick={() => setTempUrl(file.url)}
+                                    >
+                                        <Image src={file.url} alt={file.name} layout="fill" objectFit="cover" />
+                                    </button>
+                                ))}
+                            </div>
+                        </ScrollArea>
+                    </TabsContent>
+                    <TabsContent value="url" className="pt-4">
+                         <div className="space-y-2">
+                            <Label htmlFor="image-url">Image URL</Label>
+                            <Input
+                                id="image-url"
+                                value={tempUrl}
+                                onChange={(e) => setTempUrl(e.target.value)}
+                                placeholder="https://example.com/image.png"
+                            />
+                         </div>
+                    </TabsContent>
+                </Tabs>
+                <DialogFooter className="pt-4">
+                    <Button variant="secondary" onClick={() => setOpen(false)}>Cancel</Button>
+                    <Button type="button" onClick={handleSave}>Save Changes</Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
+    );
+};
+
 
 export function ServiceForm({ serviceToEdit }: ServiceFormProps) {
   const { toast } = useToast();
@@ -192,18 +286,25 @@ export function ServiceForm({ serviceToEdit }: ServiceFormProps) {
                             />
 
                             <FormField
-                            control={form.control}
-                            name="icon"
-                            render={({ field }) => (
-                                <FormItem>
-                                <FormLabel>Icon URL</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="https://placehold.co/128x128.png" {...field} />
-                                    </FormControl>
-                                <FormDescription>Recommended size: 128x128 pixels.</FormDescription>
-                                <FormMessage />
-                                </FormItem>
-                            )}
+                                control={form.control}
+                                name="icon"
+                                render={({ field }) => (
+                                    <FormItem>
+                                    <FormLabel>Icon URL</FormLabel>
+                                     <div className="flex items-center gap-4">
+                                        <Image src={field.value} alt="Icon Preview" width={40} height={40} className="rounded-md bg-muted p-1" />
+                                        <Input {...field} readOnly className="flex-1" />
+                                        <ImageSelectionDialog 
+                                            form={form} 
+                                            field="icon" 
+                                            title="Select Service Icon" 
+                                            description="Recommended size: 128x128 pixels." 
+                                        />
+                                    </div>
+                                    <FormDescription>Recommended size: 128x128 pixels.</FormDescription>
+                                    <FormMessage />
+                                    </FormItem>
+                                )}
                             />
                             
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -295,7 +396,27 @@ export function ServiceForm({ serviceToEdit }: ServiceFormProps) {
                                   <FormField control={form.control} name="metaTitle" render={({ field }) => (<FormItem><FormLabel>Meta Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
                                   <FormField control={form.control} name="metaDescription" render={({ field }) => (<FormItem><FormLabel>Meta Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} />
                                   <FormField control={form.control} name="metaKeywords" render={({ field }) => (<FormItem><FormLabel>Meta Keywords</FormLabel><FormControl><Textarea {...field} placeholder="e.g., service one, service two" /></FormControl><FormDescription>Enter keywords separated by commas.</FormDescription><FormMessage /></FormItem>)} />
-                                  <FormField control={form.control} name="ogImage" render={({ field }) => (<FormItem><FormLabel>Open Graph Image URL</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Recommended size: 1200x630 pixels.</FormDescription><FormMessage /></FormItem>)} />
+                                  <FormField
+                                    control={form.control}
+                                    name="ogImage"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Open Graph Image URL</FormLabel>
+                                            <div className="flex items-center gap-4">
+                                                <Image src={field.value || 'https://placehold.co/1200x630.png'} alt="Open Graph Preview" width={120} height={63} className="rounded-md bg-muted p-1 object-cover" />
+                                                <Input {...field} readOnly className="flex-1" />
+                                                <ImageSelectionDialog 
+                                                    form={form} 
+                                                    field="ogImage" 
+                                                    title="Select Open Graph Image" 
+                                                    description="Recommended size: 1200x630 pixels." 
+                                                />
+                                            </div>
+                                            <FormDescription>Recommended size: 1200x630 pixels.</FormDescription>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
                               </CardContent>
                           </AccordionContent>
                       </AccordionItem>
