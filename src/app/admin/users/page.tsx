@@ -99,7 +99,7 @@ function ChangeAvatarDialog() {
                 <DialogHeader>
                     <DialogTitle>Change User Avatars by Role</DialogTitle>
                     <DialogDescription>
-                        Enter a new image URL or select from storage, then choose which group of users to update.
+                        Enter a new image URL or select from storage, then choose which group of users to update. Recommended size: 128x128 pixels.
                     </DialogDescription>
                 </DialogHeader>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 py-4">
