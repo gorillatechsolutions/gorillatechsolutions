@@ -18,8 +18,6 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGoogle, faOpenai } from '@fortawesome/free-brands-svg-icons';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const credentialsSchema = z.object({
@@ -93,10 +91,7 @@ export default function CredentialsPage() {
                     <Accordion type="multiple" className="w-full space-y-2">
                         <AccordionItem value="gemini">
                             <AccordionTrigger className="px-4 py-2 bg-secondary/50 rounded-md">
-                                <span className="flex items-center gap-3">
-                                    <FontAwesomeIcon icon={faGoogle} className="h-5 w-5" />
-                                    Google Gemini
-                                </span>
+                                Google Gemini
                             </AccordionTrigger>
                             <AccordionContent className="p-4 pt-6">
                                 <FormField
@@ -114,10 +109,7 @@ export default function CredentialsPage() {
                         </AccordionItem>
                         <AccordionItem value="openai">
                              <AccordionTrigger className="px-4 py-2 bg-secondary/50 rounded-md">
-                                <span className="flex items-center gap-3">
-                                    <FontAwesomeIcon icon={faOpenai} className="h-5 w-5" />
-                                    OpenAI
-                                </span>
+                                OpenAI
                             </AccordionTrigger>
                             <AccordionContent className="p-4 pt-6">
                                <FormField
