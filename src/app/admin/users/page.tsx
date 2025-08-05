@@ -20,6 +20,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { useStorage } from '@/contexts/storage-context';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import Image from 'next/image';
+
 
 const roleBadgeVariant: Record<UserRole, 'default' | 'secondary' | 'destructive'> = {
     admin: 'destructive',
@@ -41,17 +46,20 @@ type AvatarUpdateTarget = 'subscribed' | 'admin' | 'basic';
 
 function ChangeAvatarDialog() {
     const { updateAvatarsByRole } = useAuth();
+    const { files: storageFiles } = useStorage();
     const { toast } = useToast();
     const [avatarUrl, setAvatarUrl] = useState('');
     const [targetGroup, setTargetGroup] = useState<AvatarUpdateTarget>('subscribed');
     const [open, setOpen] = useState(false);
+
+    const imageFiles = useMemo(() => storageFiles.filter(f => f.type.startsWith('image/')), [storageFiles]);
 
     const handleSave = () => {
         if (!avatarUrl) {
             toast({
                 variant: 'destructive',
                 title: 'URL is required',
-                description: 'Please enter a valid image URL.',
+                description: 'Please enter an image URL or select an image from storage.',
             });
             return;
         }
@@ -87,16 +95,16 @@ function ChangeAvatarDialog() {
                     Change User Avatars
                 </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="max-w-2xl">
                 <DialogHeader>
                     <DialogTitle>Change User Avatars by Role</DialogTitle>
                     <DialogDescription>
-                        Enter a new image URL and select which group of users to update. This will override the avatar for all users in that group.
+                        Enter a new image URL or select from storage, then choose which group of users to update.
                     </DialogDescription>
                 </DialogHeader>
-                <div className="grid gap-4 py-4">
-                    <div className="space-y-2">
-                        <Label htmlFor="target-group">Target Group</Label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 py-4">
+                    <div>
+                        <Label htmlFor="target-group" className="mb-2 block">Target Group</Label>
                         <Select value={targetGroup} onValueChange={(value: AvatarUpdateTarget) => setTargetGroup(value)}>
                             <SelectTrigger id="target-group">
                                 <SelectValue placeholder="Select a group to update" />
@@ -108,17 +116,54 @@ function ChangeAvatarDialog() {
                             </SelectContent>
                         </Select>
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="avatar-url">New Avatar Image URL</Label>
-                      <Input
-                          id="avatar-url"
-                          value={avatarUrl}
-                          onChange={(e) => setAvatarUrl(e.target.value)}
-                          placeholder="https://example.com/image.png"
-                      />
+                     <div className="flex flex-col items-center justify-center p-4 border rounded-md h-full bg-secondary/50">
+                        <p className="text-sm font-medium mb-2">Avatar Preview</p>
+                        <Avatar className="h-16 w-16">
+                            <AvatarImage src={avatarUrl} alt="Avatar preview" />
+                            <AvatarFallback>
+                                <FontAwesomeIcon icon={faImage} />
+                            </AvatarFallback>
+                        </Avatar>
                     </div>
                 </div>
-                <DialogFooter>
+
+                <Tabs defaultValue="url">
+                    <TabsList className="grid w-full grid-cols-2">
+                        <TabsTrigger value="url">Image URL</TabsTrigger>
+                        <TabsTrigger value="storage">Select from Storage</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="url" className="pt-4">
+                         <div className="space-y-2">
+                            <Label htmlFor="avatar-url">New Avatar Image URL</Label>
+                            <Input
+                                id="avatar-url"
+                                value={avatarUrl}
+                                onChange={(e) => setAvatarUrl(e.target.value)}
+                                placeholder="https://example.com/image.png"
+                            />
+                         </div>
+                    </TabsContent>
+                    <TabsContent value="storage" className="pt-4">
+                        <ScrollArea className="h-64">
+                            <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 pr-4">
+                                {imageFiles.map(file => (
+                                    <button
+                                        key={file.id}
+                                        className={cn(
+                                            "relative aspect-square rounded-md overflow-hidden border-2 transition-all",
+                                            avatarUrl === file.url ? 'border-primary ring-2 ring-primary' : 'border-transparent'
+                                        )}
+                                        onClick={() => setAvatarUrl(file.url)}
+                                    >
+                                        <Image src={file.url} alt={file.name} layout="fill" objectFit="cover" />
+                                    </button>
+                                ))}
+                            </div>
+                        </ScrollArea>
+                    </TabsContent>
+                </Tabs>
+                
+                <DialogFooter className="pt-4">
                     <Button variant="secondary" onClick={() => setOpen(false)}>Cancel</Button>
                     <Button onClick={handleSave}>Save Changes</Button>
                 </DialogFooter>
@@ -345,4 +390,5 @@ export default function AdminUsersPage() {
             </Card>
         </div>
     );
-}
+
+    
