@@ -21,8 +21,15 @@ import { Textarea } from '@/components/ui/textarea';
 import { useRouter } from 'next/navigation';
 import type { App } from '@/types/app';
 import { useApp } from '@/contexts/app-context';
-import { useEffect, useState }from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { useStorage } from '@/contexts/storage-context';
+import { cn } from '@/lib/utils';
+import Image from 'next/image';
+import { Label } from '@/components/ui/label';
 
 const formSchema = z.object({
   title: z.string().min(2, 'Title must be at least 2 characters.'),
@@ -43,6 +50,87 @@ const formSchema = z.object({
   })
 });
 
+type AppFormValues = z.infer<typeof formSchema>;
+
+const ImageSelectionDialog = ({
+    form,
+}: {
+    form: ReturnType<typeof useForm<AppFormValues>>;
+}) => {
+    const [open, setOpen] = useState(false);
+    const { files: storageFiles } = useStorage();
+    const [tempUrl, setTempUrl] = useState(form.getValues("icon"));
+
+    const imageFiles = useMemo(() => storageFiles.filter(f => f.type.startsWith('image/')), [storageFiles]);
+
+    const handleSave = () => {
+        form.setValue("icon", tempUrl, { shouldValidate: true });
+        setOpen(false);
+    };
+    
+    const handleOpenChange = (isOpen: boolean) => {
+        if (isOpen) {
+            setTempUrl(form.getValues("icon"));
+        }
+        setOpen(isOpen);
+    }
+
+    return (
+        <Dialog open={open} onOpenChange={handleOpenChange}>
+            <DialogTrigger asChild>
+                <Button type="button" variant="outline">Select Image</Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-2xl">
+                <DialogHeader>
+                    <DialogTitle>Select App Icon</DialogTitle>
+                    <FormDescription>Select an image from storage or enter a URL. Recommended size: 128x128 pixels.</FormDescription>
+                </DialogHeader>
+                <Tabs defaultValue="storage">
+                    <TabsList className="grid w-full grid-cols-2">
+                        <TabsTrigger value="storage">Select from Storage</TabsTrigger>
+                        <TabsTrigger value="url">Image URL</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="storage" className="pt-4">
+                        <ScrollArea className="h-64">
+                            <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 pr-4">
+                                {imageFiles.map(file => (
+                                    <button
+                                        key={file.id}
+                                        type="button"
+                                        className={cn(
+                                            "relative aspect-square rounded-md overflow-hidden border-2 transition-all",
+                                            tempUrl === file.url ? 'border-primary ring-2 ring-primary' : 'border-transparent'
+                                        )}
+                                        onClick={() => setTempUrl(file.url)}
+                                    >
+                                        <Image src={file.url} alt={file.name} layout="fill" objectFit="cover" />
+                                    </button>
+                                ))}
+                            </div>
+                        </ScrollArea>
+                    </TabsContent>
+                    <TabsContent value="url" className="pt-4">
+                         <div className="space-y-2">
+                            <Label htmlFor="image-url">Image URL</Label>
+                            <Input
+                                id="image-url"
+                                value={tempUrl}
+                                onChange={(e) => setTempUrl(e.target.value)}
+                                placeholder="https://example.com/image.png"
+                            />
+                         </div>
+                    </TabsContent>
+                </Tabs>
+                <DialogFooter className="pt-4">
+                    <Button variant="secondary" onClick={() => setOpen(false)}>Cancel</Button>
+                    <Button type="button" onClick={handleSave}>Save Changes</Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
+    );
+};
+
+
 type AppFormProps = {
   appToEdit?: App;
 };
@@ -61,7 +149,7 @@ export function AppForm({ appToEdit }: AppFormProps) {
     resolver: zodResolver(formSchema),
     defaultValues: appToEdit ? {
         ...appToEdit,
-        badge: appToEdit.badge || '',
+        badge: appToEdit.badge || 'none',
         links: {
           web: appToEdit.links.web || '',
           playStore: appToEdit.links.playStore || '',
@@ -202,12 +290,14 @@ export function AppForm({ appToEdit }: AppFormProps) {
                             name="icon"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel>Icon URL</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="https://placehold.co/128x128.png" {...field} />
-                                </FormControl>
-                                <FormDescription>Recommended size: 128x128 pixels.</FormDescription>
-                                <FormMessage />
+                                    <FormLabel>Icon URL</FormLabel>
+                                    <div className="flex items-center gap-4">
+                                        <Image src={field.value} alt="Icon Preview" width={40} height={40} className="rounded-md bg-muted p-1" />
+                                        <Input {...field} readOnly className="flex-1" />
+                                        <ImageSelectionDialog form={form} />
+                                    </div>
+                                    <FormDescription>Recommended size: 128x128 pixels.</FormDescription>
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
