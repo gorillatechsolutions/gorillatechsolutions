@@ -78,7 +78,7 @@ export function AppForm({ appToEdit }: AppFormProps) {
       dataAiHint: '',
       downloads: '100K+',
       rating: 4.5,
-      badge: '',
+      badge: 'none',
       links: {
           web: '',
           playStore: '',
@@ -93,7 +93,7 @@ export function AppForm({ appToEdit }: AppFormProps) {
     if (appToEdit) {
       form.reset({
         ...appToEdit,
-        badge: appToEdit.badge || '',
+        badge: appToEdit.badge || 'none',
          links: {
           web: appToEdit.links.web || '',
           playStore: appToEdit.links.playStore || '',
@@ -108,7 +108,7 @@ export function AppForm({ appToEdit }: AppFormProps) {
   function onSubmit(values: z.infer<typeof formSchema>) {
     const appData: Partial<App> = {
       ...values,
-      badge: values.badge || undefined, // Set to undefined if empty string
+      badge: values.badge === 'none' ? undefined : values.badge,
     };
 
     if (appToEdit) {
@@ -279,7 +279,7 @@ export function AppForm({ appToEdit }: AppFormProps) {
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                        <SelectItem value="">None</SelectItem>
+                                        <SelectItem value="none">None</SelectItem>
                                         <SelectItem value="Premium">Premium</SelectItem>
                                         <SelectItem value="Gold">Gold</SelectItem>
                                         <SelectItem value="Login Required">Login Required</SelectItem>
