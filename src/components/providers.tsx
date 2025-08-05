@@ -19,10 +19,6 @@ import { MessageProvider } from '@/contexts/message-context';
 import { PricingPlanProvider } from '@/contexts/pricing-plan-context';
 import { SiteSettingsProvider } from '@/contexts/site-settings-context';
 import { ChatProvider } from '@/contexts/chat-context';
-import { SiteSettingsManager } from '@/components/layout/site-settings-manager';
-import { Header } from '@/components/layout/header';
-import { Footer } from '@/components/layout/footer';
-import { ChatWidget } from '@/components/chat-widget';
 
 export function PublicProviders({ children }: { children: React.ReactNode }) {
   return (
@@ -44,11 +40,7 @@ export function PublicProviders({ children }: { children: React.ReactNode }) {
                                   <ApplicationPageProvider>
                                     <InvestmentPageProvider>
                                       <PricingPlanProvider>
-                                        <SiteSettingsManager />
-                                        <Header />
-                                        <main className="flex-1">{children}</main>
-                                        <Footer />
-                                        <ChatWidget />
+                                        {children}
                                       </PricingPlanProvider>
                                     </InvestmentPageProvider>
                                   </ApplicationPageProvider>
