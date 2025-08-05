@@ -21,12 +21,19 @@ import { Textarea } from '@/components/ui/textarea';
 import { useRouter } from 'next/navigation';
 import type { CaseStudy } from '@/types/case-study';
 import { useCaseStudy } from '@/contexts/case-study-context';
-import { useEffect, useState }from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import { generateArticle } from '@/ai/flows/generate-article-flow';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagic, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { useStorage } from '@/contexts/storage-context';
+import { cn } from '@/lib/utils';
+import Image from 'next/image';
+import { Label } from '@/components/ui/label';
 
 const QuillEditor = dynamic(() => import('@/components/admin/quill-editor'), { ssr: false });
 
@@ -45,6 +52,95 @@ const formSchema = z.object({
   metaKeywords: z.string().optional(),
   ogImage: z.string().url('Please enter a valid image URL.').optional().or(z.literal('')),
 });
+
+type PostFormValues = z.infer<typeof formSchema>;
+type ImageFieldKey = "image" | "ogImage";
+
+
+const ImageSelectionDialog = ({
+    form,
+    field,
+    title,
+    description,
+}: {
+    form: ReturnType<typeof useForm<PostFormValues>>;
+    field: ImageFieldKey;
+    title: string;
+    description: string;
+}) => {
+    const [open, setOpen] = useState(false);
+    const { files: storageFiles } = useStorage();
+    const [tempUrl, setTempUrl] = useState(form.getValues(field));
+
+    const imageFiles = useMemo(() => storageFiles.filter(f => f.type.startsWith('image/')), [storageFiles]);
+
+    const handleSave = () => {
+        form.setValue(field, tempUrl, { shouldValidate: true });
+        setOpen(false);
+    };
+    
+    const handleOpenChange = (isOpen: boolean) => {
+        if (isOpen) {
+            setTempUrl(form.getValues(field));
+        }
+        setOpen(isOpen);
+    }
+
+    return (
+        <Dialog open={open} onOpenChange={handleOpenChange}>
+            <DialogTrigger asChild>
+                <Button type="button" variant="outline">Select Image</Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-2xl">
+                <DialogHeader>
+                    <DialogTitle>{title}</DialogTitle>
+                    <DialogDescription>{description}</DialogDescription>
+                </DialogHeader>
+                <Tabs defaultValue="storage">
+                    <TabsList className="grid w-full grid-cols-2">
+                        <TabsTrigger value="storage">Select from Storage</TabsTrigger>
+                        <TabsTrigger value="url">Image URL</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="storage" className="pt-4">
+                        <ScrollArea className="h-64">
+                            <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 pr-4">
+                                {imageFiles.map(file => (
+                                    <button
+                                        key={file.id}
+                                        type="button"
+                                        className={cn(
+                                            "relative aspect-video rounded-md overflow-hidden border-2 transition-all",
+                                            tempUrl === file.url ? 'border-primary ring-2 ring-primary' : 'border-transparent'
+                                        )}
+                                        onClick={() => setTempUrl(file.url)}
+                                    >
+                                        <Image src={file.url} alt={file.name} layout="fill" objectFit="cover" />
+                                    </button>
+                                ))}
+                            </div>
+                        </ScrollArea>
+                    </TabsContent>
+                    <TabsContent value="url" className="pt-4">
+                         <div className="space-y-2">
+                            <Label htmlFor="image-url">Image URL</Label>
+                            <Input
+                                id="image-url"
+                                value={tempUrl}
+                                onChange={(e) => setTempUrl(e.target.value)}
+                                placeholder="https://example.com/image.png"
+                            />
+                         </div>
+                    </TabsContent>
+                </Tabs>
+                <DialogFooter className="pt-4">
+                    <Button variant="secondary" onClick={() => setOpen(false)}>Cancel</Button>
+                    <Button type="button" onClick={handleSave}>Save Changes</Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
+    );
+};
+
 
 type PostFormProps = {
   postToEdit?: CaseStudy;
@@ -279,12 +375,18 @@ export function PostForm({ postToEdit }: PostFormProps) {
                                     name="image"
                                     render={({ field }) => (
                                         <FormItem>
-                                        <FormLabel>Header Image URL</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="https://placehold.co/1200x600.png" {...field} />
-                                        </FormControl>
-                                        <FormDescription>Recommended size: 1200x600 pixels.</FormDescription>
-                                        <FormMessage />
+                                            <FormLabel>Header Image</FormLabel>
+                                            <div className="flex items-center gap-4">
+                                                <Image src={field.value} alt="Header Image Preview" width={100} height={50} className="rounded-md bg-muted p-1 object-cover" />
+                                                <Input {...field} readOnly className="flex-1" />
+                                                 <ImageSelectionDialog 
+                                                    form={form} 
+                                                    field="image" 
+                                                    title="Select Header Image" 
+                                                    description="Recommended size: 1200x600 pixels." 
+                                                />
+                                            </div>
+                                            <FormMessage />
                                         </FormItem>
                                     )}
                                 />
@@ -375,7 +477,22 @@ export function PostForm({ postToEdit }: PostFormProps) {
                                       <FormField control={form.control} name="metaTitle" render={({ field }) => (<FormItem><FormLabel>Meta Title</FormLabel><FormControl><Input placeholder="A catchy title for search engines" {...field} /></FormControl><FormMessage /></FormItem>)} />
                                       <FormField control={form.control} name="metaDescription" render={({ field }) => (<FormItem><FormLabel>Meta Description</FormLabel><FormControl><Textarea placeholder="A concise description for search snippets" {...field} /></FormControl><FormMessage /></FormItem>)} />
                                       <FormField control={form.control} name="metaKeywords" render={({ field }) => (<FormItem><FormLabel>Meta Keywords</FormLabel><FormControl><Textarea {...field} placeholder="e.g., case study, seo, results" /></FormControl><FormDescription>Enter keywords separated by commas.</FormDescription><FormMessage /></FormItem>)} />
-                                      <FormField control={form.control} name="ogImage" render={({ field }) => (<FormItem><FormLabel>Open Graph Image URL</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Recommended size: 1200x630 pixels.</FormDescription><FormMessage /></FormItem>)} />
+                                      <FormField control={form.control} name="ogImage" render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Open Graph Image</FormLabel>
+                                            <div className="flex items-center gap-4">
+                                                <Image src={field.value || 'https://placehold.co/1200x630.png'} alt="Open Graph Preview" width={120} height={63} className="rounded-md bg-muted p-1 object-cover" />
+                                                <Input {...field} readOnly className="flex-1" />
+                                                 <ImageSelectionDialog 
+                                                    form={form} 
+                                                    field="ogImage" 
+                                                    title="Select Open Graph Image" 
+                                                    description="Recommended size: 1200x630 pixels." 
+                                                />
+                                            </div>
+                                            <FormMessage />
+                                        </FormItem>
+                                      )} />
                                   </CardContent>
                               </AccordionContent>
                           </AccordionItem>
