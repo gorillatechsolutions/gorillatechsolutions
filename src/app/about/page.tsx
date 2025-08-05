@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { useAboutPage } from '@/contexts/about-page-context';
 import { Skeleton } from '@/components/ui/skeleton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBolt, faBullseye, faUsers, faHandshake } from '@fortawesome/free-solid-svg-icons';
+import { faBolt, faBullseye, faUsers, faHandshake, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import {createElement } from 'react';
 import { icons } from 'lucide-react';
 import { PublicProviders } from '@/components/providers';
@@ -118,10 +118,13 @@ function AboutPageContent() {
                 const faIcon = faIcons[value.icon];
                 const lucideIcon = lucideIcons[value.icon];
 
-                if (faIcon && faIcon.icon) {
+                if (faIcon && faIcon.iconName) {
                     iconComponent = <FontAwesomeIcon icon={faIcon} {...iconProps} />;
                 } else if (lucideIcon) {
                     iconComponent = createElement(lucideIcon, iconProps);
+                } else {
+                    // Fallback icon
+                    iconComponent = <FontAwesomeIcon icon={faQuestionCircle} {...iconProps} />;
                 }
 
                 return (
