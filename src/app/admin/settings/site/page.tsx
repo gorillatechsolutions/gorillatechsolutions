@@ -18,10 +18,17 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { useSiteSettings } from '@/contexts/site-settings-context';
-import { useEffect } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Textarea } from '@/components/ui/textarea';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import Image from 'next/image';
+import { useStorage } from '@/contexts/storage-context';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { cn } from '@/lib/utils';
+import { Label } from '@/components/ui/label';
 
 const formSchema = z.object({
   headerLogo: z.string().url('Please enter a valid URL.'),
@@ -36,6 +43,92 @@ const formSchema = z.object({
   robotsTxt: z.string().optional(),
   sourceCodeLink: z.string().url('Please enter a valid URL.'),
 });
+
+type FormKeys = "headerLogo" | "footerLogo" | "favicon" | "ogImage";
+
+const ImageSelectionDialog = ({
+    form,
+    field,
+    title,
+    description,
+}: {
+    form: ReturnType<typeof useForm<z.infer<typeof formSchema>>>;
+    field: FormKeys;
+    title: string;
+    description: string;
+}) => {
+    const [open, setOpen] = useState(false);
+    const { files: storageFiles } = useStorage();
+    const [tempUrl, setTempUrl] = useState(form.getValues(field));
+
+    const imageFiles = useMemo(() => storageFiles.filter(f => f.type.startsWith('image/')), [storageFiles]);
+
+    const handleSave = () => {
+        form.setValue(field, tempUrl, { shouldValidate: true });
+        setOpen(false);
+    };
+    
+    const handleOpenChange = (isOpen: boolean) => {
+        if (isOpen) {
+            setTempUrl(form.getValues(field));
+        }
+        setOpen(isOpen);
+    }
+
+    return (
+        <Dialog open={open} onOpenChange={handleOpenChange}>
+            <DialogTrigger asChild>
+                <Button type="button" variant="outline">Select Image</Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-2xl">
+                <DialogHeader>
+                    <DialogTitle>{title}</DialogTitle>
+                    <DialogDescription>{description}</DialogDescription>
+                </DialogHeader>
+                <Tabs defaultValue="storage">
+                    <TabsList className="grid w-full grid-cols-2">
+                        <TabsTrigger value="storage">Select from Storage</TabsTrigger>
+                        <TabsTrigger value="url">Image URL</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="storage" className="pt-4">
+                        <ScrollArea className="h-64">
+                            <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 pr-4">
+                                {imageFiles.map(file => (
+                                    <button
+                                        key={file.id}
+                                        className={cn(
+                                            "relative aspect-square rounded-md overflow-hidden border-2 transition-all",
+                                            tempUrl === file.url ? 'border-primary ring-2 ring-primary' : 'border-transparent'
+                                        )}
+                                        onClick={() => setTempUrl(file.url)}
+                                    >
+                                        <Image src={file.url} alt={file.name} layout="fill" objectFit="cover" />
+                                    </button>
+                                ))}
+                            </div>
+                        </ScrollArea>
+                    </TabsContent>
+                    <TabsContent value="url" className="pt-4">
+                         <div className="space-y-2">
+                            <Label htmlFor="image-url">Image URL</Label>
+                            <Input
+                                id="image-url"
+                                value={tempUrl}
+                                onChange={(e) => setTempUrl(e.target.value)}
+                                placeholder="https://example.com/image.png"
+                            />
+                         </div>
+                    </TabsContent>
+                </Tabs>
+                <DialogFooter className="pt-4">
+                    <Button variant="secondary" onClick={() => setOpen(false)}>Cancel</Button>
+                    <Button onClick={handleSave}>Save Changes</Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
+    );
+};
+
 
 export default function SiteSettingsPage() {
     const { settings, updateSettings, loading } = useSiteSettings();
@@ -102,9 +195,43 @@ export default function SiteSettingsPage() {
                                     <AccordionContent>
                                         <CardDescription className="px-6 pb-4">Update your site's logos and favicon.</CardDescription>
                                         <CardContent className="space-y-4 pt-0">
-                                            <FormField control={form.control} name="headerLogo" render={({ field }) => (<FormItem><FormLabel>Header Logo URL</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                            <FormField control={form.control} name="footerLogo" render={({ field }) => (<FormItem><FormLabel>Footer Logo URL</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                                            <FormField control={form.control} name="favicon" render={({ field }) => (<FormItem><FormLabel>Favicon URL (.ico, .svg, .png)</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                                            
+                                            <FormField control={form.control} name="headerLogo" render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel>Header Logo</FormLabel>
+                                                    <div className="flex items-center gap-4">
+                                                        <Image src={field.value} alt="Header Logo Preview" width={40} height={40} className="rounded-md bg-muted p-1" />
+                                                        <Input {...field} readOnly className="flex-1" />
+                                                        <ImageSelectionDialog form={form} field="headerLogo" title="Select Header Logo" description="Recommended size: 40x40 pixels." />
+                                                    </div>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )} />
+
+                                            <FormField control={form.control} name="footerLogo" render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel>Footer Logo</FormLabel>
+                                                    <div className="flex items-center gap-4">
+                                                        <Image src={field.value} alt="Footer Logo Preview" width={180} height={40} className="rounded-md bg-muted p-1 object-contain" />
+                                                        <Input {...field} readOnly className="flex-1" />
+                                                        <ImageSelectionDialog form={form} field="footerLogo" title="Select Footer Logo" description="Recommended size: 180x40 pixels." />
+                                                    </div>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )} />
+
+                                            <FormField control={form.control} name="favicon" render={({ field }) => (
+                                                 <FormItem>
+                                                    <FormLabel>Favicon</FormLabel>
+                                                    <div className="flex items-center gap-4">
+                                                        <Image src={field.value} alt="Favicon Preview" width={32} height={32} className="rounded-md bg-muted p-1" />
+                                                        <Input {...field} readOnly className="flex-1" />
+                                                        <ImageSelectionDialog form={form} field="favicon" title="Select Favicon" description="Recommended type: .ico, .svg, or .png" />
+                                                    </div>
+                                                     <FormDescription>Must be a valid .ico, .svg, or .png URL.</FormDescription>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )} />
                                             <FormField control={form.control} name="copyrightText" render={({ field }) => (<FormItem><FormLabel>Footer Copyright Text</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Use {'{year}'} to automatically insert the current year.</FormDescription><FormMessage /></FormItem>)} />
                                             <FormField control={form.control} name="sourceCodeLink" render={({ field }) => (<FormItem><FormLabel>Footer Source Code Link</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>URL for the 'Download Source Code' button.</FormDescription><FormMessage /></FormItem>)} />
                                         </CardContent>
@@ -125,7 +252,18 @@ export default function SiteSettingsPage() {
                                     <AccordionContent>
                                         <CardDescription className="px-6 pb-4">Set default metadata for pages that don't have their own.</CardDescription>
                                         <CardContent className="space-y-4 pt-0">
-                                            <FormField control={form.control} name="ogImage" render={({ field }) => (<FormItem><FormLabel>Default Open Graph Image URL</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>This image is used when sharing links on social media. Recommended size: 1200x630px.</FormDescription><FormMessage /></FormItem>)} />
+                                            <FormField control={form.control} name="ogImage" render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel>Default Open Graph Image URL</FormLabel>
+                                                    <div className="flex items-center gap-4">
+                                                        <Image src={field.value} alt="Open Graph Preview" width={120} height={63} className="rounded-md bg-muted p-1 object-contain" />
+                                                        <Input {...field} readOnly className="flex-1" />
+                                                        <ImageSelectionDialog form={form} field="ogImage" title="Select Open Graph Image" description="Recommended size: 1200x630 pixels." />
+                                                    </div>
+                                                    <FormDescription>This image is used when sharing links on social media.</FormDescription>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )} />
                                             <FormField control={form.control} name="metaDescription" render={({ field }) => (<FormItem><FormLabel>Default Meta Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormDescription>A concise summary for search engine results.</FormDescription><FormMessage /></FormItem>)} />
                                             <FormField control={form.control} name="metaKeywords" render={({ field }) => (<FormItem><FormLabel>Default Meta Keywords</FormLabel><FormControl><Input {...field} /></FormControl><FormDescription>Comma-separated keywords for search engines.</FormDescription><FormMessage /></FormItem>)} />
                                         </CardContent>
