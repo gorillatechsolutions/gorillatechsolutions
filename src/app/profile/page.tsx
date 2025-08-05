@@ -29,6 +29,7 @@ import { Progress } from "@/components/ui/progress";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import { PublicProviders } from "@/components/providers";
 
 const profileFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -64,7 +65,7 @@ const roleDisplay: Record<UserRole, string> = {
     platinum: 'Platinum Plan'
 }
 
-export default function ProfilePage() {
+function ProfilePageContent() {
   const { toast } = useToast();
   const router = useRouter();
   const { user, updateUser, loading } = useAuth();
@@ -288,4 +289,12 @@ export default function ProfilePage() {
       </div>
     </div>
   );
+}
+
+export default function ProfilePage() {
+    return (
+        <PublicProviders>
+            <ProfilePageContent />
+        </PublicProviders>
+    );
 }
