@@ -70,20 +70,20 @@ export const HomePageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     } catch (e) {
       console.error("Failed to parse home page content from localStorage", e);
       setContent(defaultHomePageContent);
+    } finally {
+        setLoading(false);
     }
-    setLoading(false);
   }, []);
 
   useEffect(() => {
     syncContent();
-  }, [syncContent]);
 
-  useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === HOME_PAGE_STORAGE_KEY) {
         syncContent();
       }
     };
+
     window.addEventListener('storage', handleStorageChange);
     return () => {
       window.removeEventListener('storage', handleStorageChange);

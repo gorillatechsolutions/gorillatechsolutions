@@ -92,20 +92,20 @@ export const PricingPlanProvider: React.FC<{ children: React.ReactNode }> = ({ c
     } catch (e) {
       console.error("Failed to parse pricing plans from localStorage", e);
       setPlans(defaultPlans);
+    } finally {
+        setLoading(false);
     }
-    setLoading(false);
   }, []);
 
   useEffect(() => {
     syncPlans();
-  }, [syncPlans]);
-
-  useEffect(() => {
+    
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === PRICING_PLANS_STORAGE_KEY) {
         syncPlans();
       }
     };
+
     window.addEventListener('storage', handleStorageChange);
     return () => {
       window.removeEventListener('storage', handleStorageChange);

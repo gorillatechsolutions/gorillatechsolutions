@@ -52,14 +52,13 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     syncChat();
-  }, [syncChat]);
 
-  useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === CHAT_STORAGE_KEY) {
         syncChat();
       }
     };
+
     window.addEventListener('storage', handleStorageChange);
     return () => {
       window.removeEventListener('storage', handleStorageChange);

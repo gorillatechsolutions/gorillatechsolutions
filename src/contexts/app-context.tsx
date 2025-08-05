@@ -35,20 +35,20 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     } catch (e) {
         console.error("Failed to parse apps from localStorage", e);
         setApps(demoApps);
+    } finally {
+        setLoading(false);
     }
-    setLoading(false);
   }, []);
 
   useEffect(() => {
     syncApps();
-  }, [syncApps]);
 
-  useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === APPS_STORAGE_KEY) {
         syncApps();
       }
     };
+
     window.addEventListener('storage', handleStorageChange);
     return () => {
       window.removeEventListener('storage', handleStorageChange);

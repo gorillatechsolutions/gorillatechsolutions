@@ -47,20 +47,20 @@ export const LegalPageProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     } catch (e) {
       console.error("Failed to parse legal page content from localStorage", e);
       setContent(defaultLegalPageContent);
+    } finally {
+        setLoading(false);
     }
-    setLoading(false);
   }, []);
 
   useEffect(() => {
     syncContent();
-  }, [syncContent]);
 
-  useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === LEGAL_PAGE_STORAGE_KEY) {
         syncContent();
       }
     };
+    
     window.addEventListener('storage', handleStorageChange);
     return () => {
       window.removeEventListener('storage', handleStorageChange);

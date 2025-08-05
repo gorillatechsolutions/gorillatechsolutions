@@ -122,16 +122,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         console.error("Failed to parse data from localStorage", e);
         setUsers(defaultUsers);
         setUser(null);
+    } finally {
+        setLoading(false);
     }
-    setLoading(false);
   }, []);
 
   useEffect(() => {
     syncState();
-  }, [syncState]);
 
-  // Listen for storage changes to sync across tabs
-  useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === USERS_STORAGE_KEY || event.key === CURRENT_USER_STORAGE_KEY) {
         syncState();

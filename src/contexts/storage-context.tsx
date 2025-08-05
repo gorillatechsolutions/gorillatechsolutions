@@ -33,20 +33,20 @@ export const StorageProvider: React.FC<{ children: React.ReactNode }> = ({ child
     } catch (e) {
       console.error("Failed to parse files from localStorage", e);
       setFiles(initialFiles);
+    } finally {
+        setLoading(false);
     }
-    setLoading(false);
   }, []);
 
   useEffect(() => {
     syncFiles();
-  }, [syncFiles]);
 
-  useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === STORAGE_KEY) {
         syncFiles();
       }
     };
+
     window.addEventListener('storage', handleStorageChange);
     return () => {
       window.removeEventListener('storage', handleStorageChange);

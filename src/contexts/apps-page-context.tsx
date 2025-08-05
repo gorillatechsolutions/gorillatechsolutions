@@ -41,20 +41,20 @@ export const AppsPageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     } catch (e) {
       console.error("Failed to parse apps page content from localStorage", e);
       setContent(defaultAppsPageContent);
+    } finally {
+        setLoading(false);
     }
-    setLoading(false);
   }, []);
 
   useEffect(() => {
     syncContent();
-  }, [syncContent]);
 
-  useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === APPS_PAGE_STORAGE_KEY) {
         syncContent();
       }
     };
+    
     window.addEventListener('storage', handleStorageChange);
     return () => {
       window.removeEventListener('storage', handleStorageChange);

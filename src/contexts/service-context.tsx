@@ -42,20 +42,20 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({ child
     } catch (e) {
         console.error("Failed to parse services from localStorage", e);
         setServices(initialServices);
+    } finally {
+        setLoading(false);
     }
-    setLoading(false);
   }, []);
 
   useEffect(() => {
     syncServices();
-  }, [syncServices]);
 
-  useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === SERVICES_STORAGE_KEY) {
         syncServices();
       }
     };
+    
     window.addEventListener('storage', handleStorageChange);
     return () => {
       window.removeEventListener('storage', handleStorageChange);

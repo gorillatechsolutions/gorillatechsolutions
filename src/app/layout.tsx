@@ -4,6 +4,11 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
 import Script from 'next/script';
+import { Providers } from '@/app/providers';
+import { Header } from '@/components/layout/header';
+import { Footer } from '@/components/layout/footer';
+import { SiteSettingsManager } from '@/components/layout/site-settings-manager';
+import { ChatWidget } from '@/components/chat-widget';
 
 export const metadata: Metadata = {
   title: {
@@ -24,11 +29,17 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
       <body className={cn('min-h-screen bg-background font-body antialiased')}>
-        <div className="relative flex min-h-dvh flex-col">
-          {children}
-        </div>
-        <Toaster />
-        <Script src="https://checkout.razorpay.com/v1/checkout.js" />
+        <Providers>
+          <SiteSettingsManager />
+          <div className="relative flex min-h-dvh flex-col">
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+            <ChatWidget />
+          </div>
+          <Toaster />
+          <Script src="https://checkout.razorpay.com/v1/checkout.js" />
+        </Providers>
       </body>
     </html>
   );

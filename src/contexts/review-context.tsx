@@ -34,20 +34,20 @@ export const ReviewProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     } catch (e) {
         console.error("Failed to parse reviews from localStorage", e);
         setReviews(demoReviews);
+    } finally {
+        setLoading(false);
     }
-    setLoading(false);
   }, []);
 
   useEffect(() => {
     syncReviews();
-  }, [syncReviews]);
 
-  useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === REVIEWS_STORAGE_KEY) {
         syncReviews();
       }
     };
+    
     window.addEventListener('storage', handleStorageChange);
     return () => {
       window.removeEventListener('storage', handleStorageChange);

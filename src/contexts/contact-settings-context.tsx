@@ -54,20 +54,20 @@ export const ContactSettingsProvider: React.FC<{ children: React.ReactNode }> = 
     } catch (e) {
       console.error("Failed to parse contact settings from localStorage", e);
       setSettings(defaultContactSettings);
+    } finally {
+        setLoading(false);
     }
-    setLoading(false);
   }, []);
 
   useEffect(() => {
     syncSettings();
-  }, [syncSettings]);
 
-  useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === CONTACT_SETTINGS_STORAGE_KEY) {
         syncSettings();
       }
     };
+    
     window.addEventListener('storage', handleStorageChange);
     return () => {
       window.removeEventListener('storage', handleStorageChange);

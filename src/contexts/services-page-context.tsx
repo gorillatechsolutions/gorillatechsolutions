@@ -41,20 +41,20 @@ export const ServicesPageProvider: React.FC<{ children: React.ReactNode }> = ({ 
     } catch (e) {
       console.error("Failed to parse services page content from localStorage", e);
       setContent(defaultServicesPageContent);
+    } finally {
+        setLoading(false);
     }
-    setLoading(false);
   }, []);
 
   useEffect(() => {
     syncContent();
-  }, [syncContent]);
 
-  useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === SERVICES_PAGE_STORAGE_KEY) {
         syncContent();
       }
     };
+    
     window.addEventListener('storage', handleStorageChange);
     return () => {
       window.removeEventListener('storage', handleStorageChange);

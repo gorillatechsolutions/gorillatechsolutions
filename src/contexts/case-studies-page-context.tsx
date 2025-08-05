@@ -41,20 +41,20 @@ export const CaseStudiesPageProvider: React.FC<{ children: React.ReactNode }> = 
     } catch (e) {
       console.error("Failed to parse case studies page content from localStorage", e);
       setContent(defaultCaseStudiesPageContent);
+    } finally {
+        setLoading(false);
     }
-    setLoading(false);
   }, []);
 
   useEffect(() => {
     syncContent();
-  }, [syncContent]);
-
-  useEffect(() => {
+    
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === CASE_STUDIES_PAGE_STORAGE_KEY) {
         syncContent();
       }
     };
+    
     window.addEventListener('storage', handleStorageChange);
     return () => {
       window.removeEventListener('storage', handleStorageChange);

@@ -52,20 +52,20 @@ export const SiteSettingsProvider: React.FC<{ children: React.ReactNode }> = ({ 
     } catch (e) {
       console.error("Failed to parse site settings from localStorage", e);
       setSettings(defaultSiteSettings);
+    } finally {
+        setLoading(false);
     }
-    setLoading(false);
   }, []);
 
   useEffect(() => {
     syncSettings();
-  }, [syncSettings]);
 
-  useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === SITE_SETTINGS_STORAGE_KEY) {
         syncSettings();
       }
     };
+    
     window.addEventListener('storage', handleStorageChange);
     return () => {
       window.removeEventListener('storage', handleStorageChange);

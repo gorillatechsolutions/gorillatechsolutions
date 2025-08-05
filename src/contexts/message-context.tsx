@@ -53,14 +53,13 @@ export const MessageProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   useEffect(() => {
     syncMessages();
-  }, [syncMessages]);
 
-  useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === MESSAGES_STORAGE_KEY) {
         syncMessages();
       }
     };
+
     window.addEventListener('storage', handleStorageChange);
     return () => {
       window.removeEventListener('storage', handleStorageChange);
