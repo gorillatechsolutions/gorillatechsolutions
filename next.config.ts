@@ -3,6 +3,7 @@ import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
   /* config options here */
+  distDir: 'dist',
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -32,6 +33,7 @@ const nextConfig: NextConfig = {
     allowedDevOrigins: [
       'https://*.cloudworkstations.dev',
     ],
+    crossOrigin: 'anonymous',
   },
 };
 
