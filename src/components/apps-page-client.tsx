@@ -12,26 +12,25 @@ import { useEffect, useState } from 'react';
 import { useAppsPage } from '@/contexts/apps-page-context';
 
 type AppsPageClientProps = {
-  initialSearchTerm: string;
-  initialFilter: AppFilter;
+  searchParams: { [key: string]: string | string[] | undefined };
 };
 
-export function AppsPageClient({ initialSearchTerm, initialFilter }: AppsPageClientProps) {
+export function AppsPageClient({ searchParams }: AppsPageClientProps) {
+  const pageSearchParams = useSearchParams();
+  const initialSearchTerm = typeof searchParams.search === 'string' ? searchParams.search : '';
+  const initialFilter = (typeof searchParams.filter === 'string' ? searchParams.filter : 'all') as AppFilter;
+
   const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
   const [filter, setFilter] = useState<AppFilter>(initialFilter);
   const { apps, loading: appsLoading } = useApp();
   const { content, loading: pageContentLoading } = useAppsPage();
-  const searchParams = useSearchParams();
 
   const loading = appsLoading || pageContentLoading;
 
   useEffect(() => {
-    setSearchTerm(initialSearchTerm);
-  }, [initialSearchTerm]);
-
-  useEffect(() => {
-    setFilter(initialFilter);
-  }, [initialFilter]);
+    setSearchTerm(pageSearchParams.get('search') || '');
+    setFilter((pageSearchParams.get('filter') || 'all') as AppFilter);
+  }, [pageSearchParams]);
   
   if (loading) {
     return <div className="container py-12">Loading apps...</div>
@@ -50,7 +49,7 @@ export function AppsPageClient({ initialSearchTerm, initialFilter }: AppsPageCli
                  e.preventDefault();
                  const formData = new FormData(e.currentTarget);
                  const newSearch = formData.get('search') as string;
-                 const currentFilter = searchParams.get('filter') || 'all';
+                 const currentFilter = pageSearchParams.get('filter') || 'all';
                  window.location.href = `/apps?filter=${currentFilter}&search=${encodeURIComponent(newSearch)}`;
              }}>
               <div className="relative">
