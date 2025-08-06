@@ -10,15 +10,12 @@ import type { AppFilter } from '@/types/app-filter';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useAppsPage } from '@/contexts/apps-page-context';
+import { Skeleton } from '@/components/ui/skeleton';
 
-type AppsPageClientProps = {
-  searchParams: { [key: string]: string | string[] | undefined };
-};
-
-export function AppsPageClient({ searchParams }: AppsPageClientProps) {
+export function AppsPageClient() {
   const pageSearchParams = useSearchParams();
-  const initialSearchTerm = typeof searchParams.search === 'string' ? searchParams.search : '';
-  const initialFilter = (typeof searchParams.filter === 'string' ? searchParams.filter : 'all') as AppFilter;
+  const initialSearchTerm = pageSearchParams.get('search') || '';
+  const initialFilter = (pageSearchParams.get('filter') || 'all') as AppFilter;
 
   const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
   const [filter, setFilter] = useState<AppFilter>(initialFilter);
@@ -33,7 +30,16 @@ export function AppsPageClient({ searchParams }: AppsPageClientProps) {
   }, [pageSearchParams]);
   
   if (loading) {
-    return <div className="container py-12">Loading apps...</div>
+    return (
+        <div className="w-full bg-background text-foreground">
+            <section className="bg-secondary/30 py-12 md:py-16">
+                <div className="container mx-auto px-4 text-center">
+                    <Skeleton className="h-12 w-2/3 mx-auto" />
+                    <Skeleton className="h-6 w-1/2 mx-auto mt-4" />
+                </div>
+            </section>
+        </div>
+    )
   }
 
   return (
