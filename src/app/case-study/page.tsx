@@ -7,15 +7,13 @@ import { useCaseStudy } from '@/contexts/case-study-context';
 import { useCaseStudiesPage } from '@/contexts/case-studies-page-context';
 import { Skeleton } from '@/components/ui/skeleton';
 import { PublicProviders } from '@/components/providers';
+import { useSearchParams } from 'next/navigation';
 
-type CaseStudyPageProps = {
-  searchParams: {
-    search?: string;
-    page?: string;
-  };
-};
-
-function CaseStudyPageComponent({ searchTerm, page }: { searchTerm: string; page: number }) {
+function CaseStudyPageComponent() {
+  const searchParams = useSearchParams();
+  const searchTerm = searchParams.get('search') || '';
+  const page = Number(searchParams.get('page')) || 1;
+  
   const { caseStudies, loading: caseStudiesLoading } = useCaseStudy();
   const { content, loading: pageContentLoading } = useCaseStudiesPage();
 
@@ -63,14 +61,11 @@ function CaseStudyPageComponent({ searchTerm, page }: { searchTerm: string; page
 }
 
 
-export default function CaseStudyPage({ searchParams }: CaseStudyPageProps) {
-  const searchTerm = searchParams?.search || '';
-  const page = Number(searchParams?.page) || 1;
-    
+export default function CaseStudyPage() {
   return (
     <PublicProviders>
       <Suspense fallback={<div className="container py-12">Loading...</div>}>
-        <CaseStudyPageComponent searchTerm={searchTerm} page={page} />
+        <CaseStudyPageComponent />
       </Suspense>
     </PublicProviders>
   );
