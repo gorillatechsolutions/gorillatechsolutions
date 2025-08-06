@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Bar, BarChart, CartesianGrid, XAxis, Tooltip, ResponsiveContainer, LineChart, Line } from "recharts"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUsers, faBoxOpen, faDollarSign, faArrowUp } from "@fortawesome/free-solid-svg-icons";
+import { faUsers, faBoxOpen, faDollarSign, faArrowUp, faDatabase, faCloudUploadAlt, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 
 const kpiData = [
   { title: "Total Users", value: "1,257", change: "+12.5%", icon: faUsers, iconBg: "bg-blue-100", iconColor: "text-blue-500" },
@@ -53,6 +53,38 @@ export default function AdminDashboardPage() {
           </Card>
         ))}
       </div>
+
+       <Card className="border-amber-500/50 bg-amber-50">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-amber-900">
+            <FontAwesomeIcon icon={faExclamationTriangle} />
+            Data Storage Information
+          </CardTitle>
+          <CardDescription className="text-amber-800">
+            Your application is currently configured to use your browser's `localStorage` for data persistence. This is a temporary setup for prototyping.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="grid gap-6 md:grid-cols-2 text-sm text-amber-900">
+          <div className="flex items-start gap-4">
+            <FontAwesomeIcon icon={faDatabase} className="h-6 w-6 mt-1 text-amber-700" />
+            <div>
+              <h3 className="font-semibold">Content & User Data</h3>
+              <p className="text-amber-800/90">
+                All content (posts, pages, users, etc.) is saved in `localStorage`. While your MySQL connection is configured, the next step is to migrate the data contexts to use it.
+              </p>
+            </div>
+          </div>
+           <div className="flex items-start gap-4">
+            <FontAwesomeIcon icon={faCloudUploadAlt} className="h-6 w-6 mt-1 text-amber-700" />
+            <div>
+              <h3 className="font-semibold">File Storage</h3>
+              <p className="text-amber-800/90">
+                Uploaded files are temporarily stored as Data URIs in `localStorage`. For a production setup, you should integrate a cloud storage service like Firebase Storage or Amazon S3.
+              </p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       <div className="grid gap-6 md:grid-cols-2">
         <Card>
