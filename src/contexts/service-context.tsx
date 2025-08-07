@@ -3,85 +3,104 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import type { Service } from '@/types/service';
-import { initialServices } from '@/lib/services-data';
 
 interface ServiceContextType {
   services: Service[];
   loading: boolean;
   getServiceBySlug: (slug: string) => Service | null;
-  addService: (service: Service) => void;
-  updateService: (slug: string, service: Service) => void;
-  deleteService: (slug: string) => void;
+  addService: (service: Service) => Promise<void>;
+  updateService: (slug: string, service: Partial<Service>) => Promise<void>;
+  deleteService: (slug: string) => Promise<void>;
   slugExists: (slug: string) => boolean;
 }
 
 const ServiceContext = createContext<ServiceContextType | undefined>(undefined);
 
-const SERVICES_STORAGE_KEY = 'services';
-
 export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const syncServices = useCallback(() => {
+  const fetchServices = useCallback(async () => {
+    setLoading(true);
     try {
-        const storedServices = localStorage.getItem(SERVICES_STORAGE_KEY);
-        if (storedServices) {
-            const parsedServices = JSON.parse(storedServices);
-            // If the stored data is an empty array, fall back to initial data.
-            if (Array.isArray(parsedServices) && parsedServices.length > 0) {
-                setServices(parsedServices);
-            } else {
-                localStorage.setItem(SERVICES_STORAGE_KEY, JSON.stringify(initialServices));
-                setServices(initialServices);
-            }
-        } else {
-            localStorage.setItem(SERVICES_STORAGE_KEY, JSON.stringify(initialServices));
-            setServices(initialServices);
-        }
-    } catch (e) {
-        console.error("Failed to parse services from localStorage", e);
-        setServices(initialServices);
+      const response = await fetch('/api/services');
+      if (response.ok) {
+        const data = await response.json();
+        setServices(data.services || []);
+      } else {
+        console.error('Failed to fetch services:', response.statusText);
+        setServices([]);
+      }
+    } catch (error) {
+      console.error('An error occurred while fetching services:', error);
+      setServices([]);
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    syncServices();
-
-    const handleStorageChange = (event: StorageEvent) => {
-      if (event.key === SERVICES_STORAGE_KEY) {
-        syncServices();
-      }
-    };
-    
-    window.addEventListener('storage', handleStorageChange);
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
-  }, [syncServices]);
+    fetchServices();
+  }, [fetchServices]);
 
   const getServiceBySlug = (slug: string): Service | null => {
     return services.find(s => s.slug === slug) || null;
   };
 
-  const addService = (service: Service) => {
-    const updatedServices = [service, ...services];
-    setServices(updatedServices);
-    localStorage.setItem(SERVICES_STORAGE_KEY, JSON.stringify(updatedServices));
+  const addService = async (service: Service) => {
+    try {
+      const response = await fetch('/api/services', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(service),
+      });
+      if (response.ok) {
+        fetchServices(); // Refetch to get the latest list
+      } else {
+        throw new Error('Failed to add service');
+      }
+    } catch (error) {
+      console.error('Error adding service:', error);
+      throw error;
+    }
   };
 
-  const updateService = (slug: string, serviceData: Service) => {
-    const updatedServices = services.map(s => (s.slug === slug ? serviceData : s));
-    setServices(updatedServices);
-    localStorage.setItem(SERVICES_STORAGE_KEY, JSON.stringify(updatedServices));
+  const updateService = async (slug: string, serviceData: Partial<Service>) => {
+    try {
+        const response = await fetch('/api/services', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ...serviceData, slug }),
+        });
+
+        if (response.ok) {
+            fetchServices();
+        } else {
+            throw new Error('Failed to update service');
+        }
+    } catch (error) {
+        console.error('Error updating service:', error);
+        throw error;
+    }
   };
 
-  const deleteService = (slug: string) => {
-    const updatedServices = services.filter(s => s.slug !== slug);
-    setServices(updatedServices);
-    localStorage.setItem(SERVICES_STORAGE_KEY, JSON.stringify(updatedServices));
+  const deleteService = async (slug: string) => {
+     try {
+        const response = await fetch('/api/services', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ slugs: [slug] }),
+        });
+
+        if (response.ok) {
+            fetchServices();
+        } else {
+            throw new Error('Failed to delete service');
+        }
+    } catch (error) {
+        console.error('Error deleting service:', error);
+        throw error;
+    }
   };
   
   const slugExists = (slug: string): boolean => {

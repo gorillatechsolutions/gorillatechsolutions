@@ -21,13 +21,24 @@ export default function AdminServicesListPage() {
   const { services, deleteService, loading } = useService();
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
 
-  const handleDelete = (slugs: string[]) => {
-    slugs.forEach(slug => deleteService(slug));
-    toast({
-      title: 'Services Deleted',
-      description: `${slugs.length} service(s) have been successfully deleted.`,
-    });
-    setSelectedServices([]);
+  const handleDelete = async (slugs: string[]) => {
+    try {
+        // This is not optimal for bulk deletes, but it works for this context.
+        // A real-world app would have a dedicated bulk delete API endpoint.
+        await Promise.all(slugs.map(slug => deleteService(slug)));
+        
+        toast({
+            title: 'Services Deleted',
+            description: `${slugs.length} service(s) have been successfully deleted.`,
+        });
+        setSelectedServices([]);
+    } catch (error) {
+        toast({
+            variant: "destructive",
+            title: 'Deletion Failed',
+            description: 'Could not delete the selected services. Please try again.',
+        });
+    }
   };
   
   const handleSelectAll = (checked: boolean | 'indeterminate') => {
@@ -67,7 +78,7 @@ export default function AdminServicesListPage() {
                   <AlertDialogHeader>
                     <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                     <AlertDialogDescription>
-                      This will permanently delete {selectedServices.length} services. This action cannot be undone.
+                      This will permanently delete {selectedServices.length} services from the database. This action cannot be undone.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>

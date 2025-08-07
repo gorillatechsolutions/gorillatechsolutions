@@ -219,7 +219,7 @@ export function ServiceForm({ serviceToEdit }: ServiceFormProps) {
       const title = form.getValues('title');
       const slug = title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
       form.setValue('slug', slug, { shouldValidate: true });
-      if (!form.getValues('readMoreButtonLink')) {
+      if (!form.getValues('readMoreButtonLink') || form.getValues('readMoreButtonLink') === '/services') {
         form.setValue('readMoreButtonLink', `/services/${slug}`, { shouldValidate: true });
       }
   }
