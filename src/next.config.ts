@@ -10,6 +10,15 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   reactStrictMode: false,
+  webpack: (config, { dev }) => {
+    if (dev) {
+      config.watchOptions.poll = 300;
+      // In a containerized dev environment, the HMR connection may be unstable.
+      // Setting this to false disables HMR and opts for full-page reloads, which is more reliable.
+      config.cache = false;
+    }
+    return config;
+  },
   images: {
     remotePatterns: [
       {
